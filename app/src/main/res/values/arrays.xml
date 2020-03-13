@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="log_in_options">
-        <item>By email</item>
-        <item>By mobile</item>
+        <item>Email</item>
+        <item>Mobile</item>
     </string-array>
 </resources>

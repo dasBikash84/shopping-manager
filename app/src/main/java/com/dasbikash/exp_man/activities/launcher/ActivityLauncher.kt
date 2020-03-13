@@ -24,16 +24,16 @@ class ActivityLauncher : AppCompatActivity() {
         lifecycleScope.launch {
             isLoggedIn().let {
                 delay(500)
-                if (!it) {
+                if (it) {
                     loadUserActivity()
                 } else {
-                    loadGuestActivity()
+                    loadLoginActivity()
                 }
             }
         }
     }
 
-    private fun loadGuestActivity() {
+    private fun loadLoginActivity() {
         finish()
         startActivity(ActivityLogin::class.java)
     }

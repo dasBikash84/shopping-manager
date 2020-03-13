@@ -3,7 +3,6 @@
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
-    <string name="log_in_option_prompt">Select log in method</string>
     <string name="guest_login_button">Continue as Guest</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="mobile_hint">Mobile Number</string>
@@ -19,4 +18,5 @@
     <string name="bmi_budget">Budget</string>
     <string name="bmi_shopping_list">Shopping List</string>
     <string name="bmi_more">More</string>
+    <string name="login_by_prompt">Login by:</string>
 </resources>
