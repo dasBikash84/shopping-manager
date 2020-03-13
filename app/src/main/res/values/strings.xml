@@ -26,6 +26,7 @@
     <string name="invalid_first_name_error">First name can\'t be blank</string>
     <string name="invalid_mobile_number_error">Invalid moble number</string>
     <string name="launch_sign_up_prompt">Sign up with current data?</string>
+    <string name="load_sign_up_prompt">Launch Sign up?</string>
     <string name="sign_up_success_mesage">Sign up success! A validation email has been sent to you. Please verify you email address.</string>
     <string name="invalid_credentials_message">Invalid email or password!</string>
     <string name="sign_out_prompt">Sign out?</string>
@@ -42,4 +43,10 @@
             &lt;/ul>
     </string>
     <string name="send_login_code_button">Send Code</string>
+    <string name="resend_login_code_button">Resend Code in %1$s secs</string>
+    <string name="login_code_send_failure">Code sending failed!</string>
+    <string name="verification_code_hint">Verification Code</string>
+    <string name="verify_code_button">Verify</string>
+    <string name="login_prompt">Login with current data?</string>
+    <string name="send_login_code_prompt">Send login code?</string>
 </resources>

@@ -45,18 +45,11 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
             }
         }
         btn_sign_up.setOnClickListener {
-            runWithActivity {
-                (it as ActivityLogin).addFragment(FragmentSignUp())
-            }
+            launchSignUp()
         }
 
         btn_login.setOnClickListener {
-            runWithContext {
-                NetworkMonitor.runWithNetwork(it,
-                    {
-                        logInTask(it)
-                    })
-            }
+            launchLogin()
         }
 
         btn_login_benefits.setOnClickListener {
@@ -91,10 +84,82 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
             }
         })
 
+        btn_send_code.setOnClickListener {
+            sendCodeAction()
+        }
+
         runWithContext {
             lifecycleScope.launch {
                 setLoginViewItems(getCurrentLoginMethod(it))
             }
+        }
+    }
+
+    private fun launchLogin() {
+        if (!ValidationUtils.validateEmailAddress(et_email.text.toString())){
+            et_email.setError(getString(R.string.invalid_email_error))
+            return
+        }
+        if (et_password.text.isNullOrEmpty()){
+            et_password.setError(getString(R.string.invalid_password_error))
+            return
+        }
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it,{logInAction(it)})
+        }
+    }
+
+    private fun launchSignUp() {
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.load_sign_up_prompt),
+                doOnPositivePress = {
+                    runWithActivity {
+                        (it as ActivityLogin).addFragment(FragmentSignUp())
+                    }
+                }
+            ))
+        }
+    }
+
+    private fun sendCodeAction() {
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.send_login_code_prompt),
+                doOnPositivePress = {
+                    et_mobile.text.toString().let {
+                        if (ValidationUtils.validateBdMobileNumber(it)) {
+                            sendCodeTask(it.trim())
+                        } else {
+                            et_mobile.error = getString(R.string.invalid_mobile_number_error)
+                        }
+                    }
+                }
+            ))
+        }
+    }
+
+    private fun sendCodeTask(phone:String) {
+        runWithActivity {
+            NetworkMonitor.runWithNetwork(it,{
+                lifecycleScope.launch {
+                    showWaitScreen()
+                    try {
+                        AuthRepo.sendLoginCodeToMobile(ValidationUtils.sanitizeNumber(phone), it)
+                        loadCodeVerificationScreen()
+                    }catch (ex:Throwable){
+                        ex.printStackTrace()
+                        showShortSnack(R.string.login_code_send_failure)
+                        hideWaitScreen()
+                    }
+                }
+            })
+        }
+    }
+
+    private fun loadCodeVerificationScreen() {
+        runWithActivity {
+            (it as ActivityLogin).addFragment(FragmentCodeVerify())
         }
     }
 
@@ -122,29 +187,35 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         btn_send_code.show()
     }
 
-    private fun logInTask(context: Context) {
-        if (!ValidationUtils.validateEmailAddress(et_email.text.toString())){
-            et_email.setError(getString(R.string.invalid_email_error))
-            return
-        }
-        if (et_password.text.isNullOrEmpty()){
-            et_password.setError(getString(R.string.invalid_password_error))
-            return
-        }
+    private fun logInAction(context: Context) {
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.login_prompt),
+                doOnPositivePress = {
+                    loginTask(context)
+                }))}
+    }
+
+    private fun loginTask(context: Context) {
         showWaitScreen()
         lifecycleScope.launch {
             try {
                 AuthRepo
-                    .logInUserWithEmailAndPassword(context,
-                        et_email.text!!.toString(),et_password.text!!.toString())
+                    .logInUserWithEmailAndPassword(
+                        context,
+                        et_email.text!!.toString(), et_password.text!!.toString()
+                    )
                 runWithActivity {
                     it.finish()
                     (it as ActivityLogin).startActivity(ActivityHome.getUserInstance(it))
                 }
-            }catch (ex:Throwable){
+            } catch (ex: Throwable) {
                 ex.printStackTrace()
                 hideWaitScreen()
-                showLongSnack(R.string.invalid_credentials_message,context.getText(R.string.reset_password_text),{resetPasswordLauncher()})
+                showLongSnack(
+                    R.string.invalid_credentials_message,
+                    context.getText(R.string.reset_password_text),
+                    { resetPasswordLauncher() })
             }
         }
     }

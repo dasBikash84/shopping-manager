@@ -1,5 +1,6 @@
 package com.dasbikash.exp_man_repo
 
+import android.app.Activity
 import android.content.Context
 import com.dasbikash.exp_man_repo.firebase.FirebaseAuthService
 import com.dasbikash.exp_man_repo.firebase.FirebaseUserService
@@ -53,4 +54,9 @@ object AuthRepo {
 
     suspend fun sendPasswordResetEmail(email: String):Boolean =
         FirebaseAuthService.sendPasswordResetEmail(email)
+
+    suspend fun sendLoginCodeToMobile(phoneNumber:String,activity: Activity) =
+        FirebaseAuthService.sendLoginCodeToMobile(phoneNumber, activity)
+
+    suspend fun codeResendWaitMs(context: Context):Long = FirebaseAuthService.codeResendWaitMs(context)
 }
