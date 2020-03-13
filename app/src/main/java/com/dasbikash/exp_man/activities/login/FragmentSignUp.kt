@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_basic_utils.utils.runWithActivity
-import com.dasbikash.android_basic_utils.utils.runWithContext
+import com.dasbikash.android_extensions.runWithActivity
+import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.utils.AsyncUtils
 import com.dasbikash.exp_man.utils.ValidationUtils
-import com.dasbikash.exp_man_repo.firebase.FirebaseAuthService
+import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.coroutines.delay
@@ -93,7 +93,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
                         lifecycleScope.launch {
                             showWaitScreen()
                             try {
-                                FirebaseAuthService
+                                AuthRepo
                                     .createUserWithEmailAndPassword(email, password,firstName, lastName, mobile)
                                 showShortSnack(R.string.sign_up_success_mesage)
                                 delay(2000)
@@ -101,7 +101,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
                                     (it as ActivityLogin).onBackPressed()
                                 }
                             }catch (ex:Throwable){
-                                FirebaseAuthService.resolveSignUpException(ex).let {
+                                AuthRepo.resolveSignUpException(ex).let {
                                     showShortSnack(it)
                                 }
                                 hideWaitScreen()

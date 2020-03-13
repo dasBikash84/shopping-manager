@@ -58,7 +58,7 @@ dependencies {
     implementation 'com.github.dasBikash84:android-async-manager:1.3.0'
     implementation 'com.github.dasBikash84:android-super-activity:2.3.0'
     implementation 'com.github.dasBikash84:android-view-utils:1.0'
-    implementation 'com.github.dasBikash84:android-basic-utils:2.0.0'
+    implementation 'com.github.dasBikash84:android-basic-utils:2.2.0'
     implementation 'com.github.dasBikash84:android-network-monitor:1.2.0'
     implementation 'com.github.dasBikash84:snackbar-ext:1.3.0'
 }

@@ -10,7 +10,7 @@ class AsyncUtils {
                 task()
                 return true
             }else{
-                NetworkMonitor.showNoInternetToast(context)
+                NetworkMonitor.showNoInternetToastAnyWay(context)
                 return false
             }
         }

@@ -3,6 +3,7 @@ package com.dasbikash.exp_man_repo.firebase
 import android.os.SystemClock
 import com.dasbikash.android_basic_utils.utils.runSuspended
 import com.dasbikash.exp_man_repo.User
+import com.dasbikash.exp_man_repo.firebase.exceptions.SignInException
 import com.dasbikash.exp_man_repo.firebase.exceptions.SignUpException
 import com.google.firebase.auth.*
 import java.lang.RuntimeException
@@ -10,7 +11,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-object FirebaseAuthService {
+internal object FirebaseAuthService {
 
     private const val DUPLICATE_EMAIL_MESSAGE = "Email id already registered!"
     private const val WEAK_PASSWORD_MESSAGE = "Password too weak!"
@@ -88,7 +89,7 @@ object FirebaseAuthService {
         }
     }
 
-    private suspend fun sendEmailVerification(firebaseUser: FirebaseUser):FirebaseUser{
+    suspend fun sendEmailVerification(firebaseUser: FirebaseUser):FirebaseUser{
         return suspendCoroutine {
             val continuation = it
             firebaseUser.sendEmailVerification().addOnCompleteListener {
@@ -114,38 +115,34 @@ object FirebaseAuthService {
         }
     }
 
-    /*fun logInUserWithEmailAndPassword(email: String, password: String): FirebaseUser? {
+    suspend fun logInUserWithEmailAndPassword(email: String, password: String): FirebaseUser {
 
-        val lock = Object()
-        var authException: com.dasbikash.e_bazar_exceptions.AuthException?=null
-        var firebaseUser:FirebaseUser?=null
-
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                if (it.isSuccessful){
-                    firebaseUser = it.result?.user
-                    synchronized(lock) { lock.notify() }
-                }else{
-                    if (it.exception!=null){
-                        authException =
-                            com.dasbikash.e_bazar_exceptions.AuthException(it.exception!!)
+        return suspendCoroutine {
+            val continuation = it
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email.trim(), password)
+                .addOnCompleteListener {
+                    if (it.isSuccessful && it.result !=null && it.result!!.user!=null){
+                        continuation.resume(it.result!!.user!!)
                     }else{
-                        authException = com.dasbikash.e_bazar_exceptions.AuthException()
+                        continuation.resumeWithException(SignInException(it.exception))
                     }
-                    synchronized(lock) { lock.notify() }
                 }
-            }
-
-        try {
-            synchronized(lock) { lock.wait(WAITING_MS_FOR_NET_RESPONSE) }
-        }catch (ex:InterruptedException){}
-
-        authException?.let { throw it }
-
-        return firebaseUser
+        }
     }
 
-    fun sendPasswordResetEmail(email: String){
+    fun getFireBaseUser(): FirebaseUser? {
+        return FirebaseAuth.getInstance().currentUser
+    }
+
+    fun isUserVerified(): Boolean {
+        return getFireBaseUser()?.isEmailVerified ?: false
+    }
+
+    fun signOut(){
+        FirebaseAuth.getInstance().signOut()
+    }
+
+    /*fun sendPasswordResetEmail(email: String){
 
         val lock = Object()
         var authException: com.dasbikash.e_bazar_exceptions.AuthException?=null

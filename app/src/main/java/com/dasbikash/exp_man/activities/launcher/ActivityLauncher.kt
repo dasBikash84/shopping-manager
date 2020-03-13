@@ -3,14 +3,13 @@ package com.dasbikash.exp_man.activities.launcher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DisplayUtils
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.activities.login.ActivityLogin
 import com.dasbikash.exp_man.R
-import com.dasbikash.exp_man_repo.LoginRepo
+import com.dasbikash.exp_man_repo.AuthRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -55,6 +54,6 @@ class ActivityLauncher : AppCompatActivity() {
     }
 
     private suspend fun isLoggedIn(): Boolean {
-        return runSuspended { LoginRepo.checkLogIn(this)}
+        return runSuspended { AuthRepo.checkLogIn(this)}
     }
 }
