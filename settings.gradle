@@ -1,2 +1,3 @@
 rootProject.name='Exp Man'
 include ':app'
+include ':exp_man_repo'
