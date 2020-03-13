@@ -3,7 +3,9 @@ package com.dasbikash.exp_man.activities.launcher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DisplayUtils
 import com.dasbikash.android_extensions.startActivity
+import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.activities.login.ActivityLogin
@@ -17,6 +19,11 @@ class ActivityLauncher : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
+        initApp()
+    }
+
+    private fun initApp() {
+        initNetworkMonitor()
     }
 
     override fun onResume() {

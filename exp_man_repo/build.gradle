@@ -36,6 +36,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.github.dasBikash84:shared-preferences-ext:1.6.0'
+    implementation 'com.github.dasBikash84:android-basic-utils:2.0.0'
 
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.firebase:firebase-core:17.2.3'

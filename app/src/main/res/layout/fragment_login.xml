@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/snow_white2">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/app_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="80dp"
-        android:layout_width="0dp"
-        android:layout_height="90dp"
-        android:src="@mipmap/ic_launcher"/>
+    android:gravity="center_vertical|top"
+    android:background="@color/snow_white">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        app:layout_constraintTop_toBottomOf="@+id/app_logo"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="4dp">
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/app_logo"
+            android:layout_marginTop="80dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@mipmap/ic_launcher"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -54,7 +51,7 @@
             android:hint="@string/email_hint">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_text"
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"
@@ -70,7 +67,7 @@
             app:passwordToggleEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_text"
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"
@@ -85,7 +82,7 @@
             android:hint="@string/mobile_hint">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/mobile_text"
+                android:id="@+id/et_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="40dp"
@@ -94,25 +91,25 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
+            android:id="@+id/btn_login"
             style="@style/login_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_button"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/guest_login_button"
+            android:id="@+id/btn_guest_login"
             style="@style/login_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/guest_login_button"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/sign_up_button"
+            android:id="@+id/btn_sign_up"
             style="@style/login_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/sign_up_button"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.core.widget.NestedScrollView>
