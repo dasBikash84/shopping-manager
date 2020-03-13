@@ -24,7 +24,7 @@ class ActivityLauncher : AppCompatActivity() {
         lifecycleScope.launch {
             isLoggedIn().let {
                 delay(500)
-                if (it) {
+                if (!it) {
                     loadUserActivity()
                 } else {
                     loadGuestActivity()

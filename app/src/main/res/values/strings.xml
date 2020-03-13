@@ -8,11 +8,15 @@
     <string name="sign_up_button">Sign Up</string>
     <string name="mobile_hint">Mobile Number</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="signup_textview">Sign Up</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="first_name_hint">First Name</string>
     <string name="last_name_hint">Last Name</string>
     <string name="phone_no_hint">Mobile Number</string>
+    <string name="bmi_add">Add</string>
+    <string name="bmi_summary">Summary</string>
+    <string name="bmi_budget">Budget</string>
+    <string name="bmi_shopping_list">Shopping List</string>
+    <string name="bmi_more">More</string>
 </resources>
