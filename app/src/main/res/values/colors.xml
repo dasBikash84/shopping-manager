@@ -3,4 +3,14 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="color_navy_blue">#000080</color>
+    <color name="dark_slate_gray">#2f4f4f</color>
+    <color name="off_white">#BEFFF8</color>
+    <color name="ghost_white">#f8f8ff</color>
+    <color name="snow_white">#fffafa</color>
+    <color name="snow_white2">#eee9e9</color>
+    <color name="snow_white3">#cdc9c9</color>
+    <color name="dark_orange">#ff8c00</color>
+    <color name="dark_green">#006400</color>
+    <color name="white_smoke">#f5f5f5</color>
 </resources>

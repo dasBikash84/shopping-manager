@@ -1,9 +1,10 @@
-package com.dasbikash.exp_man
+package com.dasbikash.exp_man.activities.home
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.dasbikash.exp_man.R
 import kotlinx.android.synthetic.main.activity_home.*
 
 class ActivityHome : AppCompatActivity() {
@@ -23,18 +24,26 @@ class ActivityHome : AppCompatActivity() {
     }
 
     companion object{
-        private const val EXTRA_GUEST = "com.dasbikash.exp_man.ActivityHome.EXTRA_GUEST"
-        private const val EXTRA_USER = "com.dasbikash.exp_man.ActivityHome.EXTRA_USER"
+        private const val EXTRA_GUEST = "com.dasbikash.exp_man.activities.home.ActivityHome.EXTRA_GUEST"
+        private const val EXTRA_USER = "com.dasbikash.exp_man.activities.home.ActivityHome.EXTRA_USER"
 
         fun getGuestInstance(context: Context):Intent{
-            val intent = Intent(context.applicationContext,ActivityHome::class.java)
-            intent.putExtra(EXTRA_GUEST,EXTRA_GUEST)
+            val intent = Intent(context.applicationContext,
+                ActivityHome::class.java)
+            intent.putExtra(
+                EXTRA_GUEST,
+                EXTRA_GUEST
+            )
             return intent
         }
 
         fun getUserInstance(context: Context):Intent{
-            val intent = Intent(context.applicationContext,ActivityHome::class.java)
-            intent.putExtra(EXTRA_USER,EXTRA_USER)
+            val intent = Intent(context.applicationContext,
+                ActivityHome::class.java)
+            intent.putExtra(
+                EXTRA_USER,
+                EXTRA_USER
+            )
             return intent
         }
     }
