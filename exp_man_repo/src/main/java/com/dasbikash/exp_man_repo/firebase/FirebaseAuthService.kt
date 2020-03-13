@@ -1,7 +1,7 @@
 package com.dasbikash.exp_man_repo.firebase
 
 import android.os.SystemClock
-import com.dasbikash.android_basic_utils.utils.runSuspended
+import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man_repo.User
 import com.dasbikash.exp_man_repo.firebase.exceptions.SignInException
 import com.dasbikash.exp_man_repo.firebase.exceptions.SignUpException

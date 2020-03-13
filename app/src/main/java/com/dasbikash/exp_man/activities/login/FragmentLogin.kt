@@ -7,21 +7,20 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_extensions.displayHtmlText
-import com.dasbikash.android_extensions.dpToPx
-import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.utils.ValidationUtils
 import com.dasbikash.exp_man_repo.AuthRepo
+import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -74,6 +73,53 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                 ))
             }
         }
+
+        log_in_option_selector.setOnItemSelectedListener(object :AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                runWithContext {
+                    lifecycleScope.launch {
+                        setCurrentLoginMethod(it,position)
+                        setLoginViewItems(position)
+                    }
+                }
+            }
+        })
+
+        runWithContext {
+            lifecycleScope.launch {
+                setLoginViewItems(getCurrentLoginMethod(it))
+            }
+        }
+    }
+
+    private fun setLoginViewItems(position: Int) {
+        if (position == 0) {
+            enableEmailLoginViewItems()
+        } else {
+            enableSmsLoginViewItems()
+        }
+    }
+
+    private fun enableEmailLoginViewItems() {
+        et_email_holder.show()
+        et_password_holder.show()
+        btn_login.show()
+        et_mobile_holder.hide()
+        btn_send_code.hide()
+    }
+
+    private fun enableSmsLoginViewItems() {
+        et_email_holder.hide()
+        et_password_holder.hide()
+        btn_login.hide()
+        et_mobile_holder.show()
+        btn_send_code.show()
     }
 
     private fun logInTask(context: Context) {
@@ -132,4 +178,29 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
+
+    companion object{
+        private const val CURRENT_LOGIN_METHOD_INDEX_SP_KEY =
+            "com.dasbikash.exp_man.activities.login.CURRENT_LOGIN_METHOD_INDEX_SP_KEY"
+
+        private suspend fun getCurrentLoginMethod(context: Context):Int{
+            SharedPreferenceUtils
+                .getDefaultInstance()
+                .getDataSuspended(context, CURRENT_LOGIN_METHOD_INDEX_SP_KEY, Int::class.java).apply {
+                    println(this)
+                    if (this==null){
+                        setCurrentLoginMethod(context, 0)
+                    }
+                }.let {
+                    println(it)
+                    return it ?: 0
+                }
+        }
+
+        private suspend fun setCurrentLoginMethod(context: Context,index:Int) {
+            println(index)
+            SharedPreferenceUtils.getDefaultInstance()
+                .saveDataSuspended(context, index, CURRENT_LOGIN_METHOD_INDEX_SP_KEY)
+        }
+    }
 }
