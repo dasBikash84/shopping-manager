@@ -152,64 +152,9 @@ internal object FirebaseAuthService {
         }
     }
 
-    /*fun sendPasswordResetEmail(email: String){
+    /*
 
-        val lock = Object()
-        var authException: com.dasbikash.e_bazar_exceptions.AuthException?=null
-
-        FirebaseAuth.getInstance().sendPasswordResetEmail(email)
-            .addOnCompleteListener {
-                if (!it.isSuccessful){
-                    if (it.exception!! is FirebaseAuthInvalidUserException){
-                        authException =
-                            com.dasbikash.e_bazar_exceptions.InvalidEmailAddressException()
-                    }else {
-                        authException = com.dasbikash.e_bazar_exceptions.AuthException()
-                    }
-                }
-                synchronized(lock) { lock.notify() }
-            }
-
-        try {
-            synchronized(lock) { lock.wait(WAITING_MS_FOR_NET_RESPONSE) }
-        }catch (ex:InterruptedException){}
-
-        authException?.let { throw it }
-    }
-
-    fun getFireBaseUser(): FirebaseUser? {
-        return FirebaseAuth.getInstance().currentUser
-    }
-
-    fun resendVerificationEmail():Boolean{
-        val lock = Object()
-        var result:Boolean = false
-
-        getFireBaseUser()
-            ?.let {
-            it.sendEmailVerification().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    result = true
-                } else {
-                    result=false
-                }
-                synchronized(lock) { lock.notify() }
-            }
-        }
-
-        try {
-            synchronized(lock) { lock.wait(WAITING_MS_FOR_NET_RESPONSE) }
-        }catch (ex:InterruptedException){}
-
-        return result
-    }
-
-    fun getUserEmail(): String? {
-        return getFireBaseUser()
-            ?.email
-    }
-
-    fun reloadUser(doOnSuccess: () -> Unit) {
+    suspend fun reloadUser(doOnSuccess: () -> Unit) {
         getFireBaseUser()?.reload()?.addOnCompleteListener {
             if (it.isSuccessful) {
                 doOnSuccess()
