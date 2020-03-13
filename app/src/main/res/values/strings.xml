@@ -28,5 +28,5 @@
     <string name="invalid_first_name_error">First name can\'t be blank</string>
     <string name="invalid_mobile_number_error">Invalid moble number</string>
     <string name="launch_sign_up_prompt">Sign up with current data?</string>
-    <string name="sign_up_success_mesage">Congrats!! Sign up success.</string>
+    <string name="sign_up_success_mesage">Sign up success! A validation email has been sent to you. Please verify you email address.</string>
 </resources>

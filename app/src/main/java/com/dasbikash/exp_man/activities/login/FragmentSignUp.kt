@@ -86,7 +86,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
     }
 
     private fun signUpTask(email:String,password:String,
-                            firstName:String,lastName:String?=null,mobile:String?=null){
+                            firstName:String,lastName:String,mobile:String){
         runWithContext {
             AsyncUtils.runWithNetwork(
                     {
@@ -94,9 +94,9 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
                             showWaitScreen()
                             try {
                                 FirebaseAuthService
-                                    .createUserWithEmailAndPassword(email, password)
+                                    .createUserWithEmailAndPassword(email, password,firstName, lastName, mobile)
                                 showShortSnack(R.string.sign_up_success_mesage)
-                                delay(1000)
+                                delay(2000)
                                 runWithActivity {
                                     (it as ActivityLogin).onBackPressed()
                                 }

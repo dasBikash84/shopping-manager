@@ -2,6 +2,7 @@ package com.dasbikash.exp_man_repo.firebase
 
 import android.os.SystemClock
 import com.dasbikash.android_basic_utils.utils.runSuspended
+import com.dasbikash.exp_man_repo.User
 import com.dasbikash.exp_man_repo.firebase.exceptions.SignUpException
 import com.google.firebase.auth.*
 import java.lang.RuntimeException
@@ -15,10 +16,35 @@ object FirebaseAuthService {
     private const val WEAK_PASSWORD_MESSAGE = "Password too weak!"
     private const val SIGN_UP_FAILURE_MESSAGE = "Sign up failure!"
 
-    suspend fun createUserWithEmailAndPassword(email:String,password:String){
+    suspend fun createUserWithEmailAndPassword(email:String,password:String,
+                                               firstName:String,lastName:String,mobile:String){
         createUser(email, password).let {
             try {
                 sendEmailVerification(it)
+
+                val user = User(id = it.uid,email = email.trim())
+
+                firstName.trim().let {
+                    if (it.isNotEmpty()){
+                        user.firstName = it
+                    }
+                }
+
+                lastName.trim().let {
+                    if (it.isNotEmpty()){
+                        user.lastName = it
+                    }
+                }
+
+                mobile.trim().apply {
+                    if (this.isNotEmpty()){
+                        user.phone = this
+                    }else{
+                        user.phone = it.phoneNumber
+                    }
+                }
+
+                FirebaseUserService.saveUser(user)!!
             }catch (ex:Throwable){
                 do {
                     try {
