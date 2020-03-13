@@ -47,6 +47,28 @@ object AuthRepo {
         }
     }
 
+    suspend fun logInUserWithVerificationCode(context: Context,code:String):User{
+        FirebaseAuthService.logInUserWithVerificationCode(context, code).let {
+            try {
+                val firebaseUser = it
+                FirebaseUserService.getUser(it).let {
+                    if (it==null){
+                        FirebaseUserService.createUserForPhoneLogin(firebaseUser).let {
+                            saveUser(context, it)
+                            return it
+                        }
+                    }else {
+                        saveUser(context, it)
+                        return it
+                    }
+                }
+            }catch (ex:Throwable){
+                FirebaseAuthService.signOut()
+                throw ex
+            }
+        }
+    }
+
     fun signOut(context: Context){
         FirebaseAuthService.signOut()
         clearUser(context)
@@ -59,4 +81,5 @@ object AuthRepo {
         FirebaseAuthService.sendLoginCodeToMobile(phoneNumber, activity)
 
     suspend fun codeResendWaitMs(context: Context):Long = FirebaseAuthService.codeResendWaitMs(context)
+    suspend fun getCurrentMobileNumber(context: Context) = FirebaseAuthService.getCurrentMobileNumber(context)
 }

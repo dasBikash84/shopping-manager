@@ -11,12 +11,10 @@ import com.dasbikash.exp_man_repo.firebase.exceptions.SignInException
 import com.dasbikash.exp_man_repo.firebase.exceptions.SignUpException
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import java.lang.RuntimeException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
@@ -32,6 +30,7 @@ internal object FirebaseAuthService {
     private const val VERIFICATION_ID_SP_KEY = "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.VERIFICATION_ID_SP_KEY"
     private const val AUTH_CREDENTIALS_SP_KEY = "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.AUTH_CREDENTIALS_SP_KEY"
     private const val CODE_SEND_TIME_SP_KEY = "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.CODE_SEND_TIME_SP_KEY"
+    private const val MOBILE_NUMBER_SP_KEY = "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.MOBILE_NUMBER_SP_KEY"
 
     suspend fun createUserWithEmailAndPassword(email:String,password:String,
                                                firstName:String,lastName:String,mobile:String){
@@ -181,12 +180,15 @@ internal object FirebaseAuthService {
         }
     }
 
-    private const val CODE_RESEND_INTERVAL_SEC = 180L
+    suspend fun getCurrentMobileNumber(context: Context) =
+        SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context, MOBILE_NUMBER_SP_KEY,String::class.java)
+
+    private const val CODE_RESEND_INTERVAL_SEC = 60L
 
     suspend fun sendLoginCodeToMobile(phoneNumber:String,activity: Activity){
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
             phoneNumber,        // Phone number to verify
-            CODE_RESEND_INTERVAL_SEC/3,                 // Timeout duration
+            CODE_RESEND_INTERVAL_SEC,                 // Timeout duration
             TimeUnit.SECONDS,   // Unit of timeout
             activity,               // Activity (for callback binding)
             getCallBacks())     // OnVerificationStateChangedCallbacks
@@ -198,13 +200,16 @@ internal object FirebaseAuthService {
         spu.removeKey(activity,VERIFICATION_ID_SP_KEY)
         spu.removeKey(activity,AUTH_CREDENTIALS_SP_KEY)
         spu.removeKey(activity, CODE_SEND_TIME_SP_KEY)
+        spu.removeKey(activity, MOBILE_NUMBER_SP_KEY)
         if (data is String){
             spu.saveDataSuspended(activity,data,VERIFICATION_ID_SP_KEY)
             spu.saveDataSuspended(activity, Date(),CODE_SEND_TIME_SP_KEY)
+            spu.saveDataSuspended(activity, phoneNumber,MOBILE_NUMBER_SP_KEY)
             return
         }else if(data is Parcelable){
             spu.saveDataSuspended(activity, Date(),CODE_SEND_TIME_SP_KEY)
             spu.saveParcelable(activity,data,AUTH_CREDENTIALS_SP_KEY)
+            spu.saveDataSuspended(activity, phoneNumber,MOBILE_NUMBER_SP_KEY)
             return
         }
 
@@ -234,6 +239,36 @@ internal object FirebaseAuthService {
             println("verificationId: $verificationId")
             GlobalScope.launch { channel.send(verificationId)}
         }
+    }
+
+    suspend fun logInUserWithVerificationCode(context: Context,code:String): FirebaseUser{
+        val credential = getPhoneAuthCredential(context,code)!!
+        return suspendCoroutine {
+            val continuation = it
+            FirebaseAuth.getInstance().signInWithCredential(credential)
+                .addOnCompleteListener {
+                    if (it.isSuccessful && it.result !=null && it.result!!.user!=null){
+                        continuation.resume(it.result!!.user!!)
+                    }else{
+                        continuation.resumeWithException(SignInException(it.exception))
+                    }
+                }
+        }
+    }
+
+    private suspend fun getPhoneAuthCredential(context: Context,code:String):PhoneAuthCredential? {
+        SharedPreferenceUtils
+            .getDefaultInstance()
+            .getParcelableDataSuspended(
+                context, AUTH_CREDENTIALS_SP_KEY,PhoneAuthCredential.CREATOR)?.let {
+            return it
+        }
+        SharedPreferenceUtils
+            .getDefaultInstance()
+            .getDataSuspended(context, VERIFICATION_ID_SP_KEY, String::class.java)?.let {
+                return PhoneAuthProvider.getCredential(it,code)
+            }
+        return null
     }
 
     /*

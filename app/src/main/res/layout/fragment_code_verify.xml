@@ -28,7 +28,6 @@
             android:minHeight="40dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.button.MaterialButton
         app:layout_constraintBottom_toBottomOf="@+id/et_verification_holder"
         app:layout_constraintStart_toEndOf="@+id/et_verification_holder"
@@ -42,9 +41,26 @@
     <com.google.android.material.button.MaterialButton
         app:layout_constraintTop_toBottomOf="@+id/btn_verify_code"
         android:layout_marginTop="16dp"
-        android:id="@+id/btn_send_code"
+        android:id="@+id/btn_resend_code"
         style="@style/login_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/send_login_code_button" />
+        android:text="@string/resend_code_button" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/wait_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="@android:color/white"
+        android:alpha=".8">
+
+        <ProgressBar
+            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:layout_width="240dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,4 +16,9 @@ internal object FirebaseUserService {
     suspend fun getUser(firebaseUser: FirebaseUser):User?{
         return FireStoreUtils.readDocument("$USER_COLLECTION_NAME/${firebaseUser.uid}",User::class.java)
     }
+
+    suspend fun createUserForPhoneLogin(firebaseUser: FirebaseUser): User {
+        val user = User(id=firebaseUser.uid,phone = firebaseUser.phoneNumber!!)
+        return saveUser(user)!!
+    }
 }

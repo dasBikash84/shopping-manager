@@ -44,9 +44,13 @@
     </string>
     <string name="send_login_code_button">Send Code</string>
     <string name="resend_login_code_button">Resend Code in %1$s secs</string>
+    <string name="resend_code_button">Resend Code</string>
     <string name="login_code_send_failure">Code sending failed!</string>
     <string name="verification_code_hint">Verification Code</string>
     <string name="verify_code_button">Verify</string>
     <string name="login_prompt">Login with current data?</string>
     <string name="send_login_code_prompt">Send login code?</string>
+    <string name="empty_verification_code_error">Empty verification code!</string>
+    <string name="invalid_verification_code_message">Invalid verification code!</string>
+    <string name="login_code_resend">Login code sent.</string>
 </resources>
