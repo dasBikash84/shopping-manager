@@ -49,17 +49,23 @@
                 android:orientation="horizontal"
                 android:background="@color/snow_white2">
 
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:text="@string/login_by_prompt"
                     android:textAlignment="gravity"
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
-
+                <ImageButton
+                    android:id="@+id/btn_login_benefits"
+                    android:src="@drawable/ic_what"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_gravity="top"
+                    android:layout_marginEnd="8dp"/>
                 <Spinner
                     android:id="@+id/log_in_option_selector"
                     android:layout_width="wrap_content"

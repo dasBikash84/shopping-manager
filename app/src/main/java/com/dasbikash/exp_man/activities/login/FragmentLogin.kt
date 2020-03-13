@@ -1,14 +1,19 @@
 package com.dasbikash.exp_man.activities.login
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.displayHtmlText
+import com.dasbikash.android_extensions.dpToPx
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_network_monitor.NetworkMonitor
@@ -52,6 +57,21 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                     {
                         logInTask(it)
                     })
+            }
+        }
+
+        btn_login_benefits.setOnClickListener {
+            runWithContext {
+                val loginBenefitsText = TextView(it)
+                loginBenefitsText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16.0f)
+                loginBenefitsText.setTextColor(Color.BLACK)
+                val padding = dpToPx(8,it).toInt()
+                loginBenefitsText.setPadding(padding,padding,padding,padding)
+                loginBenefitsText.displayHtmlText(it.getString(R.string.login_benefits_text))
+                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                    view = loginBenefitsText,
+                    negetiveButtonText = ""
+                ))
             }
         }
     }

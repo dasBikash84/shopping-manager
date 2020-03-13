@@ -35,4 +35,12 @@
     <string name="reset_password_text">Reset\nPassword</string>
     <string name="reset_password_hint">Reset Password?</string>
     <string name="password_reset_email_sent">Password reset link emailed. Please check.</string>
+    <string name="login_benefits_text">
+        Features unlocked on login:
+            &lt;ul>
+                &lt;li>Cloud back-up of all data.&lt;/li>
+                &lt;li>Sharing shopping list with connected users.&lt;/li>
+                &lt;li>Offline data import.&lt;/li>
+            &lt;/ul>
+    </string>
 </resources>
