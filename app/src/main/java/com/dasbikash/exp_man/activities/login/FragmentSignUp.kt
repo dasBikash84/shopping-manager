@@ -9,9 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
-import com.dasbikash.exp_man.utils.AsyncUtils
 import com.dasbikash.exp_man.utils.ValidationUtils
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -46,7 +46,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
         }
 
         btn_signup.setOnClickListener {
-            signUpClickAction()
+            runWithContext { NetworkMonitor.runWithNetwork(it) {signUpClickAction()}}
         }
     }
 
@@ -55,11 +55,11 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
             et_email.setError(getString(R.string.invalid_email_error))
             return
         }
-        if (et_password.text.isNullOrBlank()){
+        if (et_password.text.isNullOrEmpty()){
             et_password.setError(getString(R.string.invalid_password_error))
             return
         }
-        if (et_confirm_password.text.isNullOrBlank()){
+        if (et_confirm_password.text.isNullOrEmpty()){
             et_confirm_password.setError(getString(R.string.invalid_password_error))
             return
         }
@@ -88,29 +88,25 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
     private fun signUpTask(email:String,password:String,
                             firstName:String,lastName:String,mobile:String){
         runWithContext {
-            AsyncUtils.runWithNetwork(
-                    {
-                        lifecycleScope.launch {
-                            showWaitScreen()
-                            try {
-                                AuthRepo
-                                    .createUserWithEmailAndPassword(email, password,firstName, lastName, mobile)
-                                showShortSnack(R.string.sign_up_success_mesage)
-                                delay(2000)
-                                runWithActivity {
-                                    (it as ActivityLogin).onBackPressed()
-                                }
-                            }catch (ex:Throwable){
-                                AuthRepo.resolveSignUpException(ex).let {
-                                    showShortSnack(it)
-                                }
-                                hideWaitScreen()
-                            }
-                        }
-                    },it
-                )
+            lifecycleScope.launch {
+                showWaitScreen()
+                try {
+                    AuthRepo
+                        .createUserWithEmailAndPassword(email, password,firstName, lastName, mobile)
+                    showShortSnack(R.string.sign_up_success_mesage)
+                    delay(2000)
+                    runWithActivity {
+                        (it as ActivityLogin).onBackPressed()
+                    }
+                }catch (ex:Throwable){
+                    AuthRepo.resolveSignUpException(ex).let {
+                        showShortSnack(it)
+                    }
+                    hideWaitScreen()
+                }
             }
         }
+    }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 }

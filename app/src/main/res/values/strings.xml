@@ -32,4 +32,7 @@
     <string name="invalid_credentials_message">Invalid email or password!</string>
     <string name="sign_out_prompt">Sign out?</string>
     <string name="log_out">Log-Out</string>
+    <string name="reset_password_text">Reset\nPassword</string>
+    <string name="reset_password_hint">Reset Password?</string>
+    <string name="password_reset_email_sent">Password reset link emailed. Please check.</string>
 </resources>

@@ -50,4 +50,7 @@ object AuthRepo {
         FirebaseAuthService.signOut()
         clearUser(context)
     }
+
+    suspend fun sendPasswordResetEmail(email: String):Boolean =
+        FirebaseAuthService.sendPasswordResetEmail(email)
 }

@@ -14,7 +14,7 @@ internal object FireStoreConUtils {
             val settings =
                 FirebaseFirestoreSettings
                     .Builder()
-                    .setPersistenceEnabled(false) //cache diabled
+                    .setPersistenceEnabled(true)
                     .build()
             firebaseFirestore.firestoreSettings = settings
         }

@@ -142,6 +142,16 @@ internal object FirebaseAuthService {
         FirebaseAuth.getInstance().signOut()
     }
 
+    suspend fun sendPasswordResetEmail(email: String):Boolean{
+        return suspendCoroutine {
+            val continuation = it
+            FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                .addOnCompleteListener {
+                    continuation.resume(it.isSuccessful)
+                }
+        }
+    }
+
     /*fun sendPasswordResetEmail(email: String){
 
         val lock = Object()
