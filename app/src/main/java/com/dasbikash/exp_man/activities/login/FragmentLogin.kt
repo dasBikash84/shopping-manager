@@ -79,7 +79,6 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                 runWithContext {
                     hideKeyboard()
                     lifecycleScope.launch {
-                        setCurrentLoginMethod(it,position)
                         setLoginViewItems(position)
                     }
                 }
@@ -89,12 +88,6 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         btn_send_code.setOnClickListener {
             hideKeyboard()
             sendCodeAction()
-        }
-
-        runWithContext {
-            lifecycleScope.launch {
-                setLoginViewItems(getCurrentLoginMethod(it))
-            }
         }
     }
 
@@ -245,27 +238,5 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     companion object{
-        private const val CURRENT_LOGIN_METHOD_INDEX_SP_KEY =
-            "com.dasbikash.exp_man.activities.login.CURRENT_LOGIN_METHOD_INDEX_SP_KEY"
-
-        private suspend fun getCurrentLoginMethod(context: Context):Int{
-            SharedPreferenceUtils
-                .getDefaultInstance()
-                .getDataSuspended(context, CURRENT_LOGIN_METHOD_INDEX_SP_KEY, Int::class.java).apply {
-                    println(this)
-                    if (this==null){
-                        setCurrentLoginMethod(context, 0)
-                    }
-                }.let {
-                    println(it)
-                    return it ?: 0
-                }
-        }
-
-        private suspend fun setCurrentLoginMethod(context: Context,index:Int) {
-            println(index)
-            SharedPreferenceUtils.getDefaultInstance()
-                .saveDataSuspended(context, index, CURRENT_LOGIN_METHOD_INDEX_SP_KEY)
-        }
     }
 }
