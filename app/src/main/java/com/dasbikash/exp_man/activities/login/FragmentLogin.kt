@@ -49,6 +49,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         }
 
         btn_login.setOnClickListener {
+            hideKeyboard()
             launchLogin()
         }
 
@@ -76,6 +77,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                 id: Long
             ) {
                 runWithContext {
+                    hideKeyboard()
                     lifecycleScope.launch {
                         setCurrentLoginMethod(it,position)
                         setLoginViewItems(position)
@@ -85,6 +87,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         })
 
         btn_send_code.setOnClickListener {
+            hideKeyboard()
             sendCodeAction()
         }
 

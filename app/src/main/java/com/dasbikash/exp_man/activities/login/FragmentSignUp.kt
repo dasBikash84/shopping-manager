@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_network_monitor.NetworkMonitor
@@ -46,6 +47,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
         }
 
         btn_signup.setOnClickListener {
+            hideKeyboard()
             runWithContext { NetworkMonitor.runWithNetwork(it) {signUpClickAction()}}
         }
     }

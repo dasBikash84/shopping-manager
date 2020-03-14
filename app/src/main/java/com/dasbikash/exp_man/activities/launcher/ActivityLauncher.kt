@@ -54,6 +54,6 @@ class ActivityLauncher : AppCompatActivity() {
     }
 
     private suspend fun isLoggedIn(): Boolean {
-        return runSuspended { AuthRepo.checkLogIn(this)}
+        return runSuspended { AuthRepo.checkLogIn(this)}!!
     }
 }
