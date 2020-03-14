@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
@@ -56,17 +58,18 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
 
         btn_login_benefits.setOnClickListener {
             runWithContext {
-                val loginBenefitsText = TextView(it)
-                loginBenefitsText.setTextSize(TypedValue.COMPLEX_UNIT_SP,16.0f)
-                loginBenefitsText.setTextColor(Color.BLACK)
-                val padding = dpToPx(8,it).toInt()
-                loginBenefitsText.setPadding(padding,padding,padding,padding)
-                loginBenefitsText.displayHtmlText(it.getString(R.string.login_benefits_text))
+                val dialogView = LayoutInflater.from(it).inflate(R.layout.view_login_benefits,null,false)
+                val checkBox = dialogView.findViewById<AppCompatCheckBox>(R.id.cb_hide_login_benefits)
                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                    view = loginBenefitsText,
-                    negetiveButtonText = ""
+                    view = dialogView,
+                    negetiveButtonText = "",
+                    doOnPositivePress = {
+                        if (checkBox.isChecked){
+                            hideLoginBenefits(it)
+                            btn_login_benefits.hide()
+                        }
+                    }
                 ))
-                incLoginBenefitsShowCount(it, { btn_login_benefits.hide() })
             }
         }
 
@@ -93,8 +96,10 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         }
 
         runWithContext {
-            if (!checkIfLoginBenefitsShowCountMaxed(it) { btn_login_benefits.hide() }){
+            if (isLoginBenefitsVisible(it)){
                 btn_login_benefits.show()
+            }else{
+                btn_login_benefits.hide()
             }
         }
     }
@@ -246,42 +251,26 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     companion object{
-        private const val LOGIN_BENEFITS_SHOW_COUNT_SP_KEY =
-            "com.dasbikash.exp_man.activities.login.FragmentLogin.LOGIN_BENEFITS_SHOW_COUNT_SP_KEY"
-        private val LOGIN_BENEFITS_SHOW_LIMIT = 3
+        private const val LOGIN_BENEFITS_SHOW_FLAG_SP_KEY =
+            "com.dasbikash.exp_man.activities.login.FragmentLogin.LOGIN_BENEFITS_SHOW_FLAG_SP_KEY"
 
-        private fun getLoginBenefitsShowCount(context: Context):Int{
+        private fun hideLoginBenefits(context: Context) =
             SharedPreferenceUtils
                 .getDefaultInstance()
-                .getData(context,LOGIN_BENEFITS_SHOW_COUNT_SP_KEY,Int::class.java).let {
-                    debugLog(it ?: "Not found")
+                .saveDataSync(context,false, LOGIN_BENEFITS_SHOW_FLAG_SP_KEY)
+
+        private fun isLoginBenefitsVisible(context: Context):Boolean{
+            SharedPreferenceUtils
+                .getDefaultInstance()
+                .getData(context,LOGIN_BENEFITS_SHOW_FLAG_SP_KEY,Boolean::class.java).let {
                     if (it==null){
-                        return 0
-                    }else{
-                        return it
+                        SharedPreferenceUtils
+                            .getDefaultInstance()
+                            .saveDataSync(context,true, LOGIN_BENEFITS_SHOW_FLAG_SP_KEY)
+                        return true
                     }
-            }
-        }
-
-        private fun incLoginBenefitsShowCount(context: Context,doOnUpperLimit:()->Unit){
-            getLoginBenefitsShowCount(context).let {
-                debugLog("inced:${it+1}")
-                SharedPreferenceUtils
-                    .getDefaultInstance()
-                    .saveDataSync(context,it+1, LOGIN_BENEFITS_SHOW_COUNT_SP_KEY)
-                checkIfLoginBenefitsShowCountMaxed(context, doOnUpperLimit)
-            }
-        }
-
-        private fun checkIfLoginBenefitsShowCountMaxed(context: Context,doOnUpperLimit:()->Unit):Boolean{
-            getLoginBenefitsShowCount(context).let {
-                debugLog(it)
-                if (it >= LOGIN_BENEFITS_SHOW_LIMIT){
-                    doOnUpperLimit()
-                    return true
+                    return it
                 }
-                return false
-            }
         }
     }
 }

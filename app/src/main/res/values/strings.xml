@@ -34,13 +34,11 @@
     <string name="reset_password_text">Reset\nPassword</string>
     <string name="reset_password_hint">Reset Password?</string>
     <string name="password_reset_email_sent">Password reset link emailed. Please check.</string>
+    <string name="login_benefits_text_title">Features unlocked on login:</string>
     <string name="login_benefits_text">
-        Features unlocked on login:
-            &lt;ul>
-                &lt;li>Cloud back-up of all data.&lt;/li>
-                &lt;li>Sharing shopping list with connected users.&lt;/li>
-                &lt;li>Offline data import.&lt;/li>
-            &lt;/ul>
+        1) Cloud back-up of all data.\n
+        2) Sharing shopping list with connected users.\n
+        3) Offline data import.
     </string>
     <string name="send_login_code_button">Send Code</string>
     <string name="resend_login_code_button">Resend Code in %1$s secs</string>
@@ -53,4 +51,5 @@
     <string name="empty_verification_code_error">Empty verification code!</string>
     <string name="invalid_verification_code_message">Invalid verification code!</string>
     <string name="login_code_resend">Login code sent.</string>
+    <string name="hide_login_benefits">Don\'t show again.</string>
 </resources>
