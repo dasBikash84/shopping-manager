@@ -105,7 +105,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
             return
         }
         runWithContext {
-            NetworkMonitor.runWithNetwork(it,{logInAction(it)})
+            NetworkMonitor.runWithNetwork(it,{loginTask(it)})
         }
     }
 
@@ -185,15 +185,6 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         btn_login.hide()
         et_mobile_holder.show()
         btn_send_code.show()
-    }
-
-    private fun logInAction(context: Context) {
-        runWithContext {
-            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                message = it.getString(R.string.login_prompt),
-                doOnPositivePress = {
-                    loginTask(context)
-                }))}
     }
 
     private fun loginTask(context: Context) {
