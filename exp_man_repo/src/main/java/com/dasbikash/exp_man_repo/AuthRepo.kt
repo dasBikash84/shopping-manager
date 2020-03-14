@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.dasbikash.exp_man_repo.firebase.FirebaseAuthService
 import com.dasbikash.exp_man_repo.firebase.FirebaseUserService
+import com.dasbikash.exp_man_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
 object AuthRepo {
@@ -15,8 +16,9 @@ object AuthRepo {
         }
     }
 
-    suspend fun getUser(context: Context):User?{
-        return SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context,USER_SP_KEY,User::class.java)
+    suspend fun getUser(context: Context): User?{
+        return SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context,USER_SP_KEY,
+            User::class.java)
     }
 
     private suspend fun saveUser(context: Context, user: User){
@@ -33,7 +35,7 @@ object AuthRepo {
 
     fun resolveSignUpException(ex:Throwable):String = FirebaseAuthService.resolveSignUpException(ex)
 
-    suspend fun logInUserWithEmailAndPassword(context: Context,email: String, password: String):User{
+    suspend fun logInUserWithEmailAndPassword(context: Context,email: String, password: String): User {
         FirebaseAuthService.logInUserWithEmailAndPassword(email, password).let {
             try {
                 FirebaseUserService.getUser(it)!!.let {
@@ -47,7 +49,7 @@ object AuthRepo {
         }
     }
 
-    suspend fun logInUserWithVerificationCode(context: Context,code:String):User{
+    suspend fun logInUserWithVerificationCode(context: Context,code:String): User {
         FirebaseAuthService.logInUserWithVerificationCode(context, code).let {
             try {
                 val firebaseUser = it

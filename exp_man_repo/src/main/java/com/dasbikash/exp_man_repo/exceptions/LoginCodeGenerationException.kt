@@ -1,6 +1,6 @@
-package com.dasbikash.exp_man_repo.firebase.exceptions
+package com.dasbikash.exp_man_repo.exceptions
 
-class SignUpException:RuntimeException {
+class LoginCodeGenerationException:RuntimeException {
     constructor() : super()
     constructor(message: String?) : super(message)
     constructor(message: String?, cause: Throwable?) : super(message, cause)

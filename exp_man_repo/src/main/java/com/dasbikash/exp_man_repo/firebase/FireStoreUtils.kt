@@ -1,7 +1,7 @@
 package com.dasbikash.exp_man_repo.firebase
 
-import com.dasbikash.exp_man_repo.firebase.exceptions.FbDocumentReadException
-import com.dasbikash.exp_man_repo.firebase.exceptions.FbDocumentWriteException
+import com.dasbikash.exp_man_repo.exceptions.FbDocumentReadException
+import com.dasbikash.exp_man_repo.exceptions.FbDocumentWriteException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -23,7 +23,11 @@ class FireStoreUtils {
                                 continuation.resume(it.result?.toObject(type))
                             } else {
                                 println("Fb document read failed.")
-                                continuation.resumeWithException(FbDocumentReadException(it.exception))
+                                continuation.resumeWithException(
+                                    FbDocumentReadException(
+                                        it.exception
+                                    )
+                                )
                             }
                         }
                 } else {
@@ -41,7 +45,11 @@ class FireStoreUtils {
                         .set(payload)
                         .addOnCompleteListener {
                             if (!it.isSuccessful) {
-                                continuation.resumeWithException(FbDocumentWriteException(it.exception))
+                                continuation.resumeWithException(
+                                    FbDocumentWriteException(
+                                        it.exception
+                                    )
+                                )
                             } else {
                                 continuation.resume(payload)
                             }

@@ -1,7 +1,9 @@
-package com.dasbikash.exp_man_repo
+package com.dasbikash.exp_man_repo.model
 
+import androidx.annotation.Keep
 import java.io.Serializable
 
+@Keep
 data class User(
     var id:String?=null,
     var email:String?=null,

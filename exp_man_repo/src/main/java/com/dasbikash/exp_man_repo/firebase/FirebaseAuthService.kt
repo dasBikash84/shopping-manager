@@ -5,10 +5,10 @@ import android.content.Context
 import android.os.Parcelable
 import android.os.SystemClock
 import com.dasbikash.async_manager.runSuspended
-import com.dasbikash.exp_man_repo.User
-import com.dasbikash.exp_man_repo.firebase.exceptions.LoginCodeGenerationException
-import com.dasbikash.exp_man_repo.firebase.exceptions.SignInException
-import com.dasbikash.exp_man_repo.firebase.exceptions.SignUpException
+import com.dasbikash.exp_man_repo.model.User
+import com.dasbikash.exp_man_repo.exceptions.LoginCodeGenerationException
+import com.dasbikash.exp_man_repo.exceptions.SignInException
+import com.dasbikash.exp_man_repo.exceptions.SignUpException
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
@@ -38,7 +38,10 @@ internal object FirebaseAuthService {
             try {
                 sendEmailVerification(it)
 
-                val user = User(id = it.uid,email = email.trim())
+                val user = User(
+                    id = it.uid,
+                    email = email.trim()
+                )
 
                 firstName.trim().let {
                     if (it.isNotEmpty()){
@@ -139,7 +142,11 @@ internal object FirebaseAuthService {
                     if (it.isSuccessful && it.result !=null && it.result!!.user!=null){
                         continuation.resume(it.result!!.user!!)
                     }else{
-                        continuation.resumeWithException(SignInException(it.exception))
+                        continuation.resumeWithException(
+                            SignInException(
+                                it.exception
+                            )
+                        )
                     }
                 }
         }
@@ -194,7 +201,9 @@ internal object FirebaseAuthService {
             getCallBacks())     // OnVerificationStateChangedCallbacks
         val data = channel.receive()
         if (data is Throwable){
-            throw LoginCodeGenerationException(data)
+            throw LoginCodeGenerationException(
+                data
+            )
         }
         val spu = SharedPreferenceUtils.getDefaultInstance()
         spu.removeKey(activity,VERIFICATION_ID_SP_KEY)
@@ -250,7 +259,11 @@ internal object FirebaseAuthService {
                     if (it.isSuccessful && it.result !=null && it.result!!.user!=null){
                         continuation.resume(it.result!!.user!!)
                     }else{
-                        continuation.resumeWithException(SignInException(it.exception))
+                        continuation.resumeWithException(
+                            SignInException(
+                                it.exception
+                            )
+                        )
                     }
                 }
         }
