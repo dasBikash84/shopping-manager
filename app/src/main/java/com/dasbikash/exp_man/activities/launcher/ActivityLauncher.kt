@@ -3,9 +3,11 @@ package com.dasbikash.exp_man.activities.launcher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.LoggerUtils
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.runSuspended
+import com.dasbikash.exp_man.BuildConfig
 import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.activities.login.ActivityLogin
 import com.dasbikash.exp_man.R
@@ -23,6 +25,7 @@ class ActivityLauncher : AppCompatActivity() {
 
     private fun initApp() {
         initNetworkMonitor()
+        LoggerUtils.init(BuildConfig.DEBUG)
     }
 
     override fun onResume() {
