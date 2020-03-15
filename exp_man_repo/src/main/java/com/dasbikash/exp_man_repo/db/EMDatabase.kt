@@ -18,6 +18,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.dasbikash.exp_man_repo.db.dao.ExpenseCategoryDao
+import com.dasbikash.exp_man_repo.db.dao.ExpenseEntryDao
+import com.dasbikash.exp_man_repo.db.dao.UnitOfMeasureDao
+import com.dasbikash.exp_man_repo.db.dao.UserDao
 import com.dasbikash.exp_man_repo.db.room_converters.DateConverter
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
@@ -27,6 +31,11 @@ import com.dasbikash.exp_man_repo.model.User
 @Database(entities = [ExpenseEntry::class,ExpenseCategory::class,UnitOfMeasure::class,User::class],version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
+
+    abstract val userDao:UserDao
+    abstract val expenseEntryDao:ExpenseEntryDao
+    abstract val expenseCategoryDao:ExpenseCategoryDao
+    abstract val unitOfMeasureDao:UnitOfMeasureDao
 
     companion object {
         private val DATABASE_NAME = "ex_man_database"

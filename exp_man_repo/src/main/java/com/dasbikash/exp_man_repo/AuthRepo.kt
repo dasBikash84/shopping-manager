@@ -7,7 +7,7 @@ import com.dasbikash.exp_man_repo.firebase.FirebaseUserService
 import com.dasbikash.exp_man_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
-object AuthRepo {
+object AuthRepo:ExpenseManagerRepo() {
     private const val USER_SP_KEY = "com.dasbikash.exp_man_repo.USER_SP_KEY"
 
     fun checkLogIn(context: Context):Boolean{

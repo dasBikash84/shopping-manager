@@ -6,7 +6,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-class FireStoreUtils {
+internal class FireStoreUtils {
 
     companion object {
         suspend fun <T> readDocument(path: String?, type: Class<T>): T? {
