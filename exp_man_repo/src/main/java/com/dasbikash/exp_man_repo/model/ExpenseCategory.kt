@@ -8,7 +8,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class ExpenseCategory(
     @PrimaryKey
-    var name:String="",
+    var id:String="",
+    var name:String?=null,
     var nameBangla:String?=null,
     var modified:Long?=null
 )

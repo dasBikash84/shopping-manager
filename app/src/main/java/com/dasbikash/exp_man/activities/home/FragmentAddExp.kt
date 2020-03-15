@@ -144,7 +144,7 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
         viewModel?.getExpenseCategory()?.observe(this,object : Observer<ExpenseCategory>{
             override fun onChanged(expenseCategory: ExpenseCategory?) {
                 expenseCategory?.let {
-                    if (it.name.contains(MISCELLANEOUS_TEXT,true)){
+                    if (it.name?.contains(MISCELLANEOUS_TEXT,true) ?: false){
                         et_category_proposal_holder.show()
                     }else{
                         et_category_proposal.setText("")
@@ -186,9 +186,9 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
                     time = mEntryTime.time,
                     unitPrice = unitPrice,
                     qty = qty,
-                    unitName = getSelectedUom().name,
+                    unitId = getSelectedUom().id,
                     description = et_description.text?.toString(),
-                    categoryName = getSelectedExpenseCategory().name,
+                    categoryId = getSelectedExpenseCategory().id,
                     categoryProposal = et_category_proposal.text?.toString(),
                     productName = et_product_name.text?.toString(),
                     created = System.currentTimeMillis(),
