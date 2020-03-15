@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="log_in_options">
+        <item>ইমেইল</item>
+        <item>মোবাইল</item>
+    </string-array>
+</resources>

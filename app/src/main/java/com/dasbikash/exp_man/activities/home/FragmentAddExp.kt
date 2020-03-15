@@ -20,6 +20,8 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
+import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
@@ -55,7 +57,12 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
     }
 
     private fun updateTime(){
-        tv_entry_add.text = DateUtils.getLongDateString(mEntryTime.time)
+        tv_entry_add.text = DateUtils.getLongDateString(mEntryTime.time).let {
+            return@let when(checkIfEnglishLanguageSelected()){
+                true -> it
+                false -> DateTranslatorUtils.englishToBanglaDateString(it)
+            }
+        }
     }
 
     override fun onResume() {
@@ -244,13 +251,26 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
             lifecycleScope.launch {
                 SettingsRepo.getAllExpenseCategories(it).apply {
                     expenseCategories.addAll(this.sortedBy { it.name })
-                    val categoriesAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, expenseCategories.map { it.name })
+                    val categoriesAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, expenseCategories.map {
+                        if (checkIfEnglishLanguageSelected()) {
+                            it.name
+                        }else{
+                            it.nameBangla
+                        }
+                    })
                     categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     category_selector.adapter = categoriesAdapter
                 }
                 SettingsRepo.getAllUoms(it).apply {
                     uoms.addAll(this.sortedBy { it.name })
-                    val uomListAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, uoms.map { it.name })
+                    val uomListAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, uoms.map {
+                            if (checkIfEnglishLanguageSelected()) {
+                                it.name
+                            }else{
+                                it.nameBangla
+                            }
+                        }
+                    )
                     uomListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     uom_selector.adapter = uomListAdapter
                 }

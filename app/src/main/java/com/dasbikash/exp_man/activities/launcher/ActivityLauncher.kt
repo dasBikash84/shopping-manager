@@ -16,6 +16,7 @@ import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ActivityLauncher : AppCompatActivity() {
 
@@ -33,7 +34,6 @@ class ActivityLauncher : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-
             do {
                 delay(100L)
                 if (!NetworkMonitor.isConnected()){
@@ -73,4 +73,8 @@ class ActivityLauncher : AppCompatActivity() {
     private suspend fun isLoggedIn(): Boolean {
         return AuthRepo.checkLogIn(this)
     }
+}
+
+fun checkIfEnglishLanguageSelected():Boolean{
+    return Locale.getDefault().getDisplayLanguage().contains("english",true)
 }

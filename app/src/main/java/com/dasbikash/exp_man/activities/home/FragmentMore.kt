@@ -46,7 +46,7 @@ class FragmentMore : Fragment() {
     private fun signOutAction() {
         runWithContext {
             DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                title = it.getString(R.string.sign_out_prompt),
+                title = it.getString(R.string.log_out_prompt),
                 doOnPositivePress = {signOutTask()}
             ))
         }
