@@ -8,25 +8,31 @@ import com.dasbikash.exp_man_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
 object AuthRepo:ExpenseManagerRepo() {
-    private const val USER_SP_KEY = "com.dasbikash.exp_man_repo.USER_SP_KEY"
 
-    fun checkLogIn(context: Context):Boolean{
-        SharedPreferenceUtils.getDefaultInstance().let {
-            return it.checkIfExists(context, USER_SP_KEY)
-        }
+    suspend fun checkLogIn(context: Context):Boolean{
+        return getUser(context)!=null
     }
 
     suspend fun getUser(context: Context): User?{
-        return SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context,USER_SP_KEY,
-            User::class.java)
+        getDatabase(context).userDao.findUsers().let {
+            if (it.isNotEmpty()){
+                return it.get(0)
+            }
+        }
+        return null
     }
 
     private suspend fun saveUser(context: Context, user: User){
-        SharedPreferenceUtils.getDefaultInstance().saveDataSuspended(context,user,USER_SP_KEY)
+        getDatabase(context).let {
+            it.userDao.nukeTable()
+            it.userDao.add(user)
+        }
     }
 
-    private fun clearUser(context: Context){
-        SharedPreferenceUtils.getDefaultInstance().removeKey(context,USER_SP_KEY)
+    private suspend fun  clearUser(context: Context){
+        getDatabase(context).let {
+            it.userDao.nukeTable()
+        }
     }
 
     suspend fun createUserWithEmailAndPassword(email:String,password:String,
@@ -71,7 +77,7 @@ object AuthRepo:ExpenseManagerRepo() {
         }
     }
 
-    fun signOut(context: Context){
+    suspend fun signOut(context: Context){
         FirebaseAuthService.signOut()
         clearUser(context)
     }

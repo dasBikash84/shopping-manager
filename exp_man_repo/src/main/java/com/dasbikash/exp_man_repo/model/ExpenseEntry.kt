@@ -12,8 +12,13 @@ import java.util.*
     foreignKeys = [
         ForeignKey(
             entity = ExpenseCategory::class,
-            parentColumns = ["id"],
-            childColumns = ["categoryId"]
+            parentColumns = ["name"],
+            childColumns = ["categoryName"]
+        ),
+        ForeignKey(
+            entity = UnitOfMeasure::class,
+            parentColumns = ["name"],
+            childColumns = ["unitName"]
         ),
         ForeignKey(
             entity = User::class,
@@ -23,8 +28,8 @@ import java.util.*
     ],
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
-        Index(value = ["unitId"], unique = false),
-        Index(value = ["categoryId"], unique = false)
+        Index(value = ["unitName"], unique = false),
+        Index(value = ["categoryName"], unique = false)
     )
 )
 data class ExpenseEntry(
@@ -34,9 +39,9 @@ data class ExpenseEntry(
     var time: Date?=null,
     var unitPrice:Double,
     var qty:Int=1,
-    var unitId: String?=null,
+    var unitName: String?=null,
     var description:String?=null,
-    var categoryId: String?=null,
+    var categoryName: String?=null,
     var categoryProposal:String?=null,
     var productName:String?=null,
 //    var brand:String?=null,

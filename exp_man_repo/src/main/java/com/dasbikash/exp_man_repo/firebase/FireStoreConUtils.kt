@@ -8,7 +8,7 @@ internal object FireStoreConUtils {
 
     private lateinit var firebaseFirestore: FirebaseFirestore
 
-    private fun getDbConnection(): FirebaseFirestore {
+    fun getDbConnection(): FirebaseFirestore {
         if (!FireStoreConUtils::firebaseFirestore.isInitialized) {
             firebaseFirestore = FirebaseFirestore.getInstance()
             val settings =

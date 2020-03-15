@@ -22,8 +22,8 @@ import com.dasbikash.exp_man_repo.model.User
 @Dao
 internal interface UserDao {
 
-    @Query("SELECT * FROM User limit 1")
-    suspend fun findUser(): User?
+    @Query("SELECT * FROM User")
+    suspend fun findUsers(): List<User>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(user: User)

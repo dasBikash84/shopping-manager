@@ -53,4 +53,18 @@
     <string name="invalid_verification_code_message">Invalid verification code!</string>
     <string name="login_code_resend">Login code sent.</string>
     <string name="hide_login_benefits">Don\'t show again.</string>
+    <string name="add_expense_title">Add expense entry:</string>
+    <string name="total_expense_hint">Expense amount*</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="entry_time_text">Entry Time:</string>
+    <string name="quantity_hint">Quantity*</string>
+    <string name="uom_selector_prompt">Unit</string>
+    <string name="unit_cost_text">Unit price:</string>
+    <string name="description_hint">Description*</string>
+    <string name="save_exp_entry">Save</string>
+    <string name="category_selector_prompt">Category</string>
+    <string name="category_hint">New category name</string>
+    <string name="product_name_hint">Product name</string>
+    <string name="category_title_text">Category*:</string>
 </resources>
