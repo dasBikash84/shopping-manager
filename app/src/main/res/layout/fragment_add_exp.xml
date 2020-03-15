@@ -79,7 +79,8 @@
                     android:id="@+id/et_total_expense"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:inputType="date"
+                    android:inputType="numberDecimal"
+                    android:text="0.0"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -99,7 +100,8 @@
                         android:id="@+id/et_quantity"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:inputType="date"
+                        android:inputType="number"
+                        android:text="1"
                         android:maxLines="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -178,26 +180,22 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/category_title"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_category_proposal_holder"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/category_hint"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/category_selector"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_category_proposal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:lines="1"
-                        android:minHeight="40dp" />
-                </com.google.android.material.textfield.TextInputLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/et_category_proposal_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_hint"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_category_proposal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="text"
+                    android:lines="1"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

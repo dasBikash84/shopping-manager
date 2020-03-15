@@ -67,4 +67,10 @@
     <string name="category_hint">New category name</string>
     <string name="product_name_hint">Product name</string>
     <string name="category_title_text">Category*:</string>
+    <string name="total_expense_error_message">Total expensce can\'t be empty or zero</string>
+    <string name="quantity_error_message">Quantity can\'t be empty or zero</string>
+    <string name="description_error_message">Description can\'t be blank</string>
+    <string name="expense_saved_message">Expense entry saved.</string>
+    <string name="total_expense_default_value">0.0</string>
+    <string name="quantity_default_value">1</string>
 </resources>
