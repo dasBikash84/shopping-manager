@@ -6,7 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.home.FragmentAddExp"
     android:background="@color/snow_white">
-
+    <com.dasbikash.android_view_utils.custom_views.ClickableTextView
+        android:id="@+id/tv_calculator"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/snow_white"
+        android:text="@string/calculator_title"
+        android:textAlignment="center"
+        android:textSize="32sp"/>
     <com.dasbikash.android_view_utils.custom_views.ClickableCardView
         android:id="@+id/bt_log_out"
         android:layout_width="match_parent"

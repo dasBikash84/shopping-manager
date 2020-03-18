@@ -10,6 +10,7 @@ import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.*
 
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
 import com.dasbikash.exp_man.activities.login.ActivityLogin
 import com.dasbikash.exp_man_repo.AuthRepo
 import kotlinx.android.synthetic.main.fragment_more.*
@@ -28,6 +29,9 @@ class FragmentMore : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         bt_log_out.setOnClickListener {
             signOutAction()
+        }
+        tv_calculator.setOnClickListener{
+            runWithActivity { it.startActivity(ActivityCalculator::class.java) }
         }
         initView()
     }
