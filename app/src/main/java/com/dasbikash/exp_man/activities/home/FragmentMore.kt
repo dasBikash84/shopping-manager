@@ -25,6 +25,7 @@ class FragmentMore : Fragment() {
         return inflater.inflate(R.layout.fragment_more, container, false)
     }
 
+    @ExperimentalStdlibApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bt_log_out.setOnClickListener {
