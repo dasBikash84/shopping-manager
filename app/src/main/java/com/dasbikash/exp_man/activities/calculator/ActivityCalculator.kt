@@ -14,6 +14,7 @@ class ActivityCalculator : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calculator)
+
         viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
 
         tv_zero.setOnClickListener { viewModel.addPressedDigit('0') }
@@ -28,6 +29,10 @@ class ActivityCalculator : AppCompatActivity() {
         tv_nine.setOnClickListener { viewModel.addPressedDigit('9') }
         tv_dot.setOnClickListener { viewModel.addPressedDigit('.') }
         tv_bs_sign.setOnClickListener { viewModel.removeLast() }
+        tv_sign.setOnClickListener { viewModel.toggleSign() }
+        tv_ce_action.setOnClickListener { viewModel.clearCurrentNumber() }
+        tv_c_action.setOnClickListener { viewModel.clearAll() }
+        tv_inv.setOnClickListener { viewModel.invertAction() }
 
         viewModel.getCurrentNumber().observe(this,object : Observer<String>{
             override fun onChanged(currentNumber: String?) {

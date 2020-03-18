@@ -44,6 +44,7 @@ class FragmentMore : Fragment() {
                     true -> bt_log_out.show()
                     false -> bt_log_out.hide()
                 }
+                runWithActivity { it.startActivity(ActivityCalculator::class.java) }
             }
         }
     }

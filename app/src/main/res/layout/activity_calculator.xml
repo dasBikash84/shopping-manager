@@ -55,7 +55,8 @@
             android:textSize="32sp"
             android:textAlignment="textEnd"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="4dp"/>
+            android:layout_marginTop="4dp"
+            android:textIsSelectable="true"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.appcompat.widget.LinearLayoutCompat
         app:layout_constraintBottom_toBottomOf="parent"

@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
-    override fun getDefaultFragment(): Fragment = FragmentAddExp()
+//    override fun getDefaultFragment(): Fragment = FragmentAddExp()
+    //For calculator test
+    override fun getDefaultFragment(): Fragment = FragmentMore()
 
     override fun getLayoutID(): Int = R.layout.activity_home
 
