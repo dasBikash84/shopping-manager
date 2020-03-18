@@ -6,15 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".activities.launcher.ActivityLauncher">
 
-    <ProgressBar
+    <ImageView
+        android:id="@+id/app_logo"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="240dp"
+        android:layout_height="135dp"
+        android:src="@drawable/expense_logo"/>
+
+    <ProgressBar
+        app:layout_constraintTop_toBottomOf="@+id/app_logo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/wait_window"
         style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
         android:layout_width="160dp"
         android:layout_height="32dp"
+        android:layout_marginTop="8dp"
         android:layout_gravity="center"
         android:indeterminate="true"/>
 
