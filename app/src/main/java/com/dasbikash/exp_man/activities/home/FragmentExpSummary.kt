@@ -13,10 +13,21 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man.utils.ExpenseEntryAdapter
 import com.dasbikash.exp_man_repo.ExpenseRepo
+import com.dasbikash.exp_man_repo.SettingsRepo
+import com.dasbikash.exp_man_repo.model.ExpenseCategory
+import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_exp_summary.*
 import kotlinx.coroutines.launch
+import com.google.android.material.snackbar.Snackbar
+
+import com.jaredrummler.materialspinner.MaterialSpinner
+
+
+
 
 /**
  * A simple [Fragment] subclass.
@@ -24,6 +35,8 @@ import kotlinx.coroutines.launch
 class FragmentExpSummary : Fragment() {
 
     private val expenseEntryAdapter = ExpenseEntryAdapter()
+    private val expenseCategories = mutableListOf<ExpenseCategory>()
+    private val expenseEntries = mutableListOf<ExpenseEntry>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +53,7 @@ class FragmentExpSummary : Fragment() {
                 if (checked){
                     displayAllExpEntries()
                 }else{
-                    rv_exp_entry.hide()
+                    all_exp_scroller.hide()
                 }
             }
         })
@@ -59,20 +72,61 @@ class FragmentExpSummary : Fragment() {
                 debugLog("chip_sort_by_month: $p1")
             }
         })
+
+        spinner_category_selector.setOnItemSelectedListener(object : MaterialSpinner.OnItemSelectedListener<String>{
+            override fun onItemSelected(
+                view: MaterialSpinner?,
+                position: Int,
+                id: Long,
+                item: String?
+            ) {
+                item?.let { filterByCategory(it) }
+            }
+        })
+
+        setCategorySpinnerItems()
+
         chip_all.isChecked = true
     }
 
+    private fun filterByCategory(categoryName: String) {
+        if (categoryName == getString(R.string.all_text)){
+            expenseEntryAdapter.submitList(expenseEntries.toList())
+        }else{
+            if (checkIfEnglishLanguageSelected()) {
+                expenseCategories.find { it.name==categoryName }!!
+            } else {
+                expenseCategories.find { it.nameBangla==categoryName }!!
+            }.let {
+                val expenseCategory = it
+                expenseEntryAdapter.submitList(expenseEntries.filter { it.expenseCategory == expenseCategory })
+            }
+        }
+    }
+
+    private fun setCategorySpinnerItems() {
+        runWithContext {
+            lifecycleScope.launch {
+                val categoryNames= mutableListOf<String>(getString(R.string.all_text))
+                expenseCategories.addAll(SettingsRepo.getAllExpenseCategories(it))
+                categoryNames.addAll(expenseCategories.sortedBy { it.name }.map { if (checkIfEnglishLanguageSelected()) {it.name!!} else {it.nameBangla!!} })
+                spinner_category_selector.setItems(categoryNames)
+            }
+        }
+    }
+
     private fun displayAllExpEntries() {
-        if (expenseEntryAdapter.itemCount == 0){
+        if (expenseEntries.isEmpty()){
             loadAllExpenseEntries()
         }
-        rv_exp_entry.show()
+        all_exp_scroller.show()
     }
 
     private fun loadAllExpenseEntries() {
         runWithContext {
             lifecycleScope.launch {
                 ExpenseRepo.getAllExpenseEntries(it).let {
+                    expenseEntries.addAll(it)
                     expenseEntryAdapter.submitList(it)
                 }
             }
