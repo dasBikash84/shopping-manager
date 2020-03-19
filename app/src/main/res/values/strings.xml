@@ -99,4 +99,8 @@
     <string name="cal_mem_recall_text">MR</string>
     <string name="cal_mem_clear_text">MC</string>
     <string name="calculator_title">Calculator</string>
+    <string name="calc_history_string">%1$.2f %2$s %3$.2f</string>
+    <string name="calc_history_result">%1$.2f</string>
+    <string name="delete_calc_history_prompt">Clear calculator history?</string>
+    <string name="delete_calc_history_message">Calculator history cleared!</string>
 </resources>

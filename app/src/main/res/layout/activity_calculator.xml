@@ -1,345 +1,425 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="4dp"
         android:background="@color/snow_white3"
-        android:id="@+id/title_holder">
+        android:padding="4dp"
+        app:layout_constraintTop_toTopOf="parent">
+
         <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/btn_menu"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_menu"
-            android:id="@+id/btn_menu"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_menu"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="@string/calculator_title"
             android:textSize="32sp"
-            android:layout_marginStart="8dp"/>
-        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_menu"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+            android:id="@+id/btn_history"
             android:layout_width="32dp"
             android:layout_height="32dp"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/ic_history"
-            android:id="@+id/btn_history"
-            android:layout_marginEnd="8dp"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/calc_history_block"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_holder"
+        android:visibility="gone">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/btn_history_delete"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_history_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="LinearLayoutManager" />
+        </androidx.core.widget.NestedScrollView>
+
+        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+            android:id="@+id/btn_history_delete"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginBottom="4dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/title_holder"
-        app:layout_constraintBottom_toTopOf="@+id/input_block_holder"
         android:background="@color/snow_white2"
-        android:padding="4dp">
+        android:padding="4dp"
+        app:layout_constraintBottom_toTopOf="@+id/input_block_holder"
+        app:layout_constraintTop_toBottomOf="@+id/title_holder">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/tv_current_number">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_left_operand"
-                tools:text="12345"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_operation"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textAlignment="textEnd"
-                android:padding="4dp"/>
+                tools:text="12345" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_operation"
-                tools:text="*"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tv_right_operand"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textAlignment="textEnd"
-                android:padding="4dp"/>
+                tools:text="*" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_right_operand"
-                tools:text="12345"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textAlignment="textEnd"
+                android:layout_marginEnd="4dp"
                 android:padding="4dp"
-                android:layout_marginEnd="4dp"/>
+                android:textAlignment="textEnd"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="12345" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.appcompat.widget.AppCompatTextView
-            tools:text="1234512312312312123"
             android:id="@+id/tv_current_number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:textAlignment="textEnd"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="4dp"
-            android:textIsSelectable="true"/>
+            android:layout_marginBottom="8dp"
+            android:textAlignment="textEnd"
+            android:textIsSelectable="true"
+            android:textSize="32sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="1234512312312312123" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.appcompat.widget.LinearLayoutCompat
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/input_block_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/input_block_holder">
+        app:layout_constraintBottom_toBottomOf="parent">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_mem_clear"
-                android:text="@string/cal_mem_clear_text"
                 style="@style/calc_mem_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_mem_clear_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_mem_recall"
-                android:text="@string/cal_mem_recall_text"
                 style="@style/calc_mem_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_mem_recall_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_mem_plus"
-                android:text="@string/cal_mem_plus_text"
                 style="@style/calc_mem_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_mem_plus_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_mem_minus"
-                android:text="@string/cal_mem_minus_text"
                 style="@style/calc_mem_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_mem_minus_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_percent"
-                android:text="@string/cal_percent_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_percent_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_ce_action"
-                android:text="@string/cal_ce_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_ce_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_c_action"
-                android:text="@string/cal_c_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_c_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableImageView
                 android:id="@+id/tv_bs_sign"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_bs_sign"/>
+                android:src="@drawable/ic_bs_sign" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_inv"
-                android:text="@string/cal_inv_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_inv_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableImageView
                 android:id="@+id/tv_square"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_square_sign"/>
+                android:src="@drawable/ic_square_sign" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableImageView
                 android:id="@+id/tv_sqrt"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_root_sign"/>
+                android:src="@drawable/ic_root_sign" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_div_sign"
-                android:text="@string/cal_div_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_div_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_seven"
-                android:text="@string/cal_seven_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_seven_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_eight"
-                android:text="@string/cal_eight_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_eight_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_nine"
-                android:text="@string/cal_nine_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_nine_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_mul_sign"
-                android:text="@string/cal_mul_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_mul_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_four"
-                android:text="@string/cal_four_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_four_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_five"
-                android:text="@string/cal_five_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_five_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_six"
-                android:text="@string/cal_six_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_six_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_minus_sign"
-                android:text="@string/cal_minus_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_minus_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_one"
-                android:text="@string/cal_one_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_one_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_two"
-                android:text="@string/cal_two_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_two_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_three"
-                android:text="@string/cal_three_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_three_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_plus_sign"
-                android:text="@string/cal_plus_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_plus_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:orientation="horizontal"
             android:weightSum="4">
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_sign"
-                android:text="@string/cal_sign_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_sign_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_zero"
-                android:text="@string/cal_zero_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_zero_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_dot"
-                android:text="@string/cal_dot_text"
                 style="@style/calc_input_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_dot_text" />
+
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_equal_sign"
-                android:text="@string/cal_equal_text"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="@string/cal_equal_text" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>

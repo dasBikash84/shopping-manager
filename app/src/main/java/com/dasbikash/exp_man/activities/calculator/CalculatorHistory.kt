@@ -6,7 +6,7 @@ import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import java.io.Serializable
 
 @Keep
-internal data class CalculatorHistory(
+data class CalculatorHistory(
     var leftOperand:Double?=null,
     var rightOperand:Double?=null,
     var result:Double?=null,

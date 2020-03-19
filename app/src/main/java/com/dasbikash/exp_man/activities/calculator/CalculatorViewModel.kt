@@ -337,7 +337,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         private const val MAX_DECIMAL_PART_LENGTH = 4
         private val trailingZeroMatcher = Regex("(-?\\d+\\...?+)(0+)")
 
-        internal enum class CalculatorTask(val sign:String){
+        enum class CalculatorTask(val sign:String){
             ADD("+"),
             SUB("-"),
             MUL("*"),
