@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.show
 
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.utils.ExpenseEntryAdapter
@@ -34,8 +36,12 @@ class FragmentExpSummary : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         rv_exp_entry.adapter = expenseEntryAdapter
         chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, p1: Boolean) {
-                debugLog("chip_all: $p1")
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    displayAllExpEntries()
+                }else{
+                    rv_exp_entry.hide()
+                }
             }
         })
         chip_sort_by_date.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
@@ -56,12 +62,17 @@ class FragmentExpSummary : Fragment() {
         chip_all.isChecked = true
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun displayAllExpEntries() {
+        if (expenseEntryAdapter.itemCount == 0){
+            loadAllExpenseEntries()
+        }
+        rv_exp_entry.show()
+    }
+
+    private fun loadAllExpenseEntries() {
         runWithContext {
             lifecycleScope.launch {
                 ExpenseRepo.getAllExpenseEntries(it).let {
-                    debugLog(it)
                     expenseEntryAdapter.submitList(it)
                 }
             }
