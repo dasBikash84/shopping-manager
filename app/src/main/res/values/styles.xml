@@ -29,7 +29,7 @@
 
     <style name="calc_input_button">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@android:color/black</item>
         <item name="android:layout_margin">1dp</item>
@@ -45,9 +45,10 @@
 
     <style name="calc_mem_button">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@android:color/holo_orange_light</item>
-        <item name="android:background">@color/snow_white2</item>
+        <item name="android:textColor">@color/color_navy_blue</item>
+        <item name="android:background">@android:color/darker_gray</item>
         <item name="android:textSize">18sp</item>
         <item name="android:layout_margin">1dp</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>
