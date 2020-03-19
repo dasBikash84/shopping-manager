@@ -4,19 +4,32 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
+import java.lang.ArithmeticException
 import java.lang.StringBuilder
 import java.util.*
 
 class CalculatorViewModel(private val mApplication: Application) : AndroidViewModel(mApplication) {
-    private var runningResult:Double?=null
+
+    private val leftOperand = MutableLiveData<Double?>()
+    private val rightOperand = MutableLiveData<Double?>()
+    private val operation = MutableLiveData<CalculatorTask?>()
+
     private val currentNumberDigits:Deque<Char> = LinkedList<Char>()
 
     private val currentNumberLiveData = MutableLiveData<String>()
     fun getCurrentNumber():LiveData<String> = currentNumberLiveData
 
+    fun getLeftOperand():LiveData<String?> = leftOperand.map { it?.optimizedString(2) }
+    fun getRightOperand():LiveData<String?> = rightOperand.map { it?.optimizedString(2) }
+    fun getOperation():LiveData<String?> = operation.map { it?.sign }
+
     init {
         sendCurrentNumberAsString()
+        leftOperand.postValue(null)
+        rightOperand.postValue(null)
+        operation.postValue(null)
     }
 
     fun addPressedDigit(char: Char){
@@ -110,7 +123,9 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     }
 
     fun clearAll(){
-        runningResult = null
+        leftOperand.postValue(null)
+        rightOperand.postValue(null)
+        operation.postValue(null)
         clearCurrentNumber()
     }
 
@@ -158,12 +173,98 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
 
     private fun isInvalidNumber():Boolean = String(currentNumberDigits.toCharArray()) == INVALID_NUMBER_MESSAGE
 
+    private fun calculate(operation: CalculatorTask?=null){
+        val currentNumber = getCurrentNumberVal()
+        if (operation!=null){
+            if (leftOperand.value!=null &&
+                rightOperand.value!=null &&
+                this.operation.value !=null){
+                if(currentNumber >0.0) {
+                    leftOperand.postValue(currentNumber)
+                    this.operation.postValue(operation)
+                    rightOperand.postValue(null)
+                    clearCurrentNumber()
+                }
+            }else if (leftOperand.value==null && currentNumber>0.0){
+                leftOperand.postValue(currentNumber)
+                this.operation.postValue(operation)
+                clearCurrentNumber()
+            }else if (leftOperand.value!=null &&
+                        this.operation.value !=null &&
+                        currentNumberDigits.isNotEmpty()){
+                calculate(leftOperand.value!!,currentNumber, this.operation.value!!).let {
+                    if (it!=null) {
+                        rightOperand.postValue(currentNumber)
+                        setCurrentNumber(it)
+                    }else{
+                        setInvalidNumberString()
+                    }
+                }
+            }
+        }else{
+            if (leftOperand.value!=null &&
+                this.operation.value !=null &&
+                currentNumberDigits.isNotEmpty()) {
+                calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
+                    if (it!=null) {
+                        rightOperand.postValue(currentNumber)
+                        setCurrentNumber(it)
+                    }else{
+                        setInvalidNumberString()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setCurrentNumber(number: Double) {
+        currentNumberDigits.clear()
+        number.optimizedString(5).toCharArray().forEach { currentNumberDigits.addFirst(it) }
+        sendCurrentNumberAsString()
+    }
+
+    private fun calculate(leftOperand:Double,rightOperand:Double,operation:CalculatorTask):Double?{
+        try {
+            return when (operation) {
+                CalculatorTask.ADD -> leftOperand + rightOperand
+                CalculatorTask.SUB -> leftOperand - rightOperand
+                CalculatorTask.MUL -> leftOperand * rightOperand
+                CalculatorTask.DIV -> leftOperand / rightOperand
+            }
+        }catch (ex:ArithmeticException){
+            ex.printStackTrace()
+            return null
+        }
+    }
+
+    fun addAction() = calculate(CalculatorTask.ADD)
+    fun subAction() = calculate(CalculatorTask.SUB)
+    fun mulAction() = calculate(CalculatorTask.MUL)
+    fun divAction() = calculate(CalculatorTask.DIV)
+    fun equalAction() = calculate()
+
     companion object{
         private const val INVALID_NUMBER_MESSAGE = "Invalid Number!!"
         private val DOT_CHAR = '.'
         private const val MAX_INT_PART_LENGTH = 10
         private const val MAX_DECIMAL_PART_LENGTH = 4
 
-        private enum class CalculatorTask{ADD,SUB,MUL,DIV}
+        private enum class CalculatorTask(val sign:String){
+            ADD("+"),
+            SUB("-"),
+            MUL("*"),
+            DIV("÷")
+        }
+    }
+}
+
+fun Double.optimizedString(decimalPointCount:Int?=null):String{
+    val maxDecimalPoints = 10
+    val defaultDecimalPoints = 5
+    val strFormat = "%2.${if (decimalPointCount==null || decimalPointCount>=maxDecimalPoints) defaultDecimalPoints else decimalPointCount}f"
+    if (this != this.toLong().toDouble()) {
+        return String.format(strFormat, this)
+    }else{
+        return this.toLong().toString()
     }
 }

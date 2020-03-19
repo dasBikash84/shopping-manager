@@ -45,8 +45,47 @@
         app:layout_constraintBottom_toTopOf="@+id/input_block_holder"
         android:background="@color/snow_white2"
         android:padding="4dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/tv_current_number">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_left_operand"
+                tools:text="12345"
+                app:layout_constraintEnd_toStartOf="@+id/tv_operation"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAlignment="textEnd"
+                android:padding="4dp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_operation"
+                tools:text="*"
+                app:layout_constraintEnd_toStartOf="@+id/tv_right_operand"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAlignment="textEnd"
+                android:padding="4dp"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_right_operand"
+                tools:text="12345"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textAlignment="textEnd"
+                android:padding="4dp"
+                android:layout_marginEnd="4dp"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.appcompat.widget.AppCompatTextView
-            tools:text="123451231231231212312390123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+            tools:text="1234512312312312123"
             android:id="@+id/tv_current_number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

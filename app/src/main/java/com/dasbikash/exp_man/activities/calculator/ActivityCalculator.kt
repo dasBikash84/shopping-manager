@@ -34,9 +34,33 @@ class ActivityCalculator : AppCompatActivity() {
         tv_c_action.setOnClickListener { viewModel.clearAll() }
         tv_inv.setOnClickListener { viewModel.invertAction() }
 
+        tv_plus_sign.setOnClickListener { viewModel.addAction() }
+        tv_minus_sign.setOnClickListener { viewModel.subAction() }
+        tv_mul_sign.setOnClickListener { viewModel.mulAction() }
+        tv_div_sign.setOnClickListener { viewModel.divAction() }
+        tv_equal_sign.setOnClickListener { viewModel.equalAction() }
+
         viewModel.getCurrentNumber().observe(this,object : Observer<String>{
             override fun onChanged(currentNumber: String?) {
                 currentNumber?.let { tv_current_number.text = it}
+            }
+        })
+
+        viewModel.getLeftOperand().observe(this,object : Observer<String?>{
+            override fun onChanged(data: String?) {
+                tv_left_operand.text = data ?: ""
+            }
+        })
+
+        viewModel.getRightOperand().observe(this,object : Observer<String?>{
+            override fun onChanged(data: String?) {
+                tv_right_operand.text = data ?: ""
+            }
+        })
+
+        viewModel.getOperation().observe(this,object : Observer<String?>{
+            override fun onChanged(data: String?) {
+                tv_operation.text = data ?: ""
             }
         })
     }
