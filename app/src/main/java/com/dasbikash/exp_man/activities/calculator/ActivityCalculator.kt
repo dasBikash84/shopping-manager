@@ -17,17 +17,17 @@ class ActivityCalculator : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this).get(CalculatorViewModel::class.java)
 
-        tv_zero.setOnClickListener { viewModel.addPressedDigit('0') }
-        tv_one.setOnClickListener { viewModel.addPressedDigit('1') }
-        tv_two.setOnClickListener { viewModel.addPressedDigit('2') }
-        tv_three.setOnClickListener { viewModel.addPressedDigit('3') }
-        tv_four.setOnClickListener { viewModel.addPressedDigit('4') }
-        tv_five.setOnClickListener { viewModel.addPressedDigit('6') }
-        tv_six.setOnClickListener { viewModel.addPressedDigit('6') }
-        tv_seven.setOnClickListener { viewModel.addPressedDigit('7') }
-        tv_eight.setOnClickListener { viewModel.addPressedDigit('8') }
-        tv_nine.setOnClickListener { viewModel.addPressedDigit('9') }
-        tv_dot.setOnClickListener { viewModel.addPressedDigit('.') }
+        tv_zero.setOnClickListener { viewModel.addPressedDigit(DIGIT_ZERO) }
+        tv_one.setOnClickListener { viewModel.addPressedDigit(DIGIT_ONE) }
+        tv_two.setOnClickListener { viewModel.addPressedDigit(DIGIT_TWO) }
+        tv_three.setOnClickListener { viewModel.addPressedDigit(DIGIT_THREE) }
+        tv_four.setOnClickListener { viewModel.addPressedDigit(DIGIT_FOUR) }
+        tv_five.setOnClickListener { viewModel.addPressedDigit(DIGIT_FIVE) }
+        tv_six.setOnClickListener { viewModel.addPressedDigit(DIGIT_SIX) }
+        tv_seven.setOnClickListener { viewModel.addPressedDigit(DIGIT_SEVEN) }
+        tv_eight.setOnClickListener { viewModel.addPressedDigit(DIGIT_EIGHT) }
+        tv_nine.setOnClickListener { viewModel.addPressedDigit(DIGIT_NINE) }
+        tv_dot.setOnClickListener { viewModel.addPressedDigit(DIGIT_DOT) }
         tv_bs_sign.setOnClickListener { viewModel.removeLast() }
         tv_sign.setOnClickListener { viewModel.toggleSign() }
         tv_ce_action.setOnClickListener { viewModel.clearCurrentNumber() }
@@ -39,5 +39,19 @@ class ActivityCalculator : AppCompatActivity() {
                 currentNumber?.let { tv_current_number.text = it}
             }
         })
+    }
+
+    companion object{
+        private const val DIGIT_ZERO = '0'
+        private const val DIGIT_ONE = '1'
+        private const val DIGIT_TWO = '2'
+        private const val DIGIT_THREE = '3'
+        private const val DIGIT_FOUR = '4'
+        private const val DIGIT_FIVE = '5'
+        private const val DIGIT_SIX = '6'
+        private const val DIGIT_SEVEN = '7'
+        private const val DIGIT_EIGHT = '8'
+        private const val DIGIT_NINE = '9'
+        private const val DIGIT_DOT = '.'
     }
 }

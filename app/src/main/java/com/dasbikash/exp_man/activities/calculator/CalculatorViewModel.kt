@@ -16,7 +16,6 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     fun getCurrentNumber():LiveData<String> = currentNumberLiveData
 
     init {
-        currentNumberDigits.clear()
         sendCurrentNumberAsString()
     }
 
@@ -28,10 +27,11 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
             }
         }else {
             if (currentNumberDigits.contains(DOT_CHAR)){
-                if((currentNumberDigits.size - (getIntegerPartLength()+1)) >= MAX_NUMBER_LENGTH_AFTER_DOT) {
+                val integerPartLength = getIntegerPartLength() + if (currentNumberDigits.first=='-') 1 else 0
+                if((currentNumberDigits.size - (integerPartLength+1)) >= MAX_DECIMAL_PART_LENGTH) {
                     return
                 }
-            }else if (getIntegerPartLength() >= MAX_NUMBER_LENGTH){
+            }else if (getIntegerPartLength() >= MAX_INT_PART_LENGTH){
                 return
             }
         }
@@ -40,6 +40,10 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     }
 
     fun removeLast(){
+        if (isInvalidNumber()){
+            currentNumberDigits.clear()
+            sendCurrentNumberAsString()
+        }
         currentNumberDigits.pollLast()?.let {
             if (currentNumberDigits.size==1 && currentNumberDigits.first=='-'){
                 currentNumberDigits.clear()
@@ -64,50 +68,36 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         if (currentNumberDigits.isEmpty()){
             return 0
         }
-        var dotIndex:Int? = null
-        String(currentNumberDigits.toCharArray()).let {
-            if (it.contains(DOT_CHAR)){
-                dotIndex = it.indexOf(DOT_CHAR)
-            }
-        }
-        if (currentNumberDigits.first == '-'){
-            if (dotIndex!=null){
-                debugLog("IntegerPartLength: ${dotIndex!!-1}")
-                return dotIndex!!-1
+        currentNumberDigits.indexOf(DOT_CHAR).let {
+            if (it == -1){
+                return if(currentNumberDigits.first == '-') currentNumberDigits.size-1 else currentNumberDigits.size;
             }else{
-                debugLog("IntegerPartLength: ${currentNumberDigits.size - 1}")
-                return currentNumberDigits.size - 1
-            }
-        }else{
-            if (dotIndex!=null){
-                debugLog("IntegerPartLength: ${dotIndex!!}")
-                return dotIndex!!
-            }else{
-                debugLog("IntegerPartLength: ${currentNumberDigits.size}")
-                return currentNumberDigits.size
+                return if(currentNumberDigits.first == '-') it-1 else it;
             }
         }
     }
 
     private fun sendCurrentNumberAsString(){
+
         if (isInvalidNumber()){return}
+
         if (currentNumberDigits.isEmpty()){
             currentNumberLiveData.postValue("0")
             return
         }
+
         val numberStringBuilder = StringBuilder()
+        val integerPartLength = getIntegerPartLength()
         var i = 0
 
-        val integerPartLength = getIntegerPartLength()
-        val numberString:String
-        if (getCurrentNumberVal()<0){
-            numberStringBuilder.append('-')
-            numberString = String(currentNumberDigits.toCharArray()).substring(1)
-        }else{
-            numberString = String(currentNumberDigits.toCharArray())
-        }
-
-        numberString.forEach {
+        String(currentNumberDigits.toCharArray()).let {
+            if (getCurrentNumberVal()<0){
+                numberStringBuilder.append('-')
+                return@let it.substring(1)
+            }else{
+                return@let it
+            }
+        }.forEach {
             numberStringBuilder.append(it)
             i++
             (integerPartLength - i).let {
@@ -171,8 +161,8 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     companion object{
         private const val INVALID_NUMBER_MESSAGE = "Invalid Number!!"
         private val DOT_CHAR = '.'
-        private const val MAX_NUMBER_LENGTH = 10
-        private const val MAX_NUMBER_LENGTH_AFTER_DOT = 4
+        private const val MAX_INT_PART_LENGTH = 10
+        private const val MAX_DECIMAL_PART_LENGTH = 4
 
         private enum class CalculatorTask{ADD,SUB,MUL,DIV}
     }
