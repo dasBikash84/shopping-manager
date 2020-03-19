@@ -27,7 +27,7 @@ class FragmentMore : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bt_log_out.setOnClickListener {
+        tv_log_out.setOnClickListener {
             signOutAction()
         }
         tv_calculator.setOnClickListener{
@@ -40,8 +40,8 @@ class FragmentMore : Fragment() {
         runWithContext {
             lifecycleScope.launch {
                 when(AuthRepo.checkLogIn(it)){
-                    true -> bt_log_out.show()
-                    false -> bt_log_out.hide()
+                    true -> tv_log_out.show()
+                    false -> tv_log_out.hide()
                 }
             }
         }

@@ -1,43 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/snow_white3"
     tools:context=".activities.home.FragmentAddExp"
-    android:background="@color/snow_white">
-    <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-        android:id="@+id/tv_calculator"
-        app:layout_constraintTop_toTopOf="parent"
+    android:padding="4dp">
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/snow_white"
-        android:text="@string/calculator_title"
-        android:textAlignment="center"
-        android:textSize="32sp"/>
-    <com.dasbikash.android_view_utils.custom_views.ClickableCardView
-        android:id="@+id/bt_log_out"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="4dp"
-        android:background="@color/snow_white2">
-        <androidx.appcompat.widget.LinearLayoutCompat
+        app:layout_constraintTop_toTopOf="parent">
+        <com.dasbikash.android_view_utils.custom_views.ClickableTextView
+            android:id="@+id/tv_calculator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            style="@style/more_menu_item"
+            android:text="@string/calculator_title"/>
+    </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:text="@string/log_out"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="40dp"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <com.dasbikash.android_view_utils.custom_views.ClickableTextView
+            android:id="@+id/tv_log_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/more_menu_item"
+            android:text="@string/log_out"/>
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
