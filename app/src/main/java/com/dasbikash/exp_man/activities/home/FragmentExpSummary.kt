@@ -11,6 +11,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
+import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
@@ -26,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 
 import com.jaredrummler.materialspinner.MaterialSpinner
 
-class FragmentExpSummary : Fragment() {
+class FragmentExpSummary : Fragment(),WaitScreenOwner {
 
     private val expenseEntryAdapter = ExpenseEntryAdapter()
     private val expenseCategories = mutableListOf<ExpenseCategory>()
@@ -119,12 +120,15 @@ class FragmentExpSummary : Fragment() {
     private fun loadAllExpenseEntries() {
         runWithContext {
             lifecycleScope.launch {
+                showWaitScreen()
                 ExpenseRepo.getAllExpenseEntries(it).let {
                     expenseEntries.addAll(it)
                     expenseEntryAdapter.submitList(it)
                 }
+                hideWaitScreen()
             }
         }
     }
 
+    override fun registerWaitScreen(): ViewGroup = wait_screen
 }
