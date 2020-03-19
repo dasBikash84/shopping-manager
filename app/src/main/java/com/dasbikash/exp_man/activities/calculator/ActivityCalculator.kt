@@ -30,10 +30,13 @@ class ActivityCalculator : AppCompatActivity() {
         tv_eight.setOnClickListener { viewModel.addPressedDigit(DIGIT_EIGHT) }
         tv_nine.setOnClickListener { viewModel.addPressedDigit(DIGIT_NINE) }
         tv_dot.setOnClickListener { viewModel.addPressedDigit(DIGIT_DOT) }
-        tv_bs_sign.setOnClickListener { viewModel.removeLast() }
         tv_sign.setOnClickListener { viewModel.toggleSign() }
+
+        tv_percent.setOnClickListener { viewModel.percentAction() }
         tv_ce_action.setOnClickListener { viewModel.clearCurrentNumber() }
         tv_c_action.setOnClickListener { viewModel.clearAll() }
+        tv_bs_sign.setOnClickListener { viewModel.removeLast() }
+
         tv_inv.setOnClickListener { viewModel.invertAction() }
         tv_square.setOnClickListener { viewModel.squareAction() }
         tv_sqrt.setOnClickListener { viewModel.sqrtAction() }

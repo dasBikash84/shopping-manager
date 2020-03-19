@@ -322,6 +322,16 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         }
     }
 
+    fun percentAction(){
+        if (leftOperand.value!=null &&
+            operation.value!=null &&
+            currentNumberDigits.isNotEmpty()){
+            val perValue = (leftOperand.value!! * getCurrentNumberVal()) / 100.00
+            setCurrentNumber(perValue)
+            rightOperand.postValue(perValue)
+        }
+    }
+
     companion object{
         private const val MEM_ENTRY_SP_KEY = "com.dasbikash.exp_man.activities.calculator.MEM_ENTRY_SP_KEY"
         private const val INVALID_NUMBER_MESSAGE = "Invalid Number!!"
