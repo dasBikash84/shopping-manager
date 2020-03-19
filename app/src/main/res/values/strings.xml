@@ -101,6 +101,16 @@
     <string name="calculator_title">Calculator</string>
     <string name="calc_history_string">%1$.2f %2$s %3$.2f</string>
     <string name="calc_history_result">%1$.2f</string>
+    <string name="double_2_dec_point">%1$.2f</string>
     <string name="delete_calc_history_prompt">Clear calculator history?</string>
     <string name="delete_calc_history_message">Calculator history cleared!</string>
+    <string name="all_text">All</string>
+    <string name="sort_by_date_text">By Date</string>
+    <string name="chip_sort_by_week_text">By Week</string>
+    <string name="chip_sort_by_month_text">By Month</string>
+    <string name="exp_amount_title_text">Amount:</string>
+    <string name="exp_qty_title_text">Quantity:</string>
+    <string name="exp_desc_title_text">Details:</string>
+    <string name="exp_cat_title_text">Category:</string>
+    <string name="exp_qty_text">%1$d %2$s</string>
 </resources>

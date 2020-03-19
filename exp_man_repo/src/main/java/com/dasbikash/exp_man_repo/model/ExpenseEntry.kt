@@ -1,10 +1,8 @@
 package com.dasbikash.exp_man_repo.model
 
 import androidx.annotation.Keep
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
@@ -47,4 +45,11 @@ data class ExpenseEntry(
 //    var brand:String?=null,
     var modified:Long?=null,
     var created:Long?=null
-)
+){
+    @Ignore
+    @Exclude
+    var unitOfMeasure: UnitOfMeasure?=null
+    @Ignore
+    @Exclude
+    var expenseCategory: ExpenseCategory?=null
+}
