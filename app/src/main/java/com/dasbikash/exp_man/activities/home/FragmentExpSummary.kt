@@ -114,26 +114,35 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
         TODO("Not yet implemented")
     }
 
-    private fun displayDateWiseExpenses() {
+    private fun displayDateWiseExpenses() =
+        displayTimeWiseExpenses({it.getDayCount()},{DateUtils.getShortDateString(it)},{expenseEntry,date->
+            expenseEntry.time!!.getDayCount() == date.getDayCount()
+        })
+
+    private fun displayTimeWiseExpenses(
+                                    dateToPeriod:(Date)->Int,
+                                    titleStringGen:(Date)->String,
+                                    groupResolver:(ExpenseEntry,Date)->Boolean
+    ) {
         lifecycleScope.launch {
             showWaitScreen()
             runSuspended {
                 timeWiseExpensesList.clear()
                 val distinctDates = expenseEntries
                                                     .map { it.time!! }
-                                                    .distinctBy {it.getDayCount()}
+                                                    .distinctBy {dateToPeriod(it)}
                                                     .sorted()
                                                     .reversed()
                 distinctDates.asSequence().forEach { debugLog(it) }
                 distinctDates.forEachIndexed({index,date->
-                    val dateString = DateUtils.getShortDateString(date)
+                    val dateString = titleStringGen(date)
                     timeWiseExpensesList.add(index, TimeWiseExpenses(if (checkIfEnglishLanguageSelected()) {dateString} else {DateTranslatorUtils.englishToBanglaDateString(dateString)}))
                 })
                 timeWiseExpensesList.asSequence().forEach {debugLog(it.periodText) }
                 expenseEntries.asSequence().forEach {
                     val expenseEntry= it
                     timeWiseExpensesList
-                        .get(distinctDates.indexOfFirst { expenseEntry.time!!.getDayCount() == it.getDayCount() })
+                        .get(distinctDates.indexOfFirst { groupResolver(expenseEntry,it)})
                         .expenses.add(expenseEntry)
                 }
                 timeWiseExpensesList.asSequence().forEach {
@@ -143,7 +152,6 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
             }
             timeWiseExpensesAdapter.submitList(timeWiseExpensesList)
             rv_time_wise_exp.show()
-//            debugLog(timeWiseExpensesList)
             hideWaitScreen()
         }
     }
