@@ -8,7 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
-import java.lang.ArithmeticException
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.lang.StringBuilder
 import java.util.*
 
@@ -117,11 +118,12 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         var i = 0
 
         String(currentNumberDigits.toCharArray()).let {
+            val sanitizedString = trailingZeroMatcher.matchEntire(it)?.destructured?.toList()?.get(0) ?: it
             if (getCurrentNumberVal()<0){
                 numberStringBuilder.append('-')
-                return@let it.substring(1)
+                return@let sanitizedString.substring(1)
             }else{
-                return@let it
+                return@let sanitizedString
             }
         }.forEach {
             numberStringBuilder.append(it)
@@ -179,16 +181,9 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         }
     }
 
-    private fun conditionResult(result: Double):Double{
-        if (result != result.toLong().toDouble()){
-            return String.format("%2.5f",result).toDouble()
-        }
-        return result
-    }
-
     private fun isInvalidNumber():Boolean = String(currentNumberDigits.toCharArray()) == INVALID_NUMBER_MESSAGE
 
-    private fun calculate(operation: CalculatorTask?=null){
+    private fun calculate(context: Context,operation: CalculatorTask?=null){
         val currentNumber = getCurrentNumberVal()
         if (operation!=null){
             if (leftOperand.value!=null &&
@@ -208,7 +203,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                         rightOperand.value==null &&
                         this.operation.value !=null){
                 if (currentNumberDigits.isNotEmpty()) {
-                    calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
+                    calculate(context,leftOperand.value!!, currentNumber, this.operation.value!!).let {
                         if (it != null) {
                             rightOperand.postValue(currentNumber)
                             setCurrentNumber(it)
@@ -224,7 +219,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
             if (leftOperand.value!=null &&
                 this.operation.value !=null) {
                 if (rightOperand.value!=null) {
-                    calculate(
+                    calculate(context,
                         leftOperand.value!!,
                         rightOperand.value!!,
                         this.operation.value!!
@@ -237,7 +232,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                         }
                     }
                 }else if (currentNumberDigits.isNotEmpty()) {
-                    calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
+                    calculate(context,leftOperand.value!!, currentNumber, this.operation.value!!).let {
                         if (it != null) {
                             debugLog("result: $it")
                             rightOperand.postValue(currentNumber)
@@ -258,26 +253,28 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         sendCurrentNumberAsString()
     }
 
-    private fun calculate(leftOperand:Double,rightOperand:Double,operation:CalculatorTask):Double?{
+    private fun calculate(context: Context,leftOperand:Double,rightOperand:Double,operation:CalculatorTask):Double?{
         rightAfterCal = true
         try {
-            return when (operation) {
+            val returnValue =  when (operation) {
                 CalculatorTask.ADD -> leftOperand + rightOperand
                 CalculatorTask.SUB -> leftOperand - rightOperand
                 CalculatorTask.MUL -> leftOperand * rightOperand
                 CalculatorTask.DIV -> leftOperand / rightOperand
             }
+            GlobalScope.launch { CalculatorHistory.saveHistory(context, leftOperand, rightOperand, operation) }
+            return returnValue
         }catch (ex:Throwable){
             ex.printStackTrace()
             return null
         }
     }
 
-    fun addAction() = calculate(CalculatorTask.ADD)
-    fun subAction() = calculate(CalculatorTask.SUB)
-    fun mulAction() = calculate(CalculatorTask.MUL)
-    fun divAction() = calculate(CalculatorTask.DIV)
-    fun equalAction() = calculate()
+    fun addAction(context: Context) = calculate(context,CalculatorTask.ADD)
+    fun subAction(context: Context) = calculate(context,CalculatorTask.SUB)
+    fun mulAction(context: Context) = calculate(context,CalculatorTask.MUL)
+    fun divAction(context: Context) = calculate(context,CalculatorTask.DIV)
+    fun equalAction(context: Context) = calculate(context)
 
     suspend fun loadFromMem(context: Context){
         debugLog("loadFromMem")
@@ -338,8 +335,9 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         private val DOT_CHAR = '.'
         private const val MAX_INT_PART_LENGTH = 10
         private const val MAX_DECIMAL_PART_LENGTH = 4
+        private val trailingZeroMatcher = Regex("(-?\\d+\\...?+)(0+)")
 
-        private enum class CalculatorTask(val sign:String){
+        internal enum class CalculatorTask(val sign:String){
             ADD("+"),
             SUB("-"),
             MUL("*"),
