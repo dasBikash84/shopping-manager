@@ -84,6 +84,15 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_time_wise_exp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/sorter_chips_scroller"
+        android:visibility="gone"/>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/wait_screen"
         android:layout_width="match_parent"

@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.toggle
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.calculator.CalculatorHistory
 import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
+import com.dasbikash.exp_man.model.TimeWiseExpenses
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 
 object CalculatorHistoryDiffCallback: DiffUtil.ItemCallback<CalculatorHistory>(){
@@ -86,5 +89,46 @@ class ExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             tv_exp_desc_text.text = description
             tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
         }
+    }
+}
+
+object TimeWiseExpensesDiffCallback: DiffUtil.ItemCallback<TimeWiseExpenses>(){
+    override fun areItemsTheSame(oldItem: TimeWiseExpenses, newItem: TimeWiseExpenses) = oldItem.periodText == newItem.periodText
+    override fun areContentsTheSame(oldItem: TimeWiseExpenses, newItem: TimeWiseExpenses): Boolean {
+        return oldItem==newItem
+    }
+}
+
+class TimeWiseExpensesAdapter() :
+    ListAdapter<TimeWiseExpenses, TimeWiseExpensesHolder>(TimeWiseExpensesDiffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeWiseExpensesHolder {
+        return TimeWiseExpensesHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.view_time_wise_exp_list, parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: TimeWiseExpensesHolder, position: Int) {
+        holder.bind(getItem(position)!!)
+    }
+}
+
+class TimeWiseExpensesHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val time_period_text_holder: ViewGroup = itemView.findViewById(R.id.time_period_text_holder)
+    private val tv_time_period_text: TextView = itemView.findViewById(R.id.tv_time_period_text)
+    private val rv_time_wise_exp_holder: RecyclerView = itemView.findViewById(R.id.rv_time_wise_exp_holder)
+
+    private val expHolderAdapter = ExpenseEntryAdapter()
+
+    init {
+        rv_time_wise_exp_holder.adapter = expHolderAdapter
+        rv_time_wise_exp_holder.hide()
+        time_period_text_holder.setOnClickListener { rv_time_wise_exp_holder.toggle() }
+    }
+
+    fun bind(timeWiseExpenses: TimeWiseExpenses) {
+        tv_time_period_text.text = timeWiseExpenses.periodText
+        expHolderAdapter.submitList(timeWiseExpenses.expenses)
     }
 }
