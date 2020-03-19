@@ -46,7 +46,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_entry_time_title_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/entry_time_text" />
+                    tools:text="@string/entry_time_text"
+                    android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +74,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_exp_amount_title_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/exp_amount_title_text" />
+                    tools:text="@string/exp_amount_title_text"
+                    android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,7 +102,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_exp_qty_title_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/exp_qty_title_text" />
+                    tools:text="@string/exp_qty_title_text"
+                    android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -127,7 +130,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_exp_desc_title_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/exp_desc_title_text" />
+                    tools:text="@string/exp_desc_title_text"
+                    android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -154,7 +158,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_exp_cat_title_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/exp_cat_title_text" />
+                    tools:text="@string/exp_cat_title_text"
+                    android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

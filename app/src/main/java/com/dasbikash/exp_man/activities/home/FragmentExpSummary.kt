@@ -31,6 +31,7 @@ import kotlinx.coroutines.launch
 import com.google.android.material.snackbar.Snackbar
 
 import com.jaredrummler.materialspinner.MaterialSpinner
+import kotlinx.coroutines.delay
 import java.util.*
 
 class FragmentExpSummary : Fragment(),WaitScreenOwner {
@@ -67,7 +68,7 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 if (checked){
                     displayDateWiseExpenses()
                 }else{
-                    rv_time_wise_exp.hide()
+                    rv_time_wise_exp_holder.hide()
                 }
             }
         })
@@ -76,7 +77,7 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 if (checked){
                     displayWeekWiseExpenses()
                 }else{
-                    rv_time_wise_exp.hide()
+                    rv_time_wise_exp_holder.hide()
                 }
             }
         })
@@ -85,7 +86,7 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 if (checked){
                     displayMonthWiseExpenses()
                 }else{
-                    rv_time_wise_exp.hide()
+                    rv_time_wise_exp_holder.hide()
                 }
             }
         })
@@ -102,17 +103,19 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
         })
 
         setCategorySpinnerItems()
-        rv_time_wise_exp.hide()
+        rv_time_wise_exp_holder.hide()
         chip_all.isChecked = true
     }
 
-    private fun displayMonthWiseExpenses() {
-        TODO("Not yet implemented")
-    }
+    private fun displayMonthWiseExpenses() =
+        displayTimeWiseExpenses({it.getMonthCount()},{DateUtils.getTimeString(it,getString(R.string.month_title_format))},{expenseEntry,date->
+            expenseEntry.time!!.getMonthCount() == date.getMonthCount()
+        })
 
-    private fun displayWeekWiseExpenses() {
-        TODO("Not yet implemented")
-    }
+    private fun displayWeekWiseExpenses() =
+        displayTimeWiseExpenses({it.getWeekCount()},{it.getWeekString()},{expenseEntry,date->
+            expenseEntry.time!!.getWeekCount() == date.getWeekCount()
+        })
 
     private fun displayDateWiseExpenses() =
         displayTimeWiseExpenses({it.getDayCount()},{DateUtils.getShortDateString(it)},{expenseEntry,date->
@@ -125,7 +128,9 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                                     groupResolver:(ExpenseEntry,Date)->Boolean
     ) {
         lifecycleScope.launch {
+            timeWiseExpensesAdapter.submitList(emptyList())
             showWaitScreen()
+            delay(100)
             runSuspended {
                 timeWiseExpensesList.clear()
                 val distinctDates = expenseEntries
@@ -146,12 +151,13 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                         .expenses.add(expenseEntry)
                 }
                 timeWiseExpensesList.asSequence().forEach {
+                    it.expenses.sortByDescending { it.time }
                     debugLog(it.periodText)
-                    it.expenses.forEach { debugLog(it) }
+                    it.expenses.forEach {debugLog(it)}
                 }
             }
             timeWiseExpensesAdapter.submitList(timeWiseExpensesList)
-            rv_time_wise_exp.show()
+            rv_time_wise_exp_holder.show()
             hideWaitScreen()
         }
     }
@@ -219,4 +225,15 @@ fun Date.getMonthCount():Int{
     val cal = Calendar.getInstance()
     cal.time = this
     return cal.get(Calendar.YEAR)*12 + cal.get(Calendar.MONTH)
+}
+
+fun Date.getWeekString():String{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    val currentDay = cal.get(Calendar.DAY_OF_WEEK)
+    val firstDay = cal.clone() as Calendar
+    val lastDay = cal.clone() as Calendar
+    firstDay.add(Calendar.DAY_OF_WEEK,-(currentDay-1))
+    lastDay.add(Calendar.DAY_OF_WEEK,(7-currentDay))
+    return "${DateUtils.getShortDateString(firstDay.time)} - ${DateUtils.getShortDateString(lastDay.time)}"
 }
