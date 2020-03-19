@@ -9,6 +9,7 @@ import java.io.Serializable
 internal data class CalculatorHistory(
     var leftOperand:Double?=null,
     var rightOperand:Double?=null,
+    var result:Double?=null,
     var operation:String?=null,
     var time:Long = System.currentTimeMillis()
 ): Serializable {
@@ -21,8 +22,9 @@ internal data class CalculatorHistory(
         suspend fun saveHistory(context: Context,
                         leftOperand:Double,
                         rightOperand:Double,
+                        result:Double,
                         operation:CalculatorViewModel.Companion.CalculatorTask){
-            val history = CalculatorHistory(leftOperand, rightOperand,operation.sign)
+            val history = CalculatorHistory(leftOperand, rightOperand,result,operation.sign)
             val allHistories = mutableListOf<CalculatorHistory>()
             getAllHistories(context)?.let { allHistories.addAll(it) }
             allHistories.add(history)

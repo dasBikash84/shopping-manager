@@ -262,7 +262,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                 CalculatorTask.MUL -> leftOperand * rightOperand
                 CalculatorTask.DIV -> leftOperand / rightOperand
             }
-            GlobalScope.launch { CalculatorHistory.saveHistory(context, leftOperand, rightOperand, operation) }
+            GlobalScope.launch { CalculatorHistory.saveHistory(context, leftOperand, rightOperand,returnValue, operation) }
             return returnValue
         }catch (ex:Throwable){
             ex.printStackTrace()
