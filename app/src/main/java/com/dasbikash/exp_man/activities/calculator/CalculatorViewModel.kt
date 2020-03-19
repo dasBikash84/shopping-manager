@@ -60,6 +60,10 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                     return
                 }
             }
+        }else{
+            if (char == '.') {
+                currentNumberDigits.add('0')
+            }
         }
         currentNumberDigits.add(char)
         sendCurrentNumberAsString()
