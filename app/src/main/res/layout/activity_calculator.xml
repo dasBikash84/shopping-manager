@@ -191,7 +191,7 @@
                 android:layout_weight="1"
                 android:src="@drawable/ic_square_sign"/>
             <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                android:id="@+id/tv_root"
+                android:id="@+id/tv_sqrt"
                 style="@style/calc_action_button"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

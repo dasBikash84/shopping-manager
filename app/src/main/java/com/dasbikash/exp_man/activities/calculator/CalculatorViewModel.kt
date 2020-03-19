@@ -1,11 +1,13 @@
 package com.dasbikash.exp_man.activities.calculator
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import java.lang.ArithmeticException
 import java.lang.StringBuilder
 import java.util.*
@@ -17,6 +19,8 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     private val operation = MutableLiveData<CalculatorTask?>()
 
     private val currentNumberDigits:Deque<Char> = LinkedList<Char>()
+
+    private var rightAfterCal = false
 
     private val currentNumberLiveData = MutableLiveData<String>()
     fun getCurrentNumber():LiveData<String> = currentNumberLiveData
@@ -34,18 +38,26 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
 
     fun addPressedDigit(char: Char){
         debugLog(String(currentNumberDigits.toCharArray()))
-        if (char == DOT_CHAR){
-            if (currentNumberDigits.contains(DOT_CHAR)){
-                return
-            }
-        }else {
-            if (currentNumberDigits.contains(DOT_CHAR)){
-                val integerPartLength = getIntegerPartLength() + if (currentNumberDigits.first=='-') 1 else 0
-                if((currentNumberDigits.size - (integerPartLength+1)) >= MAX_DECIMAL_PART_LENGTH) {
+        if (rightAfterCal){
+            rightAfterCal = false
+            leftOperand
+            clearCurrentNumber()
+        }
+        if (currentNumberDigits.isNotEmpty()) {
+            if (char == DOT_CHAR) {
+                if (currentNumberDigits.contains(DOT_CHAR)) {
                     return
                 }
-            }else if (getIntegerPartLength() >= MAX_INT_PART_LENGTH){
-                return
+            } else {
+                if (currentNumberDigits.contains(DOT_CHAR)) {
+                    val integerPartLength =
+                        getIntegerPartLength() + if (currentNumberDigits.first == '-') 1 else 0
+                    if ((currentNumberDigits.size - (integerPartLength + 1)) >= MAX_DECIMAL_PART_LENGTH) {
+                        return
+                    }
+                } else if (getIntegerPartLength() >= MAX_INT_PART_LENGTH) {
+                    return
+                }
             }
         }
         currentNumberDigits.add(char)
@@ -53,6 +65,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     }
 
     fun removeLast(){
+        if (rightAfterCal){rightAfterCal=false}
         if (isInvalidNumber()){
             currentNumberDigits.clear()
             sendCurrentNumberAsString()
@@ -130,17 +143,15 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     }
 
     fun clearCurrentNumber(){
+        rightAfterCal=false
         currentNumberDigits.clear()
         sendCurrentNumberAsString()
     }
 
     private fun getCurrentNumberVal():Double{
         if (currentNumberDigits.isEmpty()){return 0.0}
+        if (isInvalidNumber()){return 0.0}
         return String(currentNumberDigits.toCharArray()).toDouble()
-    }
-
-    private fun moveCurrentNumberValToResult(){
-
     }
 
     private fun setInvalidNumberString(){
@@ -149,13 +160,17 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         sendCurrentNumberAsString()
     }
 
-    fun invertAction(){
+    fun invertAction() = unaryOperation({1 / it},10)
+    fun squareAction() = unaryOperation({Math.pow(it,2.0)})
+    fun sqrtAction() = unaryOperation({Math.pow(it,0.5)})
+
+    private fun unaryOperation(action:(Double)->Double,decimalPointCount:Int?=null){
         if (isInvalidNumber()){return}
+        rightAfterCal = false
         try {
-            conditionResult(1 / getCurrentNumberVal()).let {
+            action(getCurrentNumberVal()).let {
                 currentNumberDigits.clear()
-                String.format("%2.5f",it).toCharArray().forEach { currentNumberDigits.add(it) }
-//                isNumberSignNegative = it < 0
+                it.optimizedString(decimalPointCount).forEach { currentNumberDigits.add(it) }
                 sendCurrentNumberAsString()
             }
         }catch (ex:Throwable){
@@ -190,40 +205,61 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                 this.operation.postValue(operation)
                 clearCurrentNumber()
             }else if (leftOperand.value!=null &&
-                        this.operation.value !=null &&
-                        currentNumberDigits.isNotEmpty()){
-                calculate(leftOperand.value!!,currentNumber, this.operation.value!!).let {
-                    if (it!=null) {
-                        rightOperand.postValue(currentNumber)
-                        setCurrentNumber(it)
-                    }else{
-                        setInvalidNumberString()
+                        rightOperand.value==null &&
+                        this.operation.value !=null){
+                if (currentNumberDigits.isNotEmpty()) {
+                    calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
+                        if (it != null) {
+                            rightOperand.postValue(currentNumber)
+                            setCurrentNumber(it)
+                        } else {
+                            setInvalidNumberString()
+                        }
                     }
+                }else{
+                    this.operation.postValue(operation)
                 }
             }
         }else{
             if (leftOperand.value!=null &&
-                this.operation.value !=null &&
-                currentNumberDigits.isNotEmpty()) {
-                calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
-                    if (it!=null) {
-                        rightOperand.postValue(currentNumber)
-                        setCurrentNumber(it)
-                    }else{
-                        setInvalidNumberString()
+                this.operation.value !=null) {
+                if (rightOperand.value!=null) {
+                    calculate(
+                        leftOperand.value!!,
+                        rightOperand.value!!,
+                        this.operation.value!!
+                    ).let {
+                        if (it != null) {
+                            debugLog("result: $it")
+                            setCurrentNumber(it)
+                        } else {
+                            setInvalidNumberString()
+                        }
+                    }
+                }else if (currentNumberDigits.isNotEmpty()) {
+                    calculate(leftOperand.value!!, currentNumber, this.operation.value!!).let {
+                        if (it != null) {
+                            debugLog("result: $it")
+                            rightOperand.postValue(currentNumber)
+                            setCurrentNumber(it)
+                        } else {
+                            setInvalidNumberString()
+                        }
                     }
                 }
+
             }
         }
     }
 
     private fun setCurrentNumber(number: Double) {
         currentNumberDigits.clear()
-        number.optimizedString(5).toCharArray().forEach { currentNumberDigits.addFirst(it) }
+        number.optimizedString(5).toCharArray().forEach { currentNumberDigits.add(it) }
         sendCurrentNumberAsString()
     }
 
     private fun calculate(leftOperand:Double,rightOperand:Double,operation:CalculatorTask):Double?{
+        rightAfterCal = true
         try {
             return when (operation) {
                 CalculatorTask.ADD -> leftOperand + rightOperand
@@ -231,7 +267,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                 CalculatorTask.MUL -> leftOperand * rightOperand
                 CalculatorTask.DIV -> leftOperand / rightOperand
             }
-        }catch (ex:ArithmeticException){
+        }catch (ex:Throwable){
             ex.printStackTrace()
             return null
         }
@@ -243,7 +279,51 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     fun divAction() = calculate(CalculatorTask.DIV)
     fun equalAction() = calculate()
 
+    suspend fun loadFromMem(context: Context){
+        debugLog("loadFromMem")
+        SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context, MEM_ENTRY_SP_KEY,Double::class.java).let {
+            debugLog("loadFromMem: $it")
+            clearCurrentNumber()
+            it?.let {
+                setCurrentNumber(it)
+                return
+            }
+        }
+    }
+
+    fun clearMem(context: Context){
+        debugLog("clearMem")
+        SharedPreferenceUtils.getDefaultInstance().removeKey(context, MEM_ENTRY_SP_KEY)
+    }
+
+    suspend fun addToMem(context: Context){
+        debugLog("addToMem")
+        SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context, MEM_ENTRY_SP_KEY,Double::class.java).let {
+            debugLog("From Mem: $it")
+            if (it==null) {getCurrentNumberVal()} else {it+getCurrentNumberVal()}.apply {
+                debugLog("addToMem: $this")
+                SharedPreferenceUtils
+                    .getDefaultInstance()
+                    .saveDataSuspended(context,this,MEM_ENTRY_SP_KEY)
+            }
+        }
+    }
+
+    suspend fun subFromMem(context: Context){
+        debugLog("subFromMem")
+        SharedPreferenceUtils.getDefaultInstance().getDataSuspended(context, MEM_ENTRY_SP_KEY,Double::class.java).let {
+            debugLog("From Mem: it")
+            if (it==null) {0-getCurrentNumberVal()} else {it-getCurrentNumberVal()}.apply {
+                debugLog("subFromMem: $this")
+                SharedPreferenceUtils
+                    .getDefaultInstance()
+                    .saveDataSuspended(context,this,MEM_ENTRY_SP_KEY)
+            }
+        }
+    }
+
     companion object{
+        private const val MEM_ENTRY_SP_KEY = "com.dasbikash.exp_man.activities.calculator.MEM_ENTRY_SP_KEY"
         private const val INVALID_NUMBER_MESSAGE = "Invalid Number!!"
         private val DOT_CHAR = '.'
         private const val MAX_INT_PART_LENGTH = 10
@@ -261,7 +341,8 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
 fun Double.optimizedString(decimalPointCount:Int?=null):String{
     val maxDecimalPoints = 10
     val defaultDecimalPoints = 5
-    val strFormat = "%2.${if (decimalPointCount==null || decimalPointCount>=maxDecimalPoints) defaultDecimalPoints else decimalPointCount}f"
+    val strFormat = "%2.${if (decimalPointCount==null || decimalPointCount>maxDecimalPoints) defaultDecimalPoints else decimalPointCount}f"
+    debugLog("strFormat: $strFormat")
     if (this != this.toLong().toDouble()) {
         return String.format(strFormat, this)
     }else{
