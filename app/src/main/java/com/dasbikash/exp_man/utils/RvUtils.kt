@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.calculator.CalculatorHistory
+import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 
 object CalculatorHistoryDiffCallback: DiffUtil.ItemCallback<CalculatorHistory>(){
@@ -79,11 +80,11 @@ class ExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(expenseEntry: ExpenseEntry) {
         expenseEntry.apply {
-            tv_entry_time_text.text = DateUtils.getLongDateString(time!!)
+            tv_entry_time_text.text = DateUtils.getLongDateString(time!!).let { if (checkIfEnglishLanguageSelected()) {it} else {DateTranslatorUtils.englishToBanglaDateString(it)} }
             tv_exp_amount_text.text = itemView.context.getString(R.string.double_2_dec_point,unitPrice*qty)
-            tv_exp_qty_text.text = itemView.context.getString(R.string.exp_qty_text,qty,unitOfMeasure?.name)
+            tv_exp_qty_text.text = itemView.context.getString(R.string.exp_qty_text,qty,unitOfMeasure?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} })
             tv_exp_desc_text.text = description
-            tv_exp_cat_text.text = expenseCategory?.name
+            tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
         }
     }
 }

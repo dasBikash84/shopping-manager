@@ -71,4 +71,15 @@
         3) সকল ডাটা এক্সেল আকারে ফোন থেকে ডাউনলোড করা যাবে।
     </string>
     <string name="hide_login_benefits">পুনারায় দেখতে চাইনা।</string>
+    <string name="calculator_title">ক্যালকুলেটর</string>
+    <string name="delete_calc_history_prompt">ক্যালকুলেটরের হিস্ট্রি মুছবেন?</string>
+    <string name="delete_calc_history_message">ক্যালকুলেটরের হিস্ট্রি মোছা হয়েছে।</string>
+    <string name="all_text">সকল</string>
+    <string name="sort_by_date_text">তারিখ অনুসারে</string>
+    <string name="chip_sort_by_week_text">সপ্তাহ অনুসারে</string>
+    <string name="chip_sort_by_month_text">মাস অনুসারে</string>
+    <string name="exp_amount_title_text">খরচের পরিমাণঃ</string>
+    <string name="exp_qty_title_text">পণ্যের সংখ্যা:</string>
+    <string name="exp_desc_title_text">বিস্তারিতঃ</string>
+    <string name="exp_cat_title_text">খরচের খাতঃ</string>
 </resources>

@@ -113,5 +113,4 @@
     <string name="exp_desc_title_text">Details:</string>
     <string name="exp_cat_title_text">Category:</string>
     <string name="exp_qty_text">%1$d %2$s</string>
-    <string name="filter_category_selector_prompt">Category for filter</string>
 </resources>

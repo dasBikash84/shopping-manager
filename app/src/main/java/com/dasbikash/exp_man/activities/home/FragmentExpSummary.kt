@@ -26,12 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 
 import com.jaredrummler.materialspinner.MaterialSpinner
 
-
-
-
-/**
- * A simple [Fragment] subclass.
- */
 class FragmentExpSummary : Fragment() {
 
     private val expenseEntryAdapter = ExpenseEntryAdapter()
