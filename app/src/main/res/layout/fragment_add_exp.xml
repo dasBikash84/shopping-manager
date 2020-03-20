@@ -87,8 +87,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/description_hint"
-                app:passwordToggleEnabled="true">
+                android:hint="@string/description_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_description"
@@ -224,8 +223,7 @@
                             app:layout_constraintStart_toEndOf="@+id/et_unit_price_holder"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
-                            android:hint="@string/quantity_hint"
-                            app:passwordToggleEnabled="true">
+                            android:hint="@string/quantity_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_quantity"
@@ -257,6 +255,21 @@
                         android:text="@string/add_exp_item" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="4dp"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/vat_ait_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_vat_ait"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:text="@string/default_tax_vat"
+                    android:enabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
@@ -265,8 +278,7 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/total_expense_hint"
-                    app:passwordToggleEnabled="true">
+                    android:hint="@string/total_expense_hint">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_total_expense"

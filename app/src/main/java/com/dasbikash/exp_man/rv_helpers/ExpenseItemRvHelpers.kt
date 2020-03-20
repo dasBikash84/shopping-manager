@@ -41,6 +41,7 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:(ExpenseItem)->Uni
     private val tv_exp_item_name_text: TextView = itemView.findViewById(R.id.tv_exp_item_name_text)
     private val tv_exp_item_brand_name_text: TextView = itemView.findViewById(R.id.tv_exp_item_brand_name_text)
     private val tv_exp_item_unit_price_text: TextView = itemView.findViewById(R.id.tv_exp_item_unit_price_text)
+    private val tv_exp_item_total_price_text: TextView = itemView.findViewById(R.id.tv_exp_item_total_price_text)
     private val tv_exp_item_qty_text: TextView = itemView.findViewById(R.id.tv_exp_item_qty_text)
     private val tv_exp_item_uom_text: TextView = itemView.findViewById(R.id.tv_exp_item_uom_text)
     private val exp_item_brand_name_holder: ViewGroup = itemView.findViewById(R.id.exp_item_brand_name_holder)
@@ -49,10 +50,11 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:(ExpenseItem)->Uni
     fun bind(expenseItem: ExpenseItem) {
         expenseItem.apply {
             tv_exp_item_name_text.text = name
-            tv_exp_item_unit_price_text.text = unitPrice.optimizedString()
-            tv_exp_item_qty_text.text = qty.optimizedString()
+            tv_exp_item_unit_price_text.text = unitPrice.optimizedString(2)
+            tv_exp_item_qty_text.text = qty.optimizedString(2)
+            tv_exp_item_total_price_text.text = (unitPrice*qty).optimizedString(2)
             tv_exp_item_uom_text.text = unitOfMeasure?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
-            if (brandName !=null) {
+            if (!brandName.isNullOrBlank()) {
                 tv_exp_item_brand_name_text.text = brandName
                 exp_item_brand_name_holder.show()
             }else{

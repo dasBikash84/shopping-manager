@@ -133,4 +133,7 @@
     <string name="entry_time_title_text">Time</string>
     <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
     <string name="save_exp_entry_prompt">Save enpense entry?</string>
+    <string name="total_price_title">Total price</string>
+    <string name="vat_ait_hint">Tax/VAT(%)</string>
+    <string name="default_tax_vat">0.0</string>
 </resources>

@@ -35,6 +35,7 @@ data class ExpenseEntry(
     var description:String?=null,
     var expenseItems:List<ExpenseItem>?=null,
     var totalExpense:Double?=null,
+    var taxVat:Double = 0.0,
     var modified:Date=Date(),
     var created:Date=Date()
 ){

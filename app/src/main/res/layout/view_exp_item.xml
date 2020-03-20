@@ -109,7 +109,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tv_exp_item_unit_price_prompt_text"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/exp_item_brand_name_text"
+                    tools:text="@string/unit_cost_text"
                     android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -148,6 +148,32 @@
                     app:layout_constraintStart_toEndOf="@id/tv_exp_item_qty_text"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/exp_qty_title_text"
+                    android:textIsSelectable="true"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_exp_item_total_price_prompt_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_title_text"
+                    android:text="@string/total_price_title"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:minWidth="80dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_exp_item_total_price_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_details_text"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_exp_item_total_price_prompt_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/total_price_title"
                     android:textIsSelectable="true"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.appcompat.widget.LinearLayoutCompat>

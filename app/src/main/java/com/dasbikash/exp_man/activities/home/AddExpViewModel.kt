@@ -11,6 +11,12 @@ class AddExpViewModel(private val mApplication: Application) : AndroidViewModel(
 
     private val expenseCategory:MutableLiveData<ExpenseCategory> = MutableLiveData()
     private val expenseItems:MutableLiveData<List<ExpenseItem>> = MutableLiveData()
+    private val vatTax:MutableLiveData<Double> = MutableLiveData()
+
+    init {
+        vatTax.postValue(0.0)
+        expenseItems.postValue(emptyList())
+    }
 
     fun setExpenseCategory(expenseCategory: ExpenseCategory){
         this.expenseCategory.postValue(expenseCategory)
@@ -40,4 +46,10 @@ class AddExpViewModel(private val mApplication: Application) : AndroidViewModel(
     }
 
     fun getExpenseItems():LiveData<List<ExpenseItem>> = expenseItems
+    fun getVatTax():LiveData<Double> = vatTax
+    fun setVatTax(vatTax:Double){
+        if (vatTax>=0) {
+            this.vatTax.postValue(vatTax)
+        }
+    }
 }
