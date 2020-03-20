@@ -1,11 +1,11 @@
 package com.dasbikash.exp_man.activities.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -14,7 +14,6 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.async_manager.runSuspended
-
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man.model.TimeWiseExpenses
@@ -25,21 +24,22 @@ import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
-import com.dasbikash.snackbar_ext.showShortSnack
-import kotlinx.android.synthetic.main.fragment_exp_summary.*
-import kotlinx.coroutines.launch
-import com.google.android.material.snackbar.Snackbar
-
 import com.jaredrummler.materialspinner.MaterialSpinner
+import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.android.synthetic.main.fragment_exp_summary.*
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 class FragmentExpSummary : Fragment(),WaitScreenOwner {
 
+    private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
+
     private val expenseEntryAdapter = ExpenseEntryAdapter()
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val expenseEntries = mutableListOf<ExpenseEntry>()
-    private val timeWiseExpensesAdapter = TimeWiseExpensesAdapter()
+
+    private val timeWiseExpensesAdapter = TimeWiseExpensesAdapter(timePeriodTitleClickEventPublisher)
 
     private val timeWiseExpensesList = mutableListOf<TimeWiseExpenses>()
 
