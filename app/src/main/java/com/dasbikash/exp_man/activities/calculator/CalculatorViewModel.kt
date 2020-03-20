@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.exp_man.utils.optimizedString
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -347,17 +348,5 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
             MUL("*"),
             DIV("÷")
         }
-    }
-}
-
-fun Double.optimizedString(decimalPointCount:Int?=null):String{
-    val maxDecimalPoints = 10
-    val defaultDecimalPoints = 5
-    val strFormat = "%2.${if (decimalPointCount==null || decimalPointCount>maxDecimalPoints) defaultDecimalPoints else decimalPointCount}f"
-    debugLog("strFormat: $strFormat")
-    if (this != this.toLong().toDouble()) {
-        return String.format(strFormat, this)
-    }else{
-        return this.toLong().toString()
     }
 }

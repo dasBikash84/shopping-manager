@@ -7,11 +7,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.exp_man.R
-import com.dasbikash.exp_man.utils.CalculatorHistoryAdapter
+import com.dasbikash.exp_man.rv_helpers.CalculatorHistoryAdapter
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.coroutines.launch
@@ -19,7 +18,8 @@ import kotlinx.coroutines.launch
 class ActivityCalculator : AppCompatActivity() {
 
     private lateinit var viewModel:CalculatorViewModel
-    private val calculatorHistoryAdapter = CalculatorHistoryAdapter()
+    private val calculatorHistoryAdapter =
+        CalculatorHistoryAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

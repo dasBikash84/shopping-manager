@@ -15,11 +15,10 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.R
-import com.dasbikash.exp_man.activities.launcher.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man.model.TimeWiseExpenses
-import com.dasbikash.exp_man.utils.DateTranslatorUtils
-import com.dasbikash.exp_man.utils.ExpenseEntryAdapter
-import com.dasbikash.exp_man.utils.TimeWiseExpensesAdapter
+import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
+import com.dasbikash.exp_man.rv_helpers.TimeWiseExpensesAdapter
+import com.dasbikash.exp_man.utils.*
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
@@ -35,11 +34,15 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
 
     private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
 
-    private val expenseEntryAdapter = ExpenseEntryAdapter()
+    private val expenseEntryAdapter =
+        ExpenseEntryAdapter()
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val expenseEntries = mutableListOf<ExpenseEntry>()
 
-    private val timeWiseExpensesAdapter = TimeWiseExpensesAdapter(timePeriodTitleClickEventPublisher)
+    private val timeWiseExpensesAdapter =
+        TimeWiseExpensesAdapter(
+            timePeriodTitleClickEventPublisher
+        )
 
     private val timeWiseExpensesList = mutableListOf<TimeWiseExpenses>()
 
@@ -209,31 +212,4 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
     }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
-}
-
-fun Date.getDayCount():Int{
-    val cal = Calendar.getInstance()
-    cal.time = this
-    return cal.get(Calendar.YEAR)*365 + cal.get(Calendar.DAY_OF_YEAR)
-}
-fun Date.getWeekCount():Int{
-    val cal = Calendar.getInstance()
-    cal.time = this
-    return cal.get(Calendar.YEAR)*52 + cal.get(Calendar.WEEK_OF_YEAR)
-}
-fun Date.getMonthCount():Int{
-    val cal = Calendar.getInstance()
-    cal.time = this
-    return cal.get(Calendar.YEAR)*12 + cal.get(Calendar.MONTH)
-}
-
-fun Date.getWeekString():String{
-    val cal = Calendar.getInstance()
-    cal.time = this
-    val currentDay = cal.get(Calendar.DAY_OF_WEEK)
-    val firstDay = cal.clone() as Calendar
-    val lastDay = cal.clone() as Calendar
-    firstDay.add(Calendar.DAY_OF_WEEK,-(currentDay-1))
-    lastDay.add(Calendar.DAY_OF_WEEK,(7-currentDay))
-    return "${DateUtils.getShortDateString(firstDay.time)} - ${DateUtils.getShortDateString(lastDay.time)}"
 }

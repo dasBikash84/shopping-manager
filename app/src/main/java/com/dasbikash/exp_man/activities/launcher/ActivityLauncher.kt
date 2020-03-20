@@ -74,7 +74,3 @@ class ActivityLauncher : AppCompatActivity() {
         return AuthRepo.checkLogIn(this)
     }
 }
-
-fun checkIfEnglishLanguageSelected():Boolean{
-    return Locale.getDefault().getDisplayLanguage().contains("english",true)
-}
