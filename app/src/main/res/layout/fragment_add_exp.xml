@@ -9,23 +9,39 @@
     android:padding="8dp"
     tools:context=".activities.home.FragmentAddExp">
 
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/add_exp_heading"
-        style="@style/page_heading_style"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_exp_heading_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:text="@string/add_expense_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/add_exp_heading"
+            style="@style/page_heading_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:text="@string/add_expense_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/page_options"
+            app:layout_constraintTop_toTopOf="parent" />
+        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+            android:id="@+id/page_options"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_options"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@android:color/white"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_exp_heading">
+        app:layout_constraintTop_toBottomOf="@id/add_exp_heading_holder">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -80,8 +96,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:inputType="numberDecimal"
-                    android:text="0.0"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:text="0.0" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -101,8 +117,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:inputType="number"
-                        android:text="1"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        android:text="1" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Spinner
@@ -160,21 +176,22 @@
                 android:layout_gravity="center_vertical|start">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:id="@+id/category_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_title_text"                    android:textAlignment="gravity"
+                    android:text="@string/category_title_text"
+                    android:textAlignment="gravity"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <Spinner
-                    android:layout_marginStart="16dp"
                     android:id="@+id/category_selector"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="16dp"
                     android:prompt="@string/category_selector_prompt"
                     android:spinnerMode="dialog"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -194,7 +211,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:inputType="text"
-                    android:lines="1"/>
+                    android:lines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

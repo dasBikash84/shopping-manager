@@ -1,5 +1,6 @@
 package com.dasbikash.exp_man.activities.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,13 +14,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man_repo.AuthRepo
@@ -28,6 +28,9 @@ import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 import com.dasbikash.exp_man_repo.model.UnitOfMeasure
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_add_exp.*
 import kotlinx.coroutines.delay
@@ -129,6 +132,8 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
                 viewModel?.setExpenseCategory(getSelectedExpenseCategory())
             }
         })
+
+        page_options.attachMenuViewForClick(getOptionsMenu())
 
         viewModel?.getTotalExpense()?.observe(this,object : Observer<Double>{
             override fun onChanged(totalExpense: Double?) {
@@ -280,7 +285,21 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
+    private fun getOptionsMenu(): MenuView {
+        val menuViewItems = listOf<MenuViewItem>(
+            MenuViewItem(
+                text = getString(R.string.calculator_title),
+                task = {runWithActivity { it.startActivity(ActivityCalculator::class.java) }}
+            )
+        )
+
+        val menuView = MenuView(menuItemFontBg = Color.BLACK,menuItemFontColor = Color.WHITE,menuItemFontSize = OPTIONS_MENU_ITEM_FONT_SIZE)
+        menuView.addAll(menuViewItems)
+        return menuView
+    }
+
     companion object{
         private const val MISCELLANEOUS_TEXT = "Miscellaneous"
+        private val OPTIONS_MENU_ITEM_FONT_SIZE = 20.00f
     }
 }

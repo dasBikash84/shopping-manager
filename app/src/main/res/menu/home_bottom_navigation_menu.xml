@@ -36,7 +36,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bmi_more"
-        android:icon="@drawable/ic_more"
+        android:icon="@drawable/ic_options"
         android:title="@string/bmi_more"
         app:showAsAction="ifRoom" />
 
