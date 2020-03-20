@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.delay
@@ -39,14 +40,26 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
                     true
                 }
                 R.id.bmi_budget -> {
-                    if (getCurrentFragmentType() != FragmentBudget::class.java) {
-                        addFragmentClearingBackStack(FragmentBudget())
+                    lifecycleScope.launch {
+                        if (AuthRepo.checkLogIn(this@ActivityHome)){
+                            if (getCurrentFragmentType() != FragmentBudget::class.java) {
+                                addFragmentClearingBackStack(FragmentBudget())
+                            }
+                        }else{
+                            addFragmentClearingBackStack(FragmentLogInLauncher())
+                        }
                     }
                     true
                 }
                 R.id.bmi_shopping_list -> {
-                    if (getCurrentFragmentType() != FragmentShoppingList::class.java) {
-                        addFragmentClearingBackStack(FragmentShoppingList())
+                    lifecycleScope.launch {
+                        if (AuthRepo.checkLogIn(this@ActivityHome)){
+                            if (getCurrentFragmentType() != FragmentShoppingList::class.java) {
+                                addFragmentClearingBackStack(FragmentShoppingList())
+                            }
+                        }else{
+                            addFragmentClearingBackStack(FragmentLogInLauncher())
+                        }
                     }
                     true
                 }

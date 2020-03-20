@@ -114,4 +114,6 @@
     <string name="exp_cat_title_text">Category:</string>
     <string name="exp_qty_text">%1$d %2$s</string>
     <string name="month_title_format">MMM yyyy</string>
+    <string name="login_launcher_text">Login to use feature</string>
+    <string name="why_login_text">This is a personalized feature, hence login is required.</string>
 </resources>
