@@ -26,7 +26,7 @@ import java.util.*
 )
 data class ExpenseEntry(
     @PrimaryKey
-    var id:String="",
+    var id:String=UUID.randomUUID().toString(),
     var time: Date?=null,
     var userId: String?=null,
     var categoryId: String?=null,

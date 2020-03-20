@@ -194,13 +194,15 @@
                             android:lines="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="start|center_vertical"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/et_unit_price_holder"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
@@ -216,6 +218,10 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/et_quantity_holder"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/et_unit_price_holder"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:hint="@string/quantity_hint"
@@ -230,14 +236,15 @@
                                 android:text="@string/default_qty" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <Spinner
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/et_quantity_holder"
+                            app:layout_constraintEnd_toEndOf="parent"
                             android:id="@+id/uom_selector"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:minHeight="40dp"
-                            android:prompt="@string/uom_selector_prompt"
-                            android:spinnerMode="dialog" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_add_exp_item"

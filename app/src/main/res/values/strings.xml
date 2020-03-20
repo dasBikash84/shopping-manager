@@ -132,4 +132,5 @@
     <string name="remove_text">Remove</string>
     <string name="entry_time_title_text">Time</string>
     <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
+    <string name="save_exp_entry_prompt">Save enpense entry?</string>
 </resources>
