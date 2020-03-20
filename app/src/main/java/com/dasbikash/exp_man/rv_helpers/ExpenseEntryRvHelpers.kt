@@ -63,7 +63,7 @@ class ExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     )
                 } }
             tv_exp_amount_text.text = itemView.context.getString(R.string.double_2_dec_point,totalExpense)
-            tv_exp_desc_text.text = description
+            tv_exp_desc_text.text = details
             tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
         }
         itemView.setOnClickListener { debugLog(expenseEntry) }

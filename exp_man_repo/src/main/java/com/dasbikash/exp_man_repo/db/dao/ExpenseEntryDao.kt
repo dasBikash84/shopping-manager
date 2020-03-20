@@ -13,10 +13,8 @@
 
 package com.dasbikash.exp_man_repo.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 
 @Dao
@@ -36,4 +34,7 @@ internal interface ExpenseEntryDao {
 
     @Query("DELETE FROM ExpenseEntry")
     suspend fun nukeTable()
+
+    @RawQuery
+    suspend fun getDrugByRawQuery(simpleSQLiteQuery: SimpleSQLiteQuery):List<ExpenseEntry>
 }

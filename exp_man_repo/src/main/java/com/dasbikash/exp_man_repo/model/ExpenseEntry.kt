@@ -21,7 +21,8 @@ import java.util.*
     ],
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
-        Index(value = ["categoryId"], unique = false)
+        Index(value = ["categoryId"], unique = false),
+        Index(value = ["details"], unique = false)
     )
 )
 data class ExpenseEntry(
@@ -32,7 +33,7 @@ data class ExpenseEntry(
     var categoryId: String?=null,
     var expenseCategory: ExpenseCategory?=null,
     var categoryProposal:String?=null,
-    var description:String?=null,
+    var details:String?=null,
     var expenseItems:List<ExpenseItem>?=null,
     var totalExpense:Double?=null,
     var taxVat:Double = 0.0,

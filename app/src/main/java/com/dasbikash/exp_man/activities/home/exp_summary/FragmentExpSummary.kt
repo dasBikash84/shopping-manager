@@ -1,12 +1,16 @@
 package com.dasbikash.exp_man.activities.home.exp_summary
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -33,10 +37,10 @@ import java.util.*
 
 class FragmentExpSummary : Fragment(),WaitScreenOwner {
 
+    private lateinit var viewModel: ViewModelExpSummary
     private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
 
-    private val expenseEntryAdapter =
-        ExpenseEntryAdapter()
+    private val expenseEntryAdapter = ExpenseEntryAdapter()
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val expenseEntries = mutableListOf<ExpenseEntry>()
 
@@ -56,12 +60,15 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(ViewModelExpSummary::class.java)
+
         rv_exp_entry.adapter = expenseEntryAdapter
         rv_time_wise_exp.adapter = timeWiseExpensesAdapter
         chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
-                    displayAllExpEntries()
+                    all_exp_scroller.show()//displayAllExpEntries()
                 }else{
                     all_exp_scroller.hide()
                 }
@@ -115,6 +122,29 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 search_text_holder.show()
             }
         }
+
+        et_search_text.addTextChangedListener(object : TextWatcher{
+
+            override fun afterTextChanged(editable: Editable?) {
+                (editable?.toString()?.trim() ?: "").let {
+                    debugLog("searchText: $it")
+                    viewModel.setSearchText(it)
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        viewModel.getAllExpenseEntryLiveData().observe(this,object : Observer<List<ExpenseEntry>>{
+            override fun onChanged(list: List<ExpenseEntry>?) {
+                list?.let {
+                    debugLog(it)
+                    expenseEntryAdapter.submitList(it)
+                }
+            }
+        })
 
         setCategorySpinnerItems()
         rv_time_wise_exp_holder.hide()
@@ -177,16 +207,19 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
     }
 
     private fun filterByCategory(categoryName: String) {
+        debugLog("categoryName: $categoryName")
         if (categoryName == getString(R.string.all_text)){
-            expenseEntryAdapter.submitList(expenseEntries.toList())
+//            expenseEntryAdapter.submitList(expenseEntries.toList())
+            viewModel.setExpenseCategory(null)
         }else{
             if (checkIfEnglishLanguageSelected()) {
                 expenseCategories.find { it.name==categoryName }!!
             } else {
                 expenseCategories.find { it.nameBangla==categoryName }!!
             }.let {
-                val expenseCategory = it
-                expenseEntryAdapter.submitList(expenseEntries.filter { it.expenseCategory == expenseCategory })
+                viewModel.setExpenseCategory(it)
+//                val expenseCategory = it
+//                expenseEntryAdapter.submitList(expenseEntries.filter { it.expenseCategory == expenseCategory })
             }
         }
     }
@@ -202,25 +235,6 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
         }
     }
 
-    private fun displayAllExpEntries() {
-        if (expenseEntries.isEmpty()){
-            loadAllExpenseEntries()
-        }
-        all_exp_scroller.show()
-    }
-
-    private fun loadAllExpenseEntries() {
-        runWithContext {
-            lifecycleScope.launch {
-                showWaitScreen()
-                ExpenseRepo.getAllExpenseEntries(it).let {
-                    expenseEntries.addAll(it)
-                    expenseEntryAdapter.submitList(it)
-                }
-                hideWaitScreen()
-            }
-        }
-    }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 }

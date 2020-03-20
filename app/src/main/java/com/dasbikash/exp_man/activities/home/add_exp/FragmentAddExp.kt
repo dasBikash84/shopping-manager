@@ -289,7 +289,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
                             categoryId = getSelectedExpenseCategory().id,
                             expenseCategory = getSelectedExpenseCategory(),
                             categoryProposal = et_category_proposal.text?.toString(),
-                            description = et_description.text?.toString(),
+                            details = et_description.text?.toString(),
                             expenseItems = expenseItemAdapter.currentList,
                             totalExpense = et_total_expense.text?.toString()?.toDouble(),
                             taxVat = viewModel?.getVatTax()?.value ?: 0.0
