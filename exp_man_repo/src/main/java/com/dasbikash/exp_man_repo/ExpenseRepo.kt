@@ -16,13 +16,6 @@ object ExpenseRepo:ExpenseManagerRepo() {
     }
 
     suspend fun getAllExpenseEntries(context: Context):List<ExpenseEntry>{
-        val categories = getDatabase(context).expenseCategoryDao.findAll()
-        val uoms = getDatabase(context).unitOfMeasureDao.findAll()
-        return getDatabase(context).expenseEntryDao.findAll().map {
-            val expenseEntry = it
-            expenseEntry.expenseCategory = categories.find { it.id==expenseEntry.categoryId }
-            expenseEntry.unitOfMeasure = uoms.find { it.id==expenseEntry.unitId }
-            expenseEntry
-        }
+        return getDatabase(context).expenseEntryDao.findAll()
     }
 }

@@ -198,13 +198,12 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
                     time = mEntryTime.time,
                     unitPrice = unitPrice,
                     qty = qty,
-                    unitId = getSelectedUom().id,
+                    unitOfMeasure = getSelectedUom(),
                     description = et_description.text?.toString(),
                     categoryId = getSelectedExpenseCategory().id,
+                    expenseCategory = getSelectedExpenseCategory(),
                     categoryProposal = et_category_proposal.text?.toString(),
-                    productName = et_product_name.text?.toString(),
-                    created = System.currentTimeMillis(),
-                    modified = System.currentTimeMillis()
+                    productName = et_product_name.text?.toString()
                 )
                 showWaitScreen()
                 ExpenseRepo.saveExpenseEntry(it,expenseEntry)
