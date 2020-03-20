@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
@@ -91,7 +92,7 @@ class FragmentCodeVerify : Fragment(),WaitScreenOwner {
                 AuthRepo.logInUserWithVerificationCode(context,code)
                 runWithActivity {
                     it.finish()
-                    (it as ActivityLogin).startActivity(ActivityHome.getUserInstance(it))
+                    it.startActivity(ActivityHome::class.java)
                 }
             }catch (ex:Throwable){
                 ex.printStackTrace()

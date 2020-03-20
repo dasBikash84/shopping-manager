@@ -1,21 +1,16 @@
 package com.dasbikash.exp_man.activities.login
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
@@ -44,7 +39,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         btn_guest_login.setOnClickListener {
             runWithActivity {
                 it.finish()
-                (it as ActivityLogin).startActivity(ActivityHome.getGuestInstance(it))
+                (it as ActivityLogin).startActivity(ActivityHome::class.java)
             }
         }
         btn_sign_up.setOnClickListener {
@@ -207,7 +202,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                     )
                 runWithActivity {
                     it.finish()
-                    (it as ActivityLogin).startActivity(ActivityHome.getUserInstance(it))
+                    it.startActivity(ActivityHome::class.java)
                 }
             } catch (ex: Throwable) {
                 ex.printStackTrace()

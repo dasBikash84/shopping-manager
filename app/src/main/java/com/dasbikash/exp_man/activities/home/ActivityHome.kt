@@ -1,7 +1,5 @@
 package com.dasbikash.exp_man.activities.home
 
-import android.content.Context
-import android.content.Intent
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -10,7 +8,6 @@ import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
@@ -28,45 +25,23 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         bottom_Navigation_View.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.bmi_add -> {
-                    if (getCurrentFragmentType() != FragmentAddExp::class.java) {
-                        addFragmentClearingBackStack(FragmentAddExp())
-                    }
+                    loadFragmentIfNotLoadedAlready(FragmentAddExp::class.java)
                     true
                 }
                 R.id.bmi_summary -> {
-                    if (getCurrentFragmentType() != FragmentExpSummary::class.java) {
-                        addFragmentClearingBackStack(FragmentExpSummary())
-                    }
+                    loadFragmentIfNotLoadedAlready(FragmentExpSummary::class.java)
                     true
                 }
                 R.id.bmi_budget -> {
-                    lifecycleScope.launch {
-                        if (AuthRepo.checkLogIn(this@ActivityHome)){
-                            if (getCurrentFragmentType() != FragmentBudget::class.java) {
-                                addFragmentClearingBackStack(FragmentBudget())
-                            }
-                        }else{
-                            addFragmentClearingBackStack(FragmentLogInLauncher())
-                        }
-                    }
+                    loadFragmentIfLoggedIn(FragmentBudget::class.java)
                     true
                 }
                 R.id.bmi_shopping_list -> {
-                    lifecycleScope.launch {
-                        if (AuthRepo.checkLogIn(this@ActivityHome)){
-                            if (getCurrentFragmentType() != FragmentShoppingList::class.java) {
-                                addFragmentClearingBackStack(FragmentShoppingList())
-                            }
-                        }else{
-                            addFragmentClearingBackStack(FragmentLogInLauncher())
-                        }
-                    }
+                    loadFragmentIfLoggedIn(FragmentShoppingList::class.java)
                     true
                 }
                 R.id.bmi_more -> {
-                    if (getCurrentFragmentType() != FragmentMore::class.java) {
-                        addFragmentClearingBackStack(FragmentMore())
-                    }
+                    loadFragmentIfNotLoadedAlready(FragmentMore::class.java)
                     true
                 }
                 else -> false
@@ -75,28 +50,19 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
     }
 
-    companion object{
-        private const val EXTRA_GUEST = "com.dasbikash.exp_man.activities.home.ActivityHome.EXTRA_GUEST"
-        private const val EXTRA_USER = "com.dasbikash.exp_man.activities.home.ActivityHome.EXTRA_USER"
-
-        fun getGuestInstance(context: Context):Intent{
-            val intent = Intent(context.applicationContext,
-                ActivityHome::class.java)
-            intent.putExtra(
-                EXTRA_GUEST,
-                EXTRA_GUEST
-            )
-            return intent
+    private fun <T:Fragment> loadFragmentIfLoggedIn(type:Class<T>){
+        lifecycleScope.launch {
+            if (AuthRepo.checkLogIn(this@ActivityHome)){
+                loadFragmentIfNotLoadedAlready(type)
+            }else{
+                addFragmentClearingBackStack(FragmentLogInLauncher())
+            }
         }
+    }
 
-        fun getUserInstance(context: Context):Intent{
-            val intent = Intent(context.applicationContext,
-                ActivityHome::class.java)
-            intent.putExtra(
-                EXTRA_USER,
-                EXTRA_USER
-            )
-            return intent
+    private fun <T:Fragment> loadFragmentIfNotLoadedAlready(type:Class<T>){
+        if (getCurrentFragmentType() != type) {
+            addFragmentClearingBackStack(type.newInstance())
         }
     }
 }
