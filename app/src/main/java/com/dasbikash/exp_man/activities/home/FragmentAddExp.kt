@@ -206,14 +206,14 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             et_product_name.error = getString(R.string.product_name_empty_error)
             return
         }
-        if (et_unit_price.text.isNullOrBlank()) {
+        if (et_unit_price.text.isNullOrBlank() || et_unit_price.text.toString().toDouble() <= 0.0) {
             et_unit_price.error = getString(R.string.unit_price_empty_error)
             return
         }
         if (et_quantity.text.isNullOrBlank() ||
-            et_quantity.text.toString().toDouble() == 0.0
+            et_quantity.text.toString().toDouble() <= 0.0
         ) {
-            et_unit_price.error = getString(R.string.quantity_empty_error)
+            et_quantity.error = getString(R.string.quantity_empty_error)
             return
         }
         viewModel?.addExpenseItem(
