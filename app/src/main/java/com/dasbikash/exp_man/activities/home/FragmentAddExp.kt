@@ -2,10 +2,11 @@ package com.dasbikash.exp_man.activities.home
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -141,6 +142,26 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             addExpItem()
         }
 
+        et_vat_ait.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(editable: Editable?) {
+                editable?.toString()?.let {
+                    if (it.isNotBlank()){
+                        it.toDouble().let {
+                            if (it<0){
+                                et_vat_ait.error = getString(R.string.tax_vat_error)
+                            }else{
+                                viewModel?.setVatTax(it)
+                            }
+                        }
+                    }else{
+                        viewModel?.setVatTax(0.0)
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         viewModel?.getExpenseCategory()?.observe(this, object : Observer<ExpenseCategory> {
             override fun onChanged(expenseCategory: ExpenseCategory?) {
                 expenseCategory?.let {
@@ -158,17 +179,15 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             override fun onChanged(expenseItems: List<ExpenseItem>?) {
                 expenseItems?.let {
                     expenseItemAdapter.submitList(it)
-                    var totalExpense = 0.0
-                    it.forEach { totalExpense += it.qty * it.unitPrice }
-                    et_total_expense.setText(totalExpense.optimizedString(2))
-                    et_total_expense.isEnabled = false
-                    if (it.isNotEmpty()) {
-                        cb_set_expense_manually.hide()
-                        expense_item_list_holder.show()
-                    } else {
-                        cb_set_expense_manually.show()
-                        expense_item_list_holder.hide()
-                    }
+                    calculateTotalExpense(viewModel?.getVatTax()?.value ?: 0.0,it)
+                }
+            }
+        })
+
+        viewModel?.getVatTax()?.observe(this,object : Observer<Double>{
+            override fun onChanged(vatTax: Double?) {
+                vatTax?.let {
+                    calculateTotalExpense(it,expenseItemAdapter.currentList)
                 }
             }
         })
@@ -210,6 +229,21 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
         et_brand_name.setText("")
         et_unit_price.setText(getString(R.string.default_unit_price))
         et_quantity.setText(getString(R.string.default_qty))
+    }
+
+    private fun calculateTotalExpense(vatTax:Double,expenseItems:List<ExpenseItem>){
+        var totalExpense = 0.0
+        expenseItems.forEach { totalExpense += it.qty * it.unitPrice }
+        totalExpense *= (1+vatTax/100)
+        et_total_expense.setText(totalExpense.optimizedString(2))
+        et_total_expense.isEnabled = false
+        if (expenseItems.isNotEmpty()) {
+            cb_set_expense_manually.hide()
+            expense_item_list_holder.show()
+        } else {
+            cb_set_expense_manually.show()
+            expense_item_list_holder.hide()
+        }
     }
 
     private fun editExpenseItem(expenseItem: ExpenseItem) {
@@ -256,7 +290,8 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
                             categoryProposal = et_category_proposal.text?.toString(),
                             description = et_description.text?.toString(),
                             expenseItems = expenseItemAdapter.currentList,
-                            totalExpense = et_total_expense.text?.toString()?.toDouble()
+                            totalExpense = et_total_expense.text?.toString()?.toDouble(),
+                            taxVat = viewModel?.getVatTax()?.value ?: 0.0
                         )
                         ExpenseRepo.saveExpenseEntry(it, expenseEntry)
                         showShortSnack(R.string.expense_saved_message)

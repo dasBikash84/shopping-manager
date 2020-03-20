@@ -32,7 +32,8 @@
             android:src="@drawable/ic_options"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -47,7 +48,35 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/category_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/category_title_text"
+                    android:textAlignment="gravity"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_category_selector"
+                    android:layout_marginStart="4dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/category_title"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -55,7 +84,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
                     android:gravity="center"
                     android:text="@string/entry_time_text"
                     android:textAlignment="gravity"
@@ -65,6 +93,7 @@
                 <com.dasbikash.android_view_utils.custom_views.ClickableCardView
                     android:id="@+id/tv_entry_add_holder"
                     android:layout_width="wrap_content"
+                    android:layout_marginStart="4dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center">
 
@@ -85,6 +114,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/description_hint">
@@ -96,41 +126,14 @@
                     android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/category_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@string/category_title_text"
-                    android:textAlignment="gravity"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/spinner_category_selector"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@+id/category_title"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginTop="2dp"
                 android:id="@+id/expense_item_list_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginTop="8dp"
                 android:background="@android:color/white"
+                android:orientation="vertical"
                 android:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -159,13 +162,15 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="4dp">
+                android:layout_marginTop="4dp"
+                android:orientation="vertical">
+
                 <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/off_white">
+                    android:background="@color/off_white"
+                    android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -199,13 +204,13 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/et_unit_price_holder"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:hint="@string/unit_price_hint">
+                            android:hint="@string/unit_price_hint"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_unit_price"
@@ -218,12 +223,12 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/et_quantity_holder"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/et_unit_price_holder"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
-                            android:hint="@string/quantity_hint">
+                            android:hint="@string/quantity_hint"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/et_unit_price_holder"
+                            app:layout_constraintTop_toTopOf="parent">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_quantity"
@@ -235,30 +240,31 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.jaredrummler.materialspinner.MaterialSpinner
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/et_quantity_holder"
-                            app:layout_constraintEnd_toEndOf="parent"
                             android:id="@+id/uom_selector"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/et_quantity_holder"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_add_exp_item"
                         style="@style/login_buttons"
-                        android:textAllCaps="false"
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
-                        android:text="@string/add_exp_item" />
+                        android:text="@string/add_exp_item"
+                        android:textAllCaps="false" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="4dp"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:hint="@string/vat_ait_hint">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -267,14 +273,15 @@
                     android:layout_height="40dp"
                     android:inputType="numberDecimal"
                     android:maxLines="1"
-                    android:text="@string/default_tax_vat"
-                    android:enabled="false"/>
+                    android:text="@string/default_tax_vat" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
@@ -284,28 +291,30 @@
                         android:id="@+id/et_total_expense"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:enabled="false"
                         android:inputType="numberDecimal"
                         android:maxLines="1"
-                        android:text="0.0"
-                        android:enabled="false"/>
+                        android:text="@string/default_unit_price" />
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cb_set_expense_manually"
-                    android:text="@string/set_expense_manually"
-                    android:layout_marginStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/set_expense_manually" />
             </androidx.appcompat.widget.LinearLayoutCompat>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_save_exp_entry"
                 style="@style/login_buttons"
-                android:textAllCaps="false"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
-                android:text="@string/save_exp_entry" />
+                android:text="@string/save_exp_entry"
+                android:textAllCaps="false" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
