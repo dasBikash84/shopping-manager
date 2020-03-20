@@ -2,12 +2,9 @@ package com.dasbikash.exp_man.activities.home
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -20,18 +17,22 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
+import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.exp_man.utils.optimizedString
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.exp_man_repo.model.ExpenseItem
 import com.dasbikash.exp_man_repo.model.UnitOfMeasure
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
+import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -47,10 +48,7 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val uoms = mutableListOf<UnitOfMeasure>()
-
-    private var totalExpense = 0.0
-    private var qty = 1
-    private var unitPrice = 0.0
+    private val expenseItemAdapter= ExpenseItemAdapter({expenseItemOptionsClickAction(it)})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,12 +58,28 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
     }
 
     private fun updateTime(){
-        tv_entry_add.text = DateUtils.getLongDateString(mEntryTime.time).let {
+        tv_entry_add.text = DateUtils.getTimeString(mEntryTime.time,getString(R.string.exp_entry_time_format)).let {
             return@let when(checkIfEnglishLanguageSelected()){
                 true -> it
                 false -> DateTranslatorUtils.englishToBanglaDateString(it)
             }
         }
+    }
+
+    private fun expenseItemOptionsClickAction(expenseItem: ExpenseItem){
+        val menuViewItems = listOf<MenuViewItem>(
+            MenuViewItem(
+                text = getString(R.string.edit),
+                task = {editExpenseItem(expenseItem)}
+            ),
+            MenuViewItem(
+                text = getString(R.string.remove_text),
+                task = {removeExpenseItem(expenseItem)}
+            )
+        )
+        val menuView = MenuView()
+        menuView.addAll(menuViewItems)
+        runWithContext {menuView.show(it)}
     }
 
     override fun onResume() {
@@ -88,6 +102,7 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProviders.of(this).get(AddExpViewModel::class.java)
+        rv_expense_items.adapter = expenseItemAdapter
 
         tv_entry_add_holder.setOnClickListener {
             runWithContext {
@@ -103,55 +118,22 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
             }
         }
 
-        et_total_expense.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(totalExpenseData: Editable?) {
-                totalExpenseData?.toString()?.let { viewModel?.setTotalExpense(it) }
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        et_quantity.addTextChangedListener(object : TextWatcher{
-            override fun afterTextChanged(quantityText: Editable?) {
-                quantityText?.toString()?.let { viewModel?.setQuantity(it) }
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
-        category_selector.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        spinner_category_selector.setOnItemSelectedListener(object : MaterialSpinner.OnItemSelectedListener<String>{
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
+                view: MaterialSpinner?,
                 position: Int,
-                id: Long
+                id: Long,
+                item: String?
             ) {
-                viewModel?.setExpenseCategory(getSelectedExpenseCategory())
+                viewModel?.setExpenseCategory(expenseCategories.get(position))
             }
         })
 
         page_options.attachMenuViewForClick(getOptionsMenu())
 
-        viewModel?.getTotalExpense()?.observe(this,object : Observer<Double>{
-            override fun onChanged(totalExpense: Double?) {
-                totalExpense?.let {
-                    this@FragmentAddExp.totalExpense = it
-                    refreshUnitPriceDisplay()
-                }
-            }
-        })
-
-        viewModel?.getQuantity()?.observe(this,object : Observer<Int>{
-            override fun onChanged(quantity: Int?) {
-                quantity?.let {
-                    this@FragmentAddExp.qty = it
-                    refreshUnitPriceDisplay()
-                }
-            }
-        })
+        btn_add_exp_item.setOnClickListener {
+            addExpItem()
+        }
 
         viewModel?.getExpenseCategory()?.observe(this,object : Observer<ExpenseCategory>{
             override fun onChanged(expenseCategory: ExpenseCategory?) {
@@ -166,13 +148,76 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
             }
         })
 
+        viewModel?.getExpenseItems()?.observe(this,object : Observer<List<ExpenseItem>>{
+            override fun onChanged(expenseItems: List<ExpenseItem>?) {
+                expenseItems?.let {
+                    expenseItemAdapter.submitList(it)
+                    var totalExpense = 0.0
+                    it.forEach { totalExpense += it.qty*it.unitPrice }
+                    et_total_expense.setText(totalExpense.optimizedString(2))
+                    et_total_expense.isEnabled = false
+                    if (it.isNotEmpty()){
+                        cb_set_expense_manually.hide()
+                        expense_item_list_holder.show()
+                    }else{
+                        cb_set_expense_manually.show()
+                        expense_item_list_holder.hide()
+                    }
+                }
+            }
+        })
+
         btn_save_exp_entry.setOnClickListener { saveExpenseAction() }
 
-        refreshUnitPriceDisplay()
+        cb_set_expense_manually.setOnCheckedChangeListener({buttonView, isChecked ->
+            et_total_expense.isEnabled = isChecked
+        })
+
         initData()
     }
 
-    private fun getSelectedExpenseCategory() = expenseCategories.get(category_selector.selectedItemPosition)
+    private fun addExpItem() {
+        if (et_product_name.text.isNullOrBlank()){
+            et_product_name.error = getString(R.string.product_name_empty_error)
+            return
+        }
+        if (et_unit_price.text.isNullOrBlank()){
+            et_unit_price.error = getString(R.string.unit_price_empty_error)
+            return
+        }
+        if (et_quantity.text.isNullOrBlank() ||
+            et_quantity.text.toString().toDouble() == 0.0){
+            et_unit_price.error = getString(R.string.quantity_empty_error)
+            return
+        }
+        viewModel?.addExpenseItem(
+            ExpenseItem(
+                name = et_product_name.text?.trim()?.toString(),
+                unitOfMeasure = getSelectedUom(),
+                qty = et_quantity.text?.toString()?.toDouble()!!,
+                unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
+                brandName = et_brand_name.text?.toString()
+            )
+        )
+        et_product_name.setText("")
+        et_brand_name.setText("")
+        et_unit_price.setText(getString(R.string.default_unit_price))
+        et_quantity.setText(getString(R.string.default_qty))
+    }
+
+    private fun editExpenseItem(expenseItem: ExpenseItem){
+        expenseItem.apply {
+            et_product_name.setText(name ?: "")
+            et_brand_name.setText(brandName ?: "")
+            et_unit_price.setText(unitPrice.toString())
+            et_quantity.setText(qty.toString())
+        }
+        removeExpenseItem(expenseItem)
+    }
+    private fun removeExpenseItem(expenseItem: ExpenseItem){
+        viewModel?.removeExpenseItem(expenseItem)
+    }
+
     private fun getSelectedUom() = uoms.get(uom_selector.selectedItemPosition)
 
     private fun saveExpenseAction() {
@@ -196,35 +241,28 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
                 val expenseEntry = ExpenseEntry(
                     id = UUID.randomUUID().toString(),
                     time = mEntryTime.time,
-                    unitPrice = unitPrice,
-                    qty = qty,
-                    unitOfMeasure = getSelectedUom(),
-                    description = et_description.text?.toString(),
                     categoryId = getSelectedExpenseCategory().id,
                     expenseCategory = getSelectedExpenseCategory(),
                     categoryProposal = et_category_proposal.text?.toString(),
-                    productName = et_product_name.text?.toString()
+                    description = et_description.text?.toString(),
+                    expenseItems = expenseItemAdapter.currentList,
+                    totalExpense = et_total_expense.text?.toString()?.toDouble()
                 )
-                showWaitScreen()
                 ExpenseRepo.saveExpenseEntry(it,expenseEntry)
                 showShortSnack(R.string.expense_saved_message)
                 resetView()
-                hideWaitScreen()
             }
         }
     }
 
+    private fun getSelectedExpenseCategory(): ExpenseCategory {
+        return viewModel?.getExpenseCategory()?.value!!
+    }
+
     private fun resetView() {
-        mEntryTime.time = Date()
-        timeAutoUpdateOn = true
-        refreshTime()
-        et_total_expense.setText(getString(R.string.total_expense_default_value))
-        et_quantity.setText(getString(R.string.quantity_default_value))
-        et_description.setText("")
-        et_category_proposal.setText("")
-        et_category_proposal.hide()
-        et_product_name.setText("")
-        refreshUnitPriceDisplay()
+        runWithActivity {
+            (it as ActivityHome).loadHomeFragment()
+        }
     }
 
     private fun checkDataCorrectness(): Boolean {
@@ -233,11 +271,7 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
             et_total_expense.error = getString(R.string.total_expense_error_message)
             return false
         }
-        if (et_quantity.text.isNullOrBlank() ||
-            et_quantity.text.toString().toInt() == 0){
-            et_quantity.error = getString(R.string.quantity_error_message)
-            return false
-        }
+
         if (et_description.text.isNullOrBlank()){
             et_description.error = getString(R.string.description_error_message)
             return false
@@ -245,26 +279,20 @@ class FragmentAddExp : Fragment(),WaitScreenOwner {
         return true
     }
 
-    private fun refreshUnitPriceDisplay(){
-        unitPrice = totalExpense/qty
-        tv_unit_price.text = unitPrice.toString()
-    }
-
     private fun initData() {
         runWithContext {
             lifecycleScope.launch {
                 SettingsRepo.getAllExpenseCategories(it).apply {
                     expenseCategories.addAll(this.sortedBy { it.name })
-                    val categoriesAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, expenseCategories.map {
+                    spinner_category_selector.setItems(expenseCategories.map {
                         if (checkIfEnglishLanguageSelected()) {
                             it.name
                         }else{
                             it.nameBangla
                         }
                     })
-                    categoriesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    category_selector.adapter = categoriesAdapter
                 }
+
                 SettingsRepo.getAllUoms(it).apply {
                     uoms.addAll(this.sortedBy { it.name })
                     val uomListAdapter = ArrayAdapter<String>(it, R.layout.view_spinner_item, uoms.map {

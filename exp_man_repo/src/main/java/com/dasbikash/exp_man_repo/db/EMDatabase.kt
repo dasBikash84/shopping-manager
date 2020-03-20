@@ -24,6 +24,7 @@ import com.dasbikash.exp_man_repo.db.dao.UnitOfMeasureDao
 import com.dasbikash.exp_man_repo.db.dao.UserDao
 import com.dasbikash.exp_man_repo.db.room_converters.DateConverter
 import com.dasbikash.exp_man_repo.db.room_converters.ExpenseCategoryConverter
+import com.dasbikash.exp_man_repo.db.room_converters.ExpenseItemListConverter
 import com.dasbikash.exp_man_repo.db.room_converters.UnitOfMeasureConverter
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
@@ -31,7 +32,7 @@ import com.dasbikash.exp_man_repo.model.UnitOfMeasure
 import com.dasbikash.exp_man_repo.model.User
 
 @Database(entities = [ExpenseEntry::class,ExpenseCategory::class,UnitOfMeasure::class,User::class],version = 1, exportSchema = false)
-@TypeConverters(DateConverter::class, UnitOfMeasureConverter::class, ExpenseCategoryConverter::class)
+@TypeConverters(DateConverter::class, UnitOfMeasureConverter::class, ExpenseCategoryConverter::class, ExpenseItemListConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
 
     abstract val userDao:UserDao

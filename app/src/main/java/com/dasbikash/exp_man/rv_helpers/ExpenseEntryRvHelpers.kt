@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
@@ -44,9 +45,6 @@ class ExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tv_exp_amount_text: TextView = itemView.findViewById(
         R.id.tv_exp_amount_text
     )
-    private val tv_exp_qty_text: TextView = itemView.findViewById(
-        R.id.tv_exp_qty_text
-    )
     private val tv_exp_desc_text: TextView = itemView.findViewById(
         R.id.tv_exp_desc_text
     )
@@ -64,10 +62,10 @@ class ExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                         it
                     )
                 } }
-            tv_exp_amount_text.text = itemView.context.getString(R.string.double_2_dec_point,unitPrice*qty)
-            tv_exp_qty_text.text = itemView.context.getString(R.string.exp_qty_text,qty,unitOfMeasure?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} })
+            tv_exp_amount_text.text = itemView.context.getString(R.string.double_2_dec_point,totalExpense)
             tv_exp_desc_text.text = description
             tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
         }
+        itemView.setOnClickListener { debugLog(expenseEntry) }
     }
 }

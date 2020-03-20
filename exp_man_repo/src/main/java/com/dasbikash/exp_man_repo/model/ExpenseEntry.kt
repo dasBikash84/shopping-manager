@@ -1,10 +1,8 @@
 package com.dasbikash.exp_man_repo.model
 
 import androidx.annotation.Keep
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
@@ -30,18 +28,17 @@ data class ExpenseEntry(
     @PrimaryKey
     var id:String="",
     var time: Date?=null,
-    var categoryId: String?=null,
     var userId: String?=null,
-    var unitPrice:Double,
-    var qty:Int=1,
-    var description:String?=null,
-    var categoryProposal:String?=null,
-    var productName:String?=null,
-    var unitOfMeasure: UnitOfMeasure?=null,
+    var categoryId: String?=null,
     var expenseCategory: ExpenseCategory?=null,
+    var categoryProposal:String?=null,
+    var description:String?=null,
+    var expenseItems:List<ExpenseItem>?=null,
+    var totalExpense:Double?=null,
     var modified:Date=Date(),
     var created:Date=Date()
 ){
+
     fun updateModified(){
         modified=Date()
     }

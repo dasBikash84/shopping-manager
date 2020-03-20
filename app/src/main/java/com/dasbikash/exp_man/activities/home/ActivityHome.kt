@@ -65,4 +65,8 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
             addFragmentClearingBackStack(type.newInstance())
         }
     }
+
+    fun loadHomeFragment(){
+        addFragmentClearingBackStack(getDefaultFragment())
+    }
 }

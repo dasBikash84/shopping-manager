@@ -52,11 +52,11 @@
     <string name="invalid_verification_code_message">Invalid verification code!</string>
     <string name="login_code_resend">Login code sent.</string>
     <string name="hide_login_benefits">Don\'t show again.</string>
-    <string name="add_expense_title">Add expense entry:</string>
-    <string name="total_expense_hint">Expense amount*</string>
+    <string name="add_expense_title">Save expense entry:</string>
+    <string name="total_expense_hint">Expense amount</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
-    <string name="entry_time_text">Entry Time:</string>
+    <string name="entry_time_text">Expense Time:</string>
     <string name="quantity_hint">Quantity*</string>
     <string name="uom_selector_prompt">Unit</string>
     <string name="unit_cost_text">Unit price:</string>
@@ -64,8 +64,8 @@
     <string name="save_exp_entry">Save</string>
     <string name="category_selector_prompt">Category</string>
     <string name="category_hint">New category name</string>
-    <string name="product_name_hint">Product name</string>
-    <string name="category_title_text">Category*:</string>
+    <string name="product_name_hint">Product name*</string>
+    <string name="category_title_text">Category:</string>
     <string name="total_expense_error_message">Total expense can\'t be empty or zero</string>
     <string name="quantity_error_message">Quantity can\'t be empty or zero</string>
     <string name="description_error_message">Description can\'t be blank</string>
@@ -116,4 +116,20 @@
     <string name="month_title_format">MMM yyyy</string>
     <string name="login_launcher_text">Login to use feature</string>
     <string name="why_login_text">This is a personalized feature, hence login is required.</string>
+    <string name="brand_name_hint">Brand name</string>
+    <string name="unit_price_hint">Unit price*</string>
+    <string name="add_exp_item">Add Product</string>
+    <string name="set_expense_manually">Set manually</string>
+    <string name="expense_item_list_title_text">Added items</string>
+    <string name="default_qty">1.0</string>
+    <string name="exp_item_name_text">"Name: "</string>
+    <string name="exp_item_brand_name_text">Brand:</string>
+    <string name="product_name_empty_error">Product name is required!!</string>
+    <string name="default_unit_price">0.0</string>
+    <string name="unit_price_empty_error">Unit price is required!!</string>
+    <string name="quantity_empty_error">Quanitity is required!!</string>
+    <string name="edit">Edit</string>
+    <string name="remove_text">Remove</string>
+    <string name="entry_time_title_text">Time</string>
+    <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
 </resources>
