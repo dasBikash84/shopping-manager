@@ -72,10 +72,51 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/spinner_category_selector"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_category_selector"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_launch_search"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout
+                    android:id="@+id/btn_launch_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:background="@color/off_white"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/ic_search" />
+                </com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/search_text_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_text_hint"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_search_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_exp_entry"
@@ -90,9 +131,9 @@
         android:id="@+id/rv_time_wise_exp_holder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sorter_chips_scroller"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/sorter_chips_scroller">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_time_wise_exp"
@@ -100,7 +141,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible"
-            app:layoutManager="LinearLayoutManager"/>
+            app:layoutManager="LinearLayoutManager" />
     </androidx.core.widget.NestedScrollView>
 
     <androidx.appcompat.widget.LinearLayoutCompat

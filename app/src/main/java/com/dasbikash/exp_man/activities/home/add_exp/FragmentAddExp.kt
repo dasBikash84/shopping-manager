@@ -1,4 +1,4 @@
-package com.dasbikash.exp_man.activities.home
+package com.dasbikash.exp_man.activities.home.add_exp
 
 import android.graphics.Color
 import android.os.Bundle
@@ -19,6 +19,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
+import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
@@ -46,7 +47,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
     private val mEntryTime = Calendar.getInstance()
     private var timeAutoUpdateOn = true
 
-    private var viewModel: AddExpViewModel? = null
+    private var viewModel: ViewModelAddExp? = null
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val uoms = mutableListOf<UnitOfMeasure>()
@@ -106,7 +107,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(AddExpViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(ViewModelAddExp::class.java)
         rv_expense_items.adapter = expenseItemAdapter
 
         tv_entry_add_holder.setOnClickListener {

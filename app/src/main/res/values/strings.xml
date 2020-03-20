@@ -137,4 +137,5 @@
     <string name="vat_ait_hint">Tax/VAT(%)</string>
     <string name="default_tax_vat">0.0</string>
     <string name="tax_vat_error">Tax/Vat can\'t be negative!</string>
+    <string name="search_text_hint">Search by portion of details text</string>
 </resources>

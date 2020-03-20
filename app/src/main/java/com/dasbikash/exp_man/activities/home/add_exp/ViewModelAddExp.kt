@@ -1,4 +1,4 @@
-package com.dasbikash.exp_man.activities.home
+package com.dasbikash.exp_man.activities.home.add_exp
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseItem
 
-class AddExpViewModel(private val mApplication: Application) : AndroidViewModel(mApplication) {
+class ViewModelAddExp(private val mApplication: Application) : AndroidViewModel(mApplication) {
 
     private val expenseCategory:MutableLiveData<ExpenseCategory> = MutableLiveData()
     private val expenseItems:MutableLiveData<List<ExpenseItem>> = MutableLiveData()

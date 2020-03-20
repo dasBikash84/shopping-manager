@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp
+import com.dasbikash.exp_man.activities.home.exp_summary.FragmentExpSummary
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
@@ -12,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
-    override fun getDefaultFragment(): Fragment = FragmentAddExp()
+    override fun getDefaultFragment(): Fragment =
+        FragmentAddExp()
 
     override fun getLayoutID(): Int = R.layout.activity_home
 

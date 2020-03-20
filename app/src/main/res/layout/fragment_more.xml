@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/snow_white3"
-    tools:context=".activities.home.FragmentAddExp"
+    tools:context=".activities.home.add_exp.FragmentAddExp"
     android:padding="4dp">
 
     <com.google.android.material.card.MaterialCardView

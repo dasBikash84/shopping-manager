@@ -1,10 +1,11 @@
-package com.dasbikash.exp_man.activities.home
+package com.dasbikash.exp_man.activities.home.exp_summary
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
@@ -104,6 +105,16 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 item?.let { filterByCategory(it) }
             }
         })
+
+        btn_launch_search.setOnClickListener {
+            if (search_text_holder.isVisible){
+                et_search_text.setText("")
+                search_text_holder.hide()
+            }else{
+                et_search_text.setText("")
+                search_text_holder.show()
+            }
+        }
 
         setCategorySpinnerItems()
         rv_time_wise_exp_holder.hide()
