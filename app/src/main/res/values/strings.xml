@@ -54,6 +54,7 @@
     <string name="login_code_resend">Login code sent.</string>
     <string name="hide_login_benefits">Don\'t show again.</string>
     <string name="add_expense_title">Add Expense Entry</string>
+    <string name="edit_expense_title">Edit Expense Entry</string>
     <string name="total_expense_hint">Total expense amount</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>

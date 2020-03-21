@@ -55,6 +55,7 @@
     <string name="invalid_verification_code_message">" আপনি ভুল ভেরিফিকেশান কোড  প্রদান করেছেন!"</string>
     <string name="login_code_resend">লগইনের জন্য কোড  পাঠানো হয়েছে।</string>
     <string name="add_expense_title">খরচের তথ্য এন্ট্রি</string>
+    <string name="edit_expense_title">খরচের তথ্য সংশোধন</string>
     <string name="total_expense_hint">খরচের পরিমাণ</string>
     <string name="ok">ওকে</string>
     <string name="cancel">ক্যানসেল</string>
@@ -85,7 +86,7 @@
     <string name="exp_desc_title_text">বিস্তারিতঃ</string>
     <string name="exp_cat_title_text">খরচের খাতঃ</string>
     <string name="login_launcher_text">ফিচারটি ব্যাবহার করতে লগইন করুণ</string>
-    <string name="why_login_text">ফিচারটি বাক্তি বিশেষের জন্য প্রযোজ্য, তাই লগইন প্রয়োজন।</string>
+    <string name="why_login_text">ফিচারটি ব্যক্তি বিশেষের ক্ষেত্রে প্রযোজ্য, তাই লগইন প্রয়োজন।</string>
     <string name="brand_name_hint">কোম্পানির নাম</string>
     <string name="unit_price_hint">একক মূল্য*</string>
     <string name="add_exp_item">পণ্য যোগ করুণ</string>

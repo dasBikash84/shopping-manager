@@ -86,6 +86,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
     }
 
     fun bind(expenseEntry: ExpenseEntry) {
+        debugLog(expenseEntry)
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = DateUtils

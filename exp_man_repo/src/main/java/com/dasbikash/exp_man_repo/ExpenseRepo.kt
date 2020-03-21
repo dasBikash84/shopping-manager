@@ -130,6 +130,10 @@ object ExpenseRepo:ExpenseManagerRepo() {
         debugLog(sqlBuilder.toString())
         return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByInRawQuery(SimpleSQLiteQuery(sqlBuilder.toString()))
     }
+
+    suspend fun getExpenseEntryById(context: Context,id:String):ExpenseEntry?{
+        return getDatabase(context).expenseEntryDao.findById(id)
+    }
 }
 
 @Keep

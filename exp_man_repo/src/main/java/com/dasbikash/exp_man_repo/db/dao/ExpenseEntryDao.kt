@@ -23,8 +23,8 @@ import java.util.*
 @Dao
 internal interface ExpenseEntryDao {
 
-//    @Query("SELECT * FROM ExpenseEntry where id=:id")
-//    suspend fun findById(id:String): ExpenseEntry?
+    @Query("SELECT * FROM ExpenseEntry where id=:id")
+    suspend fun findById(id:String): ExpenseEntry?
 
     @Query("SELECT time FROM ExpenseEntry where userId=:userId ORDER BY timeTs DESC")
     suspend fun getDates(userId:String): List<Date>

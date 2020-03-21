@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.calculator.ActivityCalculator"></activity>
+        <activity android:name=".activities.calculator.ActivityCalculator"/>
         <activity android:name=".activities.login.ActivityLogin" />
         <activity android:name=".activities.home.ActivityHome" />
         <activity android:name=".activities.launcher.ActivityLauncher">
@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.edit_expense.ActivityEditExpense" />
     </application>
 
 </manifest>

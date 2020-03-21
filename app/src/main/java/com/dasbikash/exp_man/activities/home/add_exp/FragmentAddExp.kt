@@ -1,6 +1,5 @@
 package com.dasbikash.exp_man.activities.home.add_exp
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,11 +11,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
-import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
 import com.dasbikash.exp_man.activities.home.ActivityHome
 import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
@@ -34,6 +33,8 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
+import kotlinx.android.synthetic.main.view_login_benefits.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
@@ -43,6 +44,8 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
     private val TIME_REFRESH_INTERVAL = 1000L
     private val mEntryTime = Calendar.getInstance()
     private var timeAutoUpdateOn = true
+
+    private var expenseEntry:ExpenseEntry?=null
 
     private var viewModel: ViewModelAddExp? = null
 
@@ -86,7 +89,9 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     override fun onResume() {
         super.onResume()
-        refreshTime()
+        if (!isEditFragment()) {
+            refreshTime()
+        }
     }
 
     private fun refreshTime() {
@@ -113,9 +118,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                     date = mEntryTime.time,
                     maxDate = Date(),
                     doOnDateTimeSet = {
-                        timeAutoUpdateOn = false
-                        mEntryTime.time = it
-                        updateTime()
+                        setTime(it)
                     }
                 )
                 dateTimePicker.display(it)
@@ -133,8 +136,6 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                 viewModel?.setExpenseCategory(expenseCategories.get(position))
             }
         })
-
-//        page_options.attachMenuViewForClick(getOptionsMenu())
 
         btn_add_exp_item.setOnClickListener {
             hideKeyboard()
@@ -201,6 +202,12 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         })
 
         initData()
+    }
+
+    private fun setTime(it: Date) {
+        timeAutoUpdateOn = false
+        mEntryTime.time = it
+        updateTime()
     }
 
     private fun addExpItem() {
@@ -272,17 +279,18 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                         message = it.getString(R.string.save_exp_entry_prompt),
                         doOnPositivePress = {
                             lifecycleScope.launch {
-                                val expenseEntry = ExpenseEntry(
-                                    time = mEntryTime.time,
-                                    categoryId = getSelectedExpenseCategory().id,
-                                    expenseCategory = getSelectedExpenseCategory(),
-                                    categoryProposal = et_category_proposal.text?.toString(),
-                                    details = et_description.text?.toString(),
-                                    expenseItems = expenseItemAdapter.currentList,
-                                    totalExpense = et_total_expense.text?.toString()?.toDouble(),
-                                    taxVat = viewModel?.getVatTax()?.value ?: 0.0
-                                )
-                                ExpenseRepo.saveExpenseEntry(it, expenseEntry)
+                                if (expenseEntry == null){
+                                    expenseEntry = ExpenseEntry()
+                                }
+                                expenseEntry!!.time = mEntryTime.time
+                                expenseEntry!!.categoryId = getSelectedExpenseCategory().id
+                                expenseEntry!!.expenseCategory = getSelectedExpenseCategory()
+                                expenseEntry!!.categoryProposal = et_category_proposal.text?.toString()
+                                expenseEntry!!.details = et_description.text?.toString()
+                                expenseEntry!!.expenseItems = expenseItemAdapter.currentList
+                                expenseEntry!!.totalExpense = et_total_expense.text?.toString()?.toDouble()
+                                expenseEntry!!.taxVat = viewModel?.getVatTax()?.value ?: 0.0
+                                ExpenseRepo.saveExpenseEntry(it, expenseEntry!!)
                                 showShortSnack(R.string.expense_saved_message)
                                 resetView()
                             }
@@ -298,7 +306,11 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     private fun resetView() {
         runWithActivity {
-            (it as ActivityHome).loadHomeFragment()
+            if (!isEditFragment()) {
+                (it as ActivityHome).loadHomeFragment()
+            }else{
+                activity?.finish()
+            }
         }
     }
 
@@ -320,25 +332,44 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
     private fun initData() {
         runWithContext {
             lifecycleScope.launch {
+                getExpenseEntry()?.let {
+                    expenseEntry = it
+                    debugLog(it)
+                    setTime(it.time!!)
+                    et_description.setText(it.details)
+                    et_vat_ait.setText(it.taxVat.toString())
+                    et_total_expense.setText(it.totalExpense?.toString())
+                    it.expenseItems?.let {
+                        expenseItemAdapter.submitList(it)
+                        expense_item_list_holder.show()
+                    }
+//                    spinner_category_selector.adap
+                }
+            }
+            lifecycleScope.launch(Dispatchers.IO) {
                 SettingsRepo.getAllExpenseCategories(it).apply {
                     expenseCategories.addAll(this.sortedBy { it.name })
-                    spinner_category_selector.setItems(expenseCategories.map {
-                        if (checkIfEnglishLanguageSelected()) {
-                            it.name
-                        } else {
-                            it.nameBangla
-                        }
+                    runOnMainThread({
+                        spinner_category_selector.setItems(expenseCategories.map {
+                            if (checkIfEnglishLanguageSelected()) {
+                                it.name
+                            } else {
+                                it.nameBangla
+                            }
+                        })
                     })
                 }
 
                 SettingsRepo.getAllUoms(it).apply {
                     uoms.addAll(this.sortedBy { it.name })
-                    uom_selector.setItems(uoms.map {
-                        if (checkIfEnglishLanguageSelected()) {
-                            it.name
-                        } else {
-                            it.nameBangla
-                        }
+                    runOnMainThread({
+                        uom_selector.setItems(uoms.map {
+                            if (checkIfEnglishLanguageSelected()) {
+                                it.name
+                            } else {
+                                it.nameBangla
+                            }
+                        })
                     })
                 }
             }
@@ -347,27 +378,40 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
-    private fun getOptionsMenu(): MenuView {
-        val menuViewItems = listOf<MenuViewItem>(
-            MenuViewItem(
-                text = getString(R.string.calculator_title),
-                task = { runWithActivity { it.startActivity(ActivityCalculator::class.java) } }
-            )
-        )
-
-        val menuView = MenuView(
-            menuItemFontBg = Color.BLACK,
-            menuItemFontColor = Color.WHITE,
-            menuItemFontSize = OPTIONS_MENU_ITEM_FONT_SIZE
-        )
-        menuView.addAll(menuViewItems)
-        return menuView
+    override fun getPageTitleId():Int{
+        return when(isEditFragment()){
+            true -> R.string.edit_expense_title
+            false -> R.string.add_expense_title
+        }
     }
 
-    override fun getPageTitleId() = R.string.add_expense_title
+    private fun isEditFragment():Boolean{
+        return arguments?.getString(EXTRA_EXP_EDIT_MODE) !=null
+    }
+
+    private suspend fun getExpenseEntry():ExpenseEntry?{
+        arguments?.getString(EXTRA_EXP_ENTRY_ID)?.let {
+            val id = it
+            return ExpenseRepo.getExpenseEntryById(context!!,id)
+        }
+        return null
+    }
 
     companion object {
         private const val MISCELLANEOUS_TEXT = "Miscellaneous"
-        private val OPTIONS_MENU_ITEM_FONT_SIZE = 20.00f
+
+        private const val EXTRA_EXP_EDIT_MODE =
+            "com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp.EXTRA_EXP_EDIT_MODE"
+        private const val EXTRA_EXP_ENTRY_ID =
+            "com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp.EXTRA_EXP_ENTRY_ID"
+
+        fun getEditInstance(expenseEntryId: String):FragmentAddExp{
+            val fragment = FragmentAddExp()
+            val bundle = Bundle()
+            bundle.putString(EXTRA_EXP_EDIT_MODE,EXTRA_EXP_EDIT_MODE)
+            bundle.putString(EXTRA_EXP_ENTRY_ID,expenseEntryId)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
 }

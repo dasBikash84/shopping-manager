@@ -63,7 +63,8 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
             if (AuthRepo.checkLogIn(this@ActivityHome)){
                 loadFragmentIfNotLoadedAlready(type)
             }else{
-                addFragmentClearingBackStack(FragmentLogInLauncher())
+                val fragment = FragmentLogInLauncher()
+                addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
             }
         }
     }
@@ -71,14 +72,14 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
     private fun <T:Fragment> loadFragmentIfNotLoadedAlready(type:Class<T>){
         if (getCurrentFragmentType() != type) {
             val fragment = type.newInstance()
-            page_title.text = getString((fragment as FragmentHome).getPageTitleId())
-            addFragmentClearingBackStack(fragment)
+            addFragmentClearingBackStack(fragment){
+                page_title.text = getString((fragment as FragmentHome).getPageTitleId())
+            }
         }
     }
 
     fun loadHomeFragment(){
         val fragment = getDefaultFragment()
-        page_title.text = getString((fragment as FragmentHome).getPageTitleId())
-        addFragmentClearingBackStack(fragment)
+        addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
     }
 }

@@ -18,6 +18,7 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.edit_expense.ActivityEditExpense
 import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.model.TimeWiseExpenses
 import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
@@ -45,10 +46,12 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
 
-    private lateinit var timeBasedExpenseEntryGroupAdapter:TimeBasedExpenseEntryGroupAdapter// = TimeBasedExpenseEntryGroupAdapter(timePeriodTitleClickEventPublisher,{editTask(it)},{deleteTask(it)})
+    private lateinit var timeBasedExpenseEntryGroupAdapter:TimeBasedExpenseEntryGroupAdapter
 
     private fun editTask(expenseEntry: ExpenseEntry){
-        TODO()
+        runWithContext {
+            activity?.startActivity(ActivityEditExpense.getIntent(it,expenseEntry))
+        }
     }
     private fun deleteTask(expenseEntry: ExpenseEntry){
         runWithContext {

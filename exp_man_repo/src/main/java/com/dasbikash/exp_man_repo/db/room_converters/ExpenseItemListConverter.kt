@@ -15,6 +15,7 @@ package com.dasbikash.exp_man_repo.db.room_converters
 
 import androidx.room.TypeConverter
 import com.dasbikash.android_basic_utils.utils.LoggerUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man_repo.model.ExpenseItem
 import com.dasbikash.exp_man_repo.utils.toSerializable
 import com.dasbikash.exp_man_repo.utils.toSerializedString
@@ -27,6 +28,9 @@ internal object ExpenseItemListConverter {
     @TypeConverter
     @JvmStatic
     internal fun fromExpenseItemList(entry: List<ExpenseItem>?): String? {
+        debugLog("fromExpenseItemList")
+        entry?.forEach { debugLog("on top: $it") }
+        entry?.forEach { debugLog("on top ser: ${it.toSerializedString()}") }
         entry?.map { it.toSerializedString() }?.let {
             val stringBuilder = StringBuilder("")
             for (i in entry.indices) {
@@ -35,20 +39,33 @@ internal object ExpenseItemListConverter {
                     stringBuilder.append(DATA_BRIDGE)
                 }
             }
+            debugLog("stringBuilder.toString():${stringBuilder.toString()}")
             return stringBuilder.toString()
         }
+        debugLog("fromExpenseItemList: null")
         return null
     }
 
     @TypeConverter
     @JvmStatic
     internal fun toExpenseItemList(entryListString: String?): List<ExpenseItem>? {
+        debugLog("toExpenseItemList")
+        debugLog("entryListString:$entryListString")
         entryListString?.let {
             return it.split(DATA_BRIDGE)
                         .asSequence()
-                        .map { it.toSerializable(ExpenseItem::class.java) }
-                        .filter { it!=null }
-                        .map { it!! }
+                        .map {
+                            debugLog("before convert: $it")
+                            it.toSerializable(ExpenseItem::class.java)
+                        }
+                        .filter {
+                            debugLog("filter: $it")
+                            it!=null
+                        }
+                        .map {
+                            debugLog("map 2: $it")
+                            it!!
+                        }
                         .toList()
         }
         return null
