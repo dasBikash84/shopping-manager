@@ -15,6 +15,8 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.utils.DateTranslatorUtils
+import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man.utils.getTitleString
 import com.dasbikash.exp_man.utils.optimizedString
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
@@ -114,6 +116,13 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
     fun bind(timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup) {
         this.timeBasedExpenseEntryGroup = timeBasedExpenseEntryGroup
         tv_time_period_text.text = timeBasedExpenseEntryGroup.getTitleString(itemView.context)
+                                        .let {
+                                            if (checkIfEnglishLanguageSelected()){
+                                                it
+                                            }else{
+                                                DateTranslatorUtils.englishToBanglaDateString(it)
+                                            }
+                                        }
         tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.optimizedString(2)
         tv_exp_count.text = timeBasedExpenseEntryGroup.expenseEntryIds.size.toString()
     }

@@ -30,48 +30,64 @@
                 tools:text="Time Period text" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/exp_amount_block"
                 app:layout_constraintTop_toBottomOf="@+id/tv_time_period_text"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="2dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/exp_entry_view_title_text"
-                    android:text="@string/total_expense_title"/>
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="gravity"
+                        android:paddingStart="4dp"
+                        android:textSize="14sp"
+                        android:minHeight="24dp"
+                        android:text="@string/total_expense_title"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="gravity"
+                        android:paddingStart="4dp"
+                        android:textSize="14sp"
+                        android:minHeight="24dp"
+                        android:text="@string/exp_count_prompt_text" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_total_expense"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/exp_entry_view_details_text"
-                    tools:text="@string/total_expense_title"
-                    android:textIsSelectable="true"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_expense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="gravity"
+                        android:paddingStart="8dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:minHeight="24dp"
+                        tools:text="@string/total_expense_title"
+                        android:textIsSelectable="true"/>
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                app:layout_constraintTop_toBottomOf="@+id/exp_amount_block"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/exp_entry_view_title_text"
-                    android:text="@string/exp_count_prompt_text" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_exp_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/exp_entry_view_details_text"
-                    tools:text="@string/exp_count_prompt_text"
-                    android:textIsSelectable="true"/>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_exp_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:textAlignment="gravity"
+                        android:paddingStart="8dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:minHeight="24dp"
+                        tools:text="@string/exp_count_prompt_text"
+                        android:textIsSelectable="true"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
