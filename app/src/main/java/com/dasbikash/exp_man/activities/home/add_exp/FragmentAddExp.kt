@@ -193,7 +193,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             }
         })
 
-        btn_save_exp_entry.setOnClickListener { saveExpenseAction() }
+        btn_save_exp_entry.setOnClickListener { saveExpenseTask() }
 
         cb_set_expense_manually.setOnCheckedChangeListener({ buttonView, isChecked ->
             et_total_expense.isEnabled = isChecked
@@ -263,42 +263,46 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
 
     private fun getSelectedUom() = uoms.get(uom_selector.selectedIndex)
 
-    private fun saveExpenseAction() {
-        if (checkDataCorrectness()) {
-            runWithContext {
-                lifecycleScope.launch {
-                    val user = AuthRepo.getUser(it)
-                    if (user != null) {
-                        NetworkMonitor.runWithNetwork(it) { saveExpenseTask() }
-                    } else {
-                        saveExpenseTask()
-                    }
-                }
-            }
-        }
-    }
+//    private fun saveExpenseAction() {
+//        if (checkDataCorrectness()) {
+//            runWithContext {
+//                lifecycleScope.launch {
+//                    val user = AuthRepo.getUser(it)
+//                    if (user != null) {
+//                        NetworkMonitor.runWithNetwork(it) { saveExpenseTask() }
+//                    } else {
+//                        saveExpenseTask()
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private fun saveExpenseTask() {
-        runWithContext {
-            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                message = it.getString(R.string.save_exp_entry_prompt),
-                doOnPositivePress = {
-                    lifecycleScope.launch {
-                        val expenseEntry = ExpenseEntry(
-                            time = mEntryTime.time,
-                            categoryId = getSelectedExpenseCategory().id,
-                            expenseCategory = getSelectedExpenseCategory(),
-                            categoryProposal = et_category_proposal.text?.toString(),
-                            details = et_description.text?.toString(),
-                            expenseItems = expenseItemAdapter.currentList,
-                            totalExpense = et_total_expense.text?.toString()?.toDouble(),
-                            taxVat = viewModel?.getVatTax()?.value ?: 0.0
-                        )
-                        ExpenseRepo.saveExpenseEntry(it, expenseEntry)
-                        showShortSnack(R.string.expense_saved_message)
-                        resetView()
-                    }
-                }))
+        if (checkDataCorrectness()) {
+            runWithContext {
+                DialogUtils.showAlertDialog(
+                    it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.save_exp_entry_prompt),
+                        doOnPositivePress = {
+                            lifecycleScope.launch {
+                                val expenseEntry = ExpenseEntry(
+                                    time = mEntryTime.time,
+                                    categoryId = getSelectedExpenseCategory().id,
+                                    expenseCategory = getSelectedExpenseCategory(),
+                                    categoryProposal = et_category_proposal.text?.toString(),
+                                    details = et_description.text?.toString(),
+                                    expenseItems = expenseItemAdapter.currentList,
+                                    totalExpense = et_total_expense.text?.toString()?.toDouble(),
+                                    taxVat = viewModel?.getVatTax()?.value ?: 0.0
+                                )
+                                ExpenseRepo.saveExpenseEntry(it, expenseEntry)
+                                showShortSnack(R.string.expense_saved_message)
+                                resetView()
+                            }
+                        })
+                )
+            }
         }
     }
 

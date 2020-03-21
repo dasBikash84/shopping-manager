@@ -130,6 +130,7 @@
     <string name="quantity_empty_error">Quantity can\'t be empty or zero!</string>
     <string name="edit">Edit</string>
     <string name="remove_text">Remove</string>
+    <string name="delete">Delete</string>
     <string name="entry_time_title_text">Time</string>
     <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
     <string name="save_exp_entry_prompt">Save expense entry?</string>
@@ -138,4 +139,6 @@
     <string name="default_tax_vat">0.0</string>
     <string name="tax_vat_error">Tax/Vat can\'t be negative!</string>
     <string name="search_text_hint">Search by portion of details text</string>
+    <string name="confirm_delete_prompt">Confirm deletion?</string>
+    <string name="delete_confirmaion_message">Expense entry deleted!</string>
 </resources>

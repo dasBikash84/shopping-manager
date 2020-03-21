@@ -13,10 +13,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.R
@@ -28,6 +30,7 @@ import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_exp_summary.*
@@ -40,14 +43,26 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelExpSummary
     private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
 
-    private val expenseEntryAdapter = ExpenseEntryAdapter()
+    private val expenseEntryAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)})
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val expenseEntries = mutableListOf<ExpenseEntry>()
 
-    private val timeWiseExpensesAdapter =
-        TimeWiseExpensesAdapter(
-            timePeriodTitleClickEventPublisher
-        )
+    private val timeWiseExpensesAdapter = TimeWiseExpensesAdapter( timePeriodTitleClickEventPublisher )
+
+    private fun editTask(expenseEntry: ExpenseEntry){
+        TODO()
+    }
+    private fun deleteTask(expenseEntry: ExpenseEntry){
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.confirm_delete_prompt),
+                doOnPositivePress = { lifecycleScope.launch {
+                    ExpenseRepo.delete(it, expenseEntry)
+                    showShortSnack(R.string.delete_confirmaion_message)
+                } }
+            ))
+        }
+    }
 
     private val timeWiseExpensesList = mutableListOf<TimeWiseExpenses>()
 

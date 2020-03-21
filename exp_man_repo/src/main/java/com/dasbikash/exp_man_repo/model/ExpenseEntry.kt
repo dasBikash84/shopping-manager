@@ -38,6 +38,7 @@ data class ExpenseEntry(
     var expenseItems:List<ExpenseItem>?=null,
     var totalExpense:Double?=null,
     var taxVat:Double = 0.0,
+    var active:Boolean = true,
     var modified:Date=Date(),
     var created:Date=Date()
 ){

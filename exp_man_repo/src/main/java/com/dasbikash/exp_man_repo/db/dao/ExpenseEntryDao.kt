@@ -37,6 +37,9 @@ internal interface ExpenseEntryDao {
     @Query("DELETE FROM ExpenseEntry")
     suspend fun nukeTable()
 
+    @Delete
+    suspend fun delete(expenseEntry: ExpenseEntry)
+
     @RawQuery
     suspend fun getExpenseEntryByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):List<ExpenseEntry>
 

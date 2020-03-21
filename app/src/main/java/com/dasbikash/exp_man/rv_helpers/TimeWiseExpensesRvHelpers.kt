@@ -8,10 +8,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.toggle
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.model.TimeWiseExpenses
+import com.dasbikash.exp_man_repo.model.ExpenseEntry
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 object TimeWiseExpensesDiffCallback: DiffUtil.ItemCallback<TimeWiseExpenses>(){
@@ -43,8 +45,14 @@ class TimeWiseExpensesHolder(itemView: View,val timePeriodTitleClickEventPublish
     private val tv_time_period_text: TextView = itemView.findViewById(R.id.tv_time_period_text)
     private val rv_time_wise_exp_holder: RecyclerView = itemView.findViewById(R.id.rv_time_wise_exp_holder)
 
-    private val expHolderAdapter =
-        ExpenseEntryAdapter()
+    private val expHolderAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)})
+
+    private fun editTask(expenseEntry: ExpenseEntry){
+        TODO()
+    }
+    private fun deleteTask(expenseEntry: ExpenseEntry){
+        TODO()
+    }
 
     init {
         rv_time_wise_exp_holder.adapter = expHolderAdapter

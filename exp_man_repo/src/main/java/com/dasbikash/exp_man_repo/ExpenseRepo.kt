@@ -21,10 +21,6 @@ object ExpenseRepo:ExpenseManagerRepo() {
         return true
     }
 
-    suspend fun getAllExpenseEntries(context: Context):List<ExpenseEntry>{
-        return getDatabase(context).expenseEntryDao.findAll()
-    }
-
     private fun getSqlForExpenseEntryFetch(searchText:String,limit:Int,
                                        user: User?=null,expenseCategory: ExpenseCategory?=null):Pair<String,List<Any>> {
         val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where ")
@@ -57,5 +53,12 @@ object ExpenseRepo:ExpenseManagerRepo() {
         debugLog(sqlBuilder)
         return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByRawQuery(
                                                         SimpleSQLiteQuery(sqlBuilder,params.toTypedArray()))
+    }
+
+    suspend fun delete(context: Context,expenseEntry: ExpenseEntry){
+        if (AuthRepo.checkLogIn(context)){
+            FireStoreExpenseEntryUtils.deleteExpenseEntry(expenseEntry)
+        }
+        getDatabase(context).expenseEntryDao.delete(expenseEntry)
     }
 }
