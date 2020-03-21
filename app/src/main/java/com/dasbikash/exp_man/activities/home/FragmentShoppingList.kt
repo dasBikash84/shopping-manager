@@ -8,10 +8,7 @@ import android.view.ViewGroup
 
 import com.dasbikash.exp_man.R
 
-/**
- * A simple [Fragment] subclass.
- */
-class FragmentShoppingList : Fragment() {
+class FragmentShoppingList : FragmentHome() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,4 +17,5 @@ class FragmentShoppingList : Fragment() {
         return inflater.inflate(R.layout.fragment_shopping_list, container, false)
     }
 
+    override fun getPageTitleId() = R.string.shopping_list_title
 }

@@ -11,7 +11,7 @@ import com.dasbikash.exp_man.R
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentBudget : Fragment() {
+class FragmentBudget : FragmentHome() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,4 +20,5 @@ class FragmentBudget : Fragment() {
         return inflater.inflate(R.layout.fragment_budget, container, false)
     }
 
+    override fun getPageTitleId() = R.string.bmi_budget
 }

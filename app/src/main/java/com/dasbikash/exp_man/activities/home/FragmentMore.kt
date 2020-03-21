@@ -16,7 +16,7 @@ import com.dasbikash.exp_man_repo.AuthRepo
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.coroutines.launch
 
-class FragmentMore : Fragment() {
+class FragmentMore : FragmentHome() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,4 +66,5 @@ class FragmentMore : Fragment() {
         }
     }
 
+    override fun getPageTitleId() = R.string.app_name
 }

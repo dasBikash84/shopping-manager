@@ -21,6 +21,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.model.TimeWiseExpenses
 import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.exp_man.rv_helpers.TimeWiseExpensesAdapter
@@ -37,7 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class FragmentExpSummary : Fragment(),WaitScreenOwner {
+class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
     private lateinit var viewModel: ViewModelExpSummary
     private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
@@ -251,4 +252,5 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
         }
     }
     override fun registerWaitScreen(): ViewGroup = wait_screen
+    override fun getPageTitleId() = R.string.exp_browse_page_title
 }

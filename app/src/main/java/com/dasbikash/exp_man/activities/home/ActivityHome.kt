@@ -1,5 +1,6 @@
 package com.dasbikash.exp_man.activities.home
 
+import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -14,8 +15,7 @@ import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
-    override fun getDefaultFragment(): Fragment =
-        FragmentAddExp()
+    override fun getDefaultFragment(): Fragment = FragmentAddExp()
 
     override fun getLayoutID(): Int = R.layout.activity_home
 
@@ -53,6 +53,11 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
     }
 
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        page_title.text = getString(R.string.add_expense_title)
+    }
+
     private fun <T:Fragment> loadFragmentIfLoggedIn(type:Class<T>){
         lifecycleScope.launch {
             if (AuthRepo.checkLogIn(this@ActivityHome)){
@@ -65,11 +70,15 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
     private fun <T:Fragment> loadFragmentIfNotLoadedAlready(type:Class<T>){
         if (getCurrentFragmentType() != type) {
-            addFragmentClearingBackStack(type.newInstance())
+            val fragment = type.newInstance()
+            page_title.text = getString((fragment as FragmentHome).getPageTitleId())
+            addFragmentClearingBackStack(fragment)
         }
     }
 
     fun loadHomeFragment(){
-        addFragmentClearingBackStack(getDefaultFragment())
+        val fragment = getDefaultFragment()
+        page_title.text = getString((fragment as FragmentHome).getPageTitleId())
+        addFragmentClearingBackStack(fragment)
     }
 }

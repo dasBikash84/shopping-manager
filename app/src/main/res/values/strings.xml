@@ -15,6 +15,7 @@
     <string name="bmi_browse">Browse</string>
     <string name="bmi_budget">Budget</string>
     <string name="bmi_shopping_list">List</string>
+    <string name="shopping_list_title">Shopping List</string>
     <string name="bmi_more">More</string>
     <string name="login_by_prompt">Login method:</string>
     <string name="login_method_selection_prompt">Select login method:</string>
@@ -52,7 +53,7 @@
     <string name="invalid_verification_code_message">Invalid verification code!</string>
     <string name="login_code_resend">Login code sent.</string>
     <string name="hide_login_benefits">Don\'t show again.</string>
-    <string name="add_expense_title">Save expense entry:</string>
+    <string name="add_expense_title">Add Expense Entry</string>
     <string name="total_expense_hint">Total expense amount</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
@@ -140,4 +141,5 @@
     <string name="search_text_hint">Search by portion of details text</string>
     <string name="confirm_delete_prompt">Confirm deletion?</string>
     <string name="delete_confirmaion_message">Expense entry deleted!</string>
+    <string name="exp_browse_page_title">Browse Expenses</string>
 </resources>

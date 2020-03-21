@@ -16,6 +16,7 @@
     <string name="bmi_browse">সকল খরচ</string>
     <string name="bmi_budget">বাজেট</string>
     <string name="bmi_shopping_list">ফর্দ</string>
+    <string name="shopping_list_title">বাজারের ফর্দ</string>
     <string name="bmi_more">অন্যান্য</string>
     <string name="login_by_prompt">লগইনের মাধ্যম</string>
     <string name="login_method_selection_prompt">লগইনের মাধ্যম নির্বাচন করুন</string>
@@ -53,7 +54,7 @@
     <string name="empty_verification_code_error">ভেরিফিকেশান কোড  প্রদান করা বাদ্ধতামুলক!</string>
     <string name="invalid_verification_code_message">" আপনি ভুল ভেরিফিকেশান কোড  প্রদান করেছেন!"</string>
     <string name="login_code_resend">লগইনের জন্য কোড  পাঠানো হয়েছে।</string>
-    <string name="add_expense_title">খরচের তথ্য সেভ করুনঃ</string>
+    <string name="add_expense_title">খরচের তথ্য এন্ট্রি</string>
     <string name="total_expense_hint">খরচের পরিমাণ</string>
     <string name="ok">ওকে</string>
     <string name="cancel">ক্যানসেল</string>
@@ -65,7 +66,7 @@
     <string name="save_exp_entry">সেভ করুন</string>
     <string name="category_selector_prompt">খরচের খাত</string>
     <string name="category_hint">" নতুন খরচের খাতের নাম"</string>
-    <string name="product_name_hint">পণ্যের নাম*</string>
+    <string name="product_name_hint">ক্রয়কৃত পণ্যের নাম*</string>
     <string name="category_title_text">খরচের খাতঃ</string>
     <string name="total_expense_error_message">খরচের পরিমাণ প্রদান করা বাদ্ধতামুলক!</string>
     <string name="quantity_error_message">পণ্যের সংখ্যা প্রদান করা বাদ্ধতামুলক!</string>
@@ -105,4 +106,5 @@
     <string name="confirm_delete_prompt">অপসারণ নিশ্চিত?</string>
     <string name="delete_confirmaion_message">খরচের তথ্য অপসারণ করা হয়েছে।</string>
     <string name="save_exp_entry_prompt">খরচের তথ্য সেভ করবেন?</string>
+    <string name="exp_browse_page_title">সকল খরচের তথ্য</string>
 </resources>

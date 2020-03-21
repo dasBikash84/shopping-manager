@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.launcher.ActivityLauncher">
+    tools:context=".activities.launcher.ActivityLauncher"
+    android:background="@color/default_page_bg">
 
     <ImageView
         android:id="@+id/app_logo"

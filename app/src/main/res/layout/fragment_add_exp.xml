@@ -4,44 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffe7e7"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="4dp"
     tools:context=".activities.home.add_exp.FragmentAddExp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_exp_heading_holder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/add_exp_heading"
-            style="@style/page_heading_style"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/add_expense_title"
-            app:layout_constraintEnd_toStartOf="@+id/page_options"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-            android:id="@+id/page_options"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_options"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/add_exp_heading_holder">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -101,7 +72,7 @@
                         android:id="@+id/tv_entry_add"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@android:color/darker_gray"
+                        android:background="@color/snow_white3"
                         android:gravity="center"
                         android:paddingStart="8dp"
                         android:paddingTop="4dp"

@@ -13,7 +13,7 @@ import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.login.ActivityLogin
 import kotlinx.android.synthetic.main.fragment_login_launcher.*
 
-class FragmentLogInLauncher : Fragment() {
+class FragmentLogInLauncher : FragmentHome() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,4 +37,6 @@ class FragmentLogInLauncher : Fragment() {
             }
         }
     }
+
+    override fun getPageTitleId() = R.string.app_name
 }

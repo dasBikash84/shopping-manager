@@ -19,6 +19,7 @@ import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.calculator.ActivityCalculator
 import com.dasbikash.exp_man.activities.home.ActivityHome
+import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
@@ -39,7 +40,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
-class FragmentAddExp : Fragment(), WaitScreenOwner {
+class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     private val TIME_REFRESH_INTERVAL = 1000L
     private val mEntryTime = Calendar.getInstance()
@@ -135,7 +136,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             }
         })
 
-        page_options.attachMenuViewForClick(getOptionsMenu())
+//        page_options.attachMenuViewForClick(getOptionsMenu())
 
         btn_add_exp_item.setOnClickListener {
             hideKeyboard()
@@ -364,6 +365,8 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
         menuView.addAll(menuViewItems)
         return menuView
     }
+
+    override fun getPageTitleId() = R.string.add_expense_title
 
     companion object {
         private const val MISCELLANEOUS_TEXT = "Miscellaneous"
