@@ -9,6 +9,10 @@ import com.dasbikash.exp_man_repo.firebase.FireStoreExpenseEntryUtils
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 import com.dasbikash.exp_man_repo.model.User
+import com.dasbikash.exp_man_repo.utils.getDayCount
+import com.dasbikash.exp_man_repo.utils.getMonthCount
+import com.dasbikash.exp_man_repo.utils.getWeekCount
+import java.util.*
 
 object ExpenseRepo:ExpenseManagerRepo() {
 
@@ -40,7 +44,7 @@ object ExpenseRepo:ExpenseManagerRepo() {
                 sqlBuilder.append(" userId is null ")
             }
 
-            sqlBuilder.append(" ORDER BY created DESC")
+            sqlBuilder.append(" ORDER BY time DESC")
             sqlBuilder.append(" limit $limit")
 
             return Pair(sqlBuilder.toString(), params)
@@ -60,6 +64,32 @@ object ExpenseRepo:ExpenseManagerRepo() {
             FireStoreExpenseEntryUtils.deleteExpenseEntry(expenseEntry)
         }
         getDatabase(context).expenseEntryDao.delete(expenseEntry)
+    }
+
+    suspend fun getDistinctDays(context: Context):List<Date>{
+        getExpenseDates(context).let {
+            return it.distinctBy { it.getDayCount() }
+        }
+    }
+
+    suspend fun getDistinctWeekDays(context: Context):List<Date>{
+        getExpenseDates(context).let {
+            return it.distinctBy { it.getWeekCount() }
+        }
+    }
+
+    suspend fun getDistinctMonthDays(context: Context):List<Date>{
+        getExpenseDates(context).let {
+            return it.distinctBy { it.getMonthCount() }
+        }
+    }
+
+    private suspend fun getExpenseDates(context: Context): List<Date> {
+        return if (AuthRepo.checkLogIn(context)) {
+            getDatabase(context).expenseEntryDao.getDatesForUser(AuthRepo.getUser(context)!!.id)
+        } else {
+            getDatabase(context).expenseEntryDao.getDatesForGuestUser()
+        }
     }
 }
 

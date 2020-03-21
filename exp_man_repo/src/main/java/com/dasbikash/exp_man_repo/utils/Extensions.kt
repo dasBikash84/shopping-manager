@@ -103,3 +103,19 @@ internal fun String.removeTag():Pair<String,String>?{
         return null
     }
 }
+
+fun Date.getDayCount():Int{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    return cal.get(Calendar.YEAR)*365 + cal.get(Calendar.DAY_OF_YEAR)
+}
+fun Date.getWeekCount():Int{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    return cal.get(Calendar.YEAR)*52 + cal.get(Calendar.WEEK_OF_YEAR)
+}
+fun Date.getMonthCount():Int{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    return cal.get(Calendar.YEAR)*12 + cal.get(Calendar.MONTH)
+}

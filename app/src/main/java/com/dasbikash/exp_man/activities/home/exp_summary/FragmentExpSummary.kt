@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +29,9 @@ import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.exp_man_repo.utils.getDayCount
+import com.dasbikash.exp_man_repo.utils.getMonthCount
+import com.dasbikash.exp_man_repo.utils.getWeekCount
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -171,20 +173,26 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
         chip_all.isChecked = true
     }
 
-    private fun displayMonthWiseExpenses() =
+    private fun displayMonthWiseExpenses() {
+        lifecycleScope.launch { ExpenseRepo.getDistinctMonthDays(context!!).forEach { debugLog(it) } }
+    }/*=
         displayTimeWiseExpenses({it.getMonthCount()},{DateUtils.getTimeString(it,getString(R.string.month_title_format))},{expenseEntry,date->
             expenseEntry.time!!.getMonthCount() == date.getMonthCount()
-        })
+        })*/
 
-    private fun displayWeekWiseExpenses() =
+    private fun displayWeekWiseExpenses() {
+        lifecycleScope.launch { ExpenseRepo.getDistinctWeekDays(context!!).forEach { debugLog(it) } }
+    }/*=
         displayTimeWiseExpenses({it.getWeekCount()},{it.getWeekString()},{expenseEntry,date->
             expenseEntry.time!!.getWeekCount() == date.getWeekCount()
-        })
+        })*/
 
-    private fun displayDateWiseExpenses() =
-        displayTimeWiseExpenses({it.getDayCount()},{DateUtils.getShortDateString(it)},{expenseEntry,date->
-            expenseEntry.time!!.getDayCount() == date.getDayCount()
-        })
+    private fun displayDateWiseExpenses() {
+        lifecycleScope.launch { ExpenseRepo.getDistinctDays(context!!).forEach { debugLog(it) } }
+    }//=
+//        displayTimeWiseExpenses({it.getDayCount()},{DateUtils.getShortDateString(it)},{expenseEntry,date->
+//            expenseEntry.time!!.getDayCount() == date.getDayCount()
+//        })
 
     private fun displayTimeWiseExpenses(
                                     dateToPeriod:(Date)->Int,

@@ -18,12 +18,19 @@ import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import java.util.*
 
 @Dao
 internal interface ExpenseEntryDao {
 
     @Query("SELECT * FROM ExpenseEntry where id=:id")
     suspend fun findById(id:String): ExpenseEntry?
+
+    @Query("SELECT time FROM ExpenseEntry where userId=:userId ORDER BY time DESC")
+    suspend fun getDatesForUser(userId:String): List<Date>
+
+    @Query("SELECT time FROM ExpenseEntry where userId is NULL ORDER BY time DESC")
+    suspend fun getDatesForGuestUser(): List<Date>
 
     @Query("SELECT * FROM ExpenseEntry")
     suspend fun findAll(): List<ExpenseEntry>
@@ -39,9 +46,6 @@ internal interface ExpenseEntryDao {
 
     @Delete
     suspend fun delete(expenseEntry: ExpenseEntry)
-
-    @RawQuery
-    suspend fun getExpenseEntryByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):List<ExpenseEntry>
 
     @RawQuery(observedEntities = [ExpenseEntry::class])
     fun getExpenseEntryLiveDataByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
