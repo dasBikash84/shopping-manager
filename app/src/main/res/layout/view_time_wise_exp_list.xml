@@ -7,23 +7,76 @@
     android:orientation="vertical"
     android:paddingStart="4dp"
     android:paddingTop="2dp"
-    android:paddingEnd="4dp"
-    android:paddingBottom="2dp">
+    android:paddingEnd="4dp">
 
     <com.dasbikash.android_view_utils.custom_views.ClickableCardView
         android:id="@+id/time_period_text_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_time_period_text"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/snow_white2"
-            android:gravity="center"
-            android:padding="4dp"
-            android:textSize="20sp"
-            tools:text="Time Period text" />
+            android:background="@color/snow_white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_time_period_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textSize="20sp"
+                tools:text="Time Period text" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/exp_amount_block"
+                app:layout_constraintTop_toBottomOf="@+id/tv_time_period_text"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_title_text"
+                    android:text="@string/total_expense_title"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_total_expense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_details_text"
+                    tools:text="@string/total_expense_title"
+                    android:textIsSelectable="true"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                app:layout_constraintTop_toBottomOf="@+id/exp_amount_block"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_title_text"
+                    android:text="@string/exp_count_prompt_text" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_exp_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/exp_entry_view_details_text"
+                    tools:text="@string/exp_count_prompt_text"
+                    android:textIsSelectable="true"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat

@@ -17,13 +17,11 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
-import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.model.TimeWiseExpenses
 import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
-import com.dasbikash.exp_man.rv_helpers.TimeWiseExpensesAdapter
-import com.dasbikash.exp_man.utils.DateTranslatorUtils
+import com.dasbikash.exp_man.rv_helpers.TimeBasedExpenseEntryGroupAdapter
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
@@ -35,7 +33,6 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_exp_summary.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
@@ -46,9 +43,8 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
-    private val expenseEntries = mutableListOf<ExpenseEntry>()
 
-    private val timeWiseExpensesAdapter = TimeWiseExpensesAdapter( timePeriodTitleClickEventPublisher )
+    private val timeBasedExpenseEntryGroupAdapter = TimeBasedExpenseEntryGroupAdapter( timePeriodTitleClickEventPublisher )
 
     private fun editTask(expenseEntry: ExpenseEntry){
         TODO()
@@ -68,8 +64,6 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
         viewModel.incrementExpenseFetchLimit()
     }
 
-    private val timeWiseExpensesList = mutableListOf<TimeWiseExpenses>()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -83,13 +77,12 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
         viewModel = ViewModelProviders.of(this).get(ViewModelExpSummary::class.java)
 
         rv_exp_entry.adapter = expenseEntryAdapter
-        rv_time_wise_exp.adapter = timeWiseExpensesAdapter
+        rv_time_wise_exp.adapter = timeBasedExpenseEntryGroupAdapter
         chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
                     all_exp_scroller.show()
-                }else{
-                    all_exp_scroller.hide()
+                    rv_time_wise_exp_holder.hide()
                 }
             }
         })
@@ -97,8 +90,7 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
                     displayDateWiseExpenses()
-                }else{
-                    rv_time_wise_exp_holder.hide()
+                    all_exp_scroller.hide()
                 }
             }
         })
@@ -106,8 +98,7 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
                     displayWeekWiseExpenses()
-                }else{
-                    rv_time_wise_exp_holder.hide()
+                    all_exp_scroller.hide()
                 }
             }
         })
@@ -115,8 +106,44 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
                     displayMonthWiseExpenses()
-                }else{
-                    rv_time_wise_exp_holder.hide()
+                    all_exp_scroller.hide()
+                }
+            }
+        })
+
+        chip_dsc_date.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    timeBasedExpenseEntryGroupAdapter.currentList.let {
+                        timeBasedExpenseEntryGroupAdapter.submitList(it.sortedByDescending { it.startTime })
+                    }
+                }
+            }
+        })
+        chip_asc_date.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    timeBasedExpenseEntryGroupAdapter.currentList.let {
+                        timeBasedExpenseEntryGroupAdapter.submitList(it.sortedBy { it.startTime })
+                    }
+                }
+            }
+        })
+        chip_asc_expense.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    timeBasedExpenseEntryGroupAdapter.currentList.let {
+                        timeBasedExpenseEntryGroupAdapter.submitList(it.sortedByDescending { it.totalExpense })
+                    }
+                }
+            }
+        })
+        chip_dsc_expens.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    timeBasedExpenseEntryGroupAdapter.currentList.let {
+                        timeBasedExpenseEntryGroupAdapter.submitList(it.sortedBy { it.totalExpense })
+                    }
                 }
             }
         })
@@ -166,25 +193,46 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
         })
 
         setCategorySpinnerItems()
+        all_exp_scroller.show()
         rv_time_wise_exp_holder.hide()
-        chip_all.isChecked = true
     }
 
     private fun displayMonthWiseExpenses() {
         lifecycleScope.launch {
-            ExpenseRepo.getMonthBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
+            showWaitScreen()
+            timeBasedExpenseEntryGroupAdapter.submitList(emptyList())
+            ExpenseRepo.getMonthBasedExpenseEntryGroups(context!!).let {
+                delay(100)
+                timeBasedExpenseEntryGroupAdapter.submitList(it)
+            }
+            rv_time_wise_exp_holder.show()
+            hideWaitScreen()
         }
     }
 
     private fun displayWeekWiseExpenses() {
         lifecycleScope.launch {
-            ExpenseRepo.getWeekBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
+            showWaitScreen()
+            timeBasedExpenseEntryGroupAdapter.submitList(emptyList())
+            ExpenseRepo.getWeekBasedExpenseEntryGroups(context!!).let {
+                delay(100)
+                timeBasedExpenseEntryGroupAdapter.submitList(it)
+            }
+            rv_time_wise_exp_holder.show()
+            hideWaitScreen()
         }
     }
 
     private fun displayDateWiseExpenses() {
         lifecycleScope.launch {
-            ExpenseRepo.getDayBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
+            showWaitScreen()
+            timeBasedExpenseEntryGroupAdapter.submitList(emptyList())
+            ExpenseRepo.getDayBasedExpenseEntryGroups(context!!).let {
+                delay(100)
+                timeBasedExpenseEntryGroupAdapter.submitList(it)
+            }
+            rv_time_wise_exp_holder.show()
+            hideWaitScreen()
         }
     }
 
