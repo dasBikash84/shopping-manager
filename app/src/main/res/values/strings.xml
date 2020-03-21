@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Expense Manager</string>
+    <string name="app_name">BookKeeper</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
@@ -120,7 +120,6 @@
     <string name="unit_price_hint">Unit price*</string>
     <string name="add_exp_item">Add Product</string>
     <string name="set_expense_manually">Set manually</string>
-    <string name="expense_item_list_title_text">Added items</string>
     <string name="default_qty">1.0</string>
     <string name="exp_item_name_text">"Name: "</string>
     <string name="exp_item_brand_name_text">Brand:</string>
@@ -131,7 +130,7 @@
     <string name="edit">Edit</string>
     <string name="remove_text">Remove</string>
     <string name="delete">Delete</string>
-    <string name="entry_time_title_text">Time</string>
+    <string name="entry_time_title_text">Time:</string>
     <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
     <string name="save_exp_entry_prompt">Save expense entry?</string>
     <string name="total_price_title">Total price</string>

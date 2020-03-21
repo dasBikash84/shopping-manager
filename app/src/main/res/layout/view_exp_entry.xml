@@ -34,8 +34,7 @@
                     android:text="@string/entry_time_title_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:minWidth="80dp"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_entry_time_text"
@@ -63,14 +62,13 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_amount_title_text"
+                    style="@style/exp_entry_view_title_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/exp_entry_view_title_text"
                     android:text="@string/exp_amount_title_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:minWidth="80dp" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_amount_text"
@@ -97,8 +95,7 @@
                     android:text="@string/exp_desc_title_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:minWidth="80dp" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_desc_text"
@@ -125,8 +122,7 @@
                     android:text="@string/exp_cat_title_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:minWidth="80dp" />
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_cat_text"

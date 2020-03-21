@@ -69,6 +69,7 @@
         <item name="android:gravity">center_vertical|start</item>
         <item name="android:textAlignment">gravity</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:minWidth">100dp</item>>
     </style>
 
     <style name="exp_entry_view_details_text">
