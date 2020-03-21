@@ -23,17 +23,17 @@ import java.util.*
 @Dao
 internal interface ExpenseEntryDao {
 
-    @Query("SELECT * FROM ExpenseEntry where id=:id")
-    suspend fun findById(id:String): ExpenseEntry?
+//    @Query("SELECT * FROM ExpenseEntry where id=:id")
+//    suspend fun findById(id:String): ExpenseEntry?
 
-    @Query("SELECT time FROM ExpenseEntry where userId=:userId ORDER BY time DESC")
-    suspend fun getDatesForUser(userId:String): List<Date>
+    @Query("SELECT time FROM ExpenseEntry where userId=:userId ORDER BY timeTs DESC")
+    suspend fun getDates(userId:String): List<Date>
 
-    @Query("SELECT time FROM ExpenseEntry where userId is NULL ORDER BY time DESC")
-    suspend fun getDatesForGuestUser(): List<Date>
+    @Query("SELECT time FROM ExpenseEntry where userId is NULL ORDER BY timeTs DESC")
+    suspend fun getDates(): List<Date>
 
-    @Query("SELECT * FROM ExpenseEntry")
-    suspend fun findAll(): List<ExpenseEntry>
+//    @Query("SELECT * FROM ExpenseEntry")
+//    suspend fun findAll(): List<ExpenseEntry>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(expenseEntry: ExpenseEntry)
@@ -49,4 +49,16 @@ internal interface ExpenseEntryDao {
 
     @RawQuery(observedEntities = [ExpenseEntry::class])
     fun getExpenseEntryLiveDataByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
+
+    @Query("SELECT id FROM ExpenseEntry where userId=:userId AND timeTs>=:startTime AND timeTs<=:endTime")
+    suspend fun getExpenseEntryIds(userId:String,startTime:Long,endTime:Long):List<String>
+
+    @Query("SELECT id FROM ExpenseEntry where userId IS NULL AND timeTs>=:startTime AND timeTs<=:endTime")
+    suspend fun getExpenseEntryIds(startTime:Long,endTime:Long):List<String>
+
+    @Query("SELECT sum(totalExpense) FROM ExpenseEntry where userId=:userId AND timeTs>=:startTime AND timeTs<=:endTime")
+    suspend fun getTotalExpense(userId:String,startTime:Long,endTime:Long):Double
+
+    @Query("SELECT sum(totalExpense) FROM ExpenseEntry where userId IS NULL AND timeTs>=:startTime AND timeTs<=:endTime")
+    suspend fun getTotalExpense(startTime:Long,endTime:Long):Double
 }

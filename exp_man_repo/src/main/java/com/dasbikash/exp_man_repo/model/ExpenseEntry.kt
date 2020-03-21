@@ -23,7 +23,7 @@ import java.util.*
         Index(value = ["userId"], unique = false),
         Index(value = ["categoryId"], unique = false),
         Index(value = ["details"], unique = false),
-        Index(value = ["time"], unique = false)
+        Index(value = ["timeTs"], unique = false)
     )
 )
 data class ExpenseEntry(
@@ -42,6 +42,15 @@ data class ExpenseEntry(
     var modified:Date=Date(),
     var created:Date=Date()
 ){
+    @Exclude
+    private var timeTs: Long?=null
+
+    @Exclude
+    fun getTimeTs():Long? = time?.time
+    @Exclude
+    fun setTimeTs(timeTs:Long?){
+        this.timeTs = timeTs
+    }
 
     fun updateModified(){
         modified=Date()

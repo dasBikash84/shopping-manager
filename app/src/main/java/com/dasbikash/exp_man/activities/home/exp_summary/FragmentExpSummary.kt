@@ -11,7 +11,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
@@ -24,14 +23,12 @@ import com.dasbikash.exp_man.activities.home.FragmentHome
 import com.dasbikash.exp_man.model.TimeWiseExpenses
 import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.exp_man.rv_helpers.TimeWiseExpensesAdapter
-import com.dasbikash.exp_man.utils.*
+import com.dasbikash.exp_man.utils.DateTranslatorUtils
+import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
-import com.dasbikash.exp_man_repo.utils.getDayCount
-import com.dasbikash.exp_man_repo.utils.getMonthCount
-import com.dasbikash.exp_man_repo.utils.getWeekCount
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -174,63 +171,20 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
     }
 
     private fun displayMonthWiseExpenses() {
-        lifecycleScope.launch { ExpenseRepo.getDistinctMonthDays(context!!).forEach { debugLog(it) } }
-    }/*=
-        displayTimeWiseExpenses({it.getMonthCount()},{DateUtils.getTimeString(it,getString(R.string.month_title_format))},{expenseEntry,date->
-            expenseEntry.time!!.getMonthCount() == date.getMonthCount()
-        })*/
+        lifecycleScope.launch {
+            ExpenseRepo.getMonthBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
+        }
+    }
 
     private fun displayWeekWiseExpenses() {
-        lifecycleScope.launch { ExpenseRepo.getDistinctWeekDays(context!!).forEach { debugLog(it) } }
-    }/*=
-        displayTimeWiseExpenses({it.getWeekCount()},{it.getWeekString()},{expenseEntry,date->
-            expenseEntry.time!!.getWeekCount() == date.getWeekCount()
-        })*/
+        lifecycleScope.launch {
+            ExpenseRepo.getWeekBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
+        }
+    }
 
     private fun displayDateWiseExpenses() {
-        lifecycleScope.launch { ExpenseRepo.getDistinctDays(context!!).forEach { debugLog(it) } }
-    }//=
-//        displayTimeWiseExpenses({it.getDayCount()},{DateUtils.getShortDateString(it)},{expenseEntry,date->
-//            expenseEntry.time!!.getDayCount() == date.getDayCount()
-//        })
-
-    private fun displayTimeWiseExpenses(
-                                    dateToPeriod:(Date)->Int,
-                                    titleStringGen:(Date)->String,
-                                    groupResolver:(ExpenseEntry,Date)->Boolean
-    ) {
         lifecycleScope.launch {
-            timeWiseExpensesAdapter.submitList(emptyList())
-            showWaitScreen()
-            delay(100)
-            runSuspended {
-                timeWiseExpensesList.clear()
-                val distinctDates = expenseEntries
-                                                    .map { it.time!! }
-                                                    .distinctBy {dateToPeriod(it)}
-                                                    .sorted()
-                                                    .reversed()
-                distinctDates.asSequence().forEach { debugLog(it) }
-                distinctDates.forEachIndexed({index,date->
-                    val dateString = titleStringGen(date)
-                    timeWiseExpensesList.add(index, TimeWiseExpenses(if (checkIfEnglishLanguageSelected()) {dateString} else {DateTranslatorUtils.englishToBanglaDateString(dateString)}))
-                })
-                timeWiseExpensesList.asSequence().forEach {debugLog(it.periodText) }
-                expenseEntries.asSequence().forEach {
-                    val expenseEntry= it
-                    timeWiseExpensesList
-                        .get(distinctDates.indexOfFirst { groupResolver(expenseEntry,it)})
-                        .expenses.add(expenseEntry)
-                }
-                timeWiseExpensesList.asSequence().forEach {
-                    it.expenses.sortByDescending { it.time }
-                    debugLog(it.periodText)
-                    it.expenses.forEach {debugLog(it)}
-                }
-            }
-            timeWiseExpensesAdapter.submitList(timeWiseExpensesList)
-            rv_time_wise_exp_holder.show()
-            hideWaitScreen()
+            ExpenseRepo.getDayBasedExpenseEntryGroups(context!!).forEach { debugLog(it) }
         }
     }
 

@@ -6,9 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man_repo.firebase.FireStoreExpenseEntryUtils
-import com.dasbikash.exp_man_repo.model.ExpenseCategory
-import com.dasbikash.exp_man_repo.model.ExpenseEntry
-import com.dasbikash.exp_man_repo.model.User
+import com.dasbikash.exp_man_repo.model.*
 import com.dasbikash.exp_man_repo.utils.getDayCount
 import com.dasbikash.exp_man_repo.utils.getMonthCount
 import com.dasbikash.exp_man_repo.utils.getWeekCount
@@ -44,7 +42,7 @@ object ExpenseRepo:ExpenseManagerRepo() {
                 sqlBuilder.append(" userId is null ")
             }
 
-            sqlBuilder.append(" ORDER BY time DESC")
+            sqlBuilder.append(" ORDER BY timeTs DESC")
             sqlBuilder.append(" limit $limit")
 
             return Pair(sqlBuilder.toString(), params)
@@ -66,29 +64,57 @@ object ExpenseRepo:ExpenseManagerRepo() {
         getDatabase(context).expenseEntryDao.delete(expenseEntry)
     }
 
-    suspend fun getDistinctDays(context: Context):List<Date>{
-        getExpenseDates(context).let {
-            return it.distinctBy { it.getDayCount() }
-        }
+    suspend fun getDayBasedExpenseEntryGroups(context: Context):List<TimeBasedExpenseEntryGroup>{
+        return getExpenseDates(context)
+                    .let {return@let it.distinctBy { it.getDayCount() }}
+                    .map { getTimeBasedExpenseEntryGroup(context,it,TimeDuration.DAY) }
     }
 
-    suspend fun getDistinctWeekDays(context: Context):List<Date>{
-        getExpenseDates(context).let {
-            return it.distinctBy { it.getWeekCount() }
-        }
+    suspend fun getWeekBasedExpenseEntryGroups(context: Context):List<TimeBasedExpenseEntryGroup>{
+        return getExpenseDates(context)
+                .let {return@let it.distinctBy { it.getWeekCount() }}
+                .map { getTimeBasedExpenseEntryGroup(context,it,TimeDuration.WEEK) }
     }
 
-    suspend fun getDistinctMonthDays(context: Context):List<Date>{
-        getExpenseDates(context).let {
-            return it.distinctBy { it.getMonthCount() }
-        }
+    suspend fun getMonthBasedExpenseEntryGroups(context: Context):List<TimeBasedExpenseEntryGroup>{
+        return getExpenseDates(context)
+                .let {return@let it.distinctBy { it.getMonthCount() }}
+                .map { getTimeBasedExpenseEntryGroup(context,it,TimeDuration.MONTH) }
     }
 
     private suspend fun getExpenseDates(context: Context): List<Date> {
         return if (AuthRepo.checkLogIn(context)) {
-            getDatabase(context).expenseEntryDao.getDatesForUser(AuthRepo.getUser(context)!!.id)
+            getDatabase(context).expenseEntryDao.getDates(AuthRepo.getUser(context)!!.id)
         } else {
-            getDatabase(context).expenseEntryDao.getDatesForGuestUser()
+            getDatabase(context).expenseEntryDao.getDates()
+        }
+    }
+
+    private suspend fun getTimeBasedExpenseEntryGroup(context: Context,date: Date,timeDuration: TimeDuration)
+            :TimeBasedExpenseEntryGroup{
+        val (startTime,endTime) = TimeBasedExpenseEntryGroup.getStartEndTime(date, timeDuration)
+        val expenseEntryIds:List<String> = getExpenseEntryIds(context,startTime,endTime)
+        val totalExpense:Double = getTotalExpense(context,startTime,endTime)
+        return TimeBasedExpenseEntryGroup(startTime, timeDuration, expenseEntryIds, totalExpense)
+    }
+
+    private suspend fun getTotalExpense(context: Context,startTime: Date, endTime: Date): Double {
+        return AuthRepo.getUser(context).let {
+            if (it==null){
+                getDatabase(context).expenseEntryDao.getTotalExpense(startTime.time,endTime.time)
+            }else{
+                getDatabase(context).expenseEntryDao.getTotalExpense(it.id,startTime.time,endTime.time)
+            }
+        }
+    }
+
+    private suspend fun getExpenseEntryIds(context: Context,startTime: Date, endTime: Date): List<String> {
+        return AuthRepo.getUser(context).let {
+            if (it==null){
+                getDatabase(context).expenseEntryDao.getExpenseEntryIds(startTime.time,endTime.time)
+            }else{
+                getDatabase(context).expenseEntryDao.getExpenseEntryIds(it.id,startTime.time,endTime.time)
+            }
         }
     }
 }

@@ -12,7 +12,10 @@ data class TimeBasedExpenseEntryGroup(
     val totalExpense:Double
 ){
     companion object{
-        fun getStartTime(date: Date, timeDuration: TimeDuration): Date {
+        fun getStartEndTime(date: Date,timeDuration: TimeDuration) =
+            Pair(getStartTime(date, timeDuration),getEndTime(date, timeDuration))
+
+        private fun getStartTime(date: Date, timeDuration: TimeDuration): Date {
             return when(timeDuration){
                 TimeDuration.DAY -> date.getStart()
                 TimeDuration.WEEK -> date.getFirstDayOfWeek().getStart()
@@ -20,7 +23,7 @@ data class TimeBasedExpenseEntryGroup(
             }
         }
 
-        fun getEndTime(date: Date, timeDuration: TimeDuration): Date {
+        private fun getEndTime(date: Date, timeDuration: TimeDuration): Date {
             return when(timeDuration){
                 TimeDuration.DAY -> date.getEnd()
                 TimeDuration.WEEK -> date.getLastDayOfWeek().getEnd()
