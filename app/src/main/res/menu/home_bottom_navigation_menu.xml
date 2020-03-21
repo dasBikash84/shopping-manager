@@ -22,7 +22,7 @@
     <item
         android:id="@+id/bmi_summary"
         android:icon="@drawable/ic_summary"
-        android:title="@string/bmi_summary"
+        android:title="@string/bmi_browse"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bmi_budget"

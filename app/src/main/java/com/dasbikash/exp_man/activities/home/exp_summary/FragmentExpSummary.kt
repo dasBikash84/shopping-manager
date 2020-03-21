@@ -18,7 +18,6 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
-import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.exp_man.R
@@ -43,7 +42,9 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelExpSummary
     private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
 
-    private val expenseEntryAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)})
+    private val expenseEntryAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)},{incrementExpenseFetchLimit()})
+
+
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val expenseEntries = mutableListOf<ExpenseEntry>()
 
@@ -62,6 +63,9 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 } }
             ))
         }
+    }
+    private fun incrementExpenseFetchLimit() {
+        viewModel.incrementExpenseFetchLimit()
     }
 
     private val timeWiseExpensesList = mutableListOf<TimeWiseExpenses>()
@@ -83,7 +87,7 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
         chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
-                    all_exp_scroller.show()//displayAllExpEntries()
+                    all_exp_scroller.show()
                 }else{
                     all_exp_scroller.hide()
                 }
@@ -224,7 +228,6 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
     private fun filterByCategory(categoryName: String) {
         debugLog("categoryName: $categoryName")
         if (categoryName == getString(R.string.all_text)){
-//            expenseEntryAdapter.submitList(expenseEntries.toList())
             viewModel.setExpenseCategory(null)
         }else{
             if (checkIfEnglishLanguageSelected()) {
@@ -233,8 +236,6 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
                 expenseCategories.find { it.nameBangla==categoryName }!!
             }.let {
                 viewModel.setExpenseCategory(it)
-//                val expenseCategory = it
-//                expenseEntryAdapter.submitList(expenseEntries.filter { it.expenseCategory == expenseCategory })
             }
         }
     }
@@ -249,7 +250,5 @@ class FragmentExpSummary : Fragment(),WaitScreenOwner {
             }
         }
     }
-
-
     override fun registerWaitScreen(): ViewGroup = wait_screen
 }

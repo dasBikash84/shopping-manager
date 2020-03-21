@@ -45,7 +45,7 @@ class TimeWiseExpensesHolder(itemView: View,val timePeriodTitleClickEventPublish
     private val tv_time_period_text: TextView = itemView.findViewById(R.id.tv_time_period_text)
     private val rv_time_wise_exp_holder: RecyclerView = itemView.findViewById(R.id.rv_time_wise_exp_holder)
 
-    private val expHolderAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)})
+    private val expHolderAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)},{})
 
     private fun editTask(expenseEntry: ExpenseEntry){
         TODO()

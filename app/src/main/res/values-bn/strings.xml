@@ -12,8 +12,8 @@
     <string name="first_name_hint">নামের প্রথমাংশ (ঐচ্ছিক)</string>
     <string name="last_name_hint">পদবী (ঐচ্ছিক)</string>
     <string name="phone_no_hint">মোবাইল নম্বর (ঐচ্ছিক)</string>
-    <string name="bmi_add">খরচ যোগ করুন</string>
-    <string name="bmi_summary">সারাংশ</string>
+    <string name="bmi_add">খরচ যোগ</string>
+    <string name="bmi_browse">সকল খরচ</string>
     <string name="bmi_budget">বাজেট</string>
     <string name="bmi_shopping_list">ফর্দ</string>
     <string name="bmi_more">অন্যান্য</string>

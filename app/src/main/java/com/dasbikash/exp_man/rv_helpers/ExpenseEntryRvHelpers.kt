@@ -26,7 +26,7 @@ object ExpenseEntryDiffCallback: DiffUtil.ItemCallback<ExpenseEntry>(){
     }
 }
 
-class ExpenseEntryAdapter(val editTask:(ExpenseEntry)->Unit,val deleteTask:(ExpenseEntry)->Unit) :
+class ExpenseEntryAdapter(val editTask:(ExpenseEntry)->Unit,val deleteTask:(ExpenseEntry)->Unit,val doOnBottomBind:()->Unit) :
     ListAdapter<ExpenseEntry, ExpenseEntryHolder>(
         ExpenseEntryDiffCallback
     ) {
@@ -40,6 +40,13 @@ class ExpenseEntryAdapter(val editTask:(ExpenseEntry)->Unit,val deleteTask:(Expe
 
     override fun onBindViewHolder(holder: ExpenseEntryHolder, position: Int) {
         holder.bind(getItem(position)!!)
+        if (position == itemCount+LOAD_REQUEST_POSITION){
+            doOnBottomBind()
+        }
+    }
+
+    companion object{
+        private val LOAD_REQUEST_POSITION = -3
     }
 }
 

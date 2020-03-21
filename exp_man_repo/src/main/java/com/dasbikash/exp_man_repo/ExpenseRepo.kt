@@ -1,6 +1,7 @@
 package com.dasbikash.exp_man_repo
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -8,7 +9,6 @@ import com.dasbikash.exp_man_repo.firebase.FireStoreExpenseEntryUtils
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 import com.dasbikash.exp_man_repo.model.User
-import java.lang.StringBuilder
 
 object ExpenseRepo:ExpenseManagerRepo() {
 
@@ -21,35 +21,35 @@ object ExpenseRepo:ExpenseManagerRepo() {
         return true
     }
 
-    private fun getSqlForExpenseEntryFetch(searchText:String,limit:Int,
-                                       user: User?=null,expenseCategory: ExpenseCategory?=null):Pair<String,List<Any>> {
-        val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where ")
-        val params = mutableListOf<Any>()
+    private fun getSqlForExpenseEntryFetch(expenseEntryFetchParam: ExpenseEntryFetchParam):Pair<String,List<Any>> {
+        expenseEntryFetchParam.apply {
+            val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where ")
+            val params = mutableListOf<Any>()
 
-        if (expenseCategory!=null){
-            sqlBuilder.append(" categoryId = ? AND ")
-            params.add(expenseCategory.id)
+            if (expenseCategory != null) {
+                sqlBuilder.append(" categoryId = ? AND ")
+                params.add(expenseCategory!!.id)
+            }
+
+            sqlBuilder.append(" details like '%${searchText}%' AND ")
+
+            if (user != null) {
+                sqlBuilder.append(" userId = ? ")
+                params.add(user.id)
+            } else {
+                sqlBuilder.append(" userId is null ")
+            }
+
+            sqlBuilder.append(" ORDER BY created DESC")
+            sqlBuilder.append(" limit $limit")
+
+            return Pair(sqlBuilder.toString(), params)
         }
-
-        sqlBuilder.append(" details like '%${searchText}%' AND ")
-
-        if (user!=null){
-            sqlBuilder.append(" userId = ? ")
-            params.add(user.id)
-        }else{
-            sqlBuilder.append(" userId is null ")
-        }
-
-        sqlBuilder.append(" ORDER BY created DESC")
-        sqlBuilder.append(" limit $limit")
-
-        return Pair(sqlBuilder.toString(),params)
     }
 
-    fun fetchAllExpenseEntriesLiveData(context: Context, searchText:String,limit:Int,
-                                       user: User?=null,expenseCategory: ExpenseCategory?=null):LiveData<List<ExpenseEntry>>{
+    fun fetchAllExpenseEntriesLiveData(context: Context, expenseEntryFetchParam: ExpenseEntryFetchParam):LiveData<List<ExpenseEntry>>{
 
-        val (sqlBuilder,params) = getSqlForExpenseEntryFetch(searchText, limit, user, expenseCategory)
+        val (sqlBuilder,params) = getSqlForExpenseEntryFetch(expenseEntryFetchParam)
         debugLog(sqlBuilder)
         return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByRawQuery(
                                                         SimpleSQLiteQuery(sqlBuilder,params.toTypedArray()))
@@ -60,5 +60,17 @@ object ExpenseRepo:ExpenseManagerRepo() {
             FireStoreExpenseEntryUtils.deleteExpenseEntry(expenseEntry)
         }
         getDatabase(context).expenseEntryDao.delete(expenseEntry)
+    }
+}
+
+@Keep
+data class ExpenseEntryFetchParam(
+    var searchText:String="",
+    var limit:Int=EXPENSE_FETCH_LIMIT_INC_VALUE,
+    var expenseCategory:ExpenseCategory?=null,
+    val user:User?=null
+){
+    companion object{
+        val EXPENSE_FETCH_LIMIT_INC_VALUE = 100
     }
 }

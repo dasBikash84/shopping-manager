@@ -11,8 +11,8 @@
     <string name="first_name_hint">First Name(Optional)</string>
     <string name="last_name_hint">Last Name(Optional)</string>
     <string name="phone_no_hint">Mobile Number(Optional)</string>
-    <string name="bmi_add">Add Expense</string>
-    <string name="bmi_summary">Summary</string>
+    <string name="bmi_add">Add</string>
+    <string name="bmi_browse">Browse</string>
     <string name="bmi_budget">Budget</string>
     <string name="bmi_shopping_list">List</string>
     <string name="bmi_more">More</string>

@@ -14,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.*
-import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.exp_man.R
@@ -24,7 +23,6 @@ import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.exp_man.utils.DateTranslatorUtils
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.exp_man.utils.optimizedString
-import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
@@ -140,6 +138,7 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
         page_options.attachMenuViewForClick(getOptionsMenu())
 
         btn_add_exp_item.setOnClickListener {
+            hideKeyboard()
             addExpItem()
         }
 
@@ -193,7 +192,10 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
             }
         })
 
-        btn_save_exp_entry.setOnClickListener { saveExpenseTask() }
+        btn_save_exp_entry.setOnClickListener {
+            hideKeyboard()
+            saveExpenseTask()
+        }
 
         cb_set_expense_manually.setOnCheckedChangeListener({ buttonView, isChecked ->
             et_total_expense.isEnabled = isChecked
@@ -262,21 +264,6 @@ class FragmentAddExp : Fragment(), WaitScreenOwner {
     }
 
     private fun getSelectedUom() = uoms.get(uom_selector.selectedIndex)
-
-//    private fun saveExpenseAction() {
-//        if (checkDataCorrectness()) {
-//            runWithContext {
-//                lifecycleScope.launch {
-//                    val user = AuthRepo.getUser(it)
-//                    if (user != null) {
-//                        NetworkMonitor.runWithNetwork(it) { saveExpenseTask() }
-//                    } else {
-//                        saveExpenseTask()
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     private fun saveExpenseTask() {
         if (checkDataCorrectness()) {
