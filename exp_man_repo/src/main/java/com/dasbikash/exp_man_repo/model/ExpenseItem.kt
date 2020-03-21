@@ -1,8 +1,9 @@
 package com.dasbikash.exp_man_repo.model
 
+import androidx.annotation.Keep
 import java.io.Serializable
 import java.util.*
-
+@Keep
 data class ExpenseItem(
     var id:String=UUID.randomUUID().toString(),
     var name:String?=null,
