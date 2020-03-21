@@ -32,9 +32,6 @@ internal interface ExpenseEntryDao {
     @Query("SELECT time FROM ExpenseEntry where userId is NULL ORDER BY timeTs DESC")
     suspend fun getDates(): List<Date>
 
-//    @Query("SELECT * FROM ExpenseEntry")
-//    suspend fun findAll(): List<ExpenseEntry>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(expenseEntry: ExpenseEntry)
 
@@ -61,4 +58,7 @@ internal interface ExpenseEntryDao {
 
     @Query("SELECT sum(totalExpense) FROM ExpenseEntry where userId IS NULL AND timeTs>=:startTime AND timeTs<=:endTime")
     suspend fun getTotalExpense(startTime:Long,endTime:Long):Double
+
+    @RawQuery(observedEntities = [ExpenseEntry::class])
+    fun getExpenseEntryLiveDataByInRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
 }

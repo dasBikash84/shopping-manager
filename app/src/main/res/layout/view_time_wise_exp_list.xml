@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingStart="4dp"
-    android:paddingTop="2dp"
-    android:paddingEnd="4dp">
+    android:paddingStart="6dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="6dp">
 
     <com.dasbikash.android_view_utils.custom_views.ClickableCardView
         android:id="@+id/time_period_text_holder"
@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/snow_white">
+            android:background="@color/snow_white2">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_time_period_text"
@@ -80,19 +80,19 @@
     </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/rv_time_wise_exp_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="4dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:visibility="gone"
+        android:background="@android:color/white">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_time_wise_exp_holder"
+            android:id="@+id/rv_time_wise_exp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone"
             app:layoutManager="LinearLayoutManager" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

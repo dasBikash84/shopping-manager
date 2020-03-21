@@ -27,6 +27,7 @@ import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.exp_man_repo.model.TimeBasedExpenseEntryGroup
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -37,14 +38,14 @@ import kotlinx.coroutines.launch
 class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
     private lateinit var viewModel: ViewModelExpSummary
-    private val timePeriodTitleClickEventPublisher: PublishSubject<CharSequence> = PublishSubject.create()
+
+    private val timePeriodTitleClickEventPublisher: PublishSubject<TimeBasedExpenseEntryGroup> = PublishSubject.create()
 
     private val expenseEntryAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)},{incrementExpenseFetchLimit()})
 
-
     private val expenseCategories = mutableListOf<ExpenseCategory>()
 
-    private val timeBasedExpenseEntryGroupAdapter = TimeBasedExpenseEntryGroupAdapter( timePeriodTitleClickEventPublisher )
+    private lateinit var timeBasedExpenseEntryGroupAdapter:TimeBasedExpenseEntryGroupAdapter// = TimeBasedExpenseEntryGroupAdapter(timePeriodTitleClickEventPublisher,{editTask(it)},{deleteTask(it)})
 
     private fun editTask(expenseEntry: ExpenseEntry){
         TODO()
@@ -76,8 +77,19 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
 
         viewModel = ViewModelProviders.of(this).get(ViewModelExpSummary::class.java)
 
+        timeBasedExpenseEntryGroupAdapter = TimeBasedExpenseEntryGroupAdapter(
+            timePeriodTitleClickEventPublisher,
+            {editTask(it)},{deleteTask(it)},
+            viewModel.getTimeBasedExpenseEntryGroupLiveData(),this)
+
         rv_exp_entry.adapter = expenseEntryAdapter
-        rv_time_wise_exp.adapter = timeBasedExpenseEntryGroupAdapter
+        rv_time_based_exp_group.adapter = timeBasedExpenseEntryGroupAdapter
+
+        timePeriodTitleClickEventPublisher.subscribe {
+            debugLog("subscribe: ${it.startTime}")
+            viewModel.setTimeBasedExpenseEntryGroup(it)
+        }
+
         chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){

@@ -117,6 +117,19 @@ object ExpenseRepo:ExpenseManagerRepo() {
             }
         }
     }
+
+    fun getExpenseEntryLiveDataByIds(context: Context,expenseEntryIds:List<String>):LiveData<List<ExpenseEntry>>{
+        val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where id IN (")
+        for (i in 0..expenseEntryIds.size-1){
+            sqlBuilder.append("'${expenseEntryIds.get(i)}'")
+            if (i!=expenseEntryIds.size-1){
+                sqlBuilder.append(",")
+            }
+        }
+        sqlBuilder.append(")")
+        debugLog(sqlBuilder.toString())
+        return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByInRawQuery(SimpleSQLiteQuery(sqlBuilder.toString()))
+    }
 }
 
 @Keep

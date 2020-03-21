@@ -2,25 +2,40 @@ package com.dasbikash.exp_man.activities.home.exp_summary
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.ExpenseEntryFetchParam
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
+import com.dasbikash.exp_man_repo.model.TimeBasedExpenseEntryGroup
 import kotlinx.coroutines.launch
 import java.util.*
 
 class ViewModelExpSummary(private val mApplication: Application) : AndroidViewModel(mApplication) {
 
     private lateinit var expenseEntryFetchParam: ExpenseEntryFetchParam
+    private lateinit var timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup
 
     private var expenseEntryListLiveData:LiveData<List<ExpenseEntry>>?=null
     private val expenseEntryListMediatorLiveData = MediatorLiveData<List<ExpenseEntry>>()
+
+    private var groupExpenseEntryListLiveData:LiveData<List<ExpenseEntry>>?=null
+    private val groupExpenseEntryListMediatorLiveData = MediatorLiveData<Pair<TimeBasedExpenseEntryGroup,List<ExpenseEntry>>>()
+
+    fun getTimeBasedExpenseEntryGroupLiveData():LiveData<Pair<TimeBasedExpenseEntryGroup,List<ExpenseEntry>>> = groupExpenseEntryListMediatorLiveData
+
+    fun setTimeBasedExpenseEntryGroup(timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup){
+        debugLog("${timeBasedExpenseEntryGroup.startTime}")
+        this.timeBasedExpenseEntryGroup = timeBasedExpenseEntryGroup
+        groupExpenseEntryListLiveData?.let { groupExpenseEntryListMediatorLiveData.removeSource(it) }
+        groupExpenseEntryListLiveData = ExpenseRepo.getExpenseEntryLiveDataByIds(mApplication.applicationContext,timeBasedExpenseEntryGroup.expenseEntryIds)
+        groupExpenseEntryListMediatorLiveData.addSource(groupExpenseEntryListLiveData!!,{
+            debugLog("addSource: ${it.map { it.id }}")
+            groupExpenseEntryListMediatorLiveData.postValue(Pair(timeBasedExpenseEntryGroup,it))
+        })
+    }
 
     init {
         viewModelScope.launch {
