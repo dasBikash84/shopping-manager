@@ -22,7 +22,8 @@ import java.util.*
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
         Index(value = ["categoryId"], unique = false),
-        Index(value = ["details"], unique = false)
+        Index(value = ["details"], unique = false),
+        Index(value = ["created"], unique = false)
     )
 )
 data class ExpenseEntry(

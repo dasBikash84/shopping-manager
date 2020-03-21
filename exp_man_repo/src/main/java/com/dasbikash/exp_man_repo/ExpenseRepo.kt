@@ -1,6 +1,7 @@
 package com.dasbikash.exp_man_repo
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man_repo.firebase.FireStoreExpenseEntryUtils
@@ -24,11 +25,8 @@ object ExpenseRepo:ExpenseManagerRepo() {
         return getDatabase(context).expenseEntryDao.findAll()
     }
 
-    suspend fun fetchAllExpenseEntries(context: Context, searchText:String,limit:Int,
-                                       user: User?=null,expenseCategory: ExpenseCategory?=null):List<ExpenseEntry>{
-
-        debugLog("refreshExpenseEntries")
-
+    private fun getSqlForExpenseEntryFetch(searchText:String,limit:Int,
+                                       user: User?=null,expenseCategory: ExpenseCategory?=null):Pair<String,List<Any>> {
         val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where ")
         val params = mutableListOf<Any>()
 
@@ -48,8 +46,16 @@ object ExpenseRepo:ExpenseManagerRepo() {
 
         sqlBuilder.append(" ORDER BY created DESC")
         sqlBuilder.append(" limit $limit")
-        debugLog(sqlBuilder.toString())
-        return getDatabase(context).expenseEntryDao.getDrugByRawQuery(
-            SimpleSQLiteQuery(sqlBuilder.toString(),params.toTypedArray()))
+
+        return Pair(sqlBuilder.toString(),params)
+    }
+
+    fun fetchAllExpenseEntriesLiveData(context: Context, searchText:String,limit:Int,
+                                       user: User?=null,expenseCategory: ExpenseCategory?=null):LiveData<List<ExpenseEntry>>{
+
+        val (sqlBuilder,params) = getSqlForExpenseEntryFetch(searchText, limit, user, expenseCategory)
+        debugLog(sqlBuilder)
+        return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByRawQuery(
+                                                        SimpleSQLiteQuery(sqlBuilder,params.toTypedArray()))
     }
 }

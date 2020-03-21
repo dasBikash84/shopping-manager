@@ -20,6 +20,10 @@ class ViewModelExpSummary(private val mApplication: Application) : AndroidViewMo
 
     private val allExpenseEntryLiveData = MutableLiveData<List<ExpenseEntry>>()
 
+    private var expenseEntryListLiveData:LiveData<List<ExpenseEntry>>?=null
+
+    private val expenseEntryListMediatorLiveData = MediatorLiveData<List<ExpenseEntry>>()
+
     init {
         viewModelScope.launch {
             debugLog("ViewModelExpSummary init")
@@ -49,13 +53,17 @@ class ViewModelExpSummary(private val mApplication: Application) : AndroidViewMo
         refreshExpenseEntries()
     }
 
-    fun getAllExpenseEntryLiveData():LiveData<List<ExpenseEntry>> = allExpenseEntryLiveData
+    fun getAllExpenseEntryLiveData():LiveData<List<ExpenseEntry>> = expenseEntryListMediatorLiveData
 
     private fun refreshExpenseEntries(){
-        viewModelScope.launch {
-            ExpenseRepo.fetchAllExpenseEntries(mApplication.applicationContext,searchText, limit, user, expenseCategory).let {
-                allExpenseEntryLiveData.postValue(it)
-            }
+        ExpenseRepo
+            .fetchAllExpenseEntriesLiveData(mApplication.applicationContext,searchText, limit, user, expenseCategory)
+            .let {
+                expenseEntryListLiveData?.apply { expenseEntryListMediatorLiveData.removeSource(this) }
+                expenseEntryListLiveData = it
+                expenseEntryListMediatorLiveData.addSource(expenseEntryListLiveData!!,{
+                    expenseEntryListMediatorLiveData.postValue(it)
+                })
         }
     }
 

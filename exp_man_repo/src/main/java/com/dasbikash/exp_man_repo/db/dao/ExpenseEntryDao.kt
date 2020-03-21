@@ -13,8 +13,10 @@
 
 package com.dasbikash.exp_man_repo.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SupportSQLiteQuery
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 
 @Dao
@@ -36,5 +38,8 @@ internal interface ExpenseEntryDao {
     suspend fun nukeTable()
 
     @RawQuery
-    suspend fun getDrugByRawQuery(simpleSQLiteQuery: SimpleSQLiteQuery):List<ExpenseEntry>
+    suspend fun getExpenseEntryByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):List<ExpenseEntry>
+
+    @RawQuery(observedEntities = [ExpenseEntry::class])
+    fun getExpenseEntryLiveDataByRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
 }
