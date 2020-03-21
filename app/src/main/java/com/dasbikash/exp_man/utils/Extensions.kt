@@ -1,7 +1,11 @@
 package com.dasbikash.exp_man.utils
 
+import android.content.Context
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.exp_man.R
+import com.dasbikash.exp_man_repo.model.TimeWiseExpenseEntryGroup
+import com.dasbikash.exp_man_repo.model.TimeDutation
 import java.util.*
 
 fun Date.getWeekString():String{
@@ -29,4 +33,12 @@ fun Double.optimizedString(decimalPointCount:Int?=null):String{
 
 fun checkIfEnglishLanguageSelected():Boolean{
     return Locale.getDefault().getDisplayLanguage().contains("english",true)
+}
+
+fun TimeWiseExpenseEntryGroup.getTitleString(context: Context):String{
+    return when(timeDutation){
+        TimeDutation.DAY -> DateUtils.getShortDateString(startTime)
+        TimeDutation.WEEK -> startTime.getWeekString()
+        TimeDutation.MONTH -> DateUtils.getTimeString(startTime,context.getString(R.string.month_title_format))
+    }
 }

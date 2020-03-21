@@ -119,3 +119,57 @@ fun Date.getMonthCount():Int{
     cal.time = this
     return cal.get(Calendar.YEAR)*12 + cal.get(Calendar.MONTH)
 }
+
+fun Date.getFirstDayOfWeek():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    val currentDay = cal.get(Calendar.DAY_OF_WEEK)
+    val firstDay = cal.clone() as Calendar
+    firstDay.add(Calendar.DAY_OF_WEEK,-(currentDay-1))
+    return firstDay.time
+}
+
+fun Date.getLastDayOfWeek():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    val currentDay = cal.get(Calendar.DAY_OF_WEEK)
+    val lastDay = cal.clone() as Calendar
+    lastDay.add(Calendar.DAY_OF_WEEK,(7-currentDay))
+    return lastDay.time
+}
+
+fun Date.getFirstDayOfMonth():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+    val firstDay = cal.clone() as Calendar
+    firstDay.add(Calendar.DAY_OF_WEEK,-(currentDay-1))
+    return firstDay.time
+}
+fun Date.getLastDayOfMonth():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    val lastDay = cal.clone() as Calendar
+    val currentDay = cal.get(Calendar.DAY_OF_MONTH)
+    val maxDaysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+    lastDay.add(Calendar.DAY_OF_WEEK,(maxDaysInMonth-currentDay))
+    return lastDay.time
+}
+
+fun Date.getStart():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.set(Calendar.HOUR_OF_DAY,0)
+    cal.set(Calendar.MINUTE,0)
+    cal.set(Calendar.SECOND,0)
+    return cal.time
+}
+
+fun Date.getEnd():Date{
+    val cal = Calendar.getInstance()
+    cal.time = this
+    cal.set(Calendar.HOUR_OF_DAY,23)
+    cal.set(Calendar.MINUTE,59)
+    cal.set(Calendar.SECOND,59)
+    return cal.time
+}

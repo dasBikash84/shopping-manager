@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -32,7 +31,6 @@ import com.dasbikash.exp_man_repo.model.ExpenseItem
 import com.dasbikash.exp_man_repo.model.UnitOfMeasure
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
