@@ -38,6 +38,22 @@ class ViewModelAddExp(private val mApplication: Application) : AndroidViewModel(
             }
         }
     }
+    fun addExpenseItems(expenseItems: List<ExpenseItem>){
+        this.expenseItems.value.let {
+            if (it==null){
+                this.expenseItems.postValue(expenseItems)
+            }else{
+                val newItems = mutableListOf<ExpenseItem>()
+                newItems.addAll(it)
+                expenseItems.asSequence().forEach {
+                    if (!newItems.map { it.id }.contains(it.id)){
+                        newItems.add(it)
+                    }
+                }
+                this.expenseItems.postValue(newItems.toList())
+            }
+        }
+    }
 
     fun removeExpenseItem(expenseItem: ExpenseItem){
         expenseItems.value?.filter { it.id!=expenseItem.id }?.let {

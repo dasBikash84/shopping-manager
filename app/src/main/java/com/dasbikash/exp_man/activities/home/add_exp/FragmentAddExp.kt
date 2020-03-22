@@ -262,7 +262,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
-            uom_selector.selectedIndex = uoms.map { it.name }.indexOf(name)
+            uom_selector.selectedIndex = uoms.map { it.name }.indexOf(if (checkIfEnglishLanguageSelected()) {uom} else {uomBangla})
         }
         removeExpenseItem(expenseItem)
     }
@@ -372,9 +372,9 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                         et_description.setText(it.details)
                         et_vat_ait.setText(it.taxVat.toString())
                         if (!it.expenseItems.isNullOrEmpty()) {
-                            it.expenseItems?.forEach {
+                            it.expenseItems?.let {
                                 debugLog("$it")
-                                viewModel?.addExpenseItem(it)
+                                viewModel?.addExpenseItems(it)
                                 expense_item_list_holder.show()
                             }
                         }else {
