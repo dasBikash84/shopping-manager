@@ -14,7 +14,6 @@ data class ExpenseItem(
     var brandName:String?=null,
     var unitPrice:Double=0.0,
     var qty:Double=1.0,
-    var created:Date=Date(),
     var modified:Date=Date()
 ):Serializable{
     @Exclude private var unitOfMeasureSerialized: String?=null

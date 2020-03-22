@@ -282,16 +282,20 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                                 if (expenseEntry == null){
                                     expenseEntry = ExpenseEntry()
                                 }
-                                expenseEntry!!.time = mEntryTime.time
-                                expenseEntry!!.categoryId = getSelectedExpenseCategory().id
-                                expenseEntry!!.expenseCategory = getSelectedExpenseCategory()
-                                expenseEntry!!.categoryProposal = et_category_proposal.text?.toString()
-                                expenseEntry!!.details = et_description.text?.toString()
-                                expenseEntry!!.expenseItems = expenseItemAdapter.currentList
-                                expenseEntry!!.totalExpense = et_total_expense.text?.toString()?.toDouble()
-                                expenseEntry!!.taxVat = viewModel?.getVatTax()?.value ?: 0.0
-                                ExpenseRepo.saveExpenseEntry(it, expenseEntry!!)
-                                showShortSnack(R.string.expense_saved_message)
+                                expenseEntry?.apply {
+                                    time = mEntryTime.time
+                                    categoryId = getSelectedExpenseCategory().id
+                                    expenseCategory = getSelectedExpenseCategory()
+                                    categoryProposal = et_category_proposal.text?.toString()
+                                    details = et_description.text?.toString()
+                                    expenseItems = expenseItemAdapter.currentList
+                                    totalExpense = et_total_expense.text?.toString()?.toDouble()
+                                    taxVat = viewModel?.getVatTax()?.value ?: 0.0
+                                    updateModified()
+                                }?.apply {
+                                    ExpenseRepo.saveExpenseEntry(it, this)
+                                    showShortSnack(R.string.expense_saved_message)
+                                }
                                 resetView()
                             }
                         })
