@@ -23,7 +23,8 @@ import java.util.*
         Index(value = ["userId"], unique = false),
         Index(value = ["categoryId"], unique = false),
         Index(value = ["details"], unique = false),
-        Index(value = ["timeTs"], unique = false)
+        Index(value = ["timeTs"], unique = false),
+        Index(value = ["modified"], unique = false)
     )
 )
 data class ExpenseEntry(

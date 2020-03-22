@@ -61,4 +61,7 @@ internal interface ExpenseEntryDao {
 
     @RawQuery(observedEntities = [ExpenseEntry::class])
     fun getExpenseEntryLiveDataByInRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
+
+    @Query("SELECT max(modified) FROM ExpenseEntry where userId=:userId")
+    suspend fun getLatestModifiedTimeForUser(userId:String): Date?
 }

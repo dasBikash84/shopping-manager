@@ -12,7 +12,7 @@ import com.dasbikash.exp_man_repo.utils.getMonthCount
 import com.dasbikash.exp_man_repo.utils.getWeekCount
 import java.util.*
 
-object ExpenseRepo:ExpenseManagerRepo() {
+object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun saveExpenseEntry(context: Context,expenseEntry: ExpenseEntry):Boolean{
         AuthRepo.getUser(context)?.let {
@@ -133,6 +133,20 @@ object ExpenseRepo:ExpenseManagerRepo() {
 
     suspend fun getExpenseEntryById(context: Context,id:String):ExpenseEntry?{
         return getDatabase(context).expenseEntryDao.findById(id)
+    }
+
+    suspend fun syncData(context: Context) {
+        AuthRepo.getUser(context)?.let {
+            FireStoreExpenseEntryUtils.getLatestExpenseEntries(
+                it, getMaxExpenseModifiedTime(context,it))?.let {
+                it.asSequence().forEach { debugLog(it)}
+                getDatabase(context).expenseEntryDao.addAll(it)
+            }
+        }
+    }
+
+    private suspend fun getMaxExpenseModifiedTime(context: Context,user: User):Date?{
+        return getDatabase(context).expenseEntryDao.getLatestModifiedTimeForUser(user.id)
     }
 }
 

@@ -5,9 +5,8 @@ import android.content.Context
 import com.dasbikash.exp_man_repo.firebase.FirebaseAuthService
 import com.dasbikash.exp_man_repo.firebase.FirebaseUserService
 import com.dasbikash.exp_man_repo.model.User
-import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
-object AuthRepo:ExpenseManagerRepo() {
+object AuthRepo:BookKeeperRepo() {
 
     suspend fun checkLogIn(context: Context):Boolean{
         return getUser(context)!=null

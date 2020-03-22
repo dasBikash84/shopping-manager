@@ -4,14 +4,23 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_network_monitor.NetworkMonitor
+import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
+import com.dasbikash.exp_man.BuildConfig
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp
 import com.dasbikash.exp_man.activities.home.exp_summary.FragmentExpSummary
 import com.dasbikash.exp_man_repo.AuthRepo
+import com.dasbikash.exp_man_repo.ExpenseRepo
+import com.dasbikash.exp_man_repo.SettingsRepo
+import com.dasbikash.snackbar_ext.showShortSnack
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
@@ -51,6 +60,39 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
             }
         }
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
+
+        syncAppData()
+    }
+
+    private fun dataSyncTask(){
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                SettingsRepo.syncSettings(this@ActivityHome)
+                ExpenseRepo.syncData(this@ActivityHome)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+                if (BuildConfig.DEBUG) {
+                    runOnUiThread({ showShortSnack("Data sync failure!!") })
+                }
+            }
+        }
+    }
+
+    private fun syncAppData() {
+        NetworkMonitor
+            .runWithNetwork(this,{dataSyncTask()})
+            .let {
+                  if (!it){
+                      NetworkMonitor.addNetworkStateListener(
+                          NetworkStateListener.getInstance(
+                              doOnConnected = {dataSyncTask()},
+                              lifecycleOwner = this
+                          )
+                      )
+                  }else{
+                      debugLog("Settings sync routine ran.")
+                  }
+                }
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

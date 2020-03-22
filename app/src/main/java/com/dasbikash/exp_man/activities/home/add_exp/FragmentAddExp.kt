@@ -230,8 +230,10 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                 name = et_product_name.text?.trim()?.toString(),
                 qty = et_quantity.text?.toString()?.toDouble()!!,
                 unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
-                brandName = et_brand_name.text?.toString()
-            ).setUnitOfMeasure(getSelectedUom())
+                brandName = et_brand_name.text?.toString(),
+                uom = getSelectedUom().name,
+                uomBangla = getSelectedUom().nameBangla
+            )
         )
         et_product_name.setText("")
         et_brand_name.setText("")
@@ -260,7 +262,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
-            uom_selector.selectedIndex = uoms.map { it.id }.indexOf(getUnitOfMeasure()?.id)
+            uom_selector.selectedIndex = uoms.map { it.name }.indexOf(name)
         }
         removeExpenseItem(expenseItem)
     }
