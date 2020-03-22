@@ -6,16 +6,17 @@ import com.dasbikash.exp_man_repo.exceptions.FbDocumentReadException
 import com.dasbikash.exp_man_repo.model.ExpenseCategory
 import com.dasbikash.exp_man_repo.model.UnitOfMeasure
 import com.google.android.gms.tasks.OnCompleteListener
+import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 internal object FireStoreSettingsUtils {
 
-    private const val EXPENSE_CATEGORY_MODIFIED_FIELD = "modified"
-    private const val UOM_MODIFIED_FIELD = "modified"
+    private const val EXPENSE_CATEGORY_MODIFIED_FIELD = "updateTime"
+    private const val UOM_MODIFIED_FIELD = "updateTime"
 
-    suspend fun getExpenseCategories(lastUpdated:Long?=null):List<ExpenseCategory>{
+    suspend fun getExpenseCategories(lastUpdated:Date?=null):List<ExpenseCategory>{
 
         val query = when {
             lastUpdated==null -> FireStoreRefUtils.getExpCategoriesCollectionRef()
@@ -28,7 +29,7 @@ internal object FireStoreSettingsUtils {
                 .addOnCompleteListener(OnCompleteListener {
                     if(it.isSuccessful){
                         try {
-                            continuation.resume(it.result!!.toObjects(ExpenseCategory::class.java))
+                            continuation.resume(it.result!!.toObjects(ExpenseCategories::class.java).first().categories!!)
                         }catch (ex:Throwable){
                             continuation.resumeWithException(FbDocumentReadException(ex))
                         }
@@ -39,7 +40,7 @@ internal object FireStoreSettingsUtils {
         }
     }
 
-    suspend fun getUnitOfMeasures(lastUpdated:Long?=null):List<UnitOfMeasure>{
+    suspend fun getUnitOfMeasures(lastUpdated:Date?=null):List<UnitOfMeasure>{
 
         val query = when {
             lastUpdated==null -> FireStoreRefUtils.getUomCollectionRef()
@@ -52,7 +53,7 @@ internal object FireStoreSettingsUtils {
                 .addOnCompleteListener(OnCompleteListener {
                     if(it.isSuccessful){
                         try {
-                            continuation.resume(it.result!!.toObjects(UnitOfMeasure::class.java))
+                            continuation.resume(it.result!!.toObjects(UnitOfMeasures::class.java).first().uoms!!)
                         }catch (ex:Throwable){
                             continuation.resumeWithException(FbDocumentReadException(ex))
                         }
@@ -63,3 +64,15 @@ internal object FireStoreSettingsUtils {
         }
     }
 }
+
+@Keep
+data class ExpenseCategories(
+    var categories: List<ExpenseCategory>?=null,
+    var updateTime: Date?=null
+)
+
+@Keep
+data class UnitOfMeasures(
+    var uoms: List<UnitOfMeasure>?=null,
+    var updateTime:Date?=null
+)
