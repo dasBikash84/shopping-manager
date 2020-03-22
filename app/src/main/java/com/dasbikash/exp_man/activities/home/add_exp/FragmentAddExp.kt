@@ -228,11 +228,11 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         viewModel?.addExpenseItem(
             ExpenseItem(
                 name = et_product_name.text?.trim()?.toString(),
-//                unitOfMeasure = getSelectedUom(),
+                unitOfMeasureId = getSelectedUom().id,
                 qty = et_quantity.text?.toString()?.toDouble()!!,
                 unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
                 brandName = et_brand_name.text?.toString()
-            )
+            ).setUnitOfMeasure(getSelectedUom())
         )
         et_product_name.setText("")
         et_brand_name.setText("")
@@ -261,6 +261,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
+            uom_selector.selectedIndex = uoms.map { it.id }.indexOf(unitOfMeasureId)
         }
         removeExpenseItem(expenseItem)
     }

@@ -85,7 +85,7 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         val fragment = getDefaultFragment()
         addFragmentClearingBackStack(fragment){
             page_title.text = getString((fragment as FragmentHome).getPageTitleId())
-            showWaitScreen()
+            hideWaitScreen()
         }
     }
 }
