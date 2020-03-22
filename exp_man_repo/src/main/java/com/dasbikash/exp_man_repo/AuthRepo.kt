@@ -5,33 +5,23 @@ import android.content.Context
 import com.dasbikash.exp_man_repo.firebase.FirebaseAuthService
 import com.dasbikash.exp_man_repo.firebase.FirebaseUserService
 import com.dasbikash.exp_man_repo.model.User
+import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
 object AuthRepo:BookKeeperRepo() {
 
-    suspend fun checkLogIn(context: Context):Boolean{
-        return getUser(context)!=null
+    fun checkLogIn():Boolean{
+        return FirebaseAuthService.getFireBaseUser() != null
     }
 
     suspend fun getUser(context: Context): User?{
-        getDatabase(context).userDao.findUsers().let {
-            if (it.isNotEmpty()){
-                return it.get(0)
+        FirebaseAuthService.getFireBaseUser()?.let {
+                return getDatabase(context).userDao.findById(it.uid)
             }
-        }
         return null
     }
 
-    private suspend fun saveUser(context: Context, user: User){
-        getDatabase(context).let {
-            it.userDao.nukeTable()
-            it.userDao.add(user)
-        }
-    }
-
-    private suspend fun  clearUser(context: Context){
-        getDatabase(context).let {
-            it.userDao.nukeTable()
-        }
+    private suspend fun saveLogin(context: Context, user: User){
+        getDatabase(context).userDao.add(user)
     }
 
     suspend fun createUserWithEmailAndPassword(email:String,password:String,
@@ -44,7 +34,7 @@ object AuthRepo:BookKeeperRepo() {
         FirebaseAuthService.logInUserWithEmailAndPassword(email, password).let {
             try {
                 FirebaseUserService.getUser(it)!!.let {
-                    saveUser(context,it)
+                    saveLogin(context,it)
                     return it
                 }
             }catch (ex:Throwable){
@@ -61,11 +51,11 @@ object AuthRepo:BookKeeperRepo() {
                 FirebaseUserService.getUser(it).let {
                     if (it==null){
                         FirebaseUserService.createUserForPhoneLogin(firebaseUser).let {
-                            saveUser(context, it)
+                            saveLogin(context, it)
                             return it
                         }
                     }else {
-                        saveUser(context, it)
+                        saveLogin(context, it)
                         return it
                     }
                 }
@@ -76,10 +66,7 @@ object AuthRepo:BookKeeperRepo() {
         }
     }
 
-    suspend fun signOut(context: Context){
-        FirebaseAuthService.signOut()
-        clearUser(context)
-    }
+    fun signOut() = FirebaseAuthService.signOut()
 
     suspend fun sendPasswordResetEmail(email: String):Boolean =
         FirebaseAuthService.sendPasswordResetEmail(email)

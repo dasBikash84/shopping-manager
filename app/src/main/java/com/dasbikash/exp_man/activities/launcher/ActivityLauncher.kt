@@ -57,7 +57,7 @@ class ActivityLauncher : AppCompatActivity() {
         }
     }
 
-    private suspend fun loadRequiredActivity() {
+    private fun loadRequiredActivity() {
         isLoggedIn().let {
             finish()
             if (it) {
@@ -68,7 +68,7 @@ class ActivityLauncher : AppCompatActivity() {
         }
     }
 
-    private suspend fun isLoggedIn(): Boolean {
-        return AuthRepo.checkLogIn(this)
+    private fun isLoggedIn(): Boolean {
+        return AuthRepo.checkLogIn()
     }
 }

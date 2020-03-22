@@ -58,7 +58,7 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     suspend fun delete(context: Context,expenseEntry: ExpenseEntry){
-        if (AuthRepo.checkLogIn(context)){
+        if (AuthRepo.checkLogIn()){
             FireStoreExpenseEntryUtils.deleteExpenseEntry(expenseEntry)
         }
         getDatabase(context).expenseEntryDao.delete(expenseEntry)
@@ -83,7 +83,7 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     private suspend fun getExpenseDates(context: Context): List<Date> {
-        return if (AuthRepo.checkLogIn(context)) {
+        return if (AuthRepo.checkLogIn()) {
             getDatabase(context).expenseEntryDao.getDates(AuthRepo.getUser(context)!!.id)
         } else {
             getDatabase(context).expenseEntryDao.getDates()

@@ -101,13 +101,11 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
     }
 
     private fun <T:Fragment> loadFragmentIfLoggedIn(type:Class<T>){
-        lifecycleScope.launch {
-            if (AuthRepo.checkLogIn(this@ActivityHome)){
-                loadFragmentIfNotLoadedAlready(type)
-            }else{
-                val fragment = FragmentLogInLauncher()
-                addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
-            }
+        if (AuthRepo.checkLogIn()){
+            loadFragmentIfNotLoadedAlready(type)
+        }else{
+            val fragment = FragmentLogInLauncher()
+            addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
         }
     }
 

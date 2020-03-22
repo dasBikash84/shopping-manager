@@ -38,11 +38,9 @@ class FragmentMore : FragmentHome() {
 
     private fun initView() {
         runWithContext {
-            lifecycleScope.launch {
-                when(AuthRepo.checkLogIn(it)){
-                    true -> tv_log_out.show()
-                    false -> tv_log_out.hide()
-                }
+            when(AuthRepo.checkLogIn()){
+                true -> tv_log_out.show()
+                false -> tv_log_out.hide()
             }
         }
     }
@@ -58,11 +56,9 @@ class FragmentMore : FragmentHome() {
 
     private fun signOutTask() {
         runWithActivity {
-            lifecycleScope.launch {
-                AuthRepo.signOut(it)
-                it.finish()
-                it.startActivity(ActivityLogin::class.java)
-            }
+            AuthRepo.signOut()
+            it.finish()
+            it.startActivity(ActivityLogin::class.java)
         }
     }
 

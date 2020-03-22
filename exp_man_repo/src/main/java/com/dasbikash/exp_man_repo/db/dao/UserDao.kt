@@ -30,4 +30,7 @@ internal interface UserDao {
 
     @Query("DELETE FROM User")
     suspend fun nukeTable()
+
+    @Query("SELECT * FROM User WHERE id=:userId")
+    suspend fun findById(userId: String):User?
 }
