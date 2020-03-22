@@ -6,6 +6,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.LoggerUtils
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
+import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.exp_man.BuildConfig
 import com.dasbikash.exp_man.R
@@ -29,39 +30,42 @@ class ActivityLauncher : AppCompatActivity() {
         LoggerUtils.init(BuildConfig.DEBUG)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
         lifecycleScope.launch {
-            do {
-                delay(100L)
-                if (!NetworkMonitor.isConnected()){
-                    NetworkMonitor.showNoInternetToast(this@ActivityLauncher)
-                }else{
-                    break
-                }
-            }while (true)
-
-            SettingsRepo.syncSettings(this@ActivityLauncher)
-
-            isLoggedIn().let {
-                delay(500)
-                if (it) {
-                    loadUserActivity()
-                } else {
-                    loadLoginActivity()
-                }
+            delay(500L)
+            if (SettingsRepo.getAllExpenseCategories(this@ActivityLauncher).isEmpty() ||
+                    SettingsRepo.getAllUoms(this@ActivityLauncher).isEmpty()){
+                NetworkMonitor
+                    .runWithNetwork(this@ActivityLauncher,{loadSettingsAndJump()})
+                    .let {
+                        if (!it){
+                            NetworkMonitor.addNetworkStateListener(NetworkStateListener.getInstance(
+                                doOnConnected = {loadSettingsAndJump()},lifecycleOwner = this@ActivityLauncher))
+                        }
+                    }
+            }else{
+                loadRequiredActivity()
             }
         }
     }
 
-    private fun loadLoginActivity() {
-        finish()
-        startActivity(ActivityLogin::class.java)
+    private fun loadSettingsAndJump() {
+        lifecycleScope.launch {
+            SettingsRepo.syncSettings(this@ActivityLauncher)
+            loadRequiredActivity()
+        }
     }
 
-    private fun loadUserActivity() {
-        finish()
-        startActivity(ActivityHome::class.java)
+    private suspend fun loadRequiredActivity() {
+        isLoggedIn().let {
+            finish()
+            if (it) {
+                startActivity(ActivityHome::class.java)
+            } else {
+                startActivity(ActivityLogin::class.java)
+            }
+        }
     }
 
     private suspend fun isLoggedIn(): Boolean {
