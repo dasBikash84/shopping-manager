@@ -70,16 +70,22 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
     }
 
     private fun <T:Fragment> loadFragmentIfNotLoadedAlready(type:Class<T>){
+        showWaitScreen()
         if (getCurrentFragmentType() != type) {
             val fragment = type.newInstance()
             addFragmentClearingBackStack(fragment){
                 page_title.text = getString((fragment as FragmentHome).getPageTitleId())
+                hideWaitScreen()
             }
         }
     }
 
     fun loadHomeFragment(){
+        showWaitScreen()
         val fragment = getDefaultFragment()
-        addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
+        addFragmentClearingBackStack(fragment){
+            page_title.text = getString((fragment as FragmentHome).getPageTitleId())
+            showWaitScreen()
+        }
     }
 }

@@ -13,6 +13,8 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:layout_marginRight">16dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
 
     <style name="sign_up_heading_style">

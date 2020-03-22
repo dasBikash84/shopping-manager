@@ -32,10 +32,11 @@ internal object ExpenseItemListConverter {
         entry?.forEach { debugLog("on top: $it") }
         entry?.forEach { debugLog("on top ser: ${it.toSerializedString()}") }
         entry?.map { it.toSerializedString() }?.let {
+//            it.forEach { debugLog("after ser: ${it}") }
             val stringBuilder = StringBuilder("")
-            for (i in entry.indices) {
-                stringBuilder.append(entry[i])
-                if (i != entry.size - 1) {
+            for (i in it.indices) {
+                stringBuilder.append(it[i])
+                if (i != it.size - 1) {
                     stringBuilder.append(DATA_BRIDGE)
                 }
             }

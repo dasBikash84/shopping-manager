@@ -37,9 +37,9 @@
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
                     android:id="@+id/spinner_category_selector"
-                    android:layout_marginStart="4dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/category_title"
@@ -47,9 +47,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -64,9 +64,9 @@
                 <com.dasbikash.android_view_utils.custom_views.ClickableCardView
                     android:id="@+id/tv_entry_add_holder"
                     android:layout_width="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_gravity="center"
+                    android:layout_marginStart="4dp">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_entry_add"
@@ -85,10 +85,11 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/description_hint">
+                android:layout_marginTop="8dp"
+                android:hint="@string/description_hint"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_description"
@@ -137,9 +138,9 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:background="@color/off_white"
                     android:orientation="vertical">
 
@@ -277,15 +278,32 @@
                     android:text="@string/set_expense_manually" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_save_exp_entry"
-                style="@style/login_buttons"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_marginTop="16dp"
-                android:text="@string/save_exp_entry"
-                android:textAllCaps="false" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_save_exp_entry"
+                    style="@style/login_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/save_exp_entry"
+                    android:textAllCaps="false" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/login_buttons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/cancel"
+                    android:textAllCaps="false"
+                    android:visibility="gone"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

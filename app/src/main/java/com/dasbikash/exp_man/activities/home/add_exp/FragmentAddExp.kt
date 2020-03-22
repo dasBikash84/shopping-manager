@@ -33,10 +33,10 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
-import kotlinx.android.synthetic.main.view_login_benefits.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class FragmentAddExp : FragmentHome(), WaitScreenOwner {
@@ -228,7 +228,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         viewModel?.addExpenseItem(
             ExpenseItem(
                 name = et_product_name.text?.trim()?.toString(),
-                unitOfMeasure = getSelectedUom(),
+//                unitOfMeasure = getSelectedUom(),
                 qty = et_quantity.text?.toString()?.toDouble()!!,
                 unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
                 brandName = et_brand_name.text?.toString()
@@ -331,21 +331,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     private fun initData() {
         runWithContext {
-            lifecycleScope.launch {
-                getExpenseEntry()?.let {
-                    expenseEntry = it
-                    debugLog(it)
-                    setTime(it.time!!)
-                    et_description.setText(it.details)
-                    et_vat_ait.setText(it.taxVat.toString())
-                    et_total_expense.setText(it.totalExpense?.toString())
-                    it.expenseItems?.let {
-                        expenseItemAdapter.submitList(it)
-                        expense_item_list_holder.show()
-                    }
-//                    spinner_category_selector.adap
-                }
-            }
+            showWaitScreen()
             lifecycleScope.launch(Dispatchers.IO) {
                 SettingsRepo.getAllExpenseCategories(it).apply {
                     expenseCategories.addAll(this.sortedBy { it.name })
@@ -371,6 +357,33 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                             }
                         })
                     })
+                }
+                withContext(Dispatchers.Main) {
+                    getExpenseEntry()?.let {
+                        expenseEntry = it
+                        debugLog(it)
+                        setTime(it.time!!)
+                        et_description.setText(it.details)
+                        et_vat_ait.setText(it.taxVat.toString())
+                        if (!it.expenseItems.isNullOrEmpty()) {
+                            it.expenseItems?.forEach {
+                                debugLog("$it")
+                                viewModel?.addExpenseItem(it)
+                                expense_item_list_holder.show()
+                            }
+                        }else {
+                            cb_set_expense_manually.isChecked = true
+                            runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
+                        }
+                        it.expenseCategory?.let {
+                            spinner_category_selector.selectedIndex = expenseCategories.indexOf(it).let { if (it==-1) {0} else {it} }
+                        }
+                        btn_cancel.show()
+                        btn_cancel.setOnClickListener {
+                            activity?.onBackPressed()
+                        }
+                    }
+                    hideWaitScreen()
                 }
             }
         }

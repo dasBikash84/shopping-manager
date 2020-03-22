@@ -46,10 +46,11 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/entry_time_text"
                     android:textIsSelectable="true"/>
+
                 <com.dasbikash.android_view_utils.custom_views.ClickableImageView
                     android:id="@+id/iv_exp_entry_options"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_options"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

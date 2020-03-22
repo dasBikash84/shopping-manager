@@ -149,4 +149,5 @@
     <string name="chip_asc_date_text">↑Date</string>
     <string name="chip_dsc_exp_text">↓Expense</string>
     <string name="chip_asc_exp_text">↑Expense</string>
+    <string name="discard_and_exit_prompt">Exit without saving data?</string>
 </resources>

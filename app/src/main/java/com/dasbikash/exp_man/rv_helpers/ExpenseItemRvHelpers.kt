@@ -53,7 +53,8 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:(ExpenseItem)->Uni
             tv_exp_item_unit_price_text.text = unitPrice.optimizedString(2)
             tv_exp_item_qty_text.text = qty.optimizedString(2)
             tv_exp_item_total_price_text.text = (unitPrice*qty).optimizedString(2)
-            tv_exp_item_uom_text.text = unitOfMeasure?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
+            //for test
+//            tv_exp_item_uom_text.text = unitOfMeasure?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
             if (!brandName.isNullOrBlank()) {
                 tv_exp_item_brand_name_text.text = brandName
                 exp_item_brand_name_holder.show()

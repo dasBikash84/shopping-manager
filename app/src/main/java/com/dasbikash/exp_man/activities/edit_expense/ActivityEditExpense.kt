@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp
@@ -20,6 +21,15 @@ class ActivityEditExpense : SingleFragmentSuperActivity(),WaitScreenOwner {
     override fun getLoneFrameId(): Int = R.id.exp_edit_frame
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
+
+    override fun onBackPressed() {
+        DialogUtils.showAlertDialog(this, DialogUtils.AlertDialogDetails(
+            message = getString(R.string.discard_and_exit_prompt),
+            doOnPositivePress = {
+                super.onBackPressed()
+            }
+        ))
+    }
 
     companion object{
         private const val EXTRA_EXPENSE_ID = "com.dasbikash.exp_man.activities.edit_expense.ActivityEditExpense.EXTRA_EXPENSE_ID"
