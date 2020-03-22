@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.*
@@ -33,6 +34,20 @@ class FragmentMore : FragmentHome() {
         tv_calculator.setOnClickListener{
             runWithActivity { it.startActivity(ActivityCalculator::class.java) }
         }
+        tv_user_name.setOnClickListener {
+            runWithContext {
+                lifecycleScope.launch {
+                    val userDetails = TextView(it)
+                    userDetails.text = AuthRepo.getUser(it)?.toString()
+                    DialogUtils.showAlertDialog(
+                        it, DialogUtils.AlertDialogDetails(
+                            negetiveButtonText = "",
+                            view = userDetails
+                        )
+                    )
+                }
+            }
+        }
         initView()
     }
 
@@ -41,6 +56,9 @@ class FragmentMore : FragmentHome() {
             when(AuthRepo.checkLogIn()){
                 true -> tv_log_out.show()
                 false -> tv_log_out.hide()
+            }
+            lifecycleScope.launch {
+                AuthRepo.getUser(it)?.let { tv_user_name.text = it.email ?: it.phone }
             }
         }
     }

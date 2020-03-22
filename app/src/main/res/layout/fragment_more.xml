@@ -7,9 +7,24 @@
     android:padding="4dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tv_user_name_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
+        <com.dasbikash.android_view_utils.custom_views.ClickableTextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/more_menu_item"
+            tools:text="User Name"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/tv_calculator_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_user_name_holder"
+        android:layout_marginTop="4dp">
         <com.dasbikash.android_view_utils.custom_views.ClickableTextView
             android:id="@+id/tv_calculator"
             android:layout_width="match_parent"
