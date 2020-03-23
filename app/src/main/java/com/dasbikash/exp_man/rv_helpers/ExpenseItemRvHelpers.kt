@@ -22,7 +22,7 @@ object ExpenseItemDiffCallback: DiffUtil.ItemCallback<ExpenseItem>(){
     }
 }
 
-class ExpenseItemAdapter(val optionsClickAction:(ExpenseItem)->Unit) :
+class ExpenseItemAdapter(val optionsClickAction:((ExpenseItem)->Unit)?=null) :
     ListAdapter<ExpenseItem, ExpenseItemHolder>(ExpenseItemDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpenseItemHolder {
         return ExpenseItemHolder(
@@ -37,7 +37,7 @@ class ExpenseItemAdapter(val optionsClickAction:(ExpenseItem)->Unit) :
     }
 }
 
-class ExpenseItemHolder(itemView: View,val optionsClickAction:(ExpenseItem)->Unit) : RecyclerView.ViewHolder(itemView) {
+class ExpenseItemHolder(itemView: View,val optionsClickAction:((ExpenseItem)->Unit)?) : RecyclerView.ViewHolder(itemView) {
     private val tv_exp_item_name_text: TextView = itemView.findViewById(R.id.tv_exp_item_name_text)
     private val tv_exp_item_brand_name_text: TextView = itemView.findViewById(R.id.tv_exp_item_brand_name_text)
     private val tv_exp_item_unit_price_text: TextView = itemView.findViewById(R.id.tv_exp_item_unit_price_text)
@@ -61,6 +61,10 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:(ExpenseItem)->Uni
                 exp_item_brand_name_holder.hide()
             }
         }
-        exp_item_options.setOnClickListener { optionsClickAction(expenseItem) }
+        if (optionsClickAction !=null) {
+            exp_item_options.setOnClickListener { optionsClickAction.invoke(expenseItem) }
+        }else{
+            exp_item_options.hide()
+        }
     }
 }

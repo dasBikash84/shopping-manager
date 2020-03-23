@@ -67,7 +67,7 @@
     <string name="category_selector_prompt">Category</string>
     <string name="category_hint">New category name</string>
     <string name="product_name_hint">Purchased Product name*</string>
-    <string name="category_title_text">Expense Category:</string>
+    <string name="category_title_text">Category:</string>
     <string name="total_expense_error_message">Total expense can\'t be empty or zero</string>
     <string name="quantity_error_message">Quantity can\'t be empty or zero</string>
     <string name="description_error_message">Description can\'t be blank</string>
@@ -151,4 +151,9 @@
     <string name="chip_asc_exp_text">↑Expense</string>
     <string name="discard_and_exit_prompt">Exit without saving data?</string>
     <string name="view_expense_title">Expense details</string>
+    <string name="entry_time_prompt">Time:</string>
+    <string name="exp_details_prompt">Details:</string>
+    <string name="expense_items_prompt">Purchased Products:</string>
+    <string name="total_expense_view_hint">Total expense:</string>
+    <string name="vat_ait_view_txt">Tax/VAT(%):</string>
 </resources>

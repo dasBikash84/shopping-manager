@@ -6,12 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_view_utils.utils.WaitScreenOwner
+import com.dasbikash.android_extensions.show
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.edit_expense.ActivityEditExpense
+import com.dasbikash.exp_man.rv_helpers.ExpenseItemAdapter
+import com.dasbikash.exp_man.utils.DateTranslatorUtils
+import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.exp_man.utils.optimizedString
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
@@ -20,9 +26,10 @@ import com.dasbikash.menu_view.attachMenuViewForClick
 import kotlinx.android.synthetic.main.fragment_view_exp.*
 import kotlinx.coroutines.launch
 
-class FragmentViewExp : Fragment(), WaitScreenOwner {
+class FragmentViewExp : Fragment() {
 
     private lateinit var expenseEntry: ExpenseEntry
+    private val expenseItemAdapter = ExpenseItemAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +38,43 @@ class FragmentViewExp : Fragment(), WaitScreenOwner {
         return inflater.inflate(R.layout.fragment_view_exp, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        rv_expense_items.adapter = expenseItemAdapter
+    }
+
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
             expenseEntry = getExpenseEntry()!!
             debugLog(expenseEntry)
             attachOptionMenuTasks()
+            refreshView()
+        }
+    }
+
+    private fun refreshView() {
+        checkIfEnglishLanguageSelected().apply {
+            tv_category_title.text = if (this) {expenseEntry.expenseCategory!!.name} else {expenseEntry.expenseCategory!!.nameBangla}
+            tv_entry_time.text = DateUtils.getTimeString(expenseEntry.time!!, getString(R.string.exp_entry_time_format))
+                                        .let {
+                                            return@let when (this) {
+                                                true -> it
+                                                false -> DateTranslatorUtils.englishToBanglaDateString(it)
+                                            }
+                                        }
+            tv_exp_details.text = expenseEntry.details
+            tv_vat_ait.text = expenseEntry.taxVat.toString()
+            tv_total_expense.text = expenseEntry.totalExpense?.optimizedString(2)
+
+            (expenseEntry.expenseItems ?: emptyList()).let {
+                if (it.isEmpty()){
+                    expense_item_list_holder.hide()
+                }else{
+                    expenseItemAdapter.submitList(it)
+                    expense_item_list_holder.show()
+                }
+            }
         }
     }
 
@@ -47,8 +85,6 @@ class FragmentViewExp : Fragment(), WaitScreenOwner {
         }
         return null
     }
-
-    override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private fun attachOptionMenuTasks(){
 
@@ -79,7 +115,6 @@ class FragmentViewExp : Fragment(), WaitScreenOwner {
                 message = getString(R.string.confirm_delete_prompt),
                 doOnPositivePress = {
                     lifecycleScope.launch {
-                        showWaitScreen()
                         ExpenseRepo.delete(it, expenseEntry)
                         it.finish()
                     }
