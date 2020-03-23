@@ -114,4 +114,11 @@
     <string name="chip_asc_date_text">↑তারিখ</string>
     <string name="chip_asc_exp_text">↑খরচ</string>
     <string name="chip_dsc_exp_text">↓খরচ</string>
+    <string name="view_expense_title">খরচের বিস্তারিত বিবরণ</string>
+    <string name="entry_time_prompt">সময়ঃ</string>
+    <string name="exp_details_prompt">বিস্তারিতঃ</string>
+    <string name="expense_items_prompt">ক্রয়কৃত পণ্যসমূহঃ</string>
+    <string name="total_expense_view_hint">মোট খরচের পরিমাণঃ</string>
+    <string name="vat_ait_view_txt">ট্যাক্স/ ভ্যাট(%):</string>
+    <string name="discard_and_exit_prompt">ডাটা সেভ না করেই  বের হবেন?</string>
 </resources>
