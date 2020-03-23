@@ -1,0 +1,22 @@
+package com.dasbikash.book_keeper_repo.model
+
+import androidx.annotation.Keep
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.io.Serializable
+
+@Keep
+@Entity
+data class User(
+    @PrimaryKey
+    var id:String="",
+    var email:String?=null,
+    var phone:String?=null,
+    var firstName:String?=null,
+    var lastName:String?=null,
+    var photoUrl:String?=null
+):Serializable{
+    fun validateData():Boolean{
+        return !id.isNullOrBlank() && (!phone.isNullOrBlank() || !email.isNullOrBlank())
+    }
+}

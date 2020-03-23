@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "361780823752",
-    "firebase_url": "https://expense-manager-6b36f.firebaseio.com",
-    "project_id": "expense-manager-6b36f",
-    "storage_bucket": "expense-manager-6b36f.appspot.com"
+    "project_number": "176220970370",
+    "firebase_url": "https://bookkeeper-4d3ae.firebaseio.com",
+    "project_id": "bookkeeper-4d3ae",
+    "storage_bucket": "bookkeeper-4d3ae.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:361780823752:android:30a23ec3c76385394247fd",
+        "mobilesdk_app_id": "1:176220970370:android:e77b5547c98e86a17dc39b",
         "android_client_info": {
-          "package_name": "com.dasbikash.exp_man"
+          "package_name": "com.dasbikash.book_keeper"
         }
       },
       "oauth_client": [
         {
-          "client_id": "361780823752-1fv6psagfmbs8181vo881i937r9tq8r7.apps.googleusercontent.com",
+          "client_id": "176220970370-vsih30pps2nk9feqh7p7b1lhh1hdl4jp.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyALJFH2Omp_2Ok1V_dfYj8d8hosF_wdwG8"
+          "current_key": "AIzaSyALJ5f-m6tg3Ta7VnqXTHra_IdcEDABn-k"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "361780823752-1fv6psagfmbs8181vo881i937r9tq8r7.apps.googleusercontent.com",
+              "client_id": "176220970370-vsih30pps2nk9feqh7p7b1lhh1hdl4jp.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
