@@ -2,6 +2,8 @@ package com.dasbikash.exp_man.activities.login
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,8 @@ import android.widget.AdapterView
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.*
@@ -16,6 +20,7 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.ActivityHome
+import com.dasbikash.exp_man.rv_helpers.StringListAdapter
 import com.dasbikash.exp_man.utils.ValidationUtils
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
@@ -27,6 +32,10 @@ import kotlinx.coroutines.launch
 
 class FragmentLogin : Fragment(),WaitScreenOwner {
 
+    private val stringListAdapter = StringListAdapter({onSuggestionClick(it)})
+
+    private lateinit var viewModel: LoginViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,8 +43,19 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
+    private fun onSuggestionClick(suggestionText: String) {
+        if (log_in_option_selector.selectedItemPosition == 0){
+            et_email.setText(suggestionText)
+        }else{
+            et_mobile.setText(suggestionText)
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+        rv_user_id_suggestions.adapter = stringListAdapter
+
         btn_guest_login.setOnClickListener {
             runWithActivity {
                 it.finish()
@@ -89,6 +109,40 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
             hideKeyboard()
             sendCodeAction()
         }
+
+        et_email.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(input: Editable?) {
+                (input?.toString() ?: "").let {
+                    viewModel.postUserIdInput(it)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        et_mobile.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(input: Editable?) {
+                (input?.toString() ?: "").let {
+                    viewModel.postUserIdInput(it)
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
+        viewModel.getUserIdSuggestions().observe(this,object : Observer<List<String>>{
+            override fun onChanged(suggestions: List<String>?) {
+                (suggestions ?: emptyList()).let {
+                    if (it.isEmpty()){
+                        rv_user_id_suggestions.hide()
+                    }else{
+                        rv_user_id_suggestions.show()
+                        rv_user_id_suggestions.bringToFront()
+                    }
+                    stringListAdapter.submitList(it)
+                }
+            }
+        })
 
         runWithContext {
             if (isLoginBenefitsVisible(it)){
@@ -176,6 +230,8 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     }
 
     private fun enableEmailLoginViewItems() {
+        et_email.setText("")
+        et_mobile.setText("")
         et_email_holder.show()
         et_password_holder.show()
         btn_login.show()
@@ -184,6 +240,8 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     }
 
     private fun enableSmsLoginViewItems() {
+        et_email.setText("")
+        et_mobile.setText("")
         et_email_holder.hide()
         et_password_holder.hide()
         btn_login.hide()
@@ -200,6 +258,7 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
                         context,
                         et_email.text!!.toString(), et_password.text!!.toString()
                     )
+                LoginViewModel.saveUserId(context,et_email.text.toString())
                 runWithActivity {
                     it.finish()
                     it.startActivity(ActivityHome::class.java)

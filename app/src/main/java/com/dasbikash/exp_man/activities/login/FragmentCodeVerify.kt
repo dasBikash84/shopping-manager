@@ -90,6 +90,9 @@ class FragmentCodeVerify : Fragment(),WaitScreenOwner {
             showWaitScreen()
             try {
                 AuthRepo.logInUserWithVerificationCode(context,code)
+                AuthRepo.getCurrentMobileNumber(context)?.let {
+                    LoginViewModel.saveUserId(context,it)
+                }
                 runWithActivity {
                     it.finish()
                     it.startActivity(ActivityHome::class.java)
