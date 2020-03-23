@@ -32,6 +32,7 @@ object TimeBasedExpenseEntryGroupDiffCallback: DiffUtil.ItemCallback<TimeBasedEx
 
 class TimeBasedExpenseEntryGroupAdapter(
             val timePeriodTitleClickEventPublisher: PublishSubject<TimeBasedExpenseEntryGroup>,
+            val launchDetailView:(ExpenseEntry)->Unit,
             val editTask:(ExpenseEntry)->Unit,
             val deleteTask:(ExpenseEntry)->Unit,
             val expLiveData: LiveData<Pair<TimeBasedExpenseEntryGroup,List<ExpenseEntry>>>,
@@ -43,7 +44,7 @@ class TimeBasedExpenseEntryGroupAdapter(
         return TimeBasedExpenseEntryGroupHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.view_time_wise_exp_list, parent, false
-            ), timePeriodTitleClickEventPublisher,editTask,deleteTask,expLiveData, lifecycleOwner
+            ), timePeriodTitleClickEventPublisher,launchDetailView,editTask,deleteTask,expLiveData, lifecycleOwner
         )
     }
 
@@ -54,6 +55,7 @@ class TimeBasedExpenseEntryGroupAdapter(
 
 class TimeBasedExpenseEntryGroupHolder(itemView: View,
                                         val timePeriodTitleClickEventPublisher: PublishSubject<TimeBasedExpenseEntryGroup>,
+                                        val launchDetailView:(ExpenseEntry)->Unit,
                                         val editTask:(ExpenseEntry)->Unit,
                                         val deleteTask:(ExpenseEntry)->Unit,
                                         val expLiveData: LiveData<Pair<TimeBasedExpenseEntryGroup,List<ExpenseEntry>>>,
@@ -65,7 +67,7 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
     private val rv_time_wise_exp_holder: ViewGroup = itemView.findViewById(R.id.rv_time_wise_exp_holder)
     private val rv_time_wise_exp: RecyclerView = itemView.findViewById(R.id.rv_time_wise_exp)
 
-    private val expHolderAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)},{})
+    private val expHolderAdapter = ExpenseEntryAdapter({launchDetailView(it)},{editTask(it)},{deleteTask(it)},{})
 
     private lateinit var timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup
 

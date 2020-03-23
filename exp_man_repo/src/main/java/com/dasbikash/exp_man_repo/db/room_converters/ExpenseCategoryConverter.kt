@@ -24,9 +24,7 @@ internal object ExpenseCategoryConverter {
     @TypeConverter
     @JvmStatic
     internal fun fromSerializable(data: ExpenseCategory?): String?{
-        debugLog("Before ser: $data")
         data?.toSerializedString().let {
-            debugLog("ser: $it")
             return it
         }
     }
@@ -34,9 +32,7 @@ internal object ExpenseCategoryConverter {
     @TypeConverter
     @JvmStatic
     internal fun toSerializable(serializedData: String?): ExpenseCategory?{
-        debugLog("Before Dser: $serializedData")
         serializedData?.toSerializable(ExpenseCategory::class.java).let {
-            debugLog("Dser: $it")
             return it
         }
     }

@@ -14,21 +14,16 @@
 package com.dasbikash.exp_man_repo.db.room_converters
 
 import androidx.room.TypeConverter
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.exp_man_repo.model.UnitOfMeasure
 import com.dasbikash.exp_man_repo.utils.toSerializable
 import com.dasbikash.exp_man_repo.utils.toSerializedString
-import java.io.Serializable
-import java.util.*
 
 internal object UnitOfMeasureConverter {
 
     @TypeConverter
     @JvmStatic
     internal fun fromSerializable(data: UnitOfMeasure?): String? {
-        debugLog("Before ser: $data")
         data?.toSerializedString().let {
-            debugLog("ser: $it")
             return it
         }
     }
@@ -36,9 +31,7 @@ internal object UnitOfMeasureConverter {
     @TypeConverter
     @JvmStatic
     internal fun toSerializable(serializedData: String?): UnitOfMeasure?{
-        debugLog("Before Dser: $serializedData")
         serializedData?.toSerializable(UnitOfMeasure::class.java).let {
-            debugLog("Dser: $it")
             return it
         }
     }

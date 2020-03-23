@@ -150,4 +150,5 @@
     <string name="chip_dsc_exp_text">↓Expense</string>
     <string name="chip_asc_exp_text">↑Expense</string>
     <string name="discard_and_exit_prompt">Exit without saving data?</string>
+    <string name="view_expense_title">Expense details</string>
 </resources>

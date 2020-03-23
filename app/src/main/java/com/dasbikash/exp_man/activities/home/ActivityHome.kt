@@ -11,7 +11,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.BuildConfig
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp
-import com.dasbikash.exp_man.activities.home.exp_summary.FragmentExpSummary
+import com.dasbikash.exp_man.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.exp_man_repo.AuthRepo
 import com.dasbikash.exp_man_repo.ExpenseRepo
 import com.dasbikash.exp_man_repo.SettingsRepo
@@ -20,7 +20,6 @@ import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
@@ -41,7 +40,7 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
                     true
                 }
                 R.id.bmi_summary -> {
-                    loadFragmentIfNotLoadedAlready(FragmentExpSummary::class.java)
+                    loadFragmentIfNotLoadedAlready(FragmentExpBrowser::class.java)
                     true
                 }
                 R.id.bmi_budget -> {

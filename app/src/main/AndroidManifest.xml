@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.edit_expense.ActivityEditExpense" />
+        <activity android:name=".activities.view_expense.ActivityViewExpense" />
     </application>
 
 </manifest>

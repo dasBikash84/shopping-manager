@@ -13,7 +13,7 @@ import com.dasbikash.exp_man_repo.model.TimeBasedExpenseEntryGroup
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ViewModelExpSummary(private val mApplication: Application) : AndroidViewModel(mApplication) {
+class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewModel(mApplication) {
 
     private lateinit var expenseEntryFetchParam: ExpenseEntryFetchParam
     private lateinit var timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup

@@ -14,13 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.exp_man.R
 import com.dasbikash.exp_man.activities.edit_expense.ActivityEditExpense
 import com.dasbikash.exp_man.activities.home.FragmentHome
-import com.dasbikash.exp_man.model.TimeWiseExpenses
+import com.dasbikash.exp_man.activities.view_expense.ActivityViewExpense
 import com.dasbikash.exp_man.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.exp_man.rv_helpers.TimeBasedExpenseEntryGroupAdapter
 import com.dasbikash.exp_man.utils.checkIfEnglishLanguageSelected
@@ -36,13 +37,13 @@ import kotlinx.android.synthetic.main.fragment_exp_summary.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
+class FragmentExpBrowser : FragmentHome(),WaitScreenOwner {
 
-    private lateinit var viewModel: ViewModelExpSummary
+    private lateinit var viewModel: ViewModelExpBrowser
 
     private val timePeriodTitleClickEventPublisher: PublishSubject<TimeBasedExpenseEntryGroup> = PublishSubject.create()
 
-    private val expenseEntryAdapter = ExpenseEntryAdapter({editTask(it)},{deleteTask(it)},{incrementExpenseFetchLimit()})
+    private val expenseEntryAdapter = ExpenseEntryAdapter({launchDetailView(it)},{editTask(it)},{deleteTask(it)},{incrementExpenseFetchLimit()})
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
 
@@ -64,6 +65,14 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
             ))
         }
     }
+
+    private fun launchDetailView(expenseEntry: ExpenseEntry){
+        debugLog("launchDetailView: $expenseEntry")
+        runWithActivity {
+            startActivity(ActivityViewExpense.getIntent(it,expenseEntry))
+        }
+    }
+
     private fun incrementExpenseFetchLimit() {
         viewModel.incrementExpenseFetchLimit()
     }
@@ -78,10 +87,11 @@ class FragmentExpSummary : FragmentHome(),WaitScreenOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(ViewModelExpSummary::class.java)
+        viewModel = ViewModelProviders.of(this).get(ViewModelExpBrowser::class.java)
 
         timeBasedExpenseEntryGroupAdapter = TimeBasedExpenseEntryGroupAdapter(
             timePeriodTitleClickEventPublisher,
+            {launchDetailView(it)},
             {editTask(it)},{deleteTask(it)},
             viewModel.getTimeBasedExpenseEntryGroupLiveData(),this)
 
