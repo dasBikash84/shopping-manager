@@ -44,9 +44,7 @@ internal object FirebaseAuthService {
                 )
 
                 firstName.trim().let {
-                    if (it.isNotEmpty()){
-                        user.firstName = it
-                    }
+                    user.firstName = it
                 }
 
                 lastName.trim().let {
@@ -64,6 +62,7 @@ internal object FirebaseAuthService {
                 }
 
                 FirebaseUserService.saveUser(user)!!
+                signOut()
             }catch (ex:Throwable){
                 do {
                     try {

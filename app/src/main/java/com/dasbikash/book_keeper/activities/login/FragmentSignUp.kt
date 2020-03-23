@@ -69,6 +69,10 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
             et_confirm_password.setError(getString(R.string.password_mismatch_error))
             return
         }
+        if (et_first_name.text.isNullOrEmpty()){
+            et_first_name.setError(getString(R.string.invalid_first_name))
+            return
+        }
         if (!et_mobile.text.isNullOrBlank() &&
                 !ValidationUtils.validateBdMobileNumber(et_mobile.text.toString())){
             et_mobile.setError(getString(R.string.invalid_mobile_number_error))

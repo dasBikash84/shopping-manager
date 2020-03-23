@@ -17,6 +17,6 @@ data class User(
     var photoUrl:String?=null
 ):Serializable{
     fun validateData():Boolean{
-        return !id.isNullOrBlank() && (!phone.isNullOrBlank() || !email.isNullOrBlank())
+        return !id.isBlank() && (!phone.isNullOrBlank() || (!email.isNullOrBlank() && !firstName.isNullOrBlank()))
     }
 }

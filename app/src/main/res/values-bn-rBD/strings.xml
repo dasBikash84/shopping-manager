@@ -7,9 +7,9 @@
     <string name="guest_login_button">গেস্ট হিসেবে প্রবেশ করুন</string>
     <string name="sign_up_button">নতুন অ্যাকাউন্ট খুলুন</string>
     <string name="mobile_hint">মোবাইল নম্বর</string>
-    <string name="signup_textview">নতুন অ্যাকাউন্ট খুলুন</string>
+    <string name="signup_textview">অ্যাকাউন্ট খুলুন</string>
     <string name="confirm_password_hint">পাসওয়ার্ড সুনিশ্চিত করুন</string>
-    <string name="first_name_hint">নামের প্রথমাংশ (ঐচ্ছিক)</string>
+    <string name="first_name_hint">নামের প্রথমাংশ</string>
     <string name="last_name_hint">পদবী (ঐচ্ছিক)</string>
     <string name="phone_no_hint">মোবাইল নম্বর (ঐচ্ছিক)</string>
     <string name="bmi_add">খরচ যোগ</string>

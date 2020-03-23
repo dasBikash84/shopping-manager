@@ -8,7 +8,7 @@
     <string name="mobile_hint">Mobile Number</string>
     <string name="signup_textview">Sign Up</string>
     <string name="confirm_password_hint">Confirm Password</string>
-    <string name="first_name_hint">First Name(Optional)</string>
+    <string name="first_name_hint">First Name</string>
     <string name="last_name_hint">Last Name(Optional)</string>
     <string name="phone_no_hint">Mobile Number(Optional)</string>
     <string name="bmi_add">Add</string>
@@ -156,4 +156,5 @@
     <string name="expense_items_prompt">Purchased Products:</string>
     <string name="total_expense_view_hint">Total expense:</string>
     <string name="vat_ait_view_txt">Tax/VAT(%):</string>
+    <string name="invalid_first_name">First name is required!</string>
 </resources>
