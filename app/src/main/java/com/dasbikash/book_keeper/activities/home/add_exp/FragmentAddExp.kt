@@ -262,7 +262,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
-            uom_selector.selectedIndex = uoms.map { it.name }.indexOf(if (checkIfEnglishLanguageSelected()) {uom} else {uomBangla})
+            uom_selector.selectedIndex = uoms.map { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }.indexOf(if (checkIfEnglishLanguageSelected()) {uom} else {uomBangla})
         }
         removeExpenseItem(expenseItem)
     }
