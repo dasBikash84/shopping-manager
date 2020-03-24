@@ -19,7 +19,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.home.FragmentHome
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
-import com.dasbikash.book_keeper.utils.DateTranslatorUtils
+import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
@@ -66,7 +66,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                 .let {
                     return@let when (checkIfEnglishLanguageSelected()) {
                         true -> it
-                        false -> DateTranslatorUtils.englishToBanglaDateString(it)
+                        false -> TranslatorUtils.englishToBanglaDateString(it)
                     }
                 }
     }

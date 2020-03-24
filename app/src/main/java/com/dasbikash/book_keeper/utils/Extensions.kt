@@ -25,9 +25,13 @@ fun Double.optimizedString(decimalPointCount:Int?=null):String{
     val strFormat = "%2.${if (decimalPointCount==null || decimalPointCount>maxDecimalPoints) defaultDecimalPoints else decimalPointCount}f"
     debugLog("strFormat: $strFormat")
     if (this != this.toLong().toDouble()) {
-        return String.format(strFormat, this)
+        return String.format(strFormat, this).apply {
+            debugLog("optimizedString return: $this")
+        }
     }else{
-        return this.toLong().toString()
+        return this.toLong().toString().apply {
+            debugLog("optimizedString return: $this")
+        }
     }
 }
 

@@ -1,6 +1,10 @@
 package com.dasbikash.book_keeper.utils
 
-object DateTranslatorUtils {
+import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_basic_utils.utils.getCurrencyString
+import java.text.NumberFormat
+
+object TranslatorUtils {
 
     private val MONTH_NAME_TABLE = arrayOf(
         arrayOf("জানুয়ারী", "Jan"),
@@ -71,6 +75,9 @@ object DateTranslatorUtils {
         }
     }
 
+
+    fun englishToBanglaNumberString(numberString: String): String = replaceEnglishDigits(numberString)
+
     private fun replaceAMPMMarkerEngToBan(str: String): String {
         for (i in AM_PM_MARKER_TABLE.indices) {
             if (str.contains(AM_PM_MARKER_TABLE[i][1])) {
@@ -97,4 +104,41 @@ object DateTranslatorUtils {
         }
         return str
     }
+}
+
+fun getLangBasedNumberString(numberString:String):String{
+    return when(checkIfEnglishLanguageSelected()){
+        true -> numberString
+        false -> TranslatorUtils.englishToBanglaNumberString(numberString)
+    }
+}
+
+fun Double.getLangBasedCurrencyString():String{
+    return getLangBasedNumberString(
+        NumberFormat.getCurrencyInstance().format(this).let {
+            if (checkIfEnglishLanguageSelected()){
+                it.substring(1)
+            }else{
+                it.substring(0,it.length-1)
+            }
+        })
+}
+
+fun String.stripTrailingZeros():String{
+    debugLog("stripTrailingZeros got: $this")
+    Regex("(-?\\d+\\...+?)(0+)").matchEntire(this)?.destructured?.toList()?.get(0)?.let {
+        return it.apply {
+            debugLog("stripTrailingZeros matched 1: $this")
+        }
+    }
+    Regex("(-?\\d+)(\\.0+)").matchEntire(this)?.destructured?.toList()?.get(0)?.let {
+        return it.apply {
+            debugLog("stripTrailingZeros matched 2: $this")
+        }
+    }
+    return this
+}
+
+fun Double.formatForDisplay():String{
+    return this.optimizedString().stripTrailingZeros().let { TranslatorUtils.englishToBanglaNumberString(it) }
 }

@@ -36,7 +36,7 @@ data class CalculatorHistory(
         suspend fun getAllHistories(context: Context):Collection<CalculatorHistory>?{
             return SharedPreferenceUtils
                         .getDefaultInstance()
-                        .getSerializableCollectionSuspended(context,CalculatorHistory::class.java,CAL_HISTORY_SP_KEY)
+                        .getSerializableCollectionSuspended(context,CalculatorHistory::class.java,CAL_HISTORY_SP_KEY)?.sortedByDescending { it.time }
         }
     }
 }

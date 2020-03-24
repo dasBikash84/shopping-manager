@@ -11,6 +11,7 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.CalculatorHistoryAdapter
+import com.dasbikash.book_keeper.utils.getLangBasedNumberString
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.coroutines.launch
@@ -64,12 +65,14 @@ class ActivityCalculator : AppCompatActivity() {
         btn_history.setOnClickListener {
             if (calc_history_block.isVisible){
                 calc_history_block.hide()
+                btn_history_delete.hide()
             }else{
                 lifecycleScope.launch {
                     CalculatorHistory.getAllHistories(this@ActivityCalculator).let {
                         if (!it.isNullOrEmpty()){
                             calculatorHistoryAdapter.submitList(it.toList())
                             calc_history_block.show()
+                            btn_history_delete.show()
                             calc_history_block.bringToFront()
                         }
                     }
@@ -81,8 +84,10 @@ class ActivityCalculator : AppCompatActivity() {
             DialogUtils.showAlertDialog(this, DialogUtils.AlertDialogDetails(
                 message = getString(R.string.delete_calc_history_prompt),
                 doOnPositivePress = {
-                    deleteHistory()
-                    showShortSnack(R.string.delete_calc_history_message)
+                    if (calculatorHistoryAdapter.currentList.isNotEmpty()) {
+                        deleteHistory()
+                        showShortSnack(R.string.delete_calc_history_message)
+                    }
                 }
             ))
 
@@ -117,6 +122,7 @@ class ActivityCalculator : AppCompatActivity() {
         CalculatorHistory.clearHistory(this)
         calculatorHistoryAdapter.submitList(emptyList())
         calc_history_block.hide()
+        btn_history_delete.hide()
     }
 
     companion object{

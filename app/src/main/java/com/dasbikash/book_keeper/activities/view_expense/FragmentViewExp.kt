@@ -15,7 +15,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
-import com.dasbikash.book_keeper.utils.DateTranslatorUtils
+import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
@@ -60,7 +60,7 @@ class FragmentViewExp : Fragment() {
                                         .let {
                                             return@let when (this) {
                                                 true -> it
-                                                false -> DateTranslatorUtils.englishToBanglaDateString(it)
+                                                false -> TranslatorUtils.englishToBanglaDateString(it)
                                             }
                                         }
             tv_exp_details.text = expenseEntry.details

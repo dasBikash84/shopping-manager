@@ -15,7 +15,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.utils.DateTranslatorUtils
+import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.getTitleString
 import com.dasbikash.book_keeper.utils.optimizedString
@@ -122,7 +122,7 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
                                             if (checkIfEnglishLanguageSelected()){
                                                 it
                                             }else{
-                                                DateTranslatorUtils.englishToBanglaDateString(it)
+                                                TranslatorUtils.englishToBanglaDateString(it)
                                             }
                                         }
         tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.optimizedString(2)

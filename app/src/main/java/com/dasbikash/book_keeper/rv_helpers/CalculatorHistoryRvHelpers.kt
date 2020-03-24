@@ -9,6 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.CalculatorHistory
+import com.dasbikash.book_keeper.utils.formatForDisplay
+import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
+import com.dasbikash.book_keeper.utils.getLangBasedNumberString
 
 object CalculatorHistoryDiffCallback: DiffUtil.ItemCallback<CalculatorHistory>(){
     override fun areItemsTheSame(oldItem: CalculatorHistory, newItem: CalculatorHistory) = oldItem.time == newItem.time
@@ -46,10 +49,8 @@ class CalculatorHistoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
 
     fun bind(history: CalculatorHistory) {
         history.apply {
-            tv_calc_history_string.text =
-                itemView.context.getString(R.string.calc_history_string,leftOperand,operation,rightOperand)
-            tv_calc_history_result.text =
-                itemView.context.getString(R.string.calc_history_result,result)
+            tv_calc_history_string.text = itemView.context.getString(R.string.calc_history_string,leftOperand?.formatForDisplay(),operation,rightOperand?.formatForDisplay())
+            tv_calc_history_result.text = itemView.context.getString(R.string.calc_history_result,result?.formatForDisplay())
         }
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper.utils.optimizedString
+import com.dasbikash.book_keeper.utils.*
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,8 +27,8 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
     private val currentNumberLiveData = MutableLiveData<String>()
     fun getCurrentNumber():LiveData<String> = currentNumberLiveData
 
-    fun getLeftOperand():LiveData<String?> = leftOperand.map { it?.optimizedString(2) }
-    fun getRightOperand():LiveData<String?> = rightOperand.map { it?.optimizedString(2) }
+    fun getLeftOperand():LiveData<String?> = leftOperand.map { it?.formatForDisplay()}
+    fun getRightOperand():LiveData<String?> = rightOperand.map { it?.formatForDisplay()}
     fun getOperation():LiveData<String?> = operation.map { it?.sign }
 
     init {
@@ -40,29 +40,20 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
 
     fun addPressedDigit(char: Char){
         debugLog(String(currentNumberDigits.toCharArray()))
+
         if (rightAfterCal){
             rightAfterCal = false
-            leftOperand
             clearCurrentNumber()
         }
-        if (currentNumberDigits.isNotEmpty()) {
-            if (char == DOT_CHAR) {
-                if (currentNumberDigits.contains(DOT_CHAR)) {
+
+        if (currentNumberDigits.size >= MAX_NUM_LENGTH){return}
+
+        if (char == DOT_CHAR) {
+            if (currentNumberDigits.isNotEmpty()){
+                if(currentNumberDigits.contains(DOT_CHAR)) {
                     return
                 }
-            } else {
-                if (currentNumberDigits.contains(DOT_CHAR)) {
-                    val integerPartLength =
-                        getIntegerPartLength() + if (currentNumberDigits.first == '-') 1 else 0
-                    if ((currentNumberDigits.size - (integerPartLength + 1)) >= MAX_DECIMAL_PART_LENGTH) {
-                        return
-                    }
-                } else if (getIntegerPartLength() >= MAX_INT_PART_LENGTH) {
-                    return
-                }
-            }
-        }else{
-            if (char == '.') {
+            }else {
                 currentNumberDigits.add('0')
             }
         }
@@ -114,7 +105,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         if (isInvalidNumber()){return}
 
         if (currentNumberDigits.isEmpty()){
-            currentNumberLiveData.postValue("0")
+            sendToDisplay("0")
             return
         }
 
@@ -123,12 +114,12 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         var i = 0
 
         String(currentNumberDigits.toCharArray()).let {
-            val sanitizedString = trailingZeroMatcher.matchEntire(it)?.destructured?.toList()?.get(0) ?: it
+//            val sanitizedString = sanitizeNumberString(it)
             if (getCurrentNumberVal()<0){
                 numberStringBuilder.append('-')
-                return@let sanitizedString.substring(1)
+                return@let it.substring(1)
             }else{
-                return@let sanitizedString
+                return@let it
             }
         }.forEach {
             numberStringBuilder.append(it)
@@ -139,7 +130,17 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
                 }
             }
         }
-        currentNumberLiveData.postValue(numberStringBuilder.toString())
+        sendToDisplay(numberStringBuilder.toString())
+    }
+
+    private fun sanitizeNumberString(numberString: String):String {
+        return trailingZeroMatcher.matchEntire(numberString)?.destructured?.toList()?.get(0) ?: numberString
+    }
+
+    private fun sendToDisplay(numberString:String){
+        currentNumberLiveData.postValue(
+            getLangBasedNumberString(numberString)
+        )
     }
 
     fun clearAll(){
@@ -338,6 +339,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         private const val MEM_ENTRY_SP_KEY = "com.dasbikash.exp_man.activities.calculator.MEM_ENTRY_SP_KEY"
         private const val INVALID_NUMBER_MESSAGE = "Invalid Number!!"
         private val DOT_CHAR = '.'
+        private const val MAX_NUM_LENGTH = 15
         private const val MAX_INT_PART_LENGTH = 10
         private const val MAX_DECIMAL_PART_LENGTH = 4
         private val trailingZeroMatcher = Regex("(-?\\d+\\...?+)(0+)")

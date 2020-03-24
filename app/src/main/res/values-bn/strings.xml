@@ -8,7 +8,7 @@
     <string name="sign_up_button">নতুন অ্যাকাউন্ট খুলুন</string>
     <string name="mobile_hint">মোবাইল নম্বর</string>
     <string name="signup_textview">অ্যাকাউন্ট খুলুন</string>
-    <string name="confirm_password_hint">পাসওয়ার্ড সুনিশ্চিত করুন</string>
+    <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string name="first_name_hint">নামের প্রথমাংশ</string>
     <string name="last_name_hint">পদবী (ঐচ্ছিক)</string>
     <string name="phone_no_hint">মোবাইল নম্বর (ঐচ্ছিক)</string>
@@ -73,7 +73,6 @@
     <string name="quantity_error_message">পণ্যের সংখ্যা প্রদান করা বাদ্ধতামুলক!</string>
     <string name="description_error_message">খরচের বিস্তারিত বিবরণ প্রদান করা বাদ্ধতামুলক!</string>
     <string name="expense_saved_message">খরচের তথ্য সেভ করা হয়েছে।</string>
-    <string name="cal_seven_text">৭</string>
     <string name="calculator_title">ক্যালকুলেটর</string>
     <string name="delete_calc_history_prompt">ক্যালকুলেটরের হিস্ট্রি মুছবেন?</string>
     <string name="delete_calc_history_message">ক্যালকুলেটরের হিস্ট্রি মোছা হয়েছে।</string>
@@ -121,4 +120,34 @@
     <string name="total_expense_view_hint">মোট খরচের পরিমাণঃ</string>
     <string name="vat_ait_view_txt">ট্যাক্স/ ভ্যাট(%):</string>
     <string name="discard_and_exit_prompt">ডাটা সেভ না করেই  বের হবেন?</string>
+    <string name="cal_zero_text">০</string>
+    <string name="cal_one_text">১</string>
+    <string name="cal_two_text">২</string>
+    <string name="cal_three_text">৩</string>
+    <string name="cal_four_text">৪</string>
+    <string name="cal_five_text">৫</string>
+    <string name="cal_six_text">৬</string>
+    <string name="cal_seven_text">৭</string>
+    <string name="cal_eight_text">৮</string>
+    <string name="cal_nine_text">৯</string>
+    <string name="cal_sign_text">+/-</string>
+    <string name="cal_equal_text">=</string>
+    <string name="cal_dot_text">.</string>
+    <string name="cal_plus_text">+</string>
+    <string name="cal_minus_text">-</string>
+    <string name="cal_mul_text">x</string>
+    <string name="cal_inv_text">1/x</string>
+    <string name="cal_square_text">x*x</string>
+    <string name="cal_div_text">÷</string>
+    <string name="cal_percent_text">%</string>
+    <string name="cal_ce_text">CE</string>
+    <string name="cal_c_text">C</string>
+    <string name="cal_mem_minus_text">M-</string>
+    <string name="cal_mem_plus_text">M+</string>
+    <string name="cal_mem_recall_text">MR</string>
+    <string name="cal_mem_clear_text">MC</string>
+    <string name="default_tax_vat">০.০</string>
+    <string name="invalid_first_name">নামের প্রথমাংশ প্রদান করা বাদ্ধতামুলক!</string>
+    <string name="default_unit_price">০.০</string>
+    <string name="default_qty">১.০</string>
 </resources>
