@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.show
 
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
@@ -35,7 +36,24 @@ class FragmentShoppingList : FragmentHome() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_shopping_list.adapter = shoppingListAdapter
-        btn_add_shopping_list.setOnClickListener { addShoppingListAction() }
+        shopping_list_name_entry_holder.hide()
+
+        btn_add_shopping_list.setOnClickListener {
+            shopping_list_name_entry_holder.show()
+            btn_add_shopping_list.hide()
+        }
+
+        btn_shopping_list_add_cancel.setOnClickListener {
+            shopping_list_name_entry_holder.hide()
+            btn_add_shopping_list.show()
+        }
+
+        btn_shopping_list_add.setOnClickListener { shoppingListCreateAction() }
+    }
+
+    private fun shoppingListCreateAction() {
+        shopping_list_name_entry_holder.hide()
+        btn_add_shopping_list.show()
     }
 
     override fun onResume() {
@@ -45,10 +63,6 @@ class FragmentShoppingList : FragmentHome() {
                 shoppingListAdapter.submitList(ShoppingListRepo.getAllShoppingLists(it).sortedByDescending { it.deadLine })
             }
         }
-    }
-
-    private fun addShoppingListAction() {
-        TODO("Not yet implemented")
     }
 
     override fun getPageTitleId() = R.string.shopping_list_title

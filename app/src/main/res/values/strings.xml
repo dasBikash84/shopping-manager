@@ -63,7 +63,7 @@
     <string name="uom_selector_prompt">Unit</string>
     <string name="unit_cost_text">Unit price:</string>
     <string name="description_hint">Expense details*</string>
-    <string name="save_exp_entry">Save</string>
+    <string name="save_text">Save</string>
     <string name="category_selector_prompt">Category</string>
     <string name="category_hint">New category name</string>
     <string name="product_name_hint">Purchased Product name*</string>
@@ -161,4 +161,5 @@
     <string name="sl_item_count_title_text">Item count:</string>
     <string name="sl_deadline_title_text">Deadline:</string>
     <string name="sl_title_prompt_text">Title:</string>
+    <string name="shopping_list_name">New list name</string>
 </resources>

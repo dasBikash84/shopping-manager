@@ -64,7 +64,7 @@
     <string name="uom_selector_prompt">পণ্যের একক</string>
     <string name="unit_cost_text">একক মূল্য</string>
     <string name="description_hint">খরচের বিস্তারিত বিবরণ*</string>
-    <string name="save_exp_entry">সেভ করুন</string>
+    <string name="save_text">সেভ করুন</string>
     <string name="category_selector_prompt">খরচের খাত</string>
     <string name="category_hint">" নতুন খরচের খাতের নাম"</string>
     <string name="product_name_hint">ক্রয়কৃত পণ্যের নাম*</string>

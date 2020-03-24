@@ -52,6 +52,8 @@ data class ShoppingList(
         }
     }
 
+
+
     companion object{
         private val MINIMUM_REMAINDER_INTERVAL = 15L
     }
