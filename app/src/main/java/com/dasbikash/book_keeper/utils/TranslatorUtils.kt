@@ -113,13 +113,14 @@ fun getLangBasedNumberString(numberString:String):String{
     }
 }
 
+//will insert req comma
 fun Double.getLangBasedCurrencyString():String{
     return getLangBasedNumberString(
         NumberFormat.getCurrencyInstance().format(this).let {
             if (checkIfEnglishLanguageSelected()){
                 it.substring(1)
             }else{
-                it.substring(0,it.length-1)
+                TranslatorUtils.englishToBanglaNumberString(it.substring(0,it.length-1))
             }
         })
 }
@@ -140,5 +141,5 @@ fun String.stripTrailingZeros():String{
 }
 
 fun Double.formatForDisplay():String{
-    return this.optimizedString().stripTrailingZeros().let { TranslatorUtils.englishToBanglaNumberString(it) }
+    return this.optimizedString().stripTrailingZeros().let { if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)} }
 }
