@@ -14,20 +14,19 @@ internal class FireStoreUtils {
                 println("readDocument: $path")
                 val continuation = it
                 if (path != null) {
-                    FireStoreConUtils.getFsDocument(
-                            path
-                        )
+                    FireStoreConUtils.getFsDocument(path)
                         .get().addOnCompleteListener {
                             if (it.isSuccessful) {
                                 println("Fb document read is Successful.")
                                 continuation.resume(it.result?.toObject(type))
                             } else {
                                 println("Fb document read failed.")
-                                continuation.resumeWithException(
-                                    FbDocumentReadException(
-                                        it.exception
-                                    )
-                                )
+                                continuation.resume(null)
+//                                continuation.resumeWithException(
+//                                    FbDocumentReadException(
+//                                        it.exception
+//                                    )
+//                                )
                             }
                         }
                 } else {
