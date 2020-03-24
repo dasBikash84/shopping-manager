@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import androidx.annotation.Keep
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
@@ -28,8 +29,21 @@ internal object FireStoreSettingsUtils {
                 .addOnCompleteListener(OnCompleteListener {
                     if(it.isSuccessful){
                         try {
-                            continuation.resume(it.result!!.toObjects(ExpenseCategories::class.java).first().categories!!)
+                            if (it.result != null){
+                                it.result?.toObjects(ExpenseCategories::class.java)?.let {
+                                    continuation.resume(
+                                        if (it.isNotEmpty()){
+                                            it.first()!!.categories!!
+                                        }else{
+                                            emptyList()
+                                        }
+                                    )
+                                }
+                            }else{
+                                continuation.resume(emptyList())
+                            }
                         }catch (ex:Throwable){
+                            ex.printStackTrace()
                             continuation.resumeWithException(FbDocumentReadException(ex))
                         }
                     }else{
@@ -40,7 +54,6 @@ internal object FireStoreSettingsUtils {
     }
 
     suspend fun getUnitOfMeasures(lastUpdated:Date?=null):List<UnitOfMeasure>{
-
         val query = when {
             lastUpdated==null -> FireStoreRefUtils.getUomCollectionRef()
             else -> FireStoreRefUtils.getUomCollectionRef().whereGreaterThan(UOM_MODIFIED_FIELD,lastUpdated)
@@ -52,7 +65,19 @@ internal object FireStoreSettingsUtils {
                 .addOnCompleteListener(OnCompleteListener {
                     if(it.isSuccessful){
                         try {
-                            continuation.resume(it.result!!.toObjects(UnitOfMeasures::class.java).first().uoms!!)
+                            if (it.result != null){
+                                it.result?.toObjects(UnitOfMeasures::class.java)?.let {
+                                    continuation.resume(
+                                        if (it.isNotEmpty()){
+                                            it.first()!!.uoms!!
+                                        }else{
+                                            emptyList()
+                                        }
+                                    )
+                                }
+                            }else{
+                                continuation.resume(emptyList())
+                            }
                         }catch (ex:Throwable){
                             continuation.resumeWithException(FbDocumentReadException(ex))
                         }
