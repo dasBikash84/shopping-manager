@@ -17,6 +17,7 @@ import com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
@@ -64,8 +65,8 @@ class FragmentViewExp : Fragment() {
                                             }
                                         }
             tv_exp_details.text = expenseEntry.details
-            tv_vat_ait.text = expenseEntry.taxVat.toString()
-            tv_total_expense.text = expenseEntry.totalExpense?.optimizedString(2)
+            tv_vat_ait.text = expenseEntry.taxVat.getLangBasedCurrencyString()
+            tv_total_expense.text = expenseEntry.totalExpense?.getLangBasedCurrencyString()
 
             (expenseEntry.expenseItems ?: emptyList()).let {
                 if (it.isEmpty()){

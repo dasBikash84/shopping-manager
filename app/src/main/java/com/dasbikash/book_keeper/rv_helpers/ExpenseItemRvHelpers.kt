@@ -12,6 +12,7 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
 
@@ -50,9 +51,9 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:((ExpenseItem)->Un
     fun bind(expenseItem: ExpenseItem) {
         expenseItem.apply {
             tv_exp_item_name_text.text = name
-            tv_exp_item_unit_price_text.text = unitPrice.optimizedString(2)
-            tv_exp_item_qty_text.text = qty.optimizedString(2)
-            tv_exp_item_total_price_text.text = (unitPrice*qty).optimizedString(2)
+            tv_exp_item_unit_price_text.text = unitPrice.getLangBasedCurrencyString()
+            tv_exp_item_qty_text.text = qty.getLangBasedCurrencyString()
+            tv_exp_item_total_price_text.text = (unitPrice*qty).getLangBasedCurrencyString()
             tv_exp_item_uom_text.text = if (checkIfEnglishLanguageSelected()) {uom} else {uomBangla}
             if (!brandName.isNullOrBlank()) {
                 tv_exp_item_brand_name_text.text = brandName

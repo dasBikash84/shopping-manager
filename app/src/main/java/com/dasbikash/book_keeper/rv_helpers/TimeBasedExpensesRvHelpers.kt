@@ -15,10 +15,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper.utils.getTitleString
-import com.dasbikash.book_keeper.utils.optimizedString
+import com.dasbikash.book_keeper.utils.*
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -80,8 +77,8 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
                 if (it.first == timeBasedExpenseEntryGroup) {
                     rv_time_wise_exp_holder.show()
                     expHolderAdapter.submitList(it.second)
-                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.optimizedString(2)
-                    tv_exp_count.text = it.second.size.toString()
+                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.getLangBasedCurrencyString()
+                    tv_exp_count.text = getLangBasedNumberString(it.second.size.toString())
                 }
             }
         }
@@ -125,7 +122,7 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
                                                 TranslatorUtils.englishToBanglaDateString(it)
                                             }
                                         }
-        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.optimizedString(2)
-        tv_exp_count.text = timeBasedExpenseEntryGroup.expenseEntryIds.size.toString()
+        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.getLangBasedCurrencyString()
+        tv_exp_count.text = getLangBasedNumberString(timeBasedExpenseEntryGroup.expenseEntryIds.size.toString())
     }
 }

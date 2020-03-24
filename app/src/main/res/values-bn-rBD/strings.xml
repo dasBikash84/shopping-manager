@@ -146,8 +146,5 @@
     <string name="cal_mem_plus_text">M+</string>
     <string name="cal_mem_recall_text">MR</string>
     <string name="cal_mem_clear_text">MC</string>
-    <string name="default_tax_vat">০.০</string>
     <string name="invalid_first_name">নামের প্রথমাংশ প্রদান করা বাদ্ধতামুলক!</string>
-    <string name="default_unit_price">০.০</string>
-    <string name="default_qty">১.০</string>
 </resources>

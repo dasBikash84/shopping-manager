@@ -13,6 +13,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -102,7 +103,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
                                                 TranslatorUtils.englishToBanglaDateString(it)
                                             }
                                         }
-            tv_exp_amount_text.text = itemView.context.getString(R.string.double_2_dec_point,totalExpense)
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).getLangBasedCurrencyString()
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
         }
