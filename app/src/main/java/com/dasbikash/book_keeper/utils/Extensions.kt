@@ -41,7 +41,7 @@ fun checkIfEnglishLanguageSelected():Boolean{
 
 fun TimeBasedExpenseEntryGroup.getTitleString(context: Context):String{
     return when(timeDuration){
-        TimeDuration.DAY -> DateUtils.getShortDateString(startTime)
+        TimeDuration.DAY -> DateUtils.getTimeString(startTime,context.getString(R.string.date_title_format))
         TimeDuration.WEEK -> startTime.getWeekString()
         TimeDuration.MONTH -> DateUtils.getTimeString(startTime,context.getString(R.string.month_title_format))
     }

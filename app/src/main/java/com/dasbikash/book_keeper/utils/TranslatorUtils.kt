@@ -120,21 +120,21 @@ fun Double.getLangBasedCurrencyString():String{
             if (checkIfEnglishLanguageSelected()){
                 it.substring(1)
             }else{
-                TranslatorUtils.englishToBanglaNumberString(it.substring(0,it.length-1))
+                it.substring(0,it.length-1)
             }
-        })
+        }.let { it.stripTrailingZeros() }.let { if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)} })
 }
 
 fun String.stripTrailingZeros():String{
     debugLog("stripTrailingZeros got: $this")
-    Regex("(-?\\d+\\...+?)(0+)").matchEntire(this)?.destructured?.toList()?.get(0)?.let {
-        return it.apply {
-            debugLog("stripTrailingZeros matched 1: $this")
-        }
-    }
     Regex("(-?\\d+)(\\.0+)").matchEntire(this)?.destructured?.toList()?.get(0)?.let {
         return it.apply {
             debugLog("stripTrailingZeros matched 2: $this")
+        }
+    }
+    Regex("(-?\\d+\\...+?)(0+)").matchEntire(this)?.destructured?.toList()?.get(0)?.let {
+        return it.apply {
+            debugLog("stripTrailingZeros matched 1: $this")
         }
     }
     return this

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.dasbikash.android_basic_utils.utils.getCurrencyString
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.CalculatorHistory
 import com.dasbikash.book_keeper.utils.formatForDisplay
@@ -52,10 +53,10 @@ class CalculatorHistoryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         history.apply {
             tv_calc_history_string.text = itemView.context.getString(
                                                             R.string.calc_history_string,
-                                                            leftOperand?.getLangBasedCurrencyString()?.stripTrailingZeros(),
+                                                            leftOperand?.getLangBasedCurrencyString(),
                                                             operation,
-                                                            rightOperand?.getLangBasedCurrencyString()?.stripTrailingZeros())
-            tv_calc_history_result.text = itemView.context.getString(R.string.calc_history_result,result?.getLangBasedCurrencyString()?.stripTrailingZeros())
+                                                            rightOperand?.getLangBasedCurrencyString())
+            tv_calc_history_result.text = itemView.context.getString(R.string.calc_history_result,result?.getLangBasedCurrencyString())
         }
     }
 }
