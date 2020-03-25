@@ -13,7 +13,6 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
-import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
 
 object ExpenseItemDiffCallback: DiffUtil.ItemCallback<ExpenseItem>(){

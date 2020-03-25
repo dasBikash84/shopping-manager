@@ -18,6 +18,7 @@ import java.util.*
     ],
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
+        Index(value = ["userId","title"], unique = true),
         Index(value = ["modified"], unique = false)
     )
 )

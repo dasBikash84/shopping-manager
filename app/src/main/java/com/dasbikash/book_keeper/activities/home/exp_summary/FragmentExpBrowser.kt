@@ -34,6 +34,7 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_exp_summary.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

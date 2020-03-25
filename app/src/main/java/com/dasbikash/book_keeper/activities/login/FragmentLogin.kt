@@ -27,6 +27,7 @@ import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.launch
 
 

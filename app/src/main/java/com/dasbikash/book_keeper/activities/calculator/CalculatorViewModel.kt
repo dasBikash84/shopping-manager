@@ -7,11 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper.utils.*
+import com.dasbikash.book_keeper.utils.formatForDisplay
+import com.dasbikash.book_keeper.utils.getLangBasedNumberString
+import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 import java.util.*
 
 class CalculatorViewModel(private val mApplication: Application) : AndroidViewModel(mApplication) {

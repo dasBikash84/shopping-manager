@@ -308,22 +308,9 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/wait_screen"
+    <include
+        layout="@layout/view_wait_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha=".8"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:visibility="gone">
-
-        <ProgressBar
-            style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
-            android:layout_width="240dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:indeterminate="true" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

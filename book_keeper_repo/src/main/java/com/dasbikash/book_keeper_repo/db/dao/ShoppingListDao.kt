@@ -22,6 +22,9 @@ internal interface ShoppingListDao {
     @Query("SELECT * FROM ShoppingList where userId=:userId ORDER BY modified DESC")
     suspend fun findForUser(userId: String): List<ShoppingList>
 
+    @Query("SELECT * FROM ShoppingList where userId=:userId AND title=:title")
+    suspend fun findByUserAndTitle(userId: String,title:String): ShoppingList?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(shoppingList: ShoppingList)
 

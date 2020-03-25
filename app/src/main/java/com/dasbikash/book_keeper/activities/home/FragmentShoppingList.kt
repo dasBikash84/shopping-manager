@@ -52,6 +52,9 @@ class FragmentShoppingList : FragmentHome() {
     }
 
     private fun shoppingListCreateAction() {
+        lifecycleScope.launch {
+
+        }
         shopping_list_name_entry_holder.hide()
         btn_add_shopping_list.show()
     }

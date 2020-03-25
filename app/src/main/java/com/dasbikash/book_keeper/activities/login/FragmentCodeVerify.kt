@@ -18,6 +18,7 @@ import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_code_verify.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

@@ -1,7 +1,7 @@
 package com.dasbikash.book_keeper.activities.calculator
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,7 +11,6 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.CalculatorHistoryAdapter
-import com.dasbikash.book_keeper.utils.getLangBasedNumberString
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_calculator.*
 import kotlinx.coroutines.launch

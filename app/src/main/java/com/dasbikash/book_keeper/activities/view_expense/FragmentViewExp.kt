@@ -18,7 +18,6 @@ import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.getLangBasedCurrencyString
-import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView

@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper.utils
 
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_basic_utils.utils.getCurrencyString
 import java.text.NumberFormat
 
 object TranslatorUtils {

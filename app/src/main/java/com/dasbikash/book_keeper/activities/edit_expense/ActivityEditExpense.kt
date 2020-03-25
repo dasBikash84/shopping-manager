@@ -10,7 +10,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.add_exp.FragmentAddExp
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
-import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
 
 class ActivityEditExpense : SingleFragmentSuperActivity(),WaitScreenOwner {
 
