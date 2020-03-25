@@ -1,5 +1,7 @@
 package com.dasbikash.book_keeper.activities.home.add_exp
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +18,7 @@ import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.home.FragmentHome
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
@@ -33,6 +36,7 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
+import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -414,6 +418,19 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             return ExpenseRepo.getExpenseEntryById(context!!,id)
         }
         return null
+    }
+
+    override fun getOptionsMenu(context: Context): MenuView? {
+        val menuView = MenuView()
+        menuView.add(
+            MenuViewItem(context.getString(R.string.calculator_title),{activity?.let { startActivity(
+                Intent(it,ActivityCalculator::class.java)
+            ) }})
+        )
+        menuView.add(
+            MenuViewItem("Notepad",{})
+        )
+        return menuView
     }
 
     companion object {

@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.dasbikash.book_keeper.R
+import com.dasbikash.menu_view.MenuView
 
 /**
  * A simple [Fragment] subclass.

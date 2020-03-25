@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.show
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
@@ -15,6 +17,7 @@ import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
+import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
@@ -23,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
 
-    override fun getDefaultFragment(): Fragment = FragmentAddExp()
+    override fun getDefaultFragment(): Fragment = generateDefaultFragment()
 
     override fun getLayoutID(): Int = R.layout.activity_home
 
@@ -104,6 +107,7 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
             loadFragmentIfNotLoadedAlready(type)
         }else{
             val fragment = FragmentLogInLauncher()
+            showHideOptionsMenu(fragment)
             addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
         }
     }
@@ -112,6 +116,7 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         showWaitScreen()
         if (getCurrentFragmentType() != type) {
             val fragment = type.newInstance()
+            showHideOptionsMenu(fragment)
             addFragmentClearingBackStack(fragment){
                 page_title.text = getString((fragment as FragmentHome).getPageTitleId())
                 hideWaitScreen()
@@ -122,9 +127,26 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
     fun loadHomeFragment(){
         showWaitScreen()
         val fragment = getDefaultFragment()
+        showHideOptionsMenu(fragment)
         addFragmentClearingBackStack(fragment){
             page_title.text = getString((fragment as FragmentHome).getPageTitleId())
             hideWaitScreen()
+        }
+    }
+
+    private fun generateDefaultFragment():Fragment{
+        val fragment = FragmentAddExp()
+        showHideOptionsMenu(fragment)
+        return fragment
+    }
+
+    private fun showHideOptionsMenu(fragment: Fragment){
+        if (fragment is FragmentHome &&
+            fragment.getOptionsMenu(this)!=null){
+            btn_options.show()
+            btn_options.attachMenuViewForClick(fragment.getOptionsMenu(this)!!)
+        }else{
+            btn_options.hide()
         }
     }
 }
