@@ -3,7 +3,7 @@ package com.dasbikash.book_keeper_repo
 import android.content.Context
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.firebase.FireStoreSettingsUtils
+import com.dasbikash.book_keeper_repo.firebase.FireStoreSettingsService
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
@@ -33,14 +33,14 @@ object SettingsRepo:BookKeeperRepo() {
         getAllExpenseCategories(context).let {
             if (it.isEmpty()){
                 debugLog("No old category")
-                FireStoreSettingsUtils.getExpenseCategories().let {
+                FireStoreSettingsService.getExpenseCategories().let {
                     it.forEach { debugLog(it) }
                     newCategories.addAll(it)
                 }
             }else{
                 it.sortedBy { it.modified }.last().modified!!.apply {
                     debugLog("Last modified ExpenseCategory: $this")
-                    FireStoreSettingsUtils.getExpenseCategories(this).let {
+                    FireStoreSettingsService.getExpenseCategories(this).let {
                         it.forEach { debugLog(it) }
                         newCategories.addAll(it)
                     }
@@ -64,14 +64,14 @@ object SettingsRepo:BookKeeperRepo() {
         getAllUoms(context).let {
             if (it.isEmpty()){
                 debugLog("No old UnitOfMeasure")
-                FireStoreSettingsUtils.getUnitOfMeasures().let {
+                FireStoreSettingsService.getUnitOfMeasures().let {
                     it.forEach { debugLog(it) }
                     newUoms.addAll(it)
                 }
             }else{
                 it.sortedBy { it.modified }.last().modified!!.apply {
                     debugLog("Last modified UnitOfMeasure: $this")
-                    FireStoreSettingsUtils.getUnitOfMeasures(this).let {
+                    FireStoreSettingsService.getUnitOfMeasures(this).let {
                         it.forEach { debugLog(it) }
                         newUoms.addAll(it)
                     }

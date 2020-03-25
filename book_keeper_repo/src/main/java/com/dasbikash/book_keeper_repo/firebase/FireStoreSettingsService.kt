@@ -11,7 +11,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal object FireStoreSettingsUtils {
+internal object FireStoreSettingsService {
 
     private const val EXPENSE_CATEGORY_MODIFIED_FIELD = "updateTime"
     private const val UOM_MODIFIED_FIELD = "updateTime"

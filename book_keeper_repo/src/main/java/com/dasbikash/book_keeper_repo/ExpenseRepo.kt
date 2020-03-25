@@ -5,7 +5,7 @@ import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.firebase.FireStoreExpenseEntryUtils
+import com.dasbikash.book_keeper_repo.firebase.FireStoreExpenseEntryService
 import com.dasbikash.book_keeper_repo.model.*
 import com.dasbikash.book_keeper_repo.utils.getDayCount
 import com.dasbikash.book_keeper_repo.utils.getMonthCount
@@ -17,7 +17,7 @@ object ExpenseRepo:BookKeeperRepo() {
     suspend fun saveExpenseEntry(context: Context,expenseEntry: ExpenseEntry):Boolean{
         AuthRepo.getUser(context)?.let {
             expenseEntry.userId = it.id
-            FireStoreExpenseEntryUtils.saveExpenseEntry(expenseEntry)
+            FireStoreExpenseEntryService.saveExpenseEntry(expenseEntry)
         }
         getDatabase(context).expenseEntryDao.add(expenseEntry)
         return true
@@ -59,7 +59,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun delete(context: Context,expenseEntry: ExpenseEntry){
         if (AuthRepo.checkLogIn()){
-            FireStoreExpenseEntryUtils.deleteExpenseEntry(expenseEntry)
+            FireStoreExpenseEntryService.deleteExpenseEntry(expenseEntry)
         }
         getDatabase(context).expenseEntryDao.delete(expenseEntry)
     }
@@ -137,7 +137,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun syncData(context: Context) {
         AuthRepo.getUser(context)?.let {
-            FireStoreExpenseEntryUtils.getLatestExpenseEntries(
+            FireStoreExpenseEntryService.getLatestExpenseEntries(
                 it, getMaxExpenseModifiedTime(context,it))?.let {
                 it.asSequence().forEach { debugLog(it)}
                 getDatabase(context).expenseEntryDao.addAll(it)

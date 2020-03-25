@@ -162,4 +162,5 @@
     <string name="sl_deadline_title_text">Deadline:</string>
     <string name="sl_title_prompt_text">Title:</string>
     <string name="shopping_list_name">New list name</string>
+    <string name="duplicate_shopping_list_name">Duplicate shopping list name!</string>
 </resources>

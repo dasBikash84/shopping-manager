@@ -24,7 +24,7 @@ import java.util.*
 )
 data class ShoppingList(
     @PrimaryKey
-    var id:String= "",
+    var id:String= UUID.randomUUID().toString(),
     var userId: String?=null,
     var open:Boolean = true,
     var title:String?=null,

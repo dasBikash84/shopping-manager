@@ -10,7 +10,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal object FireStoreExpenseEntryUtils {
+internal object FireStoreExpenseEntryService {
 
     private const val EXPENSE_ENTRY_MODIFIED_FIELD = "modified"
     private const val EXPENSE_ENTRY_USER_ID_FIELD = "userId"

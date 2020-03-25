@@ -13,6 +13,7 @@
 
 package com.dasbikash.book_keeper_repo.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 
@@ -20,7 +21,7 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 internal interface ShoppingListDao {
 
     @Query("SELECT * FROM ShoppingList where userId=:userId ORDER BY modified DESC")
-    suspend fun findForUser(userId: String): List<ShoppingList>
+    fun findForUser(userId: String): LiveData<List<ShoppingList>>
 
     @Query("SELECT * FROM ShoppingList where userId=:userId AND title=:title")
     suspend fun findByUserAndTitle(userId: String,title:String): ShoppingList?

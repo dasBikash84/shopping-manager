@@ -14,6 +14,7 @@ import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.add_exp.FragmentAddExp
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
+import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
