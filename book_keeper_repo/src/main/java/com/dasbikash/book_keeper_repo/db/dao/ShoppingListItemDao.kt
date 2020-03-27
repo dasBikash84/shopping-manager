@@ -20,8 +20,8 @@ import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 @Dao
 internal interface ShoppingListItemDao {
 
-    @Query("SELECT * FROM ShoppingListItem where shoppingListId=:shoppingListId ORDER BY modified DESC")
-    suspend fun find(shoppingListId:String): List<ShoppingListItem>
+    @Query("SELECT * FROM ShoppingListItem where id=:id")
+    suspend fun findById(id:String): ShoppingListItem?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(shoppingListItem: ShoppingListItem)

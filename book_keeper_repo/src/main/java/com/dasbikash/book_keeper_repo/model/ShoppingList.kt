@@ -1,10 +1,9 @@
 package com.dasbikash.book_keeper_repo.model
 
 import androidx.annotation.Keep
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Index
-import androidx.room.PrimaryKey
+import androidx.room.*
+import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
@@ -27,35 +26,47 @@ data class ShoppingList(
     var id:String= UUID.randomUUID().toString(),
     var userId: String?=null,
     var open:Boolean = true,
+    var active:Boolean = true,
     var title:String?=null,
     var deadLine: Date?=null,
-    var itemIds:List<String>?=null,
     var modified: Date = Date(),
     var created: Date = Date()
 ){
-    private var reminderMins:Long?=null
-    private var countDownMins:Long?=null
+    private var reminderInterval:Long?=null
+    private var countDownTime:Long?=null
 
-    fun getReminderMins():Long? = reminderMins
+    @Exclude
+    private var shoppingListItemIds:List<String>?=null
+
+    @Ignore
+    var shoppingListItems:List<ShoppingListItem>?=null
+
+    @Exclude
+    fun getShoppingListItemIds():List<String>? = shoppingListItems?.map { it.id }
+    fun setShoppingListItemIds(ids:List<String>?) {
+        this.shoppingListItemIds = ids
+    }
+
+    fun getReminderMins():Long? = reminderInterval
     fun setReminderMins(mins:Long?){
         mins?.let {
             if (mins > MINIMUM_REMAINDER_INTERVAL) {
-                reminderMins = mins
+                reminderInterval = mins
             }
         }
     }
-    fun getCountDownMins():Long? = countDownMins
+    fun getCountDownMins():Long? = countDownTime
     fun setCountDownMins(mins:Long?){
         mins?.let {
             if (mins > MINIMUM_REMAINDER_INTERVAL) {
-                countDownMins = mins
+                countDownTime = mins
             }
         }
     }
 
-
+    fun updateModified(){this.modified = Date()}
 
     companion object{
-        private val MINIMUM_REMAINDER_INTERVAL = 15L
+        private val MINIMUM_REMAINDER_INTERVAL = DateUtils.MINUTE_IN_MS * 15
     }
 }
