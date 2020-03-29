@@ -1,4 +1,4 @@
-package com.dasbikash.book_keeper.activities.shopping_list
+package com.dasbikash.book_keeper.activities.shopping_list.edit
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

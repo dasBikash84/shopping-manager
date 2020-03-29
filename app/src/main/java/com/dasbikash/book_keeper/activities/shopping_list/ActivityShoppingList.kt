@@ -4,7 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
+import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_shopping_list.*
 
@@ -19,11 +24,42 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
         setContentView(R.layout.activity_shopping_list)
     }
 
-    private fun getInitFragment():Fragment{
-        return when(isEditIntent(intent)){
+    private fun getInitFragment():FragmentShoppingListDetails{
+        when(isEditIntent(intent)){
             true -> getEditFragment(getShoppingListId(intent))
             false -> getViewFragment(getShoppingListId(intent))
+        }.let {
+            manageOptionsBtnBeforeChildLoading(it)
+            return it
         }
+    }
+
+    private fun manageOptionsBtnBeforeChildLoading(fragment: FragmentShoppingListDetails) {
+        if (fragment.getOptionsMenu(this) != null) {
+            btn_options.attachMenuViewForClick(fragment.getOptionsMenu(this)!!)
+            btn_options.show()
+        } else {
+            btn_options.setOnClickListener { }
+            btn_options.hide()
+        }
+    }
+
+    override fun addFragment(fragment: Fragment, doOnFragmentLoad: (() -> Unit)?) {
+        manageOptionsBtnBeforeChildLoading(fragment as FragmentShoppingListDetails)
+        super.addFragment(fragment, doOnFragmentLoad)
+    }
+
+    override fun addFragmentClearingBackStack(fragment: Fragment, doOnFragmentLoad: (() -> Unit)?) {
+        manageOptionsBtnBeforeChildLoading(fragment as FragmentShoppingListDetails)
+        super.addFragmentClearingBackStack(fragment, doOnFragmentLoad)
+    }
+
+    override fun getFragmentFromBackStack(): Fragment? {
+        val fragment = super.getFragmentFromBackStack() as FragmentShoppingListDetails?
+        fragment?.let {
+            manageOptionsBtnBeforeChildLoading(fragment)
+        }
+        return fragment
     }
 
     private fun getViewFragment(shoppingListId: String): FragmentShoppingListView =
@@ -32,7 +68,7 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
     private fun getEditFragment(shoppingListId: String): FragmentShoppingListEdit =
         FragmentShoppingListEdit.getInstance(shoppingListId)
 
-    fun setTitle(titleText:String) = page_title.setText(titleText)
+    fun setPageTitle(titleText:String) = page_title.setText(titleText)
 
     companion object{
 

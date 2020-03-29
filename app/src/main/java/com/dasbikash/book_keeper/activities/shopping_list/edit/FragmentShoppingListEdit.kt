@@ -1,16 +1,17 @@
-package com.dasbikash.book_keeper.activities.shopping_list
+package com.dasbikash.book_keeper.activities.shopping_list.edit
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
+import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import java.lang.IllegalStateException
 
-class FragmentShoppingListEdit : Fragment() {
+class FragmentShoppingListEdit : FragmentShoppingListDetails() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -32,12 +33,13 @@ class FragmentShoppingListEdit : Fragment() {
 
     companion object{
         private const val ARG_SHOPPING_LIST_ID =
-            "com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListEdit.ARG_SHOPPING_LIST_ID"
+            "com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit.ARG_SHOPPING_LIST_ID"
 
-        fun getInstance(shoppingListId: String):FragmentShoppingListEdit{
+        fun getInstance(shoppingListId: String): FragmentShoppingListEdit {
             val arg = Bundle()
             arg.putString(ARG_SHOPPING_LIST_ID,shoppingListId)
-            val fragment = FragmentShoppingListEdit()
+            val fragment =
+                FragmentShoppingListEdit()
             fragment.arguments = arg
             return fragment
         }
