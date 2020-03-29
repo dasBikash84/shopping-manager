@@ -97,6 +97,8 @@ class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
                     hideWaitScreen()
                 }
             }
+        }else{
+            showShortSnack(R.string.empty_shopping_list_name_message,getString(R.string.retry),{showListAddDialog()})
         }
     }
     override fun getPageTitleId() = R.string.shopping_list_title

@@ -166,4 +166,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="empty_shopping_list_name_message">Shopping list name can\'t be empty!</string>
+    <string name="retry">Retry</string>
 </resources>
