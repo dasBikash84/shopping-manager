@@ -163,9 +163,15 @@
     <string name="sl_title_prompt_text">Title:</string>
     <string name="shopping_list_name">New list name</string>
     <string name="duplicate_shopping_list_name">Duplicate shopping list name!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="empty_shopping_list_name_message">Shopping list name can\'t be empty!</string>
     <string name="retry">Retry</string>
+    <string name="shopping_list_name_hint">Shopping list name</string>
+    <string name="sl_deadline">Deadline:</string>
+    <string name="enable_shopping_remainder">Enable reminder.</string>
+    <string name="sl_count_down_prompt">"Remind before: "</string>
+    <string name="sl_reminder_interval_prompt">Remind every:</string>
+    <string name="click_to_set_prompt">Click to set</string>
+    <string name="sl_edit_title">Edit | %1$s</string>
+    <string name="hours_text">hours.</string>
+    <string name="disable_sl_reminder_prompt">Disable reminder?</string>
 </resources>

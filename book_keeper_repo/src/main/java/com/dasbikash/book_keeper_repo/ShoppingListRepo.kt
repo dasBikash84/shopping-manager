@@ -45,5 +45,8 @@ object ShoppingListRepo:BookKeeperRepo() {
     }
 
     fun getLiveDataById(context: Context,shoppingListId:String) =
+        getDatabase(context).shoppingListDao.findByIdLiveData(shoppingListId)
+
+    suspend fun findById(context: Context,shoppingListId:String) =
         getDatabase(context).shoppingListDao.findById(shoppingListId)
 }

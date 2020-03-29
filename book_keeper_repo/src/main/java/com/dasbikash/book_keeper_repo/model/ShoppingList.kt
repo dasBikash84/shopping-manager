@@ -48,25 +48,35 @@ data class ShoppingList(
     }
 
     fun getReminderInterval():Long? = reminderInterval
-    fun setReminderInterval(mins:Long?){
-        mins?.let {
-            if (mins > MINIMUM_REMAINDER_INTERVAL) {
-                reminderInterval = mins
-            }
-        }
+    fun setReminderInterval(ms:Long?){
+        reminderInterval = ms
     }
+
     fun getCountDownTime():Long? = countDownTime
-    fun setCountDownTime(mins:Long?){
-        mins?.let {
-            if (mins > MINIMUM_REMAINDER_INTERVAL) {
-                countDownTime = mins
+    fun setCountDownTime(ms:Long?){
+        ms?.let {
+            if (ms > MINIMUM_REMAINDER_INTERVAL) {
+                countDownTime = ms
             }
         }
     }
 
     fun updateModified(){this.modified = Date()}
+    override fun toString(): String {
+        return "ShoppingList(id='$id', userId=$userId, open=$open, active=$active, title=$title, deadLine=$deadLine, modified=$modified, created=$created, reminderInterval=$reminderInterval, countDownTime=$countDownTime, shoppingListItemIds=$shoppingListItemIds, shoppingListItems=$shoppingListItems)"
+    }
+
 
     companion object{
         private val MINIMUM_REMAINDER_INTERVAL = DateUtils.MINUTE_IN_MS * 15
+
+        enum class ReminderInterval(val text:String,val textBangla:String,val intervalMs:Long?){
+            ONCE("Remind once","শুধুমাত্র একবার",null),
+            MIN_15("15 minutes","১৫ মিনিট",15*DateUtils.MINUTE_IN_MS),
+            MIN_30("30 minutes","৩০ মিনিট",30*DateUtils.MINUTE_IN_MS),
+            HOUR_1("1 hour","১ ঘণ্টা",1*DateUtils.HOUR_IN_MS),
+            HOUR_6("6 hours","৬ ঘণ্টা",6*DateUtils.HOUR_IN_MS),
+            HOUR_24("24 hours","২৪ ঘণ্টা",24*DateUtils.HOUR_IN_MS)
+        }
     }
 }

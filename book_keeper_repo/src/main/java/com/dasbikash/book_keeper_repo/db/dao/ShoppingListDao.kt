@@ -21,7 +21,10 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 internal interface ShoppingListDao {
 
     @Query("SELECT * FROM ShoppingList where id=:id")
-    fun findById(id: String): LiveData<ShoppingList>
+    fun findByIdLiveData(id: String): LiveData<ShoppingList>
+
+    @Query("SELECT * FROM ShoppingList where id=:id")
+    suspend fun findById(id: String): ShoppingList?
 
     @Query("SELECT * FROM ShoppingList where userId=:userId ORDER BY modified DESC")
     fun findForUser(userId: String): LiveData<List<ShoppingList>>
