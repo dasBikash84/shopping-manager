@@ -14,6 +14,7 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.FragmentHome
+import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -31,7 +32,15 @@ class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
     private val shoppingListAdapter = ShoppingListAdapter({launchDetailView(it)})
 
     private fun launchDetailView(shoppingList: ShoppingList){
+        runWithContext {
+            startActivity(ActivityShoppingList.getViewIntent(it,shoppingList.id))
+        }
+    }
 
+    private fun launchEditView(shoppingList: ShoppingList){
+        runWithContext {
+            startActivity(ActivityShoppingList.getEditIntent(it,shoppingList.id))
+        }
     }
 
     override fun onCreateView(
@@ -82,7 +91,7 @@ class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
                         if (it == null) {
                             showShortSnack(R.string.duplicate_shopping_list_name)
                         } else {
-                            launchDetailView(it)
+                            launchEditView(it)
                         }
                     }
                     hideWaitScreen()

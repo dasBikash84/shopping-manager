@@ -47,16 +47,16 @@ data class ShoppingList(
         this.shoppingListItemIds = ids
     }
 
-    fun getReminderMins():Long? = reminderInterval
-    fun setReminderMins(mins:Long?){
+    fun getReminderInterval():Long? = reminderInterval
+    fun setReminderInterval(mins:Long?){
         mins?.let {
             if (mins > MINIMUM_REMAINDER_INTERVAL) {
                 reminderInterval = mins
             }
         }
     }
-    fun getCountDownMins():Long? = countDownTime
-    fun setCountDownMins(mins:Long?){
+    fun getCountDownTime():Long? = countDownTime
+    fun setCountDownTime(mins:Long?){
         mins?.let {
             if (mins > MINIMUM_REMAINDER_INTERVAL) {
                 countDownTime = mins

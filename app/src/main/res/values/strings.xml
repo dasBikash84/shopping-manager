@@ -163,4 +163,7 @@
     <string name="sl_title_prompt_text">Title:</string>
     <string name="shopping_list_name">New list name</string>
     <string name="duplicate_shopping_list_name">Duplicate shopping list name!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

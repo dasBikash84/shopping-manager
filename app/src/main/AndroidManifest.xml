@@ -9,18 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.dasbikash.book_keeper.activities.calculator.ActivityCalculator"/>
-        <activity android:name="com.dasbikash.book_keeper.activities.login.ActivityLogin" />
-        <activity android:name="com.dasbikash.book_keeper.activities.home.ActivityHome" />
-        <activity android:name="com.dasbikash.book_keeper.activities.launcher.ActivityLauncher">
+        <activity android:name=".activities.shopping_list.ActivityShoppingList"></activity>
+        <activity android:name=".activities.calculator.ActivityCalculator" />
+        <activity android:name=".activities.login.ActivityLogin" />
+        <activity android:name=".activities.home.ActivityHome" />
+        <activity android:name=".activities.launcher.ActivityLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense" />
-        <activity android:name="com.dasbikash.book_keeper.activities.view_expense.ActivityViewExpense" />
+        <activity android:name=".activities.edit_expense.ActivityEditExpense" />
+        <activity android:name=".activities.view_expense.ActivityViewExpense" />
     </application>
 
 </manifest>

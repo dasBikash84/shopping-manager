@@ -59,7 +59,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(shoppingList: ShoppingList) {
         tv_sl_title_text.text = shoppingList.title
-        tv_sl_item_count_text.text = getLangBasedNumberString(shoppingList.itemIds?.size?.toString() ?: "0")
+        tv_sl_item_count_text.text = getLangBasedNumberString(shoppingList.getShoppingListItemIds()?.size?.toString() ?: "0")
         if (shoppingList.deadLine !=null){
             tv_sl_deadline_text.text = DateUtils.getTimeString(shoppingList.deadLine!!,itemView.context.getString(R.string.exp_entry_time_format))
                                             .let {
