@@ -54,21 +54,29 @@ data class ShoppingList(
 
     fun getCountDownTime():Long? = countDownTime
     fun setCountDownTime(ms:Long?){
-        ms?.let {
-            if (ms > MINIMUM_REMAINDER_INTERVAL) {
-                countDownTime = ms
-            }
-        }
+        countDownTime = ms
     }
 
     fun updateModified(){this.modified = Date()}
+
+    fun validateCountDownTime():Boolean{
+        return if (countDownTime!=null){
+            return countDownTime!! > MINIMUM_COUNT_DOWN_DELAY
+        }else{
+            return true
+        }
+    }
     override fun toString(): String {
-        return "ShoppingList(id='$id', userId=$userId, open=$open, active=$active, title=$title, deadLine=$deadLine, modified=$modified, created=$created, reminderInterval=$reminderInterval, countDownTime=$countDownTime, shoppingListItemIds=$shoppingListItemIds, shoppingListItems=$shoppingListItems)"
+        return "ShoppingList(id='$id', userId=$userId, open=$open, active=$active, title=$title, deadLine=$deadLine, " +
+                "modified=$modified, created=$created, reminderInterval=$reminderInterval, countDownTime=$countDownTime, " +
+                "shoppingListItemIds=$shoppingListItemIds, shoppingListItems=$shoppingListItems)"
     }
 
 
     companion object{
-        private val MINIMUM_REMAINDER_INTERVAL = DateUtils.MINUTE_IN_MS * 15
+        private val MINIMUM_REMINDER_INTERVAL = DateUtils.MINUTE_IN_MS * 15
+        private val MINIMUM_COUNT_DOWN_DELAY = DateUtils.MINUTE_IN_MS * 15
+        private val MINIMUM_DEADLINE_PERIOD = DateUtils.HOUR_IN_MS * 1
 
         enum class ReminderInterval(val text:String,val textBangla:String,val intervalMs:Long?){
             ONCE("Remind once","শুধুমাত্র একবার",null),
@@ -78,5 +86,8 @@ data class ShoppingList(
             HOUR_6("6 hours","৬ ঘণ্টা",6*DateUtils.HOUR_IN_MS),
             HOUR_24("24 hours","২৪ ঘণ্টা",24*DateUtils.HOUR_IN_MS)
         }
+
+        fun validateDeadLine(deadLine: Date):Boolean =
+            (deadLine.time - System.currentTimeMillis()) > MINIMUM_DEADLINE_PERIOD
     }
 }

@@ -28,6 +28,11 @@ object ShoppingListRepo:BookKeeperRepo() {
         }
     }
 
+    suspend fun save(context: Context,shoppingList: ShoppingList){
+        saveToFireBase(context, shoppingList)
+        getShoppingListDao(context).add(shoppingList)
+    }
+
     private suspend fun saveToFireBase(context: Context,shoppingList: ShoppingList){
         val shoppingListItems = mutableListOf<ShoppingListItem>()
         shoppingList.getShoppingListItemIds()?.asSequence()?.forEach {

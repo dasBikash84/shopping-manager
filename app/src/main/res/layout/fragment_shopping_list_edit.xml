@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.shopping_list.edit.FragmentShoppingListEdit">
+    tools:context=".activities.shopping_list.edit.FragmentShoppingListEdit"
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -59,7 +61,7 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sl_deadline"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@color/snow_white3"
                         android:gravity="center"
                         android:minHeight="32dp"
@@ -109,10 +111,10 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_sl_count_down_prompt"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:hint="@string/reminder_hint"
                     android:inputType="number"
-                    android:text="0"/>
+                    app:layout_constraintStart_toEndOf="@id/tv_sl_count_down_prompt"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -162,7 +164,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/sl_remainder_set_block">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_save_exp_entry"
+                    android:id="@+id/btn_save_shopping_list"
                     style="@style/login_buttons"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
