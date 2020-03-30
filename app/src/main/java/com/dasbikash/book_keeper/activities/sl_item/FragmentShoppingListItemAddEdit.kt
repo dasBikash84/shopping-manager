@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
@@ -173,7 +174,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                         } else {
                             val item = ShoppingListRepo.findShoppingListItemById(context!!, it)!!
                             (activity as ActivityShoppingListItem?)?.setPageTitle(getString(R.string.edit_title,item.name))
-                            return@let item
+                            item
                         }
                     }
                 }

@@ -81,7 +81,7 @@
     <string name="chip_sort_by_week_text">সপ্তাহ অনুসারে</string>
     <string name="chip_sort_by_month_text">মাস অনুসারে</string>
     <string name="exp_amount_title_text">খরচের পরিমাণঃ</string>
-    <string name="exp_qty_title_text">পণ্যের সংখ্যা:</string>
+    <string name="qty_prompt">পণ্যের সংখ্যা:</string>
     <string name="exp_desc_title_text">বিস্তারিতঃ</string>
     <string name="exp_cat_title_text">খরচের খাতঃ</string>
     <string name="login_launcher_text">ফিচারটি ব্যাবহার করতে লগইন করুণ</string>
@@ -90,7 +90,7 @@
     <string name="unit_price_hint">একক মূল্য*</string>
     <string name="add_exp_item">পণ্য যোগ করুণ</string>
     <string name="set_expense_manually">ম্যানুয়ালি যোগ করুণ</string>
-    <string name="exp_item_name_text">নামঃ</string>
+    <string name="name_prompt">নামঃ</string>
     <string name="exp_item_brand_name_text">কোম্পানির নামঃ</string>
     <string name="product_name_empty_error">পণ্যের নাম প্রদান করা বাদ্ধতামুলক!</string>
     <string name="unit_price_empty_error">একক মূল্য খালি বা শূন্য হতে পারবে না!</string>
@@ -115,7 +115,7 @@
     <string name="chip_dsc_exp_text">↓খরচ</string>
     <string name="view_expense_title">খরচের বিস্তারিত বিবরণ</string>
     <string name="entry_time_prompt">সময়ঃ</string>
-    <string name="exp_details_prompt">বিস্তারিতঃ</string>
+    <string name="details_prompt">বিস্তারিতঃ</string>
     <string name="expense_items_prompt">ক্রয়কৃত পণ্যসমূহঃ</string>
     <string name="total_expense_view_hint">মোট খরচের পরিমাণঃ</string>
     <string name="vat_ait_view_txt">ট্যাক্স/ ভ্যাট(%):</string>

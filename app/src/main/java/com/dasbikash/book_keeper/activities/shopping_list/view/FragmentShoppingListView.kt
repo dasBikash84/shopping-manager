@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithActivity
@@ -37,7 +38,30 @@ import java.lang.IllegalStateException
 class FragmentShoppingListView : FragmentShoppingListDetails() {
 
     private lateinit var viewModel: ViewModelShoppingListView
-    private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)})
+    private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)},{editTask(it)},{deleteTask(it)},{closeTask(it)})
+
+    private fun editTask(shoppingListItem: ShoppingListItem) {
+        runWithActivity {
+            it.startActivity(ActivityShoppingListItem.getEditIntent(it,shoppingListItem.id))
+        }
+    }
+
+    private fun deleteTask(shoppingListItem: ShoppingListItem) {
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.confirm_delete_prompt),
+                doOnPositivePress = {
+                    lifecycleScope.launch {
+                        ShoppingListRepo.delete(it,shoppingListItem)
+                    }
+                }
+            ))
+        }
+    }
+
+    private fun closeTask(shoppingListItem: ShoppingListItem) {
+        TODO("Not yet implemented")
+    }
 
     private fun launchShoppingListItemDetailView(shoppingListItem: ShoppingListItem) {
         debugLog(shoppingListItem)

@@ -108,7 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="start|center_vertical"
-                    android:text="@string/exp_details_prompt"
+                    android:text="@string/details_prompt"
                     android:textAlignment="gravity"
                     android:textSize="16sp" />
 
@@ -116,7 +116,7 @@
                     android:id="@+id/tv_exp_details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="@string/exp_details_prompt"
+                    tools:text="@string/details_prompt"
                     android:textColor="@android:color/black"
                     android:textAlignment="gravity"
                     android:textSize="18sp"

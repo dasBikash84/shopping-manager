@@ -109,7 +109,7 @@
     <string name="chip_sort_by_week_text">By Week</string>
     <string name="chip_sort_by_month_text">By Month</string>
     <string name="exp_amount_title_text">Amount:</string>
-    <string name="exp_qty_title_text">Quantity:</string>
+    <string name="qty_prompt">Quantity:</string>
     <string name="exp_desc_title_text">Details:</string>
     <string name="exp_cat_title_text">Category:</string>
     <string name="exp_qty_text">%1$d %2$s</string>
@@ -121,7 +121,6 @@
     <string name="add_exp_item">Add Product</string>
     <string name="set_expense_manually">Set manually</string>
     <string name="default_qty">1.0</string>
-    <string name="exp_item_name_text">"Name: "</string>
     <string name="exp_item_brand_name_text">Brand:</string>
     <string name="product_name_empty_error">Product name can\'t be empty!</string>
     <string name="default_unit_price">0.0</string>
@@ -150,7 +149,7 @@
     <string name="discard_and_exit_prompt">Exit without saving data?</string>
     <string name="view_expense_title">Expense details</string>
     <string name="entry_time_prompt">Time:</string>
-    <string name="exp_details_prompt">Details:</string>
+    <string name="details_prompt">Details:</string>
     <string name="expense_items_prompt">Purchased Products:</string>
     <string name="total_expense_view_hint">Total expense:</string>
     <string name="vat_ait_view_txt">Tax/VAT(%):</string>
@@ -193,4 +192,7 @@
     <string name="shopping_list_item_create_title">Add Shopping List Item</string>
     <string name="et_sli_name_empty_error">Shopping list item name can\'t be empty!</string>
     <string name="save_shopping_list_item_prompt">Save and Exit?</string>
+    <string name="name_prompt">Name:</string>
+    <string name="price_prompt">Price:</string>
+    <string name="mark_as_close">Mark purchased</string>
 </resources>

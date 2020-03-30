@@ -8,6 +8,7 @@ import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.android_network_monitor.initNetworkMonitor
+import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
@@ -27,6 +28,7 @@ class ActivityLauncher : AppCompatActivity() {
 
     private fun initApp() {
         initNetworkMonitor()
+        AsyncTaskManager.init()
         LoggerUtils.init(BuildConfig.DEBUG)
     }
 

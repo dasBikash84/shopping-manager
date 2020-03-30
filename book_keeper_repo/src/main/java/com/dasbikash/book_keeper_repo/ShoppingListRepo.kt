@@ -75,4 +75,14 @@ object ShoppingListRepo:BookKeeperRepo() {
 
     suspend fun findShoppingListItemById(context: Context,shoppingListItemId:String) =
         getShoppingListItemDao(context).findById(shoppingListItemId)
+
+    suspend fun delete(context: Context,shoppingListItem: ShoppingListItem) {
+        val shoppingList = getShoppingListDao(context).findById(shoppingListItem.shoppingListId!!)!!
+        val itemIds = mutableListOf<String>()
+        shoppingList.shoppingListItemIds?.filter { it!=shoppingListItem.id }?.let { itemIds.addAll(it) }
+        shoppingList.shoppingListItemIds = itemIds.toList()
+        shoppingListItem.updateModified()
+        getShoppingListItemDao(context).delete(shoppingListItem)
+        save(context, shoppingList)
+    }
 }
