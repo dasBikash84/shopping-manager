@@ -54,8 +54,6 @@ object ShoppingListRepo:BookKeeperRepo() {
         getShoppingListDao(context).add(shoppingList)
     }
 
-
-
     fun getLiveDataById(context: Context,shoppingListId:String) =
         getDatabase(context).shoppingListDao.findByIdLiveData(shoppingListId)
 

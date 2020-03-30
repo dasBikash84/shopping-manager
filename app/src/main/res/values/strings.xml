@@ -182,4 +182,11 @@
     <string name="add_shopping_item">Add item</string>
     <string name="sl_count_down">Reminder starts before: %1$d minutes</string>
     <string name="sl_remind_interval">Remind every: %1$s</string>
+    <string name="sli_name_hint">Product name</string>
+    <string name="sli_details_hint">Product details</string>
+    <string name="sli_min_price_hint">Minimum Price</string>
+    <string name="sli_max_price_hint">Maximum Price</string>
+    <string name="add_product_image_btn_text">Add Product image</string>
+    <string name="sli_brand_sug_text">Product brand suggestions:</string>
+    <string name="add_brand_sug_btn_text">Add brand suggestion</string>
 </resources>

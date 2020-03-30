@@ -35,10 +35,10 @@ import java.util.*
 data class ShoppingListItem(
     @PrimaryKey
     var id:String= "",
+    var name:String?=null,
     var shoppingListId:String?=null,
     var expenseEntryId:String?=null,
     var categoryId: String?=null,
-    var name:String?=null,
     var details:String?=null,
     var minUnitPrice:Double?=null,
     var maxUnitPrice:Double?=null,
