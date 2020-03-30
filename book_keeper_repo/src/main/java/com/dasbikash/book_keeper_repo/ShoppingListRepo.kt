@@ -28,6 +28,19 @@ object ShoppingListRepo:BookKeeperRepo() {
         }
     }
 
+    suspend fun save(context: Context,shoppingListItem: ShoppingListItem){
+        val shoppingList = getShoppingListDao(context).findById(shoppingListItem.shoppingListId!!)!!
+        val itemIds = mutableListOf<String>()
+        shoppingList.shoppingListItemIds?.let { itemIds.addAll(it) }
+        if (!itemIds.contains(shoppingListItem.id)){
+            itemIds.add(shoppingListItem.id)
+        }
+        shoppingList.shoppingListItemIds = itemIds.toList()
+        shoppingListItem.updateModified()
+        getShoppingListItemDao(context).add(shoppingListItem)
+        save(context, shoppingList)
+    }
+
     suspend fun save(context: Context,shoppingList: ShoppingList){
         shoppingList.updateModified()
         saveToFireBase(context, shoppingList)
@@ -59,4 +72,7 @@ object ShoppingListRepo:BookKeeperRepo() {
 
     suspend fun findById(context: Context,shoppingListId:String) =
         getDatabase(context).shoppingListDao.findById(shoppingListId)
+
+    suspend fun findShoppingListItemById(context: Context,shoppingListItemId:String) =
+        getShoppingListItemDao(context).findById(shoppingListItemId)
 }

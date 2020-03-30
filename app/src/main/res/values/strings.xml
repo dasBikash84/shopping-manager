@@ -69,7 +69,7 @@
     <string name="product_name_hint">Purchased Product name*</string>
     <string name="category_title_text">Category:</string>
     <string name="total_expense_error_message">Total expense can\'t be empty or zero</string>
-    <string name="quantity_error_message">Quantity can\'t be empty or zero</string>
+    <string name="quantity_error_message">Quantity can\'t be empty or zero!</string>
     <string name="description_error_message">Description can\'t be blank</string>
     <string name="expense_saved_message">Expense entry saved.</string>
     <string name="cal_sign_text">+/-</string>
@@ -171,7 +171,7 @@
     <string name="sl_count_down_prompt">"Remind before: "</string>
     <string name="sl_reminder_interval_prompt">Remind every:</string>
     <string name="click_to_set_prompt">Click to set</string>
-    <string name="sl_edit_title">Edit | %1$s</string>
+    <string name="edit_title">Edit | %1$s</string>
     <string name="hours_text">minutes.</string>
     <string name="disable_sl_reminder_prompt">Disable reminder?</string>
     <string name="invalid_deadline_message">Invalid deadline!</string>
@@ -182,13 +182,15 @@
     <string name="add_shopping_item">Add item</string>
     <string name="sl_count_down">Reminder starts before: %1$d minutes</string>
     <string name="sl_remind_interval">Remind every: %1$s</string>
-    <string name="sli_name_hint">Product name</string>
+    <string name="sli_name_hint">Product name*</string>
     <string name="sli_details_hint">Product details</string>
-    <string name="sli_min_price_hint">Minimum Price</string>
-    <string name="sli_max_price_hint">Maximum Price</string>
+    <string name="sli_min_price_hint">Minimum unit price</string>
+    <string name="sli_max_price_hint">Maximum unit price</string>
     <string name="add_product_image_btn_text">Add Product image</string>
     <string name="sli_brand_sug_text">Product brand suggestions:</string>
     <string name="add_brand_sug_btn_text">Add brand suggestion</string>
     <string name="shopping_list_item_title">Shopping List Item</string>
     <string name="shopping_list_item_create_title">Add Shopping List Item</string>
+    <string name="et_sli_name_empty_error">Shopping list item name can\'t be empty!</string>
+    <string name="save_shopping_list_item_prompt">Save and Exit?</string>
 </resources>

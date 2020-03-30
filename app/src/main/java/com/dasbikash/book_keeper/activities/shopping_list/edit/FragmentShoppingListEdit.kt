@@ -221,7 +221,7 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
                     (activity as ActivityShoppingList?)?.apply {
                         setPageTitle(
                             getString(
-                                R.string.sl_edit_title,
+                                R.string.edit_title,
                                 shoppingList.title
                             )
                         )

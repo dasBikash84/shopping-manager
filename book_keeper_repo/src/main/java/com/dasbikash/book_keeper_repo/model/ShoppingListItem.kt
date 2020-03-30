@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
@@ -34,7 +35,7 @@ import java.util.*
 )
 data class ShoppingListItem(
     @PrimaryKey
-    var id:String= "",
+    var id:String= UUID.randomUUID().toString(),
     var name:String?=null,
     var shoppingListId:String?=null,
     var expenseEntryId:String?=null,
@@ -48,4 +49,6 @@ data class ShoppingListItem(
     var brandNameSuggestions:List<String>?=null,
     var images:List<String>?=null,
     var modified: Date = Date()
-)
+){
+    fun updateModified(){this.modified = Date()}
+}

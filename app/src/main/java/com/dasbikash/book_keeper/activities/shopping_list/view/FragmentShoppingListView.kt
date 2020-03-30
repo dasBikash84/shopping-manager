@@ -77,7 +77,7 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
 
         btn_add_shopping_item.setOnClickListener {
             runWithActivity {
-                it.startActivity(ActivityShoppingListItem.getCreateIntent(it))
+                it.startActivity(ActivityShoppingListItem.getCreateIntent(it,getShoppingListId()))
             }
         }
     }

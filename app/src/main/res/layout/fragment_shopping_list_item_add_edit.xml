@@ -196,7 +196,7 @@
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_save_exp_entry"
+                    android:id="@+id/btn_save_sl_item"
                     style="@style/login_buttons"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -217,4 +217,8 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
+    <include
+        layout="@layout/view_wait_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,7 +24,7 @@ class ActivityShoppingListItem: SingleFragmentSuperActivity() {
                 fragment = FragmentShoppingListItemView.getInstance(getShoppingListItemId())
             }
         }else{
-            fragment = FragmentShoppingListItemAddEdit.getInstance()
+            fragment = FragmentShoppingListItemAddEdit.getInstance(getShoppingListId())
         }
         fragment.getPageTitle(this).let {
             if (it.isNullOrBlank()){
@@ -48,6 +48,7 @@ class ActivityShoppingListItem: SingleFragmentSuperActivity() {
     override fun getLoneFrameId(): Int = R.id.sl_item_frame
 
     private fun getShoppingListItemId() = intent.getStringExtra(EXTRA_SHOPPING_LIST_ITEM_ID)!!
+    private fun getShoppingListId() = intent.getStringExtra(EXTRA_SHOPPING_LIST_ID)!!
 
     fun setPageTitle(title:String) = page_title.setText(title)
 
@@ -68,6 +69,9 @@ class ActivityShoppingListItem: SingleFragmentSuperActivity() {
 
     companion object {
 
+        private const val EXTRA_SHOPPING_LIST_ID =
+            "com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem.EXTRA_SHOPPING_LIST_ID"
+
         private const val EXTRA_SHOPPING_LIST_ITEM_ID =
             "com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem.SHOPPING_LIST_ITEM_ID"
         private const val EXTRA_EDIT_MODE =
@@ -75,8 +79,9 @@ class ActivityShoppingListItem: SingleFragmentSuperActivity() {
         private const val EXTRA_VIEW_MODE =
             "com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem.EXTRA_VIEW_MODE"
 
-        fun getCreateIntent(context: Context): Intent {
+        fun getCreateIntent(context: Context,shoppingListId: String): Intent {
             val intent = Intent(context.applicationContext, ActivityShoppingListItem::class.java)
+            intent.putExtra(EXTRA_SHOPPING_LIST_ID,shoppingListId)
             return intent
         }
 
