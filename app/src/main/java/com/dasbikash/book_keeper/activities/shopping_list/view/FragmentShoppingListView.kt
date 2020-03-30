@@ -64,7 +64,7 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
                 MenuViewItem(
                     text = context.getString(R.string.edit),
                     task = {
-                        (activity as ActivityShoppingList).addFragment(
+                        (activity as ActivityShoppingList).addFragmentClearingBackStack(
                             FragmentShoppingListEdit.getInstance(
                                 getShoppingListId()
                             )

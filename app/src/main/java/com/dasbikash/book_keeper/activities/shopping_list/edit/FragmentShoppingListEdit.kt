@@ -19,6 +19,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
+import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -151,7 +152,7 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                     message = it.getString(R.string.discard_and_exit_prompt),
                     doOnPositivePress = {
-                        activity?.onBackPressed()
+                        exit()
                     }
                 ))
             }
@@ -191,8 +192,14 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
         runWithContext {
             lifecycleScope.launch {
                 ShoppingListRepo.save(it, shoppingList)
-                activity?.onBackPressed()
+                exit()
             }
+        }
+    }
+
+    private fun exit() {
+        (activity as ActivityShoppingList?)?.let{
+            it.addFragmentClearingBackStack(FragmentShoppingListView.getInstance(getShoppingListId()))
         }
     }
 
