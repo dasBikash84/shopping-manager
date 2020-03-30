@@ -179,4 +179,7 @@
     <string name="save_shopping_list_prompt">Save shopping list data?</string>
     <string name="shopping_list_name_error">Shopping list name can\'t be blank!</string>
     <string name="sl_count_down_error">Count down must be greater than 15 minutes</string>
+    <string name="add_shopping_item">Add item</string>
+    <string name="sl_count_down">Reminder starts before: %1$d minutes</string>
+    <string name="sl_remind_interval">Remind every: %1$s</string>
 </resources>

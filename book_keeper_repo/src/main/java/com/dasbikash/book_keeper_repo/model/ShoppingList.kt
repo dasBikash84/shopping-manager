@@ -78,7 +78,7 @@ data class ShoppingList(
         private val MINIMUM_DEADLINE_PERIOD = DateUtils.HOUR_IN_MS * 1
 
         enum class ReminderInterval(val text:String,val textBangla:String,val intervalMs:Long?){
-            ONCE("Remind once","শুধুমাত্র একবার",null),
+            ONCE("Once","শুধুমাত্র একবার",null),
             MIN_15("15 minutes","১৫ মিনিট",15*DateUtils.MINUTE_IN_MS),
             MIN_30("30 minutes","৩০ মিনিট",30*DateUtils.MINUTE_IN_MS),
             HOUR_1("1 hour","১ ঘণ্টা",1*DateUtils.HOUR_IN_MS),

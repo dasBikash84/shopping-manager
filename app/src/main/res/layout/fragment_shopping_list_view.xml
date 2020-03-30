@@ -1,15 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.shopping_list.view.FragmentShoppingListView">
+    tools:context=".activities.shopping_list.view.FragmentShoppingListView"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FragmentShoppingList View" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/btn_add_shopping_item"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sl_deadline_text_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_sl_deadline_prompt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/sl_deadline"
+                    android:textAlignment="gravity"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        app:layout_constraintStart_toEndOf="@id/tv_sl_deadline_prompt"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:id="@+id/tv_sl_deadline"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="start|center_vertical"
+                        android:paddingStart="8dp"
+                        tools:text="@string/click_to_set_prompt"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/black"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:orientation="vertical"
+                android:id="@+id/sl_remainder_block"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_sl_count_down"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    tools:text="@string/sl_count_down"
+                    android:textAlignment="gravity"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_sl_reminder_interval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|start"
+                    android:text="@string/sl_remind_interval"
+                    android:textAlignment="gravity"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_shopping_list_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="LinearLayoutManager" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_add_shopping_item"
+        style="@style/login_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="4dp"
+        android:minWidth="160dp"
+        android:text="@string/add_shopping_item"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

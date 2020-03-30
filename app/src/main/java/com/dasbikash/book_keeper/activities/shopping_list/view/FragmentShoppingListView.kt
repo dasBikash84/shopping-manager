@@ -7,16 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.show
 
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.utils.TranslatorUtils
+import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
+import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
 import java.lang.IllegalStateException
 
 
@@ -48,12 +55,45 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
             override fun onChanged(shoppingList: ShoppingList?) {
                 shoppingList?.let {
                     debugLog(it)
-                    (activity as ActivityShoppingList?)?.apply { setPageTitle(it.title!!) }
+                    refreshView(it)
                 }
             }
         })
 
         viewModel.setShoppingListId(getShoppingListId())
+    }
+
+    private fun refreshView(shoppingList: ShoppingList) {
+        runWithContext {
+            shoppingList.apply {
+                (activity as ActivityShoppingList?)?.setPageTitle(title!!)
+                if (deadLine != null) {
+                    tv_sl_deadline.text = DateUtils.getTimeString(
+                        shoppingList.deadLine!!,
+                        it.getString(R.string.exp_entry_time_format)
+                    ).let {
+                            return@let when (checkIfEnglishLanguageSelected()) {
+                                true -> it
+                                false -> TranslatorUtils.englishToBanglaDateString(it)
+                            }
+                        }
+                    sl_deadline_text_holder.show()
+                } else {
+                    sl_deadline_text_holder.hide()
+                }
+                if (getCountDownTime() !=null){
+                    tv_sl_count_down.text = it.getString(R.string.sl_count_down,getCountDownTime()!!/DateUtils.MINUTE_IN_MS)
+                    ShoppingList.Companion.ReminderInterval.values().find {
+                        it.intervalMs==getReminderInterval()
+                    }!!.let {
+                        tv_sl_reminder_interval.text = getString(R.string.sl_remind_interval,if (checkIfEnglishLanguageSelected()) {it.text} else {it.textBangla})
+                    }
+                    sl_remainder_block.show()
+                }else{
+                    sl_remainder_block.hide()
+                }
+            }
+        }
     }
 
     private fun getShoppingListId():String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
