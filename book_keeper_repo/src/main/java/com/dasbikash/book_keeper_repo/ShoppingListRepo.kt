@@ -35,20 +35,26 @@ object ShoppingListRepo:BookKeeperRepo() {
     }
 
     private suspend fun saveToFireBase(context: Context,shoppingList: ShoppingList){
-        val shoppingListItems = mutableListOf<ShoppingListItem>()
-        shoppingList.getShoppingListItemIds()?.asSequence()?.forEach {
-            getShoppingListItemDao(context).findById(it)!!.let { shoppingListItems.add(it) }
-        }
-        shoppingList.shoppingListItems = shoppingListItems.toList()
+        shoppingList.shoppingListItems = getShoppingListItems(context, shoppingList)
         FireStoreShoppingListService.saveShoppingList(shoppingList)
     }
 
-    private suspend fun saveRemoteEntry(context: Context,shoppingList: ShoppingList){
+    suspend fun getShoppingListItems(context: Context,shoppingList: ShoppingList)
+            :List<ShoppingListItem>?{
+        return shoppingList.shoppingListItemIds?.map { getShoppingListItemDao(context).findById(it)!! }
+    }
+
+    private suspend fun saveFireBaseEntry(context: Context,shoppingList: ShoppingList){
+        val shoppingListItemIds = mutableListOf<String>()
         shoppingList.shoppingListItems?.asSequence()?.forEach {
             getShoppingListItemDao(context).add(it)
+            shoppingListItemIds.add(it.id)
         }
+        shoppingList.shoppingListItemIds = shoppingListItemIds.toList()
         getShoppingListDao(context).add(shoppingList)
     }
+
+
 
     fun getLiveDataById(context: Context,shoppingListId:String) =
         getDatabase(context).shoppingListDao.findByIdLiveData(shoppingListId)

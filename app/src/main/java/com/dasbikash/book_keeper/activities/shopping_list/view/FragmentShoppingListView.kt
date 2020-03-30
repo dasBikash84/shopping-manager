@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
@@ -17,19 +18,28 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
+import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 
 
 class FragmentShoppingListView : FragmentShoppingListDetails() {
 
     private lateinit var viewModel: ViewModelShoppingListView
+    private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)})
+
+    private fun launchShoppingListItemDetailView(shoppingListItem: ShoppingListItem) {
+        debugLog(shoppingListItem)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -50,6 +60,7 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModelShoppingListView::class.java)
+        rv_shopping_list_items.adapter = shoppingListItemAdapter
 
         viewModel.getShoppingList().observe(this,object : Observer<ShoppingList>{
             override fun onChanged(shoppingList: ShoppingList?) {
@@ -91,6 +102,11 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
                     sl_remainder_block.show()
                 }else{
                     sl_remainder_block.hide()
+                }
+                lifecycleScope.launch {
+                    (ShoppingListRepo.getShoppingListItems(it, this@apply) ?: emptyList()).let {
+                        shoppingListItemAdapter.submitList(it)
+                    }
                 }
             }
         }

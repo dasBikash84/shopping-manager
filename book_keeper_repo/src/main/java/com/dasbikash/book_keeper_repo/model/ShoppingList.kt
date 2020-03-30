@@ -36,16 +36,10 @@ data class ShoppingList(
     private var countDownTime:Long?=null
 
     @Exclude
-    private var shoppingListItemIds:List<String>?=null
+    var shoppingListItemIds:List<String>?=null
 
     @Ignore
     var shoppingListItems:List<ShoppingListItem>?=null
-
-    @Exclude
-    fun getShoppingListItemIds():List<String>? = shoppingListItems?.map { it.id }
-    fun setShoppingListItemIds(ids:List<String>?) {
-        this.shoppingListItemIds = ids
-    }
 
     fun getReminderInterval():Long? = reminderInterval
     fun setReminderInterval(ms:Long?){
