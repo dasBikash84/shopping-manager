@@ -189,4 +189,6 @@
     <string name="add_product_image_btn_text">Add Product image</string>
     <string name="sli_brand_sug_text">Product brand suggestions:</string>
     <string name="add_brand_sug_btn_text">Add brand suggestion</string>
+    <string name="shopping_list_item_title">Shopping List Item</string>
+    <string name="shopping_list_item_create_title">Add Shopping List Item</string>
 </resources>

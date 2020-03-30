@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 
@@ -18,6 +19,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -72,6 +74,12 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
         })
 
         viewModel.setShoppingListId(getShoppingListId())
+
+        btn_add_shopping_item.setOnClickListener {
+            runWithActivity {
+                it.startActivity(ActivityShoppingListItem.getCreateIntent(it))
+            }
+        }
     }
 
     private fun refreshView(shoppingList: ShoppingList) {
