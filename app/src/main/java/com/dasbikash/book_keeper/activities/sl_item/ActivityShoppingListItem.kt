@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.activities.sl_item
 import android.content.Context
 import android.content.Intent
 import androidx.fragment.app.Fragment
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
@@ -49,6 +50,21 @@ class ActivityShoppingListItem: SingleFragmentSuperActivity() {
     private fun getShoppingListItemId() = intent.getStringExtra(EXTRA_SHOPPING_LIST_ITEM_ID)!!
 
     fun setPageTitle(title:String) = page_title.setText(title)
+
+    override fun onBackPressed() {
+        (getCurrentFragment() as FragmentShoppingListItem?)?.let {
+            if (it.getExitPrompt() == null){
+                super.onBackPressed()
+            }else{
+                DialogUtils.showAlertDialog(this, DialogUtils.AlertDialogDetails(
+                    message = it.getExitPrompt()!!,
+                    doOnPositivePress = {
+                        super.onBackPressed()
+                    }
+                ))
+            }
+        }
+    }
 
     companion object {
 

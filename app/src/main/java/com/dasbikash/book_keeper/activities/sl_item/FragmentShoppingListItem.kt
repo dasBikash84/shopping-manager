@@ -26,6 +26,10 @@ abstract class FragmentShoppingListItem:Fragment() {
         return null
     }
 
+    open fun getExitPrompt():String?{
+        return null
+    }
+
     companion object{
         private const val ERROR_MESSAGE_FOR_WRONG_ACTIVITY = "Not attached to ActivityShoppingListItem!!"
     }
