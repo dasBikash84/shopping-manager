@@ -29,6 +29,7 @@ object ShoppingListRepo:BookKeeperRepo() {
     }
 
     suspend fun save(context: Context,shoppingList: ShoppingList){
+        shoppingList.updateModified()
         saveToFireBase(context, shoppingList)
         getShoppingListDao(context).add(shoppingList)
     }
