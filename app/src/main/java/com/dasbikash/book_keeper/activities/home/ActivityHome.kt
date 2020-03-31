@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
@@ -18,6 +19,7 @@ import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingL
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
@@ -27,6 +29,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
+
+    private var dataSynced = OnceSettableBoolean()
 
     override fun getDefaultFragment(): Fragment = generateDefaultFragment()
 
@@ -69,14 +73,22 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
     }
 
     private fun dataSyncTask(){
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                SettingsRepo.syncSettings(this@ActivityHome)
-                ExpenseRepo.syncData(this@ActivityHome)
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-                if (BuildConfig.DEBUG) {
-                    runOnUiThread({ showShortSnack("Data sync failure!!") })
+        if (!dataSynced.get()) {
+            dataSynced.set()
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    SettingsRepo.syncSettings(this@ActivityHome)
+                    ExpenseRepo.syncData(this@ActivityHome)
+                    ShoppingListRepo.syncData(this@ActivityHome)
+                    if (BuildConfig.DEBUG) {
+                        runOnUiThread({ showShortSnack("Data sync done!!") })
+                    }
+                } catch (ex: Throwable) {
+                    dataSynced = OnceSettableBoolean()
+                    ex.printStackTrace()
+                    if (BuildConfig.DEBUG) {
+                        runOnUiThread({ showShortSnack("Data sync failure!!") })
+                    }
                 }
             }
         }

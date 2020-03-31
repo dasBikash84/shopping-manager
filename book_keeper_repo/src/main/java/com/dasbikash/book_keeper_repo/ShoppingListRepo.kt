@@ -12,7 +12,7 @@ object ShoppingListRepo:BookKeeperRepo() {
     private fun getShoppingListItemDao(context: Context) = getDatabase(context).shoppingListItemDao
 
     suspend fun getAllShoppingLists(context: Context):LiveData<List<ShoppingList>>{
-        return AuthRepo.getUser(context)!!.let { getDatabase(context).shoppingListDao.findForUser(it.id) }
+        return AuthRepo.getUser(context)!!.let { getDatabase(context).shoppingListDao.findAllLiveData(it.id) }
     }
 
     suspend fun createList(context: Context, shoppingListTitle: CharSequence):ShoppingList?{
@@ -60,11 +60,13 @@ object ShoppingListRepo:BookKeeperRepo() {
     private suspend fun saveFireBaseEntry(context: Context,shoppingList: ShoppingList){
         val shoppingListItemIds = mutableListOf<String>()
         shoppingList.shoppingListItems?.asSequence()?.forEach {
-            getShoppingListItemDao(context).add(it)
             shoppingListItemIds.add(it.id)
         }
         shoppingList.shoppingListItemIds = shoppingListItemIds.toList()
         getShoppingListDao(context).add(shoppingList)
+        shoppingList.shoppingListItems?.asSequence()?.forEach {
+            getShoppingListItemDao(context).add(it)
+        }
     }
 
     fun getLiveDataById(context: Context,shoppingListId:String) =
@@ -94,5 +96,25 @@ object ShoppingListRepo:BookKeeperRepo() {
             }
         }
         getShoppingListDao(context).delete(shoppingList)
+    }
+
+    suspend fun syncData(context: Context) {
+        AuthRepo.getUser(context)?.let {
+            val lastUpdateTime =
+                getShoppingListDao(context).findAll(it.id).sortedBy { it.modified }.let {
+                    if (it.isEmpty()){
+                        return@let null
+                    }else{
+                        return@let it.last().modified
+                    }
+                }
+            FireStoreShoppingListService
+                .getLatestShoppingLists(it,lastUpdateTime)
+                ?.asSequence()
+                ?.forEach {
+                    saveFireBaseEntry(context,it)
+                }
+
+        }
     }
 }
