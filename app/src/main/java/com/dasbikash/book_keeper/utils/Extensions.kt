@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import com.dasbikash.book_keeper_repo.model.TimeDuration
@@ -46,4 +47,11 @@ fun TimeBasedExpenseEntryGroup.getTitleString(context: Context):String{
         TimeDuration.WEEK -> startTime.getWeekString()
         TimeDuration.MONTH -> DateUtils.getTimeString(startTime,context.getString(R.string.month_title_format))
     }
+}
+
+fun Bitmap.rotateIfRequired():Bitmap{
+    if (height > width){
+        return ImageUtils.rotateBitmap(this,270)
+    }
+    return this
 }

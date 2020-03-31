@@ -22,6 +22,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -50,7 +51,9 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         runWithContext {
             lifecycleScope.launch {
                 ImageRepo.downloadImageFile(it, text)?.let {
-                    ImageUtils.displayImageFile((view as ImageView), it)
+                    ImageUtils.getBitmapFromFile(it)?.let {
+                        (view as ImageView).setImageBitmap(it.rotateIfRequired())
+                    }
                 }
             }
         }
