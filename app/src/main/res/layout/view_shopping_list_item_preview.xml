@@ -38,7 +38,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_sli_name"
                     style="@style/exp_entry_view_details_text"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_sli_options"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
