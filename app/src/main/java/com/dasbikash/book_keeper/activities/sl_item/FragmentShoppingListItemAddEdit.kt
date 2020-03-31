@@ -9,14 +9,15 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import androidx.viewpager.widget.ViewPager
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_camera_utils.CameraUtils
@@ -35,6 +36,7 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
+import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -65,6 +67,10 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         }
     },{doOnProductImageClick(it)},R.layout.view_single_preview_image)
 
+    private val brandSuggestionsAdapter = StringListAdapter({view, text ->
+        (view as TextView).text = text
+    },{deleteBrandSugAction(it)})
+
     private fun doOnProductImageClick(url: String) {
         debugLog(url)
         val fragmentManager: FragmentManager = activity!!.getSupportFragmentManager()
@@ -90,6 +96,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_sli_images.adapter = imageListAdapter
+        rv_sli_brand_sug.adapter = brandSuggestionsAdapter
         viewModel = ViewModelProviders.of(activity!!).get(ViewModelShoppingListItem::class.java)
         exitPrompt = getString(R.string.discard_and_exit_prompt)
         et_sli_name.addTextChangedListener(object:TextWatcher{
@@ -163,6 +170,9 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                 NetworkMonitor.runWithNetwork(it){launchCameraForImage(this, REQUEST_TAKE_PHOTO)}
             }
         }
+        btn_add_brand_sug.setOnClickListener {
+            addBrandSugAction()
+        }
         viewModel.getShoppingListItem().observe(this,object : Observer<ShoppingListItem>{
             override fun onChanged(item: ShoppingListItem?) {
                 item?.let {
@@ -173,6 +183,38 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         })
 
         initShoppingListItem()
+    }
+
+    private fun addBrandSugAction() {
+        runWithContext {
+            val view = EditText(it)
+            view.hint = it.getString(R.string.brand_name_sug_hint)
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.add_brand_sug_btn_text),
+                view = view,
+                doOnPositivePress = {
+                    val name = view.text.toString().trim()
+                    if (name.isBlank()){
+                        showShortSnack(it.getString(R.string.blank_brand_name_sug_error))
+                    }else if(shoppingListItem.brandNameSuggestions?.contains(name)==true){
+                        showShortSnack(it.getString(R.string.duplicate_brand_name_sug_error))
+                    }else{
+                        viewModel. addBrandSuggestion(name)
+                    }
+                }
+            ))
+        }
+    }
+
+    private fun deleteBrandSugAction(name: String) {
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.remove_brand_sug_prompt,name),
+                doOnPositivePress = {
+                    viewModel. removeBrandNameSuggestion(name)
+                }
+            ))
+        }
     }
 
     private fun saveShoppingListItem() {
@@ -278,6 +320,14 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                     btn_add_product_image.show()
                 }
                 imageListAdapter.submitList(it)
+            }
+            (shoppingListItem.brandNameSuggestions ?: emptyList()).let {
+                if (!it.isEmpty()){
+                    brandSuggestionsAdapter.submitList(it)
+                    sli_brand_sug_holder.show()
+                }else{
+                    sli_brand_sug_holder.hide()
+                }
             }
         }
     }

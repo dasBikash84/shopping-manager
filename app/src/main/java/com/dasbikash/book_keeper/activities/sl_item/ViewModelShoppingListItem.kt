@@ -16,7 +16,9 @@ class ViewModelShoppingListItem(private val mApplication: Application) : Android
         shoppingListItem.value?.let {
             val imageLocs = mutableListOf<String>()
             it.images?.let { imageLocs.addAll(it) }
-            imageLocs.add(imageLoc)
+            if (!imageLocs.contains(imageLoc)) {
+                imageLocs.add(imageLoc)
+            }
             it.images = imageLocs.toList()
             shoppingListItem.postValue(it)
         }
@@ -28,6 +30,28 @@ class ViewModelShoppingListItem(private val mApplication: Application) : Android
             it.images?.let { imageLocs.addAll(it) }
             imageLocs.remove(imageLoc)
             it.images = imageLocs.toList()
+            shoppingListItem.postValue(it)
+        }
+    }
+
+    fun addBrandSuggestion(name: String) {
+        shoppingListItem.value?.let {
+            val brandNames = mutableListOf<String>()
+            it.brandNameSuggestions?.let { brandNames.addAll(it) }
+            if (!brandNames.contains(name)) {
+                brandNames.add(name)
+            }
+            it.brandNameSuggestions = brandNames.toList()
+            shoppingListItem.postValue(it)
+        }
+    }
+
+    fun removeBrandNameSuggestion(name: String){
+        shoppingListItem.value?.let {
+            val brandNames = mutableListOf<String>()
+            it.brandNameSuggestions?.let { brandNames.addAll(it) }
+            brandNames.remove(name)
+            it.brandNameSuggestions = brandNames.toList()
             shoppingListItem.postValue(it)
         }
     }

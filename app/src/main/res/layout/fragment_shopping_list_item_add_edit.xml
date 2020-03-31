@@ -167,22 +167,31 @@
                 android:text="@string/add_product_image_btn_text"
                 android:textColor="@color/color_navy_blue"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/sli_brand_sug_holder"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sli_brand_sug_text"
-                android:textAlignment="gravity"
-                android:textSize="18sp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"/>
+                android:orientation="vertical">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sli_brand_sug_text"
+                    android:textAlignment="gravity"
+                    android:gravity="center_vertical|start"
+                    android:textSize="18sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:minHeight="32dp"
+                    android:background="@android:color/white"/>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_sli_brand_sug"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible"
-                app:layoutManager="LinearLayoutManager" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_sli_brand_sug"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layoutManager="LinearLayoutManager" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add_brand_sug"
