@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_90_white">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_close_product_image_full"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/trans_oval"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/iv_product_image_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@mipmap/ic_launcher" />
+        <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+            android:id="@+id/btn_del_product_image_full"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_delete"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

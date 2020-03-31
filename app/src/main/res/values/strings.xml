@@ -195,4 +195,7 @@
     <string name="name_prompt">Name:</string>
     <string name="price_prompt">Price:</string>
     <string name="mark_as_close">Mark purchased</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

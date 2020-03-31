@@ -10,7 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager.widget.ViewPager
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_camera_utils.CameraUtils
@@ -38,7 +44,7 @@ import java.io.File
 
 class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingListItem(),
     WaitScreenOwner {
-
+    private lateinit var viewModel:ViewModelShoppingListItem
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private var exitPrompt: String? = null
@@ -61,6 +67,16 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
 
     private fun doOnProductImageClick(url: String) {
         debugLog(url)
+        val fragmentManager: FragmentManager = activity!!.getSupportFragmentManager()
+        vp_product_image.adapter = object : FragmentStatePagerAdapter(fragmentManager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            override fun getItem(position: Int): Fragment {
+                return FragmentProductImage.getInstance(shoppingListItem.images!!.get(position))
+            }
+            override fun getCount(): Int = shoppingListItem.images?.size ?: 0
+        }
+        vp_product_image.setCurrentItem(shoppingListItem.images!!.indexOf(url),true)
+        vp_product_image.bringToFront()
+        vp_product_image.show()
     }
 
     override fun onCreateView(
@@ -74,6 +90,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_sli_images.adapter = imageListAdapter
+        viewModel = ViewModelProviders.of(activity!!).get(ViewModelShoppingListItem::class.java)
         exitPrompt = getString(R.string.discard_and_exit_prompt)
         et_sli_name.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(text: Editable?) {
@@ -146,6 +163,15 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                 NetworkMonitor.runWithNetwork(it){launchCameraForImage(this, REQUEST_TAKE_PHOTO)}
             }
         }
+        viewModel.getShoppingListItem().observe(this,object : Observer<ShoppingListItem>{
+            override fun onChanged(item: ShoppingListItem?) {
+                item?.let {
+                    shoppingListItem = it
+                    refreshView()
+                }
+            }
+        })
+
         initShoppingListItem()
     }
 
@@ -227,7 +253,8 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                         }
                     }
                 }
-                refreshView()
+                viewModel.setShoppingListItem(shoppingListItem)
+//                refreshView()
                 hideWaitScreen()
             }
         }
@@ -236,6 +263,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private fun refreshView() {
         if (::shoppingListItem.isInitialized) {
             debugLog(shoppingListItem)
+            vp_product_image.hide()
             shoppingListItem.name?.let { et_sli_name.setText(it) }
             sli_category_selector.selectedIndex = getCurrentCategoryIndex()
             shoppingListItem.details?.let { et_sli_details.setText(it) }
@@ -303,13 +331,14 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         showWaitScreen()
         lifecycleScope.launch(Dispatchers.IO) {
             ImageRepo.uploadProductImage(context!!,file).let {
-                val newImageLocList = mutableListOf<String>()
-                shoppingListItem.images?.let { newImageLocList.addAll(it) }
-                newImageLocList.add(it)
-                shoppingListItem.images = newImageLocList.toList()
+//                val newImageLocList = mutableListOf<String>()
+//                shoppingListItem.images?.let { newImageLocList.addAll(it) }
+//                newImageLocList.add(it)
+//                shoppingListItem.images = newImageLocList.toList()
                 runOnMainThread({
+                    viewModel.addProductImage(it)
                     hideWaitScreen()
-                    refreshView()
+//                    refreshView()
                 })
             }
         }

@@ -76,4 +76,5 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
 
     implementation 'com.github.kenglxn.QRGen:android:2.6.0'
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
 }
