@@ -65,6 +65,9 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
 
     private fun launchShoppingListItemDetailView(shoppingListItem: ShoppingListItem) {
         debugLog(shoppingListItem)
+        runWithActivity {
+            it.startActivity(ActivityShoppingListItem.getViewIntent(it,shoppingListItem.id))
+        }
     }
 
     override fun onAttach(context: Context) {
