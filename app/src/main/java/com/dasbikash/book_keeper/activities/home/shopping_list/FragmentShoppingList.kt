@@ -4,24 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.FragmentHome
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
-import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
-import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
-import kotlinx.coroutines.launch
 
 // User may also share shopping list with connected users/ by QR code.
 
@@ -68,37 +61,7 @@ class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
 
     private fun showListAddDialog() {
         runWithContext {
-            val view = LayoutInflater.from(it).inflate(R.layout.view_add_shopping_list,null,false)
-            val editText = view.findViewById<EditText>(R.id.et_shopping_list_name)
-            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                message = "${it.getString(R.string.add_shopping_list)}?",
-                view = view,
-                positiveButtonText = getString(R.string.save_text),
-                doOnPositivePress = {
-                    hideKeyboard()
-                    shoppingListCreateAction(editText.text.toString())
-                }
-            ))
-        }
-    }
-
-    private fun shoppingListCreateAction(shoppingListName:String) {
-        if (shoppingListName.isNotBlank()) {
-            runWithContext {
-                lifecycleScope.launch {
-                    showWaitScreen()
-                    ShoppingListRepo.createList(it, shoppingListName.trim()).let {
-                        if (it == null) {
-                            showShortSnack(R.string.duplicate_shopping_list_name)
-                        } else {
-                            launchEditView(it)
-                        }
-                    }
-                    hideWaitScreen()
-                }
-            }
-        }else{
-            showShortSnack(R.string.empty_shopping_list_name_message,getString(R.string.retry),{showListAddDialog()})
+            startActivity(ActivityShoppingList.getCreateIntent(it))
         }
     }
     override fun getPageTitleId() = R.string.shopping_list_title

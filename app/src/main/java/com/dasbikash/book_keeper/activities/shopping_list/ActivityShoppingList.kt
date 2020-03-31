@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
@@ -25,12 +25,14 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
     }
 
     private fun getInitFragment():FragmentShoppingListDetails{
-        when(isEditIntent(intent)){
-            true -> getEditFragment(getShoppingListId(intent))
-            false -> getViewFragment(getShoppingListId(intent))
-        }.let {
-            manageOptionsBtnBeforeChildLoading(it)
-            return it
+        return if (isCreateIntent(intent)){
+            getCreateFragment()
+        }else if (isEditIntent(intent)){
+            getEditFragment(getShoppingListId(intent))
+        }else{
+            getViewFragment(getShoppingListId(intent))
+        }.apply {
+            manageOptionsBtnBeforeChildLoading(this)
         }
     }
 
@@ -65,8 +67,11 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
     private fun getViewFragment(shoppingListId: String): FragmentShoppingListView =
         FragmentShoppingListView.getInstance(shoppingListId)
 
-    private fun getEditFragment(shoppingListId: String): FragmentShoppingListEdit =
-        FragmentShoppingListEdit.getInstance(shoppingListId)
+    private fun getEditFragment(shoppingListId: String): FragmentShoppingListAddEdit =
+        FragmentShoppingListAddEdit.getEditInstance(shoppingListId)
+
+    private fun getCreateFragment(): FragmentShoppingListAddEdit =
+        FragmentShoppingListAddEdit.getCreateInstance()
 
     fun setPageTitle(titleText:String) = page_title.setText(titleText)
 
@@ -76,9 +81,14 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
             "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_ID"
         private const val EXTRA_SHOPPING_LIST_EDIT_MODE =
             "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_EDIT_MODE"
+        private const val EXTRA_SHOPPING_LIST_CREATE_MODE =
+            "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_CREATE_MODE"
 
         private fun isEditIntent(intent: Intent):Boolean =
             intent.hasExtra(EXTRA_SHOPPING_LIST_EDIT_MODE)
+
+        private fun isCreateIntent(intent: Intent):Boolean =
+            intent.hasExtra(EXTRA_SHOPPING_LIST_CREATE_MODE)
 
         private fun getShoppingListId(intent: Intent): String =
             intent.getStringExtra(EXTRA_SHOPPING_LIST_ID)!!
@@ -104,6 +114,18 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
             intent.putExtra(
                 EXTRA_SHOPPING_LIST_EDIT_MODE,
                 EXTRA_SHOPPING_LIST_EDIT_MODE
+            )
+            return intent
+        }
+
+        fun getCreateIntent(context: Context):Intent{
+            val intent = Intent(
+                context,
+                ActivityShoppingList::class.java
+            )
+            intent.putExtra(
+                EXTRA_SHOPPING_LIST_CREATE_MODE,
+                EXTRA_SHOPPING_LIST_CREATE_MODE
             )
             return intent
         }

@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDe
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.date_time_picker.DateTimePicker
@@ -32,7 +33,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 import java.util.*
 
-class FragmentShoppingListEdit : FragmentShoppingListDetails() {
+class FragmentShoppingListAddEdit : FragmentShoppingListDetails() {
 
     private lateinit var shoppingList: ShoppingList
 
@@ -152,7 +153,11 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                     message = it.getString(R.string.discard_and_exit_prompt),
                     doOnPositivePress = {
-                        exit()
+                        if (isEditMode()){
+                            exit()
+                        }else {
+                            activity?.finish()
+                        }
                     }
                 ))
             }
@@ -199,7 +204,7 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
 
     private fun exit() {
         (activity as ActivityShoppingList?)?.let{
-            it.addFragmentClearingBackStack(FragmentShoppingListView.getInstance(getShoppingListId()))
+            it.addFragmentClearingBackStack(FragmentShoppingListView.getInstance(shoppingList.id))
         }
     }
 
@@ -217,14 +222,23 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
         runWithContext {
             lifecycleScope.launch {
                 if (!::shoppingList.isInitialized) {
-                    shoppingList = ShoppingListRepo.findById(it, getShoppingListId())!!
-                    (activity as ActivityShoppingList?)?.apply {
-                        setPageTitle(
-                            getString(
-                                R.string.edit_title,
-                                shoppingList.title
+                    if (isEditMode()) {
+                        shoppingList = ShoppingListRepo.findById(it, getShoppingListId())!!
+                        (activity as ActivityShoppingList?)?.apply {
+                            setPageTitle(
+                                getString(
+                                    R.string.edit_title,
+                                    shoppingList.title
+                                )
                             )
-                        )
+                        }
+                    }else{
+                        shoppingList = ShoppingList(userId = AuthRepo.getUser(it)?.id)
+                        (activity as ActivityShoppingList?)?.apply {
+                            setPageTitle(
+                                getString(R.string.add_shopping_list)
+                            )
+                        }
                     }
                 }
                 refreshView()
@@ -258,18 +272,23 @@ class FragmentShoppingListEdit : FragmentShoppingListDetails() {
     }
 
     private fun getShoppingListId(): String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
+    private fun isEditMode():Boolean = arguments?.containsKey(ARG_SHOPPING_LIST_ID) ?: false
 
     companion object {
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit.ARG_SHOPPING_LIST_ID"
 
-        fun getInstance(shoppingListId: String): FragmentShoppingListEdit {
+        fun getEditInstance(shoppingListId: String): FragmentShoppingListAddEdit {
             val arg = Bundle()
             arg.putString(ARG_SHOPPING_LIST_ID, shoppingListId)
             val fragment =
-                FragmentShoppingListEdit()
+                FragmentShoppingListAddEdit()
             fragment.arguments = arg
             return fragment
+        }
+
+        fun getCreateInstance(): FragmentShoppingListAddEdit {
+            return FragmentShoppingListAddEdit()
         }
     }
 }

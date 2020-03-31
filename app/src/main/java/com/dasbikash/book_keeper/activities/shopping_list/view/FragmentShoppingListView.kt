@@ -19,7 +19,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
-import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit
+import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
@@ -156,7 +156,7 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
                     text = context.getString(R.string.edit),
                     task = {
                         (activity as ActivityShoppingList).addFragmentClearingBackStack(
-                            FragmentShoppingListEdit.getInstance(
+                            FragmentShoppingListAddEdit.getEditInstance(
                                 getShoppingListId()
                             )
                         )
