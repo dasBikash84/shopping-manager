@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,7 +34,9 @@ import kotlinx.coroutines.launch
 
 class FragmentLogin : Fragment(),WaitScreenOwner {
 
-    private val stringListAdapter = StringListAdapter({onSuggestionClick(it)})
+    private val stringListAdapter = StringListAdapter({view,text->
+        (view as TextView).text = text.trim()
+    },{onSuggestionClick(it)})
 
     private lateinit var viewModel: LoginViewModel
 

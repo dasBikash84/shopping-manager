@@ -9,19 +9,18 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_camera_utils.CameraUtils
 import com.dasbikash.android_camera_utils.CameraUtils.Companion.launchCameraForImage
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.hideKeyboard
-import com.dasbikash.android_extensions.runOnMainThread
-import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
@@ -47,6 +46,20 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private val expenseCategories = mutableListOf<ExpenseCategory>()
     private val uoms = mutableListOf<UnitOfMeasure>()
 
+    private val imageListAdapter = StringListAdapter({view,text->
+        runWithContext {
+            lifecycleScope.launch {
+                ImageRepo.downloadImageFile(it, text)?.let {
+                    ImageUtils.displayImageFile((view as ImageView), it)
+                }
+            }
+        }
+    },{doOnProductImageClick(it)},R.layout.view_single_preview_image)
+
+    private fun doOnProductImageClick(url: String) {
+        debugLog(url)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +70,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        rv_sli_images.adapter = imageListAdapter
         exitPrompt = getString(R.string.discard_and_exit_prompt)
         et_sli_name.addTextChangedListener(object:TextWatcher{
             override fun afterTextChanged(text: Editable?) {
@@ -226,6 +240,14 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
             shoppingListItem.maxUnitPrice?.let { et_sli_max_price.setText(it.toString()) }
             shoppingListItem.qty.let { et_sli_quantity.setText(it.toString()) }
             uom_selector.selectedIndex = getCurrentUomIndex()
+            (shoppingListItem.images ?: emptyList()).let {
+                if (it.size>=ShoppingListItem.MAX_PRODUCT_IMAGE_COUNT){
+                    btn_add_product_image.hide()
+                }else{
+                    btn_add_product_image.show()
+                }
+                imageListAdapter.submitList(it)
+            }
         }
     }
 
@@ -283,9 +305,6 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                 newImageLocList.add(it)
                 shoppingListItem.images = newImageLocList.toList()
                 runOnMainThread({
-                    if (newImageLocList.size >= ShoppingListItem.MAX_PRODUCT_IMAGE_COUNT){
-                        btn_add_product_image.hide()
-                    }
                     hideWaitScreen()
                     refreshView()
                 })

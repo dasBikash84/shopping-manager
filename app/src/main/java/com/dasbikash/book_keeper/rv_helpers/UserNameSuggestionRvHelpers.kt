@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -16,14 +17,16 @@ object StringDiffCallback: DiffUtil.ItemCallback<String>(){
     }
 }
 
-class StringListAdapter(private val textClickAction: ((String)->Unit)?=null) :
+class StringListAdapter(private val bindTask:(View,String)->Unit,
+                        private val textClickAction: ((String)->Unit)?=null,
+                        @LayoutRes private val layoutId:Int = R.layout.view_single_line_text) :
     ListAdapter<String, StringHolder>(
         StringDiffCallback
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StringHolder {
         return StringHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.view_single_line_text,
+                layoutId,
                 parent,
                 false
             )
@@ -37,14 +40,8 @@ class StringListAdapter(private val textClickAction: ((String)->Unit)?=null) :
                 this.invoke(item)
             }
         }
-        holder.bind(item)
+        bindTask(holder.itemView,item)
     }
 }
 
-class StringHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val tv_single_line: TextView = itemView.findViewById(R.id.tv_single_line)
-
-    fun bind(text:String) {
-        tv_single_line.text = text.trim()
-    }
-}
+class StringHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
