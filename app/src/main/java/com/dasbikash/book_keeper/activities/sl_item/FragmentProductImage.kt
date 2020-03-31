@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.show
 import com.dasbikash.android_image_utils.ImageUtils
 
 import com.dasbikash.book_keeper.R
@@ -58,6 +60,13 @@ class FragmentProductImage private constructor(): Fragment() {
             }
         }
         view.setOnClickListener { close() }
+        arguments?.let {
+            if (it.containsKey(ARG_EDIT_INSTANCE)){
+                btn_del_product_image_full.show()
+            }else{
+                btn_del_product_image_full.hide()
+            }
+        }
     }
 
     private fun close() {
@@ -69,9 +78,23 @@ class FragmentProductImage private constructor(): Fragment() {
     private fun getImageLoc():String = arguments!!.getString(ARG_IMAGE_LOC)!!
 
     companion object{
+
         private const val ARG_IMAGE_LOC =
             "com.dasbikash.book_keeper.activities.sl_item.FragmentProductImage.ARG_IMAGE_LOC"
-        fun getInstance(imageLoc:String):FragmentProductImage{
+
+        private const val ARG_EDIT_INSTANCE =
+            "com.dasbikash.book_keeper.activities.sl_item.FragmentProductImage.ARG_EDIT_INSTANCE"
+
+        fun getEditInstance(imageLoc:String):FragmentProductImage{
+            val arg = Bundle()
+            arg.putString(ARG_IMAGE_LOC,imageLoc)
+            arg.putString(ARG_EDIT_INSTANCE,ARG_EDIT_INSTANCE)
+            val fragment = FragmentProductImage()
+            fragment.arguments = arg
+            return fragment
+        }
+
+        fun getViewInstance(imageLoc:String):FragmentProductImage{
             val arg = Bundle()
             arg.putString(ARG_IMAGE_LOC,imageLoc)
             val fragment = FragmentProductImage()
