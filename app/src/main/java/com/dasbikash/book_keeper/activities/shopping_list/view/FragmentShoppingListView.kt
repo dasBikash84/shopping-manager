@@ -165,12 +165,33 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
             )
             add(
                 MenuViewItem(
+                    text = context.getString(R.string.delete),
+                    task = { deleteTask() }
+                )
+            )
+            add(
+                MenuViewItem(
                     text = "Share",
                     task = { showShortSnack("Sharing not implemented yet!") }
                 )
             )
         }
     }
+
+    private fun deleteTask(){
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = getString(R.string.confirm_delete_prompt),
+                doOnPositivePress = {
+                    lifecycleScope.launch {
+                        ShoppingListRepo.delete(it,viewModel.getShoppingList().value!!)
+                        activity?.finish()
+                    }
+                }
+            ))
+        }
+    }
+
 
     companion object{
 

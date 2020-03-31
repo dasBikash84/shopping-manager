@@ -85,4 +85,14 @@ object ShoppingListRepo:BookKeeperRepo() {
         getShoppingListItemDao(context).delete(shoppingListItem)
         save(context, shoppingList)
     }
+
+    suspend fun delete(context: Context,shoppingList: ShoppingList) {
+        FireStoreShoppingListService.deleteShoppingList(shoppingList)
+        shoppingList.shoppingListItemIds?.asSequence()?.forEach {
+            getShoppingListItemDao(context).findById(it)?.let {
+                getShoppingListItemDao(context).delete(it)
+            }
+        }
+        getShoppingListDao(context).delete(shoppingList)
+    }
 }
