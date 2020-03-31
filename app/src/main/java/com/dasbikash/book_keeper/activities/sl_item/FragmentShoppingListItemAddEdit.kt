@@ -1,6 +1,8 @@
 package com.dasbikash.book_keeper.activities.sl_item
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,11 +12,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_camera_utils.CameraUtils
+import com.dasbikash.android_camera_utils.CameraUtils.Companion.launchCameraForImage
+import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.hideKeyboard
+import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_image_utils.ImageUtils
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
@@ -23,7 +32,9 @@ import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingListItem(),
     WaitScreenOwner {
@@ -113,6 +124,12 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
             hideKeyboard()
             saveShoppingListItem()
         }
+        btn_add_product_image.setOnClickListener {
+            runWithContext {
+                NetworkMonitor.runWithNetwork(it){launchCameraForImage(this, REQUEST_TAKE_PHOTO)}
+            }
+        }
+        initShoppingListItem()
     }
 
     private fun saveShoppingListItem() {
@@ -158,26 +175,10 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         return exitPrompt
     }
 
-    override fun onResume() {
-        super.onResume()
-        initShoppingListItem()
-    }
-
     private fun initShoppingListItem() {
         runWithContext {
             lifecycleScope.launch {
                 showWaitScreen()
-                if (!::shoppingListItem.isInitialized) {
-                    getShoppingListItemId().let {
-                        shoppingListItem = if (it == null) {
-                            ShoppingListItem(shoppingListId = getShoppingListId())
-                        } else {
-                            val item = ShoppingListRepo.findShoppingListItemById(context!!, it)!!
-                            (activity as ActivityShoppingListItem?)?.setPageTitle(getString(R.string.edit_title,item.name))
-                            item
-                        }
-                    }
-                }
                 if (expenseCategories.isEmpty()) {
                     expenseCategories.addAll(SettingsRepo.getAllExpenseCategories(it))
                     sli_category_selector.setItems(expenseCategories.map {
@@ -198,6 +199,17 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                         }
                     })
                 }
+                if (!::shoppingListItem.isInitialized) {
+                    getShoppingListItemId().let {
+                        shoppingListItem = if (it == null) {
+                            ShoppingListItem(shoppingListId = getShoppingListId())
+                        } else {
+                            val item = ShoppingListRepo.findShoppingListItemById(context!!, it)!!
+                            (activity as ActivityShoppingListItem?)?.setPageTitle(getString(R.string.edit_title,item.name))
+                            item
+                        }
+                    }
+                }
                 refreshView()
                 hideWaitScreen()
             }
@@ -205,14 +217,16 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     }
 
     private fun refreshView() {
-        shoppingListItem.name?.let { et_sli_name.setText(it) }
-        sli_category_selector.selectedIndex = getCurrentCategoryIndex()
-        shoppingListItem.details?.let { et_sli_details.setText(it) }
-        shoppingListItem.minUnitPrice?.let { et_sli_min_price.setText(it.toString()) }
-        shoppingListItem.maxUnitPrice?.let { et_sli_max_price.setText(it.toString()) }
-        shoppingListItem.qty.let { et_sli_quantity.setText(it.toString()) }
-        uom_selector.selectedIndex = getCurrentUomIndex()
-//        TODO("Not yet implemented")
+        if (::shoppingListItem.isInitialized) {
+            debugLog(shoppingListItem)
+            shoppingListItem.name?.let { et_sli_name.setText(it) }
+            sli_category_selector.selectedIndex = getCurrentCategoryIndex()
+            shoppingListItem.details?.let { et_sli_details.setText(it) }
+            shoppingListItem.minUnitPrice?.let { et_sli_min_price.setText(it.toString()) }
+            shoppingListItem.maxUnitPrice?.let { et_sli_max_price.setText(it.toString()) }
+            shoppingListItem.qty.let { et_sli_quantity.setText(it.toString()) }
+            uom_selector.selectedIndex = getCurrentUomIndex()
+        }
     }
 
     private fun getCurrentUomIndex(): Int {
@@ -245,8 +259,42 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private fun getShoppingListItemId(): String? = arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)
     private fun getShoppingListId(): String = arguments?.getString(ARG_SHOPPING_LIST_ID)!!
 
-    companion object {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_TAKE_PHOTO -> {
+                    runWithContext {
+                        CameraUtils.handleCapturedImageFile(
+                            it,
+                            { doWithCapturedImageBitmap(it) })
+                    }
+                }
+            }
+        }
+    }
 
+    private fun doWithCapturedImageBitmap(file: File) {
+        showWaitScreen()
+        lifecycleScope.launch(Dispatchers.IO) {
+            ImageRepo.uploadProductImage(context!!,file).let {
+                val newImageLocList = mutableListOf<String>()
+                shoppingListItem.images?.let { newImageLocList.addAll(it) }
+                newImageLocList.add(it)
+                shoppingListItem.images = newImageLocList.toList()
+                runOnMainThread({
+                    if (newImageLocList.size >= ShoppingListItem.MAX_PRODUCT_IMAGE_COUNT){
+                        btn_add_product_image.hide()
+                    }
+                    hideWaitScreen()
+                    refreshView()
+                })
+            }
+        }
+    }
+
+    companion object {
+        private const val REQUEST_TAKE_PHOTO = 4654
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.sl_item.FragmentShoppingListItemAddEdit.ARG_SHOPPING_LIST_ID"
 

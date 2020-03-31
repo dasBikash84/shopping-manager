@@ -47,18 +47,3 @@ fun TimeBasedExpenseEntryGroup.getTitleString(context: Context):String{
         TimeDuration.MONTH -> DateUtils.getTimeString(startTime,context.getString(R.string.month_title_format))
     }
 }
-
-fun Bitmap.scaled(maxPixels:Float = 512.00f): Bitmap {
-
-    val ratio: Float = Math.min(
-        maxPixels / this.getWidth(),
-        maxPixels / this.getHeight()
-    )
-    val width = Math.round(ratio * this.getWidth())
-    val height = Math.round(ratio * this.getHeight())
-
-    return Bitmap.createScaledBitmap(
-        this, width,
-        height, true
-    )
-}

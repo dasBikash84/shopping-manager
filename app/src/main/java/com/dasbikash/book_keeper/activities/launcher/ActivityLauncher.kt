@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.LoggerUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
@@ -27,6 +28,7 @@ class ActivityLauncher : AppCompatActivity() {
     }
 
     private fun initApp() {
+        debugLog("initApp")
         initNetworkMonitor()
         AsyncTaskManager.init()
         LoggerUtils.init(BuildConfig.DEBUG)

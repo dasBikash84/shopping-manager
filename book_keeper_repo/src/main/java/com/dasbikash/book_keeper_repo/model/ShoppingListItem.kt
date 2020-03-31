@@ -51,4 +51,7 @@ data class ShoppingListItem(
     var modified: Date = Date()
 ){
     fun updateModified(){this.modified = Date()}
+    companion object{
+        const val MAX_PRODUCT_IMAGE_COUNT = 4
+    }
 }

@@ -8,6 +8,8 @@ import com.dasbikash.book_keeper_repo.exceptions.ImageUploadException
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -32,41 +34,27 @@ internal object FirebaseStorageService {
         }
     }
 
-    private suspend fun uploadFile(
-        uploadTask: UploadTask,
-        filepath: StorageReference
-    ): String {
-        return suspendCoroutine<String> {
-            val continuation = it
-            uploadTask.addOnSuccessListener {
-                filepath.downloadUrl.addOnSuccessListener {
-                    continuation.resume(it.toString())
-                }.addOnFailureListener {
-                    debugLog(it.message ?: it::class.java.simpleName)
-                    continuation.resumeWithException(ImageUploadException(it))
-                }
-            }.addOnFailureListener {
-                debugLog(it.message ?: it::class.java.simpleName)
-                continuation.resumeWithException(ImageUploadException(it))
-            }
-        }
-    }
-
-    private suspend fun uploadImageBitmap(bitmap: Bitmap, dir:String):String{
-
+    private fun uploadImageBitmap(bitmap: Bitmap, dir:String,fileName:String,
+                                          doOnUpload:suspend (String)->Unit,doOnError:suspend ()->Unit):String{
+        debugLog("uploadImageBitmap")
         val stream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
         val byteArray = stream.toByteArray()
+        debugLog("byteArray.size: ${byteArray.size}")
 
         val storageRef = FirebaseStorage.getInstance().reference
-        val namePrefix = UUID.randomUUID().toString().let { it.substring(it.length-12,it.length) }
-        val filepath = storageRef.child("$dir/${namePrefix}_${System.nanoTime()}")
+        val filepath = storageRef.child("$dir/${fileName}")
         val uploadTask = filepath.putBytes(byteArray)
 
-        return uploadFile(
-            uploadTask,
-            filepath
-        )
+        uploadTask.addOnSuccessListener {
+            debugLog("inside uploadTask.addOnSuccessListener")
+            GlobalScope.launch { doOnUpload(filepath.path) }
+        }.addOnFailureListener {
+            debugLog("uploadTask.addOnFailureListener")
+            debugLog(it.message ?: it::class.java.simpleName)
+            GlobalScope.launch { doOnError() }
+        }
+        return filepath.path
     }
 
     suspend fun downloadImageFile(imageUrl:String):File{
@@ -91,17 +79,25 @@ internal object FirebaseStorageService {
         )
     }
 
-    suspend fun uploadProductImage(imageBitmap: Bitmap): String {
+//    suspend fun uploadProductImage(imageBitmap: Bitmap): String {
+//        debugLog("uploadProductImage")
+//        return uploadImageBitmap(
+//            imageBitmap,
+//            PRODUCT_PICTURE_DIR
+//        )
+//    }
+
+    fun uploadProductImage(imageBitmap: Bitmap,fileName:String,
+                                   doOnUpload:suspend (String)->Unit,doOnError:suspend ()->Unit):String{
+        debugLog("uploadProductImage")
         return uploadImageBitmap(
-            imageBitmap,
-            PRODUCT_PICTURE_DIR
-        )
+            imageBitmap,PRODUCT_PICTURE_DIR,fileName, doOnUpload, doOnError)
     }
 
-    suspend fun uploadProfilePicture(imageBitmap: Bitmap): String {
-        return uploadImageBitmap(
-            imageBitmap,
-            PROFILE_PICTURE_DIR
-        )
-    }
+//    suspend fun uploadProfilePicture(imageBitmap: Bitmap): String {
+//        return uploadImageBitmap(
+//            imageBitmap,
+//            PROFILE_PICTURE_DIR
+//        )
+//    }
 }

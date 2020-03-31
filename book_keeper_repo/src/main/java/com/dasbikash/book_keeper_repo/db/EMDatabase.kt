@@ -19,21 +19,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dasbikash.book_keeper_repo.db.dao.*
-import com.dasbikash.book_keeper_repo.db.dao.ExpenseCategoryDao
-import com.dasbikash.book_keeper_repo.db.dao.ExpenseEntryDao
-import com.dasbikash.book_keeper_repo.db.dao.ShoppingListDao
-import com.dasbikash.book_keeper_repo.db.dao.UnitOfMeasureDao
-import com.dasbikash.book_keeper_repo.db.dao.UserDao
 import com.dasbikash.book_keeper_repo.db.room_converters.*
-import com.dasbikash.book_keeper_repo.db.room_converters.DateConverter
-import com.dasbikash.book_keeper_repo.db.room_converters.ExpenseCategoryConverter
-import com.dasbikash.book_keeper_repo.db.room_converters.ExpenseItemListConverter
-import com.dasbikash.book_keeper_repo.db.room_converters.StringListConverter
-import com.dasbikash.book_keeper_repo.db.room_converters.UnitOfMeasureConverter
 import com.dasbikash.book_keeper_repo.model.*
 
 @Database(entities = [ExpenseEntry::class,ExpenseCategory::class,UnitOfMeasure::class,User::class,
-                        ShoppingList::class,ShoppingListItem::class],version = 1, exportSchema = false)
+                        ShoppingList::class,ShoppingListItem::class,RemoteImageInfo::class],version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class, UnitOfMeasureConverter::class, ExpenseCategoryConverter::class,
                 ExpenseItemListConverter::class,StringListConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
@@ -44,6 +34,7 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val unitOfMeasureDao:UnitOfMeasureDao
     abstract val shoppingListDao:ShoppingListDao
     abstract val shoppingListItemDao:ShoppingListItemDao
+    abstract val remoteImageInfoDao:RemoteImageInfoDao
 
     companion object {
         private val DATABASE_NAME = "ex_man_database"
