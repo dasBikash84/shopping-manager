@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper.utils
 
 import android.content.Context
+import android.graphics.Bitmap
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
@@ -45,4 +46,19 @@ fun TimeBasedExpenseEntryGroup.getTitleString(context: Context):String{
         TimeDuration.WEEK -> startTime.getWeekString()
         TimeDuration.MONTH -> DateUtils.getTimeString(startTime,context.getString(R.string.month_title_format))
     }
+}
+
+fun Bitmap.scaled(maxPixels:Float = 512.00f): Bitmap {
+
+    val ratio: Float = Math.min(
+        maxPixels / this.getWidth(),
+        maxPixels / this.getHeight()
+    )
+    val width = Math.round(ratio * this.getWidth())
+    val height = Math.round(ratio * this.getHeight())
+
+    return Bitmap.createScaledBitmap(
+        this, width,
+        height, true
+    )
 }
