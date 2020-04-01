@@ -202,4 +202,13 @@
     <string name="sli_price_range">%1$s %2$s</string>
     <string name="sli_qty_text">%1$s %2$s</string>
     <string name="sli_price_prompt">Unit price:</string>
+    <string name="import_image_from_internal_storage_prompt">Import from Gallery</string>
+    <string name="capture_iamge_with_camera_prompt">Take photo</string>
+    <string name="import_from_link_prompt">Import from link</string>
+    <string name="unknown_error_message">Error occurred!!! Please retry.</string>
+    <string name="external_storage_permission_rational">\"Phone storage read permission\" is required for importing image. Do you want to view permission dialog?</string>
+    <string name="open_settings_prompt_for_esp">\"Phone storage read permission\" is required for importing image. But you disabled that previously. Now that permission can only be enabled from application settings. Do you want to open application settings?</string>
+    <string name="image_url_prompt">Image url</string>
+    <string name="image_url_dialog_message">Please input valid image url and press ok.</string>
+    <string name="blank_url_message">Blank image url!!</string>
 </resources>

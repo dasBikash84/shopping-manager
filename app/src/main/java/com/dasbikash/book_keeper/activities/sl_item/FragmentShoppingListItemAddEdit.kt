@@ -1,9 +1,13 @@
 package com.dasbikash.book_keeper.activities.sl_item
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -20,12 +24,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_basic_utils.utils.uriToFile
 import com.dasbikash.android_camera_utils.CameraUtils
 import com.dasbikash.android_camera_utils.CameraUtils.Companion.launchCameraForImage
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
+import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -36,8 +42,16 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
@@ -167,7 +181,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         }
         btn_add_product_image.setOnClickListener {
             runWithContext {
-                NetworkMonitor.runWithNetwork(it){launchCameraForImage(this, REQUEST_TAKE_PHOTO)}
+                NetworkMonitor.runWithNetwork(it){importImageTask(it)}
             }
         }
         btn_add_brand_sug.setOnClickListener {
@@ -183,6 +197,14 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         })
 
         initShoppingListItem()
+    }
+
+    private fun importImageTask(context: Context) {
+        val menuView = MenuView()
+        menuView.add(getCaptureImageTask())
+        menuView.add(getImportFromGalleryTask())
+        menuView.add(getImportFromLinkTask())
+        menuView.show(context)
     }
 
     private fun addBrandSugAction() {
@@ -365,6 +387,65 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private fun getShoppingListItemId(): String? = arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)
     private fun getShoppingListId(): String = arguments?.getString(ARG_SHOPPING_LIST_ID)!!
 
+    private fun runWithReadStoragePermission(task:()->Unit) {
+        var onPermissionRationaleShouldBeShownCalled = false
+        runWithActivity {
+            Dexter.withActivity(it)
+                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withListener(object : PermissionListener{
+
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        task()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
+                        onPermissionRationaleShouldBeShownCalled = true
+                        runWithContext {
+                            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                                message = it.getString(R.string.external_storage_permission_rational),
+                                doOnPositivePress = {
+                                    token?.continuePermissionRequest()
+                                },
+                                doOnNegetivePress = {
+                                    token?.cancelPermissionRequest()
+                                },
+                                positiveButtonText = it.getString(R.string.yes),
+                                negetiveButtonText = it.getString(R.string.no)
+                            ))
+                        }
+
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        if (!onPermissionRationaleShouldBeShownCalled){
+                            runWithContext {
+                                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                                    message = it.getString(R.string.open_settings_prompt_for_esp),
+                                    doOnPositivePress = {
+                                        openAppSettings()
+                                    },
+                                    positiveButtonText = it.getString(R.string.yes),
+                                    negetiveButtonText = it.getString(R.string.no)
+                                ))
+                            }
+                        }
+                    }
+                }).check()
+        }
+    }
+
+    private fun openAppSettings() {
+        activity?.let {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", it.packageName, null)
+            intent.data = uri
+            startActivity(intent)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -373,14 +454,37 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                     runWithContext {
                         CameraUtils.handleCapturedImageFile(
                             it,
-                            { doWithCapturedImageBitmap(it) })
+                            { addToProductImages(it) })
+                    }
+                }
+                REQUEST_CODE_PICK_IMAGE ->{
+                    debugLog("REQUEST_CODE_PICK_IMAGE")
+                    data?.data?.let {
+                        debugLog("Found image uri")
+                        processGalleryImageUri(it)
                     }
                 }
             }
         }
     }
 
-    private fun doWithCapturedImageBitmap(file: File) {
+    private fun processGalleryImageUri(imageUri: Uri) {
+        runWithActivity {
+            showWaitScreen()
+            lifecycleScope.launch {
+                it.uriToFile(imageUri).let {
+                    if (it!=null) {
+                        addToProductImages(it)
+                    }else{
+                        showShortSnack(R.string.unknown_error_message)
+                        hideWaitScreen()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun addToProductImages(file: File) {
         showWaitScreen()
         lifecycleScope.launch(Dispatchers.IO) {
             ImageRepo.uploadProductImage(context!!,file).let {
@@ -392,8 +496,64 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         }
     }
 
+    private fun getImportFromLinkTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.import_from_link_prompt),
+            task = {
+                runWithContext {
+                    val view = EditText(it)
+                    view.hint = it.getString(R.string.image_url_prompt)
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.image_url_dialog_message),
+                        view = view,
+                        doOnPositivePress = {
+                            if (view.text.toString().isNotBlank()){
+                                showWaitScreen()
+                                ImageUtils.fetchImageFromUrl(
+                                    view.text.toString().trim(),this,it,{
+                                        addToProductImages(it)
+                                    },{
+                                        hideWaitScreen()
+                                        showShortSnack(R.string.unknown_error_message)
+                                    }
+                                )
+                            }else{
+                                showShortSnack(R.string.blank_url_message)
+                            }
+                        }
+                    ))
+                }
+            }
+        )
+    }
+
+    private fun getCaptureImageTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.capture_iamge_with_camera_prompt),
+            task = {
+                launchCameraForImage(this, REQUEST_TAKE_PHOTO)
+            }
+        )
+    }
+
+    private fun getImportFromGalleryTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.import_image_from_internal_storage_prompt),
+            task = {
+                runWithReadStoragePermission { launchImportFromGallery() }
+            }
+        )
+    }
+
+    private fun launchImportFromGallery(){
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, REQUEST_CODE_PICK_IMAGE)
+    }
+
     companion object {
         private const val REQUEST_TAKE_PHOTO = 4654
+        private const val REQUEST_CODE_PICK_IMAGE = 3454
+
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.sl_item.FragmentShoppingListItemAddEdit.ARG_SHOPPING_LIST_ID"
 
