@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.shopping_list.edit.FragmentShoppingListAddEdit"
     android:paddingStart="2dp"
-    android:paddingEnd="2dp">
+    android:paddingEnd="2dp"
+    tools:context=".activities.shopping_list.edit.FragmentShoppingListAddEdit">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -31,126 +31,129 @@
                     android:lines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:scrollbars="none">
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_sl_deadline_prompt"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:minHeight="32dp"
-                    android:minWidth="120dp"
-                    android:text="@string/sl_deadline"
-                    android:textAlignment="gravity"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.dasbikash.android_view_utils.custom_views.ClickableCardView
-                    android:id="@+id/sl_deadline_tv_holder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintStart_toEndOf="@id/tv_sl_deadline_prompt"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_sl_deadline"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/snow_white3"
-                        android:gravity="center"
+                        android:id="@+id/tv_sl_deadline_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:minWidth="120dp"
                         android:minHeight="32dp"
-                        android:paddingStart="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingEnd="8dp"
-                        android:paddingBottom="4dp"
-                        android:text="@string/click_to_set_prompt"
-                        android:textColor="@color/color_navy_blue"
-                        android:textSize="18sp" />
-                </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:text="@string/sl_deadline"
+                        android:textAlignment="gravity"
+                        android:textSize="20sp" />
+
+                    <com.dasbikash.android_view_utils.custom_views.ClickableCardView
+                        android:id="@+id/sl_deadline_tv_holder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="4dp">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_sl_deadline"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/snow_white3"
+                            android:gravity="center"
+                            android:minHeight="32dp"
+                            android:paddingStart="8dp"
+                            android:paddingTop="4dp"
+                            android:paddingEnd="8dp"
+                            android:paddingBottom="4dp"
+                            android:text="@string/click_to_set_prompt"
+                            android:textColor="@color/color_navy_blue"
+                            android:textSize="18sp" />
+                    </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </HorizontalScrollView>
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_set_sl_remainder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/enable_shopping_remainder"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_sl_deadline_prompt"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:text="@string/enable_shopping_remainder" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/sl_remainder_set_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@+id/cb_set_sl_remainder"
-                android:layout_marginTop="8dp">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_sl_count_down_prompt"
-                    android:layout_width="wrap_content"
+                android:orientation="vertical">
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:minHeight="32dp"
-                    android:minWidth="120dp"
-                    android:text="@string/sl_count_down_prompt"
-                    android:textAlignment="gravity"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_sl_count_down"/>
-
-                <EditText
-                    android:id="@+id/et_sl_count_down"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:hint="@string/reminder_hint"
-                    android:inputType="number"
-                    app:layout_constraintStart_toEndOf="@id/tv_sl_count_down_prompt"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:minHeight="32dp"
-                    android:text="@string/hours_text"
-                    android:textAlignment="gravity"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toEndOf="@+id/et_sl_count_down"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="@+id/et_sl_count_down"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_marginTop="8dp"
-                    android:id="@+id/tv_sl_reminder_interval_prompt"
+                    android:scrollbars="none">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/tv_sl_count_down_prompt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|start"
+                            android:minWidth="120dp"
+                            android:minHeight="32dp"
+                            android:text="@string/sl_count_down_prompt"
+                            android:textAlignment="gravity"
+                            android:textSize="20sp"/>
+
+                        <EditText
+                            android:id="@+id/et_sl_count_down"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:hint="@string/reminder_hint"
+                            android:inputType="number"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|start"
+                            android:minHeight="32dp"
+                            android:text="@string/hours_text"
+                            android:textAlignment="gravity"
+                            android:textSize="20sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+                </HorizontalScrollView>
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
-                    android:minHeight="40dp"
-                    android:minWidth="120dp"
-                    android:text="@string/sl_reminder_interval_prompt"
-                    android:textAlignment="gravity"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_sl_count_down_prompt" />
+                    android:orientation="horizontal">
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/spinner_reminder_interval_selector"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tv_sl_reminder_interval_prompt"
-                    app:layout_constraintTop_toTopOf="@+id/tv_sl_reminder_interval_prompt" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sl_reminder_interval_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical|start"
+                        android:minWidth="120dp"
+                        android:minHeight="40dp"
+                        android:text="@string/sl_reminder_interval_prompt"
+                        android:textAlignment="gravity"
+                        android:textSize="20sp"/>
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/spinner_reminder_interval_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -160,8 +163,7 @@
                 android:orientation="horizontal"
                 android:paddingStart="40dp"
                 android:paddingEnd="40dp"
-                android:weightSum="2"
-                app:layout_constraintTop_toBottomOf="@+id/sl_remainder_set_block">
+                android:weightSum="2">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save_shopping_list"
