@@ -77,8 +77,8 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
                 if (it.first == timeBasedExpenseEntryGroup) {
                     rv_time_wise_exp_holder.show()
                     expHolderAdapter.submitList(it.second)
-                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.getLangBasedCurrencyString()
-                    tv_exp_count.text = getLangBasedNumberString(it.second.size.toString())
+                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.getCurrencyString()
+                    tv_exp_count.text = it.second.size.toString()
                 }
             }
         }
@@ -116,13 +116,16 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
         this.timeBasedExpenseEntryGroup = timeBasedExpenseEntryGroup
         tv_time_period_text.text = timeBasedExpenseEntryGroup.getTitleString(itemView.context)
                                         .let {
+                                            debugLog(it)
                                             if (checkIfEnglishLanguageSelected()){
                                                 it
                                             }else{
                                                 TranslatorUtils.englishToBanglaDateString(it)
+                                            }.apply {
+                                                debugLog(this)
                                             }
                                         }
-        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.getLangBasedCurrencyString()
-        tv_exp_count.text = getLangBasedNumberString(timeBasedExpenseEntryGroup.expenseEntryIds.size.toString())
+        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.getCurrencyString()
+        tv_exp_count.text = timeBasedExpenseEntryGroup.expenseEntryIds.size.toString()
     }
 }

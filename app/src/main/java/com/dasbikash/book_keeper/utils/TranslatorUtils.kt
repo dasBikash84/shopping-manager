@@ -66,11 +66,11 @@ object TranslatorUtils {
 
     fun englishToBanglaDateString(dateStringInput: String): String {
         replaceEnglishMonthName(dateStringInput).let {
-            replaceEnglishDigits(it).let {
+//            replaceEnglishDigits(it).let {
                 replaceEnglishDayName(it).let {
-                    return replaceAMPMMarkerEngToBan(it)
+                    return it//replaceAMPMMarkerEngToBan(it)
                 }
-            }
+//            }
         }
     }
 
@@ -87,12 +87,11 @@ object TranslatorUtils {
     }
 
     private fun replaceEnglishMonthName(str: String): String {
+        var localStr = str
         for (i in MONTH_NAME_TABLE.indices) {
-            if (str.contains(MONTH_NAME_TABLE[i][1])) {
-                return str.replace(MONTH_NAME_TABLE[i][1], MONTH_NAME_TABLE[i][0])
-            }
+            localStr = localStr.replace(MONTH_NAME_TABLE[i][1], MONTH_NAME_TABLE[i][0])
         }
-        return str
+        return localStr
     }
 
     private fun replaceEnglishDayName(str: String): String {
@@ -105,23 +104,15 @@ object TranslatorUtils {
     }
 }
 
-fun getLangBasedNumberString(numberString:String):String{
-    return when(checkIfEnglishLanguageSelected()){
-        true -> numberString
-        false -> TranslatorUtils.englishToBanglaNumberString(numberString)
-    }
-}
-
 //will insert req comma
-fun Double.getLangBasedCurrencyString():String{
-    return getLangBasedNumberString(
-        NumberFormat.getCurrencyInstance().format(this).let {
+fun Double.getCurrencyString():String{
+    return NumberFormat.getCurrencyInstance().format(this).let {
             if (checkIfEnglishLanguageSelected()){
                 it.substring(1)
             }else{
                 it.substring(0,it.length-1)
             }
-        }.let { it.stripTrailingZeros() }.let { if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)} })
+        }.let { it.stripTrailingZeros() }
 }
 
 fun String.stripTrailingZeros():String{
@@ -140,5 +131,5 @@ fun String.stripTrailingZeros():String{
 }
 
 fun Double.formatForDisplay():String{
-    return this.optimizedString().stripTrailingZeros().let { if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)} }
+    return this.optimizedString().stripTrailingZeros()
 }

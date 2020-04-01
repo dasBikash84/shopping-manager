@@ -110,16 +110,12 @@ class ShoppingListItemHolder(itemView: View,
             shoppingListItem.maxUnitPrice?.let {
                 priceBuilder.append(it.toString())
             }
-            val priceText = priceBuilder.toString().let {
-                if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)}
-            }
+            val priceText = priceBuilder.toString()
             tv_sli_price_range.text = priceText
             sli_price_range_holder.show()
         }
 
-        tv_sli_qty.text = shoppingListItem.qty.toString().let {
-            if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)}
-        }
+        tv_sli_qty.text = shoppingListItem.qty.toString()
         tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!)
         if (shoppingListItem.expenseEntryId==null){
             iv_sli_options.show()

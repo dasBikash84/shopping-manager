@@ -8,7 +8,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.utils.formatForDisplay
-import com.dasbikash.book_keeper.utils.getLangBasedNumberString
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
@@ -140,7 +139,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
 
     private fun sendToDisplay(numberString:String){
         currentNumberLiveData.postValue(
-            getLangBasedNumberString(numberString)
+            numberString
         )
     }
 

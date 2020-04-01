@@ -73,11 +73,11 @@ data class ShoppingList(
 
         enum class ReminderInterval(val text:String,val textBangla:String,val intervalMs:Long?){
             ONCE("Once","শুধুমাত্র একবার",null),
-            MIN_15("15 minutes","১৫ মিনিট",15*DateUtils.MINUTE_IN_MS),
-            MIN_30("30 minutes","৩০ মিনিট",30*DateUtils.MINUTE_IN_MS),
-            HOUR_1("1 hour","১ ঘণ্টা",1*DateUtils.HOUR_IN_MS),
-            HOUR_6("6 hours","৬ ঘণ্টা",6*DateUtils.HOUR_IN_MS),
-            HOUR_24("24 hours","২৪ ঘণ্টা",24*DateUtils.HOUR_IN_MS)
+            MIN_15("15 minutes","15 মিনিট",15*DateUtils.MINUTE_IN_MS),
+            MIN_30("30 minutes","30 মিনিট",30*DateUtils.MINUTE_IN_MS),
+            HOUR_1("1 hour","1 ঘণ্টা",1*DateUtils.HOUR_IN_MS),
+            HOUR_6("6 hours","6 ঘণ্টা",6*DateUtils.HOUR_IN_MS),
+            HOUR_24("24 hours","24 ঘণ্টা",24*DateUtils.HOUR_IN_MS)
         }
 
         fun validateDeadLine(deadLine: Date):Boolean =
