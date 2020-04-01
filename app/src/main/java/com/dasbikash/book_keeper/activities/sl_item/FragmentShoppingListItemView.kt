@@ -19,10 +19,8 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.rv_sli_brand_sug
@@ -110,11 +108,7 @@ class FragmentShoppingListItemView private constructor():FragmentShoppingListIte
                 (activity as ActivityShoppingListItem?)?.setPageTitle(it)
             }
             shoppingListItem.categoryId?.let {
-                lifecycleScope.launch {
-                    SettingsRepo.getAllExpenseCategories(context!!).find { it.id == shoppingListItem.categoryId }!!.let {
-                        tv_sli_category.text = if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla}
-                    }
-                }
+                tv_sli_category.text = resources.getStringArray(R.array.expense_categories).get(it)
             }
 
             shoppingListItem.details?.let { tv_sli_details.setText(it) }

@@ -33,12 +33,9 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -64,7 +61,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private var exitPrompt: String? = null
     private lateinit var shoppingListItem: ShoppingListItem
 
-    private val expenseCategories = mutableListOf<ExpenseCategory>()
+    private val expenseCategories = mutableListOf<String>()
     private val uoms = mutableListOf<String>()
 
     private val imageListAdapter = StringListAdapter({view,text->
@@ -148,13 +145,13 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         })
         sli_category_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
             hideKeyboard()
-            shoppingListItem.categoryId = expenseCategories.find { if (checkIfEnglishLanguageSelected())
+            shoppingListItem.categoryId = position/*expenseCategories.find { if (checkIfEnglishLanguageSelected())
                                                                     {
                                                                         item == it.name
                                                                     } else {
                                                                         item == it.nameBangla
                                                                     }
-                                                                }!!.id
+                                                                }!!.id*/
         })
         uom_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
             hideKeyboard()
@@ -276,14 +273,8 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
             lifecycleScope.launch {
                 showWaitScreen()
                 if (expenseCategories.isEmpty()) {
-                    expenseCategories.addAll(SettingsRepo.getAllExpenseCategories(it))
-                    sli_category_selector.setItems(expenseCategories.map {
-                        if (checkIfEnglishLanguageSelected()) {
-                            it.name
-                        } else {
-                            it.nameBangla
-                        }
-                    })
+                    expenseCategories.addAll(resources.getStringArray(R.array.expense_categories))
+                    sli_category_selector.setItems(expenseCategories)
                 }
                 if (uoms.isEmpty()) {
                     uoms.addAll(resources.getStringArray(R.array.uoms))
@@ -343,15 +334,16 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
 
     private fun getCurrentCategoryIndex(): Int {
         if (shoppingListItem.categoryId == null) {
-            shoppingListItem.categoryId = expenseCategories.get(0).id
+            shoppingListItem.categoryId = 0//expenseCategories.get(0).id
         }
-        return expenseCategories.map { it.id }.indexOf(shoppingListItem.categoryId!!).let {
-            if (it < 0) {
-                return@let 0
-            } else {
-                return@let it
-            }
-        }
+        return shoppingListItem.categoryId!!
+//        return expenseCategories.map { it.id }.indexOf(shoppingListItem.categoryId!!).let {
+//            if (it < 0) {
+//                return@let 0
+//            } else {
+//                return@let it
+//            }
+//        }
     }
 
     private fun getShoppingListItemId(): String? = arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)

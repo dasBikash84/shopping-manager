@@ -55,7 +55,7 @@ class FragmentViewExp : Fragment() {
 
     private fun refreshView() {
         checkIfEnglishLanguageSelected().apply {
-            tv_category_title.text = if (this) {expenseEntry.expenseCategory!!.name} else {expenseEntry.expenseCategory!!.nameBangla}
+            tv_category_title.text = resources.getStringArray(R.array.expense_categories).get(expenseEntry.expenseCategory!!)
             tv_entry_time.text = DateUtils.getTimeString(expenseEntry.time!!, getString(R.string.exp_entry_time_format))
                                         .let {
                                             return@let when (this) {

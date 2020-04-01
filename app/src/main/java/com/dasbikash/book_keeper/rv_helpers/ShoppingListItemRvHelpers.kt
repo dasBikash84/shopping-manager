@@ -10,22 +10,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper_repo.SettingsRepo
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.menu_view.attachMenuViewForClick
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.lang.StringBuilder
-import kotlin.random.Random
 
 object ShoppingListItemDiffCallback: DiffUtil.ItemCallback<ShoppingListItem>(){
     override fun areItemsTheSame(oldItem: ShoppingListItem, newItem: ShoppingListItem) = oldItem.id == newItem.id
@@ -97,13 +89,8 @@ class ShoppingListItemHolder(itemView: View,
         iv_sli_options.hide()
         sli_details_holder.hide()
         sli_price_range_holder.hide()
-        GlobalScope.launch {
-            delay(Random(System.currentTimeMillis()).nextLong(100L))
-            getExpenseCategory(itemView.context,shoppingListItem.categoryId!!).let {
-                runOnMainThread({
-                    tv_sli_category.text = if(checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla}
-                })
-            }
+        getExpenseCategory(itemView.context,shoppingListItem.categoryId!!).let {
+            tv_sli_category.text = it
         }
         tv_sli_name.text = shoppingListItem.name
         shoppingListItem.details?.let {
@@ -142,13 +129,13 @@ class ShoppingListItemHolder(itemView: View,
     }
 
     companion object{
-        private val expenseCategories = mutableSetOf<ExpenseCategory>()
+        private val expenseCategories = mutableListOf<String>()
 
-        private suspend fun getExpenseCategory(context:Context,categoryId:String):ExpenseCategory{
+        private fun getExpenseCategory(context:Context,categoryId:Int):String{
             if (expenseCategories.isEmpty()){
-                expenseCategories.addAll(SettingsRepo.getAllExpenseCategories(context))
+                expenseCategories.addAll(context.resources.getStringArray(R.array.expense_categories))
             }
-            return expenseCategories.find { it.id==categoryId }!!
+            return expenseCategories.get(categoryId)
         }
     }
 }

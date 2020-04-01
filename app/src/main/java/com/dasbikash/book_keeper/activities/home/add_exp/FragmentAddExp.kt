@@ -25,8 +25,6 @@ import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.optimizedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
 import com.dasbikash.date_time_picker.DateTimePicker
@@ -52,7 +50,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     private var viewModel: ViewModelAddExp? = null
 
-    private val expenseCategories = mutableListOf<ExpenseCategory>()
+    private val expenseCategories = mutableListOf<String>()
     private val uoms = mutableListOf<String>()
     private val expenseItemAdapter = ExpenseItemAdapter({ expenseItemOptionsClickAction(it) })
 
@@ -136,7 +134,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                 id: Long,
                 item: String?
             ) {
-                viewModel?.setExpenseCategory(expenseCategories.get(position))
+                viewModel?.setExpenseCategory(position/*expenseCategories.get(position)*/)
             }
         })
 
@@ -165,10 +163,10 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
-        viewModel?.getExpenseCategory()?.observe(this, object : Observer<ExpenseCategory> {
-            override fun onChanged(expenseCategory: ExpenseCategory?) {
+        viewModel?.getExpenseCategory()?.observe(this, object : Observer<Int> {
+            override fun onChanged(expenseCategory: Int?) {
                 expenseCategory?.let {
-                    if (it.name?.contains(MISCELLANEOUS_TEXT, true) ?: false) {
+                    if (expenseCategories.get(it).contains(MISCELLANEOUS_TEXT, true) ?: false) {
                         et_category_proposal_holder.show()
                     } else {
                         et_category_proposal.setText("")
@@ -288,7 +286,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                                 }
                                 expenseEntry?.apply {
                                     time = mEntryTime.time
-                                    categoryId = getSelectedExpenseCategory().id
+                                    categoryId = getSelectedExpenseCategory()//.id
                                     expenseCategory = getSelectedExpenseCategory()
                                     categoryProposal = et_category_proposal.text?.toString()
                                     details = et_description.text?.toString()
@@ -308,8 +306,8 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         }
     }
 
-    private fun getSelectedExpenseCategory(): ExpenseCategory {
-        return viewModel?.getExpenseCategory()?.value ?: expenseCategories.get(0)
+    private fun getSelectedExpenseCategory(): Int {
+        return viewModel?.getExpenseCategory()?.value ?: 0
     }
 
     private fun resetView() {
@@ -341,18 +339,8 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         runWithContext {
             showWaitScreen()
             lifecycleScope.launch(Dispatchers.IO) {
-                SettingsRepo.getAllExpenseCategories(it).apply {
-                    expenseCategories.addAll(this.sortedBy { it.name })
-                    runOnMainThread({
-                        spinner_category_selector.setItems(expenseCategories.map {
-                            if (checkIfEnglishLanguageSelected()) {
-                                it.name
-                            } else {
-                                it.nameBangla
-                            }
-                        })
-                    })
-                }
+                expenseCategories.addAll(resources.getStringArray(R.array.expense_categories))
+                spinner_category_selector.setItems(expenseCategories)
                 uoms.addAll(resources.getStringArray(R.array.uoms))
                 uom_selector.setItems(uoms)
 
@@ -374,7 +362,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                             runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
                         }
                         it.expenseCategory?.let {
-                            spinner_category_selector.selectedIndex = expenseCategories.indexOf(it).let { if (it==-1) {0} else {it} }
+                            spinner_category_selector.selectedIndex = it//expenseCategories.indexOf(it).let { if (it==-1) {0} else {it} }
                         }
                         btn_cancel.show()
                         btn_cancel.setOnClickListener {

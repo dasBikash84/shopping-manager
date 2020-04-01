@@ -30,7 +30,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
             if (expenseCategory != null) {
                 sqlBuilder.append(" categoryId = ? AND ")
-                params.add(expenseCategory!!.id)
+                params.add(expenseCategory!!)
             }
 
             sqlBuilder.append(" details like '%${searchText}%' AND ")
@@ -154,7 +154,7 @@ object ExpenseRepo:BookKeeperRepo() {
 data class ExpenseEntryFetchParam(
     var searchText:String="",
     var limit:Int=EXPENSE_FETCH_LIMIT_INC_VALUE,
-    var expenseCategory:ExpenseCategory?=null,
+    var expenseCategory:Int?=null,
     val user:User?=null
 ){
     companion object{

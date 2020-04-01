@@ -18,7 +18,6 @@ import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -77,7 +76,6 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
             dataSynced.set()
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
-                    SettingsRepo.syncSettings(this@ActivityHome)
                     ExpenseRepo.syncData(this@ActivityHome)
                     ShoppingListRepo.syncData(this@ActivityHome)
                     if (BuildConfig.DEBUG) {

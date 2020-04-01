@@ -1,18 +1,16 @@
 package com.dasbikash.book_keeper_repo.model
 
 import androidx.annotation.Keep
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
 @Entity(
     foreignKeys = [
-        ForeignKey(
-            entity = ExpenseCategory::class,
-            parentColumns = ["id"],
-            childColumns = ["categoryId"]
-        ),
         ForeignKey(
             entity = User::class,
             parentColumns = ["id"],
@@ -32,8 +30,8 @@ data class ExpenseEntry(
     var id:String=UUID.randomUUID().toString(),
     var time: Date?=null,
     var userId: String?=null,
-    var categoryId: String?=null,
-    var expenseCategory: ExpenseCategory?=null,
+    var categoryId: Int?=null,
+    var expenseCategory: Int?=null,
     var categoryProposal:String?=null,
     var details:String?=null,
     var expenseItems:List<ExpenseItem>?=null,

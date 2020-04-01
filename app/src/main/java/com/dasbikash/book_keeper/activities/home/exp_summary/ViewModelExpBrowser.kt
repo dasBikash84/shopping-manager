@@ -9,7 +9,6 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseEntryFetchParam
 import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import kotlinx.coroutines.launch
@@ -63,7 +62,7 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
         refreshExpenseEntries()
     }
 
-    fun setExpenseCategory(expenseCategory: ExpenseCategory?=null) {
+    fun setExpenseCategory(expenseCategory: Int?=null) {
         expenseEntryFetchParam.expenseCategory = expenseCategory
         resetExpenseFetchLimit()
         debugLog(expenseEntryFetchParam)

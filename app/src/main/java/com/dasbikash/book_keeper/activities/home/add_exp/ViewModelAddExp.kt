@@ -4,12 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
 
 class ViewModelAddExp(private val mApplication: Application) : AndroidViewModel(mApplication) {
 
-    private val expenseCategory:MutableLiveData<ExpenseCategory> = MutableLiveData()
+    private val expenseCategory:MutableLiveData<Int> = MutableLiveData()
     private val expenseItems:MutableLiveData<List<ExpenseItem>> = MutableLiveData()
     private val vatTax:MutableLiveData<Double> = MutableLiveData()
 
@@ -18,11 +17,11 @@ class ViewModelAddExp(private val mApplication: Application) : AndroidViewModel(
         expenseItems.postValue(emptyList())
     }
 
-    fun setExpenseCategory(expenseCategory: ExpenseCategory){
+    fun setExpenseCategory(expenseCategory: Int){
         this.expenseCategory.postValue(expenseCategory)
     }
 
-    fun getExpenseCategory():LiveData<ExpenseCategory> = expenseCategory
+    fun getExpenseCategory():LiveData<Int> = expenseCategory
 
     fun addExpenseItem(expenseItem: ExpenseItem){
         expenseItems.value.let {

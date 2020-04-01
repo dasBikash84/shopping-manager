@@ -19,11 +19,6 @@ import java.util.*
             entity = ExpenseEntry::class,
             parentColumns = ["id"],
             childColumns = ["expenseEntryId"]
-        ),
-        ForeignKey(
-            entity = ExpenseCategory::class,
-            parentColumns = ["id"],
-            childColumns = ["categoryId"]
         )
     ],
     indices = arrayOf(
@@ -38,7 +33,7 @@ data class ShoppingListItem(
     var name:String?=null,
     var shoppingListId:String?=null,
     var expenseEntryId:String?=null,
-    var categoryId: String?=null,
+    var categoryId: Int?=null,
     var details:String?=null,
     var minUnitPrice:Double?=null,
     var maxUnitPrice:Double?=null,

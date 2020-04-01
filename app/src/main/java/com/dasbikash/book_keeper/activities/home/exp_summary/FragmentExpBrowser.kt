@@ -24,10 +24,7 @@ import com.dasbikash.book_keeper.activities.home.FragmentHome
 import com.dasbikash.book_keeper.activities.view_expense.ActivityViewExpense
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
-import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -46,7 +43,7 @@ class FragmentExpBrowser : FragmentHome(),WaitScreenOwner {
 
     private val expenseEntryAdapter = ExpenseEntryAdapter({launchDetailView(it)},{editTask(it)},{deleteTask(it)},{incrementExpenseFetchLimit()})
 
-    private val expenseCategories = mutableListOf<ExpenseCategory>()
+    private val expenseCategories = mutableListOf<String>()
 
     private lateinit var timeBasedExpenseEntryGroupAdapter:TimeBasedExpenseEntryGroupAdapter
 
@@ -267,23 +264,16 @@ class FragmentExpBrowser : FragmentHome(),WaitScreenOwner {
         if (categoryName == getString(R.string.all_text)){
             viewModel.setExpenseCategory(null)
         }else{
-            if (checkIfEnglishLanguageSelected()) {
-                expenseCategories.find { it.name==categoryName }!!
-            } else {
-                expenseCategories.find { it.nameBangla==categoryName }!!
-            }.let {
-                viewModel.setExpenseCategory(it)
-            }
+            viewModel.setExpenseCategory(expenseCategories.indexOf(categoryName) - 1)
         }
     }
 
     private fun setCategorySpinnerItems() {
         runWithContext {
             lifecycleScope.launch {
-                val categoryNames= mutableListOf<String>(getString(R.string.all_text))
-                expenseCategories.addAll(SettingsRepo.getAllExpenseCategories(it))
-                categoryNames.addAll(expenseCategories.sortedBy { it.name }.map { if (checkIfEnglishLanguageSelected()) {it.name!!} else {it.nameBangla!!} })
-                spinner_category_selector.setItems(categoryNames)
+                expenseCategories.add(getString(R.string.all_text))
+                expenseCategories.addAll(resources.getStringArray(R.array.expense_categories))
+                spinner_category_selector.setItems(expenseCategories)
             }
         }
     }

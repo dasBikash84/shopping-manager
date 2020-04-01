@@ -105,7 +105,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
                                         }
             tv_exp_amount_text.text = (totalExpense ?: 0.0).getLangBasedCurrencyString()
             tv_exp_desc_text.text = details
-            tv_exp_cat_text.text = expenseCategory?.let { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }
+            tv_exp_cat_text.text = expenseCategory?.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
         itemView.setOnClickListener { debugLog(expenseEntry) }
     }

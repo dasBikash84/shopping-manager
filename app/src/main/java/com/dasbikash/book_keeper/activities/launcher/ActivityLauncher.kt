@@ -6,8 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.LoggerUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.startActivity
-import com.dasbikash.android_network_monitor.NetworkMonitor
-import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.BuildConfig
@@ -15,7 +13,6 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.SettingsRepo
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -38,24 +35,6 @@ class ActivityLauncher : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         lifecycleScope.launch {
             delay(500L)
-            if (SettingsRepo.getAllExpenseCategories(this@ActivityLauncher).isEmpty()){
-                NetworkMonitor
-                    .runWithNetwork(this@ActivityLauncher,{loadSettingsAndJump()})
-                    .let {
-                        if (!it){
-                            NetworkMonitor.addNetworkStateListener(NetworkStateListener.getInstance(
-                                doOnConnected = {loadSettingsAndJump()},lifecycleOwner = this@ActivityLauncher))
-                        }
-                    }
-            }else{
-                loadRequiredActivity()
-            }
-        }
-    }
-
-    private fun loadSettingsAndJump() {
-        lifecycleScope.launch {
-            SettingsRepo.syncSettings(this@ActivityLauncher)
             loadRequiredActivity()
         }
     }
