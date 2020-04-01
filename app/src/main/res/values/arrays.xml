@@ -4,4 +4,42 @@
         <item>Email</item>
         <item>Mobile</item>
     </string-array>
+    <string-array name="uoms">
+        <item>piece</item>
+        <item>package</item>
+        <item>gm</item>
+        <item>kg</item>
+        <item>tons</item>
+        <item>oz</item>
+        <item>lb</item>
+        <item>mm</item>
+        <item>cm</item>
+        <item>m</item>
+        <item>km</item>
+        <item>inch</item>
+        <item>feet</item>
+        <item>yard</item>
+        <item>mile</item>
+        <item>mL</item>
+        <item>L</item>
+        <item>gal</item>
+    </string-array>
+    <string-array name="expense_categories">
+        <item>Grocery</item>
+        <item>Clothing</item>
+        <item>Vegetables</item>
+        <item>Tuition fees</item>
+        <item>Clinic/Hospital</item>
+        <item>Books</item>
+        <item>Pharmacy</item>
+        <item>Bakery</item>
+        <item>Mobile phones &amp; Accessories</item>
+        <item>Computers &amp; Accessories</item>
+        <item>Furniture</item>
+        <item>Jewellery</item>
+        <item>Shoes</item>
+        <item>Cosmetics</item>
+        <item>Miscellaneous</item>
+        <item>Bank Deposit</item>
+    </string-array>
 </resources>
