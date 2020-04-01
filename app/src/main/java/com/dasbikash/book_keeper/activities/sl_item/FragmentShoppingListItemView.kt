@@ -125,8 +125,7 @@ class FragmentShoppingListItemView private constructor():FragmentShoppingListIte
                                             if (shoppingListItem.maxUnitPrice!=null) {shoppingListItem.maxUnitPrice!!.toString()} else {""})
             tv_sli_qty.text = getString(
                                         R.string.sli_qty_text,
-                                        shoppingListItem.qty.toString(),
-                                        if (checkIfEnglishLanguageSelected()) {shoppingListItem.uom} else {shoppingListItem.uomBangla})
+                                        shoppingListItem.qty.toString(), resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!))
 
             (shoppingListItem.images ?: emptyList()).let {
                 imageListAdapter.submitList(it)

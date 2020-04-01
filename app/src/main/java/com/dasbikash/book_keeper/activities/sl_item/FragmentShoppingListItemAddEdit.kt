@@ -31,7 +31,6 @@ import com.dasbikash.android_extensions.*
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
-import com.dasbikash.async_manager.runSuspended
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -41,7 +40,6 @@ import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
-import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -67,7 +65,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
     private lateinit var shoppingListItem: ShoppingListItem
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
-    private val uoms = mutableListOf<UnitOfMeasure>()
+    private val uoms = mutableListOf<String>()
 
     private val imageListAdapter = StringListAdapter({view,text->
         runWithContext {
@@ -160,16 +158,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         })
         uom_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
             hideKeyboard()
-            uoms.find { if (checkIfEnglishLanguageSelected())
-                            {
-                                item == it.name
-                            } else {
-                                item == it.nameBangla
-                            }
-                        }!!.let{
-                            shoppingListItem.uom = it.name
-                            shoppingListItem.uomBangla = it.nameBangla
-                        }
+            shoppingListItem.uom = position
         })
         btn_cancel.setOnClickListener {
             hideKeyboard()
@@ -297,14 +286,8 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                     })
                 }
                 if (uoms.isEmpty()) {
-                    uoms.addAll(SettingsRepo.getAllUoms(it))
-                    uom_selector.setItems(uoms.map {
-                        if (checkIfEnglishLanguageSelected()) {
-                            it.name
-                        } else {
-                            it.nameBangla
-                        }
-                    })
+                    uoms.addAll(resources.getStringArray(R.array.uoms))
+                    uom_selector.setItems(uoms)
                 }
                 if (!::shoppingListItem.isInitialized) {
                     getShoppingListItemId().let {
@@ -321,7 +304,6 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                     }
                 }
                 viewModel.setShoppingListItem(shoppingListItem)
-//                refreshView()
                 hideWaitScreen()
             }
         }
@@ -357,19 +339,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         }
     }
 
-    private fun getCurrentUomIndex(): Int {
-        if (shoppingListItem.uom == null) {
-            shoppingListItem.uom = uoms.get(0).name
-            shoppingListItem.uomBangla = uoms.get(0).nameBangla
-        }
-        return uoms.map { it.name }.indexOf(shoppingListItem.uom).let {
-            if (it < 0) {
-                return@let 0
-            } else {
-                return@let it
-            }
-        }
-    }
+    private fun getCurrentUomIndex(): Int =  shoppingListItem.uom ?: 0
 
     private fun getCurrentCategoryIndex(): Int {
         if (shoppingListItem.categoryId == null) {

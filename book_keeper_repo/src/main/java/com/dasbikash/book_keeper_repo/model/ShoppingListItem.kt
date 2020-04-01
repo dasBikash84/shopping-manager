@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.firebase.firestore.Exclude
 import java.util.*
 
 @Keep
@@ -44,8 +43,7 @@ data class ShoppingListItem(
     var minUnitPrice:Double?=null,
     var maxUnitPrice:Double?=null,
     var qty:Double=1.0,
-    var uom:String?=null,
-    var uomBangla:String?=null,
+    var uom:Int?=null,
     var brandNameSuggestions:List<String>?=null,
     var images:List<String>?=null,
     var modified: Date = Date()

@@ -38,8 +38,7 @@ class ActivityLauncher : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         lifecycleScope.launch {
             delay(500L)
-            if (SettingsRepo.getAllExpenseCategories(this@ActivityLauncher).isEmpty() ||
-                    SettingsRepo.getAllUoms(this@ActivityLauncher).isEmpty()){
+            if (SettingsRepo.getAllExpenseCategories(this@ActivityLauncher).isEmpty()){
                 NetworkMonitor
                     .runWithNetwork(this@ActivityLauncher,{loadSettingsAndJump()})
                     .let {

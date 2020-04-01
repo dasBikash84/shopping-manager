@@ -29,7 +29,6 @@ import com.dasbikash.book_keeper_repo.SettingsRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseCategory
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
-import com.dasbikash.book_keeper_repo.model.UnitOfMeasure
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -54,7 +53,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
     private var viewModel: ViewModelAddExp? = null
 
     private val expenseCategories = mutableListOf<ExpenseCategory>()
-    private val uoms = mutableListOf<UnitOfMeasure>()
+    private val uoms = mutableListOf<String>()
     private val expenseItemAdapter = ExpenseItemAdapter({ expenseItemOptionsClickAction(it) })
 
     override fun onCreateView(
@@ -235,8 +234,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                 qty = et_quantity.text?.toString()?.toDouble()!!,
                 unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
                 brandName = et_brand_name.text?.toString(),
-                uom = getSelectedUom().name,
-                uomBangla = getSelectedUom().nameBangla
+                uom = getSelectedUom()
             )
         )
         et_product_name.setText("")
@@ -266,7 +264,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
-            uom_selector.selectedIndex = uoms.map { if (checkIfEnglishLanguageSelected()) {it.name} else {it.nameBangla} }.indexOf(if (checkIfEnglishLanguageSelected()) {uom} else {uomBangla})
+            uom_selector.selectedIndex = uom!!
         }
         removeExpenseItem(expenseItem)
     }
@@ -275,7 +273,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
         viewModel?.removeExpenseItem(expenseItem)
     }
 
-    private fun getSelectedUom() = uoms.get(uom_selector.selectedIndex)
+    private fun getSelectedUom() = uom_selector.selectedIndex
 
     private fun saveExpenseTask() {
         if (checkDataCorrectness()) {
@@ -355,19 +353,9 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                         })
                     })
                 }
+                uoms.addAll(resources.getStringArray(R.array.uoms))
+                uom_selector.setItems(uoms)
 
-                SettingsRepo.getAllUoms(it).apply {
-                    uoms.addAll(this.sortedBy { it.name })
-                    runOnMainThread({
-                        uom_selector.setItems(uoms.map {
-                            if (checkIfEnglishLanguageSelected()) {
-                                it.name
-                            } else {
-                                it.nameBangla
-                            }
-                        })
-                    })
-                }
                 withContext(Dispatchers.Main) {
                     getExpenseEntry()?.let {
                         expenseEntry = it

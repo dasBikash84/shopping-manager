@@ -133,7 +133,7 @@ class ShoppingListItemHolder(itemView: View,
         tv_sli_qty.text = shoppingListItem.qty.toString().let {
             if (checkIfEnglishLanguageSelected()) {it} else {TranslatorUtils.englishToBanglaNumberString(it)}
         }
-        tv_sli_uom.text = if (checkIfEnglishLanguageSelected()) {shoppingListItem.uom} else {shoppingListItem.uomBangla}
+        tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!)
         if (shoppingListItem.expenseEntryId==null){
             iv_sli_options.show()
         }else{
