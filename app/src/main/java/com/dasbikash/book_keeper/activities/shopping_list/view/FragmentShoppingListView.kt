@@ -120,6 +120,25 @@ class FragmentShoppingListView : FragmentTemplate() {
         runWithContext {
             shoppingList.apply {
                 (activity as ActivityShoppingList?)?.setTitle(title!!)
+                lifecycleScope.launch {
+                    var minExp = 0.0
+                    var maxExp = 0.0
+                    shoppingList.shoppingListItemIds?.let {
+                        it.map {
+                            ShoppingListRepo.findShoppingListItemById(context!!, it)?.let {
+                                return@let it.calculatePriceRange()
+                            }
+                        }.asSequence().forEach {
+                            it?.first?.let {
+                                minExp += it
+                            }
+                            it?.second?.let {
+                                maxExp += it
+                            }
+                        }
+                    }
+                    tv_sl_price_range.text = getString(R.string.sl_price_range,minExp,maxExp)
+                }
                 if (deadLine != null) {
                     tv_sl_deadline.text = DateUtils.getTimeString(
                         shoppingList.deadLine!!,
@@ -148,6 +167,11 @@ class FragmentShoppingListView : FragmentTemplate() {
                 lifecycleScope.launch {
                     (ShoppingListRepo.getShoppingListItems(it, this@apply) ?: emptyList()).let {
                         shoppingListItemAdapter.submitList(it)
+                        if (it.isEmpty()){
+                            holder_rv_shopping_list_items.hide()
+                        }else{
+                            holder_rv_shopping_list_items.show()
+                        }
                     }
                 }
             }
