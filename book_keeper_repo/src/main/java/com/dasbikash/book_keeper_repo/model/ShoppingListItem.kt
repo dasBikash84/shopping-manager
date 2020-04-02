@@ -46,6 +46,10 @@ data class ShoppingListItem(
         expenseEntry.expenseItems = listOf(expenseItem)
         return expenseEntry
     }
+
+    fun calculatePriceRange():Pair<Double?,Double?>{
+        return Pair(minUnitPrice?.let { it*qty },maxUnitPrice?.let { it*qty })
+    }
     companion object{
         const val MAX_PRODUCT_IMAGE_COUNT = 4
     }

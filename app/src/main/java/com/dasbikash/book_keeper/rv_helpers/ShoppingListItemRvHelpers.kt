@@ -101,16 +101,15 @@ class ShoppingListItemHolder(itemView: View,
             sli_details_holder.show()
         }
 
-        if (shoppingListItem.minUnitPrice!=null ||
-            shoppingListItem.maxUnitPrice!=null){
+        shoppingListItem.calculatePriceRange().apply {
             val priceBuilder = StringBuilder("")
-            shoppingListItem.minUnitPrice?.let {
+            first?.let {
                 priceBuilder.append(it.toString())
-                if (shoppingListItem.maxUnitPrice!=null) {
+                if (second!=null){
                     priceBuilder.append(" - ")
                 }
             }
-            shoppingListItem.maxUnitPrice?.let {
+            second?.let {
                 priceBuilder.append(it.toString())
             }
             val priceText = priceBuilder.toString()

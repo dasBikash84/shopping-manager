@@ -59,7 +59,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+                <View
+                    android:alpha="0.1"
+                    android:background="@android:color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.05dp"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_amount_title_text"
                     style="@style/exp_entry_view_title_text"
@@ -85,7 +90,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+                <View
+                    android:alpha="0.1"
+                    android:background="@android:color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.05dp"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_desc_title_text"
                     android:layout_width="wrap_content"
@@ -111,7 +121,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
+                <View
+                    android:alpha="0.1"
+                    android:background="@android:color/black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.05dp"/>
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_exp_cat_title_text"
                     android:layout_width="wrap_content"

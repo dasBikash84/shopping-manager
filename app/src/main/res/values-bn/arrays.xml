@@ -7,6 +7,8 @@
     <string-array name="uoms">
         <item>পিস</item>
         <item>প্যাকেট</item>
+        <item>জোড়া</item>
+        <item>ডজন</item>
         <item>গ্রাম</item>
         <item>কেজি</item>
         <item>টন</item>

@@ -76,7 +76,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <View
+                        android:alpha="0.1"
+                        android:background="@android:color/black"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.05dp"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sli_category_prompt"
                         style="@style/sli_preview_title_text"
@@ -103,7 +108,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <View
+                        android:alpha="0.1"
+                        android:background="@android:color/black"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.05dp"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sli_details_prompt"
                         style="@style/sli_preview_title_text"
@@ -130,13 +140,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
+                    <View
+                        android:alpha="0.1"
+                        android:background="@android:color/black"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.05dp"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sli_price_range_prompt"
                         style="@style/sli_preview_title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/price_prompt"
+                        android:text="@string/exp_range_title_text"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -150,12 +165,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/tv_sli_price_range_prompt"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/price_prompt" />
+                        tools:text="@string/exp_range_title_text" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-
+                    <View
+                        android:alpha="0.1"
+                        android:background="@android:color/black"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.05dp"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_sli_qty_prompt"
                         android:layout_width="wrap_content"

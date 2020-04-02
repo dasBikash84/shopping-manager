@@ -7,6 +7,8 @@
     <string-array name="uoms">
         <item>piece</item>
         <item>package</item>
+        <item>pair</item>
+        <item>dozen</item>
         <item>gm</item>
         <item>kg</item>
         <item>tons</item>
