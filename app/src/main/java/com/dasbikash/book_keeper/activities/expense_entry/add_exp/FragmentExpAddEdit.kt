@@ -24,9 +24,12 @@ import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.optimizedString
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
+import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -53,6 +56,8 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     private val expenseCategories = mutableListOf<String>()
     private val uoms = mutableListOf<String>()
     private val expenseItemAdapter = ExpenseItemAdapter({ expenseItemOptionsClickAction(it) })
+
+    private var shoppingListItem:ShoppingListItem?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -287,7 +292,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                                 expenseEntry!!.apply {
                                     time = mEntryTime.time
                                     categoryId = getSelectedExpenseCategory()//.id
-                                    expenseCategory = getSelectedExpenseCategory()
+//                                    expenseCategory = getSelectedExpenseCategory()
                                     categoryProposal = et_category_proposal.text?.toString()
                                     details = et_description.text?.toString()
                                     expenseItems = expenseItemAdapter.currentList
@@ -295,6 +300,10 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                                     taxVat = viewModel?.getVatTax()?.value ?: 0.0
                                     updateModified()
                                     ExpenseRepo.saveExpenseEntry(it, this)
+                                }
+                                if (shoppingListItem!=null){
+                                    shoppingListItem!!.expenseEntryId = expenseEntry!!.id
+                                    ShoppingListRepo.save(it,shoppingListItem!!)
                                 }
                                 resetView()
                             }
@@ -309,14 +318,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     }
 
     private fun resetView() {
-        runWithActivity {
-//            if (!isEditFragment()) {
-//                showShortSnack(R.string.expense_saved_message)
-//                (it as ActivityHome).loadHomeFragment()
-//            }else{
-                activity?.finish()
-//            }
-        }
+        runWithActivity {activity?.finish()}
     }
 
     override fun getExitPrompt(): String? {
@@ -364,7 +366,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                             cb_set_expense_manually.isChecked = true
                             runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
                         }
-                        it.expenseCategory?.let {
+                        it.categoryId?.let {
                             spinner_category_selector.selectedIndex = it
                         }
                         btn_cancel.show()
@@ -396,6 +398,12 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
             val id = it
             return ExpenseRepo.getExpenseEntryById(context!!,id)
         }
+        arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)?.let {
+            shoppingListItem = ShoppingListRepo.findShoppingListItemById(context!!,it)!!
+            return shoppingListItem!!.toExpenseEntry(
+                        AuthRepo.getUser(context!!)!!
+                    )
+        }
         return null
     }
 
@@ -419,6 +427,8 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
             "com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit.ARG_EXP_EDIT_MODE"
         private const val ARG_EXP_ENTRY_ID =
             "com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit.ARG_EXP_ENTRY_ID"
+        private const val ARG_SHOPPING_LIST_ITEM_ID =
+            "com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit.ARG_SHOPPING_LIST_ITEM_ID"
 
         fun getEditInstance(expenseEntryId: String): FragmentExpAddEdit {
             val fragment =
@@ -429,6 +439,17 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 ARG_EXP_EDIT_MODE
             )
             bundle.putString(ARG_EXP_ENTRY_ID,expenseEntryId)
+            fragment.arguments = bundle
+            return fragment
+        }
+
+        fun getShoppingListItemSaveInstance(shoppingListItemId:String): FragmentExpAddEdit {
+            val fragment = FragmentExpAddEdit()
+            val bundle = Bundle()
+            bundle.putString(
+                ARG_SHOPPING_LIST_ITEM_ID,
+                shoppingListItemId
+            )
             fragment.arguments = bundle
             return fragment
         }

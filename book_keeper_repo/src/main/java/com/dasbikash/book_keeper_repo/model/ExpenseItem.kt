@@ -10,6 +10,6 @@ data class ExpenseItem(
     var brandName:String?=null,
     var unitPrice:Double=0.0,
     var qty:Double=1.0,
-    var uom:Int?=null,
+    var uom:Int=0,
     var modified:Date=Date()
 ):Serializable

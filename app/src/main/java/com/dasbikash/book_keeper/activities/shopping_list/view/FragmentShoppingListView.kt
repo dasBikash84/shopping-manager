@@ -17,6 +17,7 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
@@ -60,7 +61,13 @@ class FragmentShoppingListView : FragmentTemplate() {
     }
 
     private fun closeTask(shoppingListItem: ShoppingListItem) {
-        TODO("Not yet implemented")
+        runWithContext {
+            startActivity(
+                ActivityExpenseEntry
+                    .getShoppingListItemSaveIntent(
+                        it,shoppingListItem.id)
+            )
+        }
     }
 
     private fun launchShoppingListItemDetailView(shoppingListItem: ShoppingListItem) {

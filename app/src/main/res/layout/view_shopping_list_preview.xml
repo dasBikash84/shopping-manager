@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/snow_white"
+            android:background="@android:color/white"
             android:orientation="vertical"
             android:padding="2dp">
 

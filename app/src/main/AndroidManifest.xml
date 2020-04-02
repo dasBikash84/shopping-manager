@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:targetApi="m">
+        tools:targetApi="m"
+        android:usesCleartextTraffic="true">
         <activity android:name=".activities.sl_item.ActivityShoppingListItem"/>
         <activity android:name=".activities.shopping_list.ActivityShoppingList" />
         <activity android:name=".activities.calculator.ActivityCalculator" />

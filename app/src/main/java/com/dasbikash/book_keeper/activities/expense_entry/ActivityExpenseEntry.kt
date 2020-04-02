@@ -6,6 +6,7 @@ import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAdd
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
+import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 
 class ActivityExpenseEntry : ActivityTemplate(){
 
@@ -15,10 +16,18 @@ class ActivityExpenseEntry : ActivityTemplate(){
         return if(isEditIntent()){
                     FragmentExpAddEdit.getEditInstance(getExpenseId())
                 }else if(isAddIntent()) {
-            FragmentExpAddEdit()
+                    FragmentExpAddEdit()
+                }else if(isShoppingListItemSaveIntent()) {
+                    FragmentExpAddEdit.getShoppingListItemSaveInstance(getShoppingListItemId())
                 }else {
                     FragmentViewExp.getInstance(getExpenseId())
                 }
+    }
+
+    private fun getShoppingListItemId(): String = intent.getStringExtra(EXTRA_SHOPPING_LIST_ITEM_ID)!!
+
+    private fun isShoppingListItemSaveIntent(): Boolean {
+        return intent.hasExtra(EXTRA_SHOPPING_LIST_ITEM_ID)
     }
 
     private fun isEditIntent():Boolean{
@@ -32,6 +41,7 @@ class ActivityExpenseEntry : ActivityTemplate(){
         private const val EXTRA_ADD_MODE = "com.dasbikash.exp_man.activities.view_expense.ActivityExpenseEntry.EXTRA_ADD_MODE"
         private const val EXTRA_EDIT_MODE = "com.dasbikash.exp_man.activities.view_expense.ActivityExpenseEntry.EXTRA_EDIT_MODE"
         private const val EXTRA_EXPENSE_ID = "com.dasbikash.exp_man.activities.view_expense.ActivityExpenseEntry.EXTRA_EXPENSE_ID"
+        private const val EXTRA_SHOPPING_LIST_ITEM_ID = "com.dasbikash.exp_man.activities.view_expense.ActivityExpenseEntry.EXTRA_SHOPPING_LIST_ITEM_ID"
 
         fun getViewIntent(context: Context, expenseEntry: ExpenseEntry):Intent{
             val intent = Intent(context.applicationContext,ActivityExpenseEntry::class.java)
@@ -49,6 +59,12 @@ class ActivityExpenseEntry : ActivityTemplate(){
         fun getAddIntent(context: Context):Intent{
             val intent = Intent(context.applicationContext,ActivityExpenseEntry::class.java)
             intent.putExtra(EXTRA_ADD_MODE,EXTRA_ADD_MODE)
+            return intent
+        }
+
+        fun getShoppingListItemSaveIntent(context: Context,shoppingListItemId:String):Intent{
+            val intent = Intent(context.applicationContext,ActivityExpenseEntry::class.java)
+            intent.putExtra(EXTRA_SHOPPING_LIST_ITEM_ID,shoppingListItemId)
             return intent
         }
     }

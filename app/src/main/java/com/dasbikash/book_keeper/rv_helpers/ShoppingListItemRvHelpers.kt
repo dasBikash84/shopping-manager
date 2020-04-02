@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper.rv_helpers
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,7 @@ class ShoppingListItemHolder(itemView: View,
                              val deleteTask:(ShoppingListItem)->Unit,
                              val closeTask:(ShoppingListItem)->Unit) : RecyclerView.ViewHolder(itemView) {
 
+    private val iv_tick_mark: ImageView = itemView.findViewById(R.id.iv_tick_mark)
     private val iv_sli_options: ImageView = itemView.findViewById(R.id.iv_sli_options)
     private val tv_sli_name: TextView = itemView.findViewById(R.id.tv_sli_name)
     private val tv_sli_category: TextView = itemView.findViewById(R.id.tv_sli_category)
@@ -61,6 +63,7 @@ class ShoppingListItemHolder(itemView: View,
     private val tv_sli_uom: TextView = itemView.findViewById(R.id.tv_sli_uom)
     private val sli_details_holder: ViewGroup = itemView.findViewById(R.id.sli_details_holder)
     private val sli_price_range_holder: ViewGroup = itemView.findViewById(R.id.sli_price_range_holder)
+    private val preview_holder: ViewGroup = itemView.findViewById(R.id.preview_holder)
 
     private lateinit var mShoppingListItem: ShoppingListItem
 
@@ -119,9 +122,17 @@ class ShoppingListItemHolder(itemView: View,
         tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!)
         if (shoppingListItem.expenseEntryId==null){
             iv_sli_options.show()
+            iv_tick_mark.hide()
         }else{
             iv_sli_options.hide()
+            markPurchased()
         }
+    }
+
+    private fun markPurchased() {
+        iv_tick_mark.show()
+        iv_tick_mark.bringToFront()
+        preview_holder.setBackgroundColor(Color.GREEN)
     }
 
     companion object{
