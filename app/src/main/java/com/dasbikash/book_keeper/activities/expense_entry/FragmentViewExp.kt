@@ -1,10 +1,10 @@
-package com.dasbikash.book_keeper.activities.view_expense
+package com.dasbikash.book_keeper.activities.expense_entry
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
@@ -13,7 +13,7 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -22,11 +22,10 @@ import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.menu_view.attachMenuViewForClick
 import kotlinx.android.synthetic.main.fragment_view_exp.*
 import kotlinx.coroutines.launch
 
-class FragmentViewExp : Fragment() {
+class FragmentViewExp : FragmentTemplate() {
 
     private lateinit var expenseEntry: ExpenseEntry
     private val expenseItemAdapter = ExpenseItemAdapter()
@@ -46,9 +45,8 @@ class FragmentViewExp : Fragment() {
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            expenseEntry = getExpenseEntry()!!
+            expenseEntry = getExpenseEntry()
             debugLog(expenseEntry)
-            attachOptionMenuTasks()
             refreshView()
         }
     }
@@ -78,34 +76,37 @@ class FragmentViewExp : Fragment() {
         }
     }
 
-    private suspend fun getExpenseEntry():ExpenseEntry?{
-        arguments?.getString(ARG_EXP_ENTRY_ID)?.let {
+    private suspend fun getExpenseEntry():ExpenseEntry{
+        return arguments!!.getString(ARG_EXP_ENTRY_ID)!!.let {
             val id = it
-            return ExpenseRepo.getExpenseEntryById(context!!,id)
+            return@let ExpenseRepo.getExpenseEntryById(context!!,id)!!
         }
-        return null
     }
 
-    private fun attachOptionMenuTasks(){
+    override fun getOptionsMenu(context: Context):MenuView?{
 
         val menuViewItems = listOf<MenuViewItem>(
             MenuViewItem(
-                text = getString(R.string.edit),
+                text = context.getString(R.string.edit),
                 task = { editTask() }
             ),
             MenuViewItem(
-                text = getString(R.string.delete),
+                text = context.getString(R.string.delete),
                 task = { deleteTask() }
             )
         )
         val menuView = MenuView()
         menuView.addAll(menuViewItems)
-        btn_options.attachMenuViewForClick(menuView)
+        return menuView
+    }
+
+    override fun getPageTitle(context: Context):String?{
+        return context.getString(R.string.view_expense_title)
     }
 
     private fun editTask(){
         runWithActivity {
-            it.startActivity(ActivityEditExpense.getIntent(it, expenseEntry))
+            it.startActivity(ActivityExpenseEntry.getEditIntent(it, expenseEntry))
         }
     }
 
@@ -124,12 +125,11 @@ class FragmentViewExp : Fragment() {
     }
 
     companion object {
-        private const val MISCELLANEOUS_TEXT = "Miscellaneous"
 
         private const val ARG_EXP_ENTRY_ID =
-            "com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp.ARG_EXP_ENTRY_ID"
+            "com.dasbikash.exp_man.activities.home.add_exp.FragmentViewExp.ARG_EXP_ENTRY_ID"
 
-        fun getEditInstance(expenseEntryId: String):FragmentViewExp{
+        fun getInstance(expenseEntryId: String):FragmentViewExp{
             val fragment = FragmentViewExp()
             val bundle = Bundle()
             bundle.putString(ARG_EXP_ENTRY_ID,expenseEntryId)

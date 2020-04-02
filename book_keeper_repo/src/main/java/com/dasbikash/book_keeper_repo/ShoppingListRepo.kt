@@ -99,22 +99,21 @@ object ShoppingListRepo:BookKeeperRepo() {
     }
 
     suspend fun syncData(context: Context) {
-        AuthRepo.getUser(context)?.let {
-            val lastUpdateTime =
-                getShoppingListDao(context).findAll(it.id).sortedBy { it.modified }.let {
-                    if (it.isEmpty()){
-                        return@let null
-                    }else{
-                        return@let it.last().modified
+        AuthRepo.getUser(context)?.apply {
+            getShoppingListDao(context).findAll(id).sortedBy { it.modified }.let {
+                if (it.isEmpty()){
+                    return@let null
+                }else{
+                    return@let it.last().modified
+                }
+            }.let {
+                FireStoreShoppingListService
+                    .getLatestShoppingLists(this,it)
+                    ?.asSequence()
+                    ?.forEach {
+                        saveFireBaseEntry(context,it)
                     }
-                }
-            FireStoreShoppingListService
-                .getLatestShoppingLists(it,lastUpdateTime)
-                ?.asSequence()
-                ?.forEach {
-                    saveFireBaseEntry(context,it)
-                }
-
+            }
         }
     }
 }

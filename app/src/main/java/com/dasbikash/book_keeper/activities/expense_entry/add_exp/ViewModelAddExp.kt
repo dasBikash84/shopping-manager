@@ -1,4 +1,4 @@
-package com.dasbikash.book_keeper.activities.home.add_exp
+package com.dasbikash.book_keeper.activities.expense_entry.add_exp
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

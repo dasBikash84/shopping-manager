@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper.activities.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -9,7 +8,7 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.home.add_exp.FragmentAddExp
+import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
@@ -34,7 +33,7 @@ class ActivityHome : ActivityTemplate() {
         bottom_Navigation_View.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.bmi_add -> {
-                    loadFragmentIfNotLoadedAlready(FragmentAddExp::class.java)
+                    loadFragmentIfNotLoadedAlready(FragmentExpAddEdit::class.java)
                     true
                 }
                 R.id.bmi_summary -> {
@@ -123,6 +122,6 @@ class ActivityHome : ActivityTemplate() {
     }
 
     override fun registerDefaultFragment(): FragmentTemplate {
-        return FragmentAddExp()
+        return FragmentExpAddEdit()
     }
 }

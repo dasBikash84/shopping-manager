@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.vp_pr
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_view.*
 import kotlinx.coroutines.launch
 
-class FragmentShoppingListItemView private constructor():FragmentTemplate() {
+class FragmentShoppingListItemView:FragmentTemplate() {
 
     private lateinit var viewModel:ViewModelShoppingListItem
     private lateinit var shoppingListItem:ShoppingListItem

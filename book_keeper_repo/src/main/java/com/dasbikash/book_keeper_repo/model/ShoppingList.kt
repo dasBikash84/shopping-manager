@@ -55,9 +55,9 @@ data class ShoppingList(
 
     fun validateCountDownTime():Boolean{
         return if (countDownTime!=null){
-            return countDownTime!! > MINIMUM_COUNT_DOWN_DELAY
+            countDownTime!! > MINIMUM_COUNT_DOWN_DELAY
         }else{
-            return true
+            true
         }
     }
     override fun toString(): String {

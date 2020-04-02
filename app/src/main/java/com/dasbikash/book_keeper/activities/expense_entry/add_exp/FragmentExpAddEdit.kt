@@ -1,4 +1,4 @@
-package com.dasbikash.book_keeper.activities.home.add_exp
+package com.dasbikash.book_keeper.activities.expense_entry.add_exp
 
 import android.content.Context
 import android.content.Intent
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
+class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
 
     private val TIME_REFRESH_INTERVAL = 1000L
     private val mEntryTime = Calendar.getInstance()
@@ -166,7 +166,7 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
         viewModel?.getExpenseCategory()?.observe(this, object : Observer<Int> {
             override fun onChanged(expenseCategory: Int?) {
                 expenseCategory?.let {
-                    if (expenseCategories.get(it).contains(MISCELLANEOUS_TEXT, true) ?: false) {
+                    if (expenseCategories.get(it).contains(MISCELLANEOUS_TEXT, true)) {
                         et_category_proposal_holder.show()
                     } else {
                         et_category_proposal.setText("")
@@ -198,7 +198,7 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
             saveExpenseTask()
         }
 
-        cb_set_expense_manually.setOnCheckedChangeListener({ buttonView, isChecked ->
+        cb_set_expense_manually.setOnCheckedChangeListener({ _, isChecked ->
             et_total_expense.isEnabled = isChecked
         })
 
@@ -284,7 +284,7 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
                                 if (expenseEntry == null){
                                     expenseEntry = ExpenseEntry()
                                 }
-                                expenseEntry?.apply {
+                                expenseEntry!!.apply {
                                     time = mEntryTime.time
                                     categoryId = getSelectedExpenseCategory()//.id
                                     expenseCategory = getSelectedExpenseCategory()
@@ -294,9 +294,7 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
                                     totalExpense = et_total_expense.text?.toString()?.toDouble()
                                     taxVat = viewModel?.getVatTax()?.value ?: 0.0
                                     updateModified()
-                                }?.apply {
                                     ExpenseRepo.saveExpenseEntry(it, this)
-                                    showShortSnack(R.string.expense_saved_message)
                                 }
                                 resetView()
                             }
@@ -313,11 +311,16 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
     private fun resetView() {
         runWithActivity {
             if (!isEditFragment()) {
+                showShortSnack(R.string.expense_saved_message)
                 (it as ActivityHome).loadHomeFragment()
             }else{
                 activity?.finish()
             }
         }
+    }
+
+    override fun getExitPrompt(): String? {
+        return getString(R.string.discard_and_exit_prompt)
     }
 
     private fun checkDataCorrectness(): Boolean {
@@ -385,11 +388,11 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
     }
 
     private fun isEditFragment():Boolean{
-        return arguments?.getString(EXTRA_EXP_EDIT_MODE) !=null
+        return arguments?.getString(ARG_EXP_EDIT_MODE) !=null
     }
 
     private suspend fun getExpenseEntry():ExpenseEntry?{
-        arguments?.getString(EXTRA_EXP_ENTRY_ID)?.let {
+        arguments?.getString(ARG_EXP_ENTRY_ID)?.let {
             val id = it
             return ExpenseRepo.getExpenseEntryById(context!!,id)
         }
@@ -412,16 +415,20 @@ class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
     companion object {
         private const val MISCELLANEOUS_TEXT = "Miscellaneous"
 
-        private const val EXTRA_EXP_EDIT_MODE =
-            "com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp.EXTRA_EXP_EDIT_MODE"
-        private const val EXTRA_EXP_ENTRY_ID =
-            "com.dasbikash.exp_man.activities.home.add_exp.FragmentAddExp.EXTRA_EXP_ENTRY_ID"
+        private const val ARG_EXP_EDIT_MODE =
+            "com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit.ARG_EXP_EDIT_MODE"
+        private const val ARG_EXP_ENTRY_ID =
+            "com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit.ARG_EXP_ENTRY_ID"
 
-        fun getEditInstance(expenseEntryId: String):FragmentAddExp{
-            val fragment = FragmentAddExp()
+        fun getEditInstance(expenseEntryId: String): FragmentExpAddEdit {
+            val fragment =
+                FragmentExpAddEdit()
             val bundle = Bundle()
-            bundle.putString(EXTRA_EXP_EDIT_MODE,EXTRA_EXP_EDIT_MODE)
-            bundle.putString(EXTRA_EXP_ENTRY_ID,expenseEntryId)
+            bundle.putString(
+                ARG_EXP_EDIT_MODE,
+                ARG_EXP_EDIT_MODE
+            )
+            bundle.putString(ARG_EXP_ENTRY_ID,expenseEntryId)
             fragment.arguments = bundle
             return fragment
         }

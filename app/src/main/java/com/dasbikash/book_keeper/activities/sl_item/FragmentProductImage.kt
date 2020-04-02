@@ -19,7 +19,7 @@ import com.dasbikash.book_keeper_repo.ImageRepo
 import kotlinx.android.synthetic.main.fragment_product_image_full.*
 import kotlinx.coroutines.launch
 
-class FragmentProductImage private constructor(): Fragment() {
+class FragmentProductImage: Fragment() {
 
     private lateinit var viewModel:ViewModelShoppingListItem
 

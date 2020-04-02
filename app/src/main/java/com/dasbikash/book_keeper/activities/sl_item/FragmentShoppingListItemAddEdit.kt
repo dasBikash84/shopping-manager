@@ -54,7 +54,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class FragmentShoppingListItemAddEdit private constructor() : FragmentTemplate(),
+class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     WaitScreenOwner {
     private lateinit var viewModel:ViewModelShoppingListItem
     override fun registerWaitScreen(): ViewGroup = wait_screen
@@ -144,11 +144,11 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentTemplate()
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-        sli_category_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
+        sli_category_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { _, position, _, _ ->
             hideKeyboard()
             shoppingListItem.categoryId = position
         })
-        uom_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
+        uom_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { _, position, _, _ ->
             hideKeyboard()
             shoppingListItem.uom = position
         })

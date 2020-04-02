@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="4dp"
-    tools:context=".activities.home.add_exp.FragmentAddExp">
+    tools:context=".activities.expense_entry.add_exp.FragmentExpAddEdit">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

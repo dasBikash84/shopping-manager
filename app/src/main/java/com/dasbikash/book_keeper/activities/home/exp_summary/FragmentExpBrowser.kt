@@ -20,9 +20,8 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
-import com.dasbikash.book_keeper.activities.view_expense.ActivityViewExpense
+import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
 import com.dasbikash.book_keeper_repo.ExpenseRepo
@@ -50,7 +49,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
 
     private fun editTask(expenseEntry: ExpenseEntry){
         runWithContext {
-            activity?.startActivity(ActivityEditExpense.getIntent(it,expenseEntry))
+            activity?.startActivity(ActivityExpenseEntry.getEditIntent(it,expenseEntry))
         }
     }
     private fun deleteTask(expenseEntry: ExpenseEntry){
@@ -68,7 +67,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
     private fun launchDetailView(expenseEntry: ExpenseEntry){
         debugLog("launchDetailView: $expenseEntry")
         runWithActivity {
-            startActivity(ActivityViewExpense.getIntent(it,expenseEntry))
+            startActivity(ActivityExpenseEntry.getViewIntent(it,expenseEntry))
         }
     }
 

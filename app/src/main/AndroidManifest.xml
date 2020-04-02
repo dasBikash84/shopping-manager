@@ -26,8 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.edit_expense.ActivityEditExpense" />
-        <activity android:name=".activities.view_expense.ActivityViewExpense" />
+        <activity android:name=".activities.expense_entry.ActivityExpenseEntry" />
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
