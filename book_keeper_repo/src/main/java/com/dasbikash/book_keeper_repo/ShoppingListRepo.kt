@@ -2,6 +2,7 @@ package com.dasbikash.book_keeper_repo
 
 import android.content.Context
 import androidx.lifecycle.LiveData
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
@@ -89,7 +90,9 @@ object ShoppingListRepo:BookKeeperRepo() {
     }
 
     suspend fun delete(context: Context,shoppingList: ShoppingList) {
-        FireStoreShoppingListService.deleteShoppingList(shoppingList)
+        shoppingList.active =false
+        shoppingList.updateModified()
+        saveToFireBase(context, shoppingList)
         shoppingList.shoppingListItemIds?.asSequence()?.forEach {
             getShoppingListItemDao(context).findById(it)?.let {
                 getShoppingListItemDao(context).delete(it)

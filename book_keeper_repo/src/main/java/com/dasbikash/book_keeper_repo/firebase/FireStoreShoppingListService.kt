@@ -19,11 +19,6 @@ internal object FireStoreShoppingListService {
     fun saveShoppingList(shoppingList: ShoppingList) =
         FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingList.id).set(shoppingList)
 
-    fun deleteShoppingList(shoppingList: ShoppingList) {
-        shoppingList.active = false
-        saveShoppingList(shoppingList)
-    }
-
     suspend fun getLatestShoppingLists(user: User, lastUpdated: Date?=null):List<ShoppingList>?{
         debugLog("user:$user")
         debugLog("lastUpdated:$lastUpdated")
