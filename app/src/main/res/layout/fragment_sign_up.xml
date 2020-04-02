@@ -9,16 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/page_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="28sp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingStart="4dp"
-            android:background="@color/snow_white3"/>
-
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -32,13 +22,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@+id/signup_heading">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/signup_heading"
-                    style="@style/sign_up_heading_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/signup_textview"/>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_holder"

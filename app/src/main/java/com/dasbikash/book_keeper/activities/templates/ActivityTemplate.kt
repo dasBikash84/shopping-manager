@@ -45,6 +45,14 @@ abstract class ActivityTemplate: SingleFragmentSuperActivity(),WaitScreenOwner {
         hideWaitScreen()
     }
 
+    override fun getFragmentFromBackStack(): Fragment? {
+        val fragment = super.getFragmentFromBackStack()
+        (fragment as FragmentTemplate?)?.let {
+            processTitle(it)
+        }
+        return fragment
+    }
+
     override fun getLayoutID(): Int = R.layout.activity_template
     override fun getLoneFrameId(): Int = R.id.lone_frame
     override fun registerWaitScreen(): ViewGroup = wait_screen

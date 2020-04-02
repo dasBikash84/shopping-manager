@@ -19,7 +19,7 @@
     </style>
 
     <style name="sign_up_heading_style">
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">@color/color_navy_blue</item>
     </style>

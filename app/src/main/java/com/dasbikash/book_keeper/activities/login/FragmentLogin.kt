@@ -21,6 +21,7 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
@@ -32,7 +33,9 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.launch
 
 
-class FragmentLogin : Fragment(),WaitScreenOwner {
+class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
+
+    override fun hidePageTitle(): Boolean = true
 
     private val stringListAdapter = StringListAdapter({view,text->
         (view as TextView).text = text.trim()
@@ -172,15 +175,8 @@ class FragmentLogin : Fragment(),WaitScreenOwner {
     }
 
     private fun launchSignUp() {
-        runWithContext {
-            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                message = it.getString(R.string.load_sign_up_prompt),
-                doOnPositivePress = {
-                    runWithActivity {
-                        (it as ActivityLogin).addFragment(FragmentSignUp())
-                    }
-                }
-            ))
+        runWithActivity {
+            (it as ActivityLogin).addFragment(FragmentSignUp())
         }
     }
 

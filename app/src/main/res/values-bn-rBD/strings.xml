@@ -174,4 +174,5 @@
     <string name="sl_count_down_prompt">সর্বশেষ সময়সীমার</string>
     <string name="reminder_hint"><![CDATA[>১৫]]></string>
     <string name="sl_reminder_interval_prompt">রিমাইন্ডারের ব্যবধান:</string>
+    <string name="signup_heading">নতুন অ্যাকাউন্ট খুলুন</string>
 </resources>

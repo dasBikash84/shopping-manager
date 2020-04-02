@@ -4,16 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/page_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textSize="28sp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingStart="4dp"
-        android:background="@color/snow_white3"/>
-
     <com.google.android.material.textfield.TextInputLayout
         android:layout_marginTop="8dp"
         app:layout_goneMarginStart="16dp"

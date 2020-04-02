@@ -211,4 +211,6 @@
     <string name="image_url_prompt">Image url</string>
     <string name="image_url_dialog_message">Please input valid image url and press ok.</string>
     <string name="blank_url_message">Blank image url!!</string>
+    <string name="phone_code_verify_fragment_exit_prompt">Exit without verifying code?</string>
+    <string name="signup_heading">Sign Up</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.login
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -21,7 +23,7 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FragmentSignUp : Fragment(),WaitScreenOwner {
+class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,20 +32,19 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
     }
 
+    override fun getExitPrompt(): String? = mExitPrompt
+
+    private var mExitPrompt:String?=null
+
+    override fun getPageTitle(context: Context): String? {
+        return getString(R.string.signup_heading)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_back_to_login.setOnClickListener {
-            runWithContext {
-                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                    it.getString(R.string.quit_sign_up_prompt),
-                    positiveButtonText = it.getString(R.string.yes),
-                    negetiveButtonText = it.getString(R.string.no),
-                    doOnPositivePress = {
-                        runWithActivity {
-                            (it as ActivityLogin).onBackPressed()
-                        }
-                    }
-                ))
+            runWithActivity {
+                (it as ActivityLogin).onBackPressed()
             }
         }
 
@@ -51,6 +52,8 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
             hideKeyboard()
             runWithContext { NetworkMonitor.runWithNetwork(it) {signUpClickAction()}}
         }
+
+        mExitPrompt = getString(R.string.quit_sign_up_prompt)
     }
 
     private fun signUpClickAction() {
@@ -102,6 +105,7 @@ class FragmentSignUp : Fragment(),WaitScreenOwner {
                         .createUserWithEmailAndPassword(email, password,firstName, lastName, mobile)
                     showShortSnack(R.string.sign_up_success_mesage)
                     delay(2000)
+                    mExitPrompt = null
                     runWithActivity {
                         (it as ActivityLogin).onBackPressed()
                     }

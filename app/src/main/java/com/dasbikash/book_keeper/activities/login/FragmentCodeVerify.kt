@@ -15,6 +15,7 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_code_verify.*
@@ -22,13 +23,17 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FragmentCodeVerify : Fragment(),WaitScreenOwner {
+class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_code_verify, container, false)
+    }
+
+    override fun getExitPrompt(): String? {
+        return getString(R.string.phone_code_verify_fragment_exit_prompt)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
