@@ -21,9 +21,9 @@
         android:visible="false"
         app:showAsAction="always" />
     <item
-        android:id="@+id/bmi_summary"
-        android:icon="@drawable/ic_summary"
-        android:title="@string/bmi_browse"
+        android:id="@+id/bmi_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/bmi_home"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bmi_budget"

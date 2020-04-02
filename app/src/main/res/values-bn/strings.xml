@@ -13,7 +13,7 @@
     <string name="last_name_hint">পদবী (ঐচ্ছিক)</string>
     <string name="phone_no_hint">মোবাইল নম্বর (ঐচ্ছিক)</string>
     <string name="bmi_add">খরচ যোগ</string>
-    <string name="bmi_browse">সকল খরচ</string>
+    <string name="bmi_home">সকল খরচ</string>
     <string name="bmi_budget">বাজেট</string>
     <string name="bmi_shopping_list">ফর্দ</string>
     <string name="shopping_list_title">বাজারের ফর্দ</string>

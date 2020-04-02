@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper.activities.home
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -37,7 +38,7 @@ class ActivityHome : ActivityTemplate() {
                     loadFragmentIfNotLoadedAlready(FragmentExpAddEdit::class.java)
                     true
                 }
-                R.id.bmi_summary -> {
+                R.id.bmi_home -> {
                     loadFragmentIfNotLoadedAlready(FragmentExpBrowser::class.java)
                     true
                 }
@@ -126,6 +127,7 @@ class ActivityHome : ActivityTemplate() {
     }
 
     override fun registerDefaultFragment(): FragmentTemplate {
+        bottom_Navigation_View.selectedItemId = R.id.bmi_home
         return FragmentExpBrowser()
     }
 }
