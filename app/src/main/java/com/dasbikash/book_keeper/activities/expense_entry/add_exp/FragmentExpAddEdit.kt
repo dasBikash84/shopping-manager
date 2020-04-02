@@ -310,12 +310,12 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
 
     private fun resetView() {
         runWithActivity {
-            if (!isEditFragment()) {
-                showShortSnack(R.string.expense_saved_message)
-                (it as ActivityHome).loadHomeFragment()
-            }else{
+//            if (!isEditFragment()) {
+//                showShortSnack(R.string.expense_saved_message)
+//                (it as ActivityHome).loadHomeFragment()
+//            }else{
                 activity?.finish()
-            }
+//            }
         }
     }
 

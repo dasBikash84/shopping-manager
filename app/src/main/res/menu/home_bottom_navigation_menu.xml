@@ -18,6 +18,7 @@
         android:id="@+id/bmi_add"
         android:icon="@drawable/ic_add"
         android:title="@string/bmi_add"
+        android:visible="false"
         app:showAsAction="always" />
     <item
         android:id="@+id/bmi_summary"

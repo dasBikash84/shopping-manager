@@ -8,6 +8,7 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
@@ -58,6 +59,9 @@ class ActivityHome : ActivityTemplate() {
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
 
         syncAppData()
+        btn_add_exp_entry.setOnClickListener {
+            startActivity(ActivityExpenseEntry.getAddIntent(this))
+        }
     }
 
     private fun dataSyncTask(){
@@ -122,6 +126,6 @@ class ActivityHome : ActivityTemplate() {
     }
 
     override fun registerDefaultFragment(): FragmentTemplate {
-        return FragmentExpAddEdit()
+        return FragmentExpBrowser()
     }
 }
