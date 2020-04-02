@@ -15,25 +15,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/bmi_add"
-        android:icon="@drawable/ic_add"
-        android:title="@string/bmi_add"
-        android:visible="false"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/bmi_home"
         android:icon="@drawable/ic_home"
         android:title="@string/bmi_home"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/bmi_budget"
-        android:icon="@drawable/ic_budget"
-        android:title="@string/bmi_budget"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/bmi_shopping_list"
         android:icon="@drawable/ic_shopping_list"
         android:title="@string/bmi_shopping_list"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/bmi_budget"
+        android:icon="@drawable/ic_budget"
+        android:title="@string/bmi_budget"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bmi_more"

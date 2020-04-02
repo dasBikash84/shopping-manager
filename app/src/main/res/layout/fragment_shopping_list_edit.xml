@@ -79,6 +79,14 @@
             </HorizontalScrollView>
 
             <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cb_disable_deadline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/disable_deadline"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_set_sl_remainder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,11 +122,12 @@
 
                         <EditText
                             android:id="@+id/et_sl_count_down"
-                            android:layout_width="80dp"
+                            android:layout_width="60dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
                             android:hint="@string/reminder_hint"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:lines="1"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:layout_width="wrap_content"

@@ -34,10 +34,6 @@ class ActivityHome : ActivityTemplate() {
         super.onResume()
         bottom_Navigation_View.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.bmi_add -> {
-                    loadFragmentIfNotLoadedAlready(FragmentExpAddEdit::class.java)
-                    true
-                }
                 R.id.bmi_home -> {
                     loadFragmentIfNotLoadedAlready(FragmentExpBrowser::class.java)
                     true

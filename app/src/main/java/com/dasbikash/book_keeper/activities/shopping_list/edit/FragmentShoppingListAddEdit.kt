@@ -115,20 +115,44 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                 hideKeyboard()
                 when (isChecked) {
-                    true -> sl_remainder_set_block.show()
-                    false -> {
-                        runWithContext {
-                            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                                message = it.getString(R.string.disable_sl_reminder_prompt),
-                                doOnPositivePress = {
-                                    shoppingList.setReminderInterval(null)
-                                    shoppingList.setCountDownTime(null)
-                                    sl_remainder_set_block.hide()
-                                },
-                                doOnNegetivePress = { cb_set_sl_remainder.isChecked = true }
-                            ))
+                    true -> {
+                        if (shoppingList.deadLine!=null) {
+                            sl_remainder_set_block.show()
+                        }else{
+                            cb_set_sl_remainder.isChecked = false
+                            showShortSnack(R.string.deadline_first_message)
                         }
                     }
+                    false -> {
+                        if (shoppingList.deadLine!=null) {
+                            runWithContext {
+                                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                                    message = it.getString(R.string.disable_sl_reminder_prompt),
+                                    doOnPositivePress = {
+                                        disableReminder()
+                                    },
+                                    doOnNegetivePress = { cb_set_sl_remainder.isChecked = true }
+                                ))
+                            }
+                        }
+                    }
+                }
+            }
+        })
+
+        cb_disable_deadline.setOnCheckedChangeListener({ buttonView, isChecked ->
+            if (isChecked){
+                runWithContext {
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.disable_deadline_prompt),
+                        positiveButtonText = it.getString(R.string.yes),
+                        doOnPositivePress = {
+                            disableDeadline()
+                        },
+                        doOnNegetivePress = {
+                            cb_disable_deadline.isChecked = false
+                        }
+                    ))
                 }
             }
         })
@@ -178,6 +202,19 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         }
 
         cb_set_sl_remainder.isChecked = false
+        sl_remainder_set_block.hide()
+    }
+
+    private fun disableDeadline() {
+        shoppingList.deadLine = null
+        disableReminder()
+        cb_set_sl_remainder.isChecked = false
+        refreshView()
+    }
+
+    private fun disableReminder() {
+        shoppingList.setReminderInterval(null)
+        shoppingList.setCountDownTime(null)
         sl_remainder_set_block.hide()
     }
 
@@ -249,25 +286,34 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
     private fun refreshView() {
         debugLog(shoppingList)
         et_shopping_list_name.setText(shoppingList.title)
-        shoppingList.deadLine?.let {
-            DateUtils.getTimeString(it, getString(R.string.exp_entry_time_format)).let {
+        if (shoppingList.deadLine == null){
+            tv_sl_deadline.text = getString(R.string.click_to_set_prompt)
+            cb_disable_deadline.hide()
+            cb_set_sl_remainder.hide()
+        }else{
+            cb_disable_deadline.isChecked = false
+            cb_disable_deadline.show()
+            cb_set_sl_remainder.show()
+
+            DateUtils.getTimeString(shoppingList.deadLine!!, getString(R.string.exp_entry_time_format)).let {
                 tv_sl_deadline.text = if (checkIfEnglishLanguageSelected()) {
                     it
                 } else {
                     TranslatorUtils.englishToBanglaDateString(it)
                 }
             }
-        }
-        if (shoppingList.getCountDownTime() != null) {
-            et_sl_count_down.setText((shoppingList.getCountDownTime()!! / DateUtils.MINUTE_IN_MS).toString().apply { debugLog(this) })
-            ShoppingList.Companion.ReminderInterval.values()
-                .find { shoppingList.getReminderInterval() == it.intervalMs }?.let {
-                    spinner_reminder_interval_selector.selectedIndex =
-                        ShoppingList.Companion.ReminderInterval.values().indexOf(it)
-                }
-            cb_set_sl_remainder.isChecked = true
-        } else {
-            cb_set_sl_remainder.isChecked = false
+
+            if (shoppingList.getCountDownTime() != null) {
+                et_sl_count_down.setText((shoppingList.getCountDownTime()!! / DateUtils.MINUTE_IN_MS).toString().apply { debugLog(this) })
+                ShoppingList.Companion.ReminderInterval.values()
+                    .find { shoppingList.getReminderInterval() == it.intervalMs }?.let {
+                        spinner_reminder_interval_selector.selectedIndex =
+                            ShoppingList.Companion.ReminderInterval.values().indexOf(it)
+                    }
+                cb_set_sl_remainder.isChecked = true
+            } else {
+                cb_set_sl_remainder.isChecked = false
+            }
         }
     }
 

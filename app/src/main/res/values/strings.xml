@@ -213,4 +213,7 @@
     <string name="blank_url_message">Blank image url!!</string>
     <string name="phone_code_verify_fragment_exit_prompt">Exit without verifying code?</string>
     <string name="signup_heading">Sign Up</string>
+    <string name="deadline_first_message">Please set deadline first!!</string>
+    <string name="disable_deadline">Disable deadline</string>
+    <string name="disable_deadline_prompt">Disable deadline?</string>
 </resources>

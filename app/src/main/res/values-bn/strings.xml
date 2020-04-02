@@ -148,15 +148,15 @@
     <string name="enable_shopping_remainder">রিমাইন্ডার চালু করুন</string>
     <string name="click_to_set_prompt">ক্লিক করে সেট করুন</string>
     <string name="edit_title">%1$s | এডিট</string>
-    <string name="hours_text">মিনিট পূর্বে রিমাইন্ডার  চালু হবে।</string>
+    <string name="hours_text">মিনিট পূর্বে</string>
     <string name="disable_sl_reminder_prompt">রিমাইন্ডার বন্ধ করবেন?</string>
     <string name="invalid_deadline_message">ভুল সময়সীমা!!</string>
     <string name="save_shopping_list_prompt">বাজারের ফর্দ সেভ করবেন?</string>
     <string name="shopping_list_name_error">ফর্দের নাম  ফাঁকা হতে পারবে না!!</string>
     <string name="sl_count_down_error">সর্বশেষ সময়সীমা  ১৫ মিনিটের কম হতে পারবে না।</string>
     <string name="add_shopping_item">পণ্য যোগ করুন</string>
-    <string name="sl_count_down">রিমাইন্ডার সর্বশেষ সময়সীমার %1$d  মিনিট পূর্বে চালু হবে।</string>
-    <string name="sl_remind_interval">রিমাইন্ডার  দেখানো হবেঃ %1$s</string>
+    <string name="sl_count_down">রিমাইন্ডার চালু হবে: %1$d মিনিট পূর্বে</string>
+    <string name="sl_remind_interval">রিমাইন্ডারের ব্যবধান: %1$s</string>
     <string name="sli_name_hint">পণ্যের নাম*</string>
     <string name="sli_details_hint">পণ্যের বিবরণ</string>
     <string name="sli_min_price_hint">সর্বনিম্ন একক মূল্য</string>
@@ -171,7 +171,7 @@
     <string name="remove_brand_sug_prompt">%1$s কে সম্ভাব্য কোম্পানির নাম থেকে বাদ দিবেন?</string>
     <string name="external_storage_permission_rational">গ্যালারি থেকে ছবি আনার জন্য আপনার  অনুমতি প্রয়োজন। আপনি কি অনুমতি দিতে চান?</string>
     <string name="open_settings_prompt_for_esp">গ্যালারি থেকে ছবি আনার জন্য আপনার  অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিং ওপেন করতে চান?</string>
-    <string name="sl_count_down_prompt">সর্বশেষ সময়সীমার</string>
+    <string name="sl_count_down_prompt">রিমাইন্ডার চালু হবে:</string>
     <string name="reminder_hint"><![CDATA[>১৫]]></string>
     <string name="sl_reminder_interval_prompt">রিমাইন্ডারের ব্যবধান:</string>
     <string name="signup_heading">নতুন অ্যাকাউন্ট খুলুন</string>
