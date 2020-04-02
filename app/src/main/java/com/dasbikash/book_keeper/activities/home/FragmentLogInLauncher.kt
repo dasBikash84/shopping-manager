@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +11,10 @@ import com.dasbikash.android_extensions.startActivity
 
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import kotlinx.android.synthetic.main.fragment_login_launcher.*
 
-class FragmentLogInLauncher : FragmentHome() {
+class FragmentLogInLauncher : FragmentTemplate() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,5 +39,5 @@ class FragmentLogInLauncher : FragmentHome() {
         }
     }
 
-    override fun getPageTitleId() = R.string.app_name
+    override fun getPageTitle(context: Context):String? = context.getString(R.string.app_name)
 }

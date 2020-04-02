@@ -19,7 +19,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.home.ActivityHome
-import com.dasbikash.book_keeper.activities.home.FragmentHome
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class FragmentAddExp : FragmentHome(), WaitScreenOwner {
+class FragmentAddExp : FragmentTemplate(), WaitScreenOwner {
 
     private val TIME_REFRESH_INTERVAL = 1000L
     private val mEntryTime = Calendar.getInstance()
@@ -362,7 +362,7 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
                             runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
                         }
                         it.expenseCategory?.let {
-                            spinner_category_selector.selectedIndex = it//expenseCategories.indexOf(it).let { if (it==-1) {0} else {it} }
+                            spinner_category_selector.selectedIndex = it
                         }
                         btn_cancel.show()
                         btn_cancel.setOnClickListener {
@@ -377,10 +377,10 @@ class FragmentAddExp : FragmentHome(), WaitScreenOwner {
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
-    override fun getPageTitleId():Int{
+    override fun getPageTitle(context: Context):String?{
         return when(isEditFragment()){
-            true -> R.string.edit_expense_title
-            false -> R.string.add_expense_title
+            true -> context.getString(R.string.edit_expense_title)
+            false -> context.getString(R.string.add_expense_title)
         }
     }
 

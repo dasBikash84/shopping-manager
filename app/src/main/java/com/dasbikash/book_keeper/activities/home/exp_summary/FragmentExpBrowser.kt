@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home.exp_summary
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,7 +21,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.edit_expense.ActivityEditExpense
-import com.dasbikash.book_keeper.activities.home.FragmentHome
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.activities.view_expense.ActivityViewExpense
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
@@ -35,7 +36,7 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FragmentExpBrowser : FragmentHome(),WaitScreenOwner {
+class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
 
     private lateinit var viewModel: ViewModelExpBrowser
 
@@ -278,5 +279,5 @@ class FragmentExpBrowser : FragmentHome(),WaitScreenOwner {
         }
     }
     override fun registerWaitScreen(): ViewGroup = wait_screen
-    override fun getPageTitleId() = R.string.exp_browse_page_title
+    override fun getPageTitle(context: Context):String? = context.getString(R.string.exp_browse_page_title)
 }

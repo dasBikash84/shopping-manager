@@ -1,43 +1,33 @@
 package com.dasbikash.book_keeper.activities.home
 
 import android.os.Bundle
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.show
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_network_monitor.NetworkStateListener
-import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.add_exp.FragmentAddExp
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
+import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.snackbar_ext.showShortSnack
-import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
+class ActivityHome : ActivityTemplate() {
 
     private var dataSynced = OnceSettableBoolean()
 
-    override fun getDefaultFragment(): Fragment = generateDefaultFragment()
-
     override fun getLayoutID(): Int = R.layout.activity_home
-
     override fun getLoneFrameId(): Int = R.id.home_frame
-
-    override fun registerWaitScreen(): ViewGroup = wait_screen
 
     override fun onResume() {
         super.onResume()
@@ -114,51 +104,25 @@ class ActivityHome : SingleFragmentSuperActivity(),WaitScreenOwner {
         page_title.text = getString(R.string.add_expense_title)
     }
 
-    private fun <T:Fragment> loadFragmentIfLoggedIn(type:Class<T>){
+    private fun <T:FragmentTemplate> loadFragmentIfLoggedIn(type:Class<T>){
         if (AuthRepo.checkLogIn()){
             loadFragmentIfNotLoadedAlready(type)
         }else{
-            val fragment = FragmentLogInLauncher()
-            showHideOptionsMenu(fragment)
-            addFragmentClearingBackStack(fragment){page_title.text = getString((fragment as FragmentHome).getPageTitleId())}
+            addFragmentClearingBackStack(FragmentLogInLauncher())
         }
     }
 
-    private fun <T:Fragment> loadFragmentIfNotLoadedAlready(type:Class<T>){
-        showWaitScreen()
+    private fun <T:FragmentTemplate> loadFragmentIfNotLoadedAlready(type:Class<T>){
         if (getCurrentFragmentType() != type) {
-            val fragment = type.newInstance()
-            showHideOptionsMenu(fragment)
-            addFragmentClearingBackStack(fragment){
-                page_title.text = getString((fragment as FragmentHome).getPageTitleId())
-                hideWaitScreen()
-            }
+            addFragmentClearingBackStack(type.newInstance())
         }
     }
 
     fun loadHomeFragment(){
-        showWaitScreen()
-        val fragment = getDefaultFragment()
-        showHideOptionsMenu(fragment)
-        addFragmentClearingBackStack(fragment){
-            page_title.text = getString((fragment as FragmentHome).getPageTitleId())
-            hideWaitScreen()
-        }
+        addFragmentClearingBackStack(getDefaultFragment())
     }
 
-    private fun generateDefaultFragment():Fragment{
-        val fragment = FragmentAddExp()
-        showHideOptionsMenu(fragment)
-        return fragment
-    }
-
-    private fun showHideOptionsMenu(fragment: Fragment){
-        if (fragment is FragmentHome &&
-            fragment.getOptionsMenu(this)!=null){
-            btn_options.show()
-            btn_options.attachMenuViewForClick(fragment.getOptionsMenu(this)!!)
-        }else{
-            btn_options.hide()
-        }
+    override fun registerDefaultFragment(): FragmentTemplate {
+        return FragmentAddExp()
     }
 }

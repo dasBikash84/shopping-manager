@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +13,12 @@ import com.dasbikash.android_extensions.*
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import kotlinx.android.synthetic.main.fragment_more.*
 import kotlinx.coroutines.launch
 
-class FragmentMore : FragmentHome() {
+class FragmentMore : FragmentTemplate() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,5 +81,5 @@ class FragmentMore : FragmentHome() {
         }
     }
 
-    override fun getPageTitleId() = R.string.app_name
+    override fun getPageTitle(context: Context):String? = context.getString(R.string.app_name)
 }

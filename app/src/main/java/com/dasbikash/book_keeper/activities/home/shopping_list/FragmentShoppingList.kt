@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home.shopping_list
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.home.FragmentHome
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 
 // User may also share shopping list with connected users/ by QR code.
 
-class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
+class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelShoppingList
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
@@ -64,5 +65,5 @@ class FragmentShoppingList : FragmentHome(),WaitScreenOwner {
             startActivity(ActivityShoppingList.getCreateIntent(it))
         }
     }
-    override fun getPageTitleId() = R.string.shopping_list_title
+    override fun getPageTitle(context: Context):String? = context.getString(R.string.shopping_list_title)
 }
