@@ -155,7 +155,7 @@
     <string name="vat_ait_view_txt">Tax/VAT(%):</string>
     <string name="invalid_first_name">First name is required!</string>
     <string name="date_title_format">EEE dd MMM yyyy</string>
-    <string name="add_shopping_list">Add New List</string>
+    <string name="add_shopping_list">Add New Shopping List</string>
     <string name="exp_range_title_text">Expense Range:</string>
     <string name="sl_item_count_title_text">Item count:</string>
     <string name="sl_deadline_title_text">Deadline:</string>
