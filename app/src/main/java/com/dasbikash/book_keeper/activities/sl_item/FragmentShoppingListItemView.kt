@@ -18,6 +18,7 @@ import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
@@ -30,7 +31,7 @@ import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.vp_pr
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_view.*
 import kotlinx.coroutines.launch
 
-class FragmentShoppingListItemView private constructor():FragmentShoppingListItem() {
+class FragmentShoppingListItemView private constructor():FragmentTemplate() {
 
     private lateinit var viewModel:ViewModelShoppingListItem
     private lateinit var shoppingListItem:ShoppingListItem
@@ -105,7 +106,7 @@ class FragmentShoppingListItemView private constructor():FragmentShoppingListIte
             debugLog(shoppingListItem)
             vp_product_image.hide()
             shoppingListItem.name?.let {
-                (activity as ActivityShoppingListItem?)?.setPageTitle(it)
+                (activity as ActivityShoppingListItem?)?.setTitle(it)
             }
             shoppingListItem.categoryId?.let {
                 tv_sli_category.text = resources.getStringArray(R.array.expense_categories).get(it)

@@ -2,69 +2,28 @@ package com.dasbikash.book_keeper.activities.sl_item
 
 import android.content.Context
 import android.content.Intent
-import androidx.fragment.app.Fragment
-import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.show
-import com.dasbikash.book_keeper.R
-import com.dasbikash.menu_view.attachMenuViewForClick
-import com.dasbikash.super_activity.SingleFragmentSuperActivity
-import kotlinx.android.synthetic.main.activity_shopping_list_item.*
+import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 
-class ActivityShoppingListItem: SingleFragmentSuperActivity() {
+class ActivityShoppingListItem: ActivityTemplate() {
 
-    override fun getDefaultFragment(): Fragment = getChildInstance()
-
-    private fun getChildInstance(): FragmentShoppingListItem {
-        val fragment:FragmentShoppingListItem
-        if (intent.hasExtra(EXTRA_SHOPPING_LIST_ITEM_ID)){
+    override fun registerDefaultFragment(): FragmentTemplate {
+        return if (intent.hasExtra(EXTRA_SHOPPING_LIST_ITEM_ID)){
             if (intent.hasExtra(EXTRA_EDIT_MODE)){
-                fragment = FragmentShoppingListItemAddEdit.getInstanceForEdit(getShoppingListItemId())
+                FragmentShoppingListItemAddEdit.getInstanceForEdit(getShoppingListItemId())
             }else{
-                fragment = FragmentShoppingListItemView.getInstance(getShoppingListItemId())
+                FragmentShoppingListItemView.getInstance(getShoppingListItemId())
             }
         }else{
-            fragment = FragmentShoppingListItemAddEdit.getInstance(getShoppingListId())
+            FragmentShoppingListItemAddEdit.getInstance(getShoppingListId())
         }
-        fragment.getPageTitle(this).let {
-            if (it.isNullOrBlank()){
-                setPageTitle(getString(R.string.shopping_list_item_title))
-            }else {
-                setPageTitle(it)
-            }
-        }
-        fragment.getOptionsMenu(this).let {
-            if (it != null){
-                btn_options.attachMenuViewForClick(it)
-                btn_options.show()
-            }else{
-                btn_options.hide()
-            }
-        }
-        return fragment
     }
-
-    override fun getLayoutID(): Int = R.layout.activity_shopping_list_item
-    override fun getLoneFrameId(): Int = R.id.sl_item_frame
 
     private fun getShoppingListItemId() = intent.getStringExtra(EXTRA_SHOPPING_LIST_ITEM_ID)!!
     private fun getShoppingListId() = intent.getStringExtra(EXTRA_SHOPPING_LIST_ID)!!
 
-    fun setPageTitle(title:String) = page_title.setText(title)
-
-    override fun onBackPressed() {
-        (getCurrentFragment() as FragmentShoppingListItem?)?.let {
-            if (it.getExitPrompt() == null){
-                super.onBackPressed()
-            }else{
-                DialogUtils.showAlertDialog(this, DialogUtils.AlertDialogDetails(
-                    message = it.getExitPrompt()!!,
-                    doOnPositivePress = {
-                        super.onBackPressed()
-                    }
-                ))
-            }
-        }
+    fun setTitle(title:String){
+        super.setPageTitle(title)
     }
 
     companion object {

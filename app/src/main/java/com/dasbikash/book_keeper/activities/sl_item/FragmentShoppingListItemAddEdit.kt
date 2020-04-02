@@ -32,6 +32,7 @@ import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
@@ -53,7 +54,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
-class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingListItem(),
+class FragmentShoppingListItemAddEdit private constructor() : FragmentTemplate(),
     WaitScreenOwner {
     private lateinit var viewModel:ViewModelShoppingListItem
     override fun registerWaitScreen(): ViewGroup = wait_screen
@@ -145,13 +146,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
         })
         sli_category_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
             hideKeyboard()
-            shoppingListItem.categoryId = position/*expenseCategories.find { if (checkIfEnglishLanguageSelected())
-                                                                    {
-                                                                        item == it.name
-                                                                    } else {
-                                                                        item == it.nameBangla
-                                                                    }
-                                                                }!!.id*/
+            shoppingListItem.categoryId = position
         })
         uom_selector.setOnItemSelectedListener(MaterialSpinner.OnItemSelectedListener<String> { view, position, id, item ->
             hideKeyboard()
@@ -288,7 +283,7 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
                             val item:ShoppingListItem
                             activity!!.apply {
                                 item = ShoppingListRepo.findShoppingListItemById(this, it)!!
-                                (this as ActivityShoppingListItem).setPageTitle(getString(R.string.edit_title,item.name))
+                                (this as ActivityShoppingListItem).setTitle(getString(R.string.edit_title,item.name))
                             }
                             item
                         }
@@ -334,16 +329,9 @@ class FragmentShoppingListItemAddEdit private constructor() : FragmentShoppingLi
 
     private fun getCurrentCategoryIndex(): Int {
         if (shoppingListItem.categoryId == null) {
-            shoppingListItem.categoryId = 0//expenseCategories.get(0).id
+            shoppingListItem.categoryId = 0
         }
         return shoppingListItem.categoryId!!
-//        return expenseCategories.map { it.id }.indexOf(shoppingListItem.categoryId!!).let {
-//            if (it < 0) {
-//                return@let 0
-//            } else {
-//                return@let it
-//            }
-//        }
     }
 
     private fun getShoppingListItemId(): String? = arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)

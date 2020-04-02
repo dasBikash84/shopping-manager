@@ -10,7 +10,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
-import kotlinx.android.synthetic.main.activity_shopping_list_item.*
+import kotlinx.android.synthetic.main.activity_template.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 
 abstract class ActivityTemplate: SingleFragmentSuperActivity(),WaitScreenOwner {
