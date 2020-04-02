@@ -2,66 +2,26 @@ package com.dasbikash.book_keeper.activities.shopping_list
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.show
-import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
-import com.dasbikash.menu_view.attachMenuViewForClick
-import com.dasbikash.super_activity.SingleFragmentSuperActivity
-import kotlinx.android.synthetic.main.activity_shopping_list.*
+import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 
-class ActivityShoppingList : SingleFragmentSuperActivity() {
+class ActivityShoppingList : ActivityTemplate() {
 
-    override fun getDefaultFragment(): Fragment = getInitFragment()
-    override fun getLayoutID(): Int = R.layout.activity_shopping_list
-    override fun getLoneFrameId(): Int = R.id.shopping_list_frame
+    override fun getDefaultFragment(): FragmentTemplate = getInitFragment()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_shopping_list)
-    }
+    override fun registerDefaultFragment(): FragmentTemplate =
+        getInitFragment()
 
-    private fun getInitFragment():FragmentShoppingListDetails{
+    private fun getInitFragment():FragmentTemplate{
         return if (isCreateIntent(intent)){
             getCreateFragment()
         }else if (isEditIntent(intent)){
             getEditFragment(getShoppingListId(intent))
         }else{
             getViewFragment(getShoppingListId(intent))
-        }.apply {
-            manageOptionsBtnBeforeChildLoading(this)
         }
-    }
-
-    private fun manageOptionsBtnBeforeChildLoading(fragment: FragmentShoppingListDetails) {
-        if (fragment.getOptionsMenu(this) != null) {
-            btn_options.attachMenuViewForClick(fragment.getOptionsMenu(this)!!)
-            btn_options.show()
-        } else {
-            btn_options.setOnClickListener { }
-            btn_options.hide()
-        }
-    }
-
-    override fun addFragment(fragment: Fragment, doOnFragmentLoad: (() -> Unit)?) {
-        manageOptionsBtnBeforeChildLoading(fragment as FragmentShoppingListDetails)
-        super.addFragment(fragment, doOnFragmentLoad)
-    }
-
-    override fun addFragmentClearingBackStack(fragment: Fragment, doOnFragmentLoad: (() -> Unit)?) {
-        manageOptionsBtnBeforeChildLoading(fragment as FragmentShoppingListDetails)
-        super.addFragmentClearingBackStack(fragment, doOnFragmentLoad)
-    }
-
-    override fun getFragmentFromBackStack(): Fragment? {
-        val fragment = super.getFragmentFromBackStack() as FragmentShoppingListDetails?
-        fragment?.let {
-            manageOptionsBtnBeforeChildLoading(fragment)
-        }
-        return fragment
     }
 
     private fun getViewFragment(shoppingListId: String): FragmentShoppingListView =
@@ -73,7 +33,9 @@ class ActivityShoppingList : SingleFragmentSuperActivity() {
     private fun getCreateFragment(): FragmentShoppingListAddEdit =
         FragmentShoppingListAddEdit.getCreateInstance()
 
-    fun setPageTitle(titleText:String) = page_title.setText(titleText)
+    fun setTitle(titleText:String){
+        super.setPageTitle(titleText)
+    }
 
     companion object{
 

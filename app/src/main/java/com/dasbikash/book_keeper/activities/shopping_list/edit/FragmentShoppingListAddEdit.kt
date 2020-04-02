@@ -20,6 +20,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.AuthRepo
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 import java.util.*
 
-class FragmentShoppingListAddEdit : FragmentShoppingListDetails() {
+class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     private lateinit var shoppingList: ShoppingList
 
@@ -225,7 +226,7 @@ class FragmentShoppingListAddEdit : FragmentShoppingListDetails() {
                     if (isEditMode()) {
                         shoppingList = ShoppingListRepo.findById(it, getShoppingListId())!!
                         (activity as ActivityShoppingList?)?.apply {
-                            setPageTitle(
+                            setTitle(
                                 getString(
                                     R.string.edit_title,
                                     shoppingList.title
@@ -235,7 +236,7 @@ class FragmentShoppingListAddEdit : FragmentShoppingListDetails() {
                     }else{
                         shoppingList = ShoppingList(userId = AuthRepo.getUser(it)?.id)
                         (activity as ActivityShoppingList?)?.apply {
-                            setPageTitle(
+                            setTitle(
                                 getString(R.string.add_shopping_list)
                             )
                         }
@@ -273,6 +274,10 @@ class FragmentShoppingListAddEdit : FragmentShoppingListDetails() {
 
     private fun getShoppingListId(): String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
     private fun isEditMode():Boolean = arguments?.containsKey(ARG_SHOPPING_LIST_ID) ?: false
+
+    override fun getExitPrompt(): String? {
+        return getString(R.string.discard_and_exit_prompt)
+    }
 
     companion object {
         private const val ARG_SHOPPING_LIST_ID =

@@ -57,7 +57,7 @@ abstract class ActivityTemplate: SingleFragmentSuperActivity(),WaitScreenOwner {
     override fun getLoneFrameId(): Int = R.id.lone_frame
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
-    private fun setPageTitle(title:String) = page_title.setText(title)
+    protected fun setPageTitle(title:String) = page_title.setText(title)
 
     protected open fun getDefaultTitle():String? = null
     abstract fun registerDefaultFragment(): FragmentTemplate

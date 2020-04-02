@@ -21,6 +21,7 @@ import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.FragmentShoppingListDetails
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -35,7 +36,7 @@ import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 
 
-class FragmentShoppingListView : FragmentShoppingListDetails() {
+class FragmentShoppingListView : FragmentTemplate() {
 
     private lateinit var viewModel: ViewModelShoppingListView
     private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)},{editTask(it)},{deleteTask(it)},{closeTask(it)})
@@ -112,7 +113,7 @@ class FragmentShoppingListView : FragmentShoppingListDetails() {
     private fun refreshView(shoppingList: ShoppingList) {
         runWithContext {
             shoppingList.apply {
-                (activity as ActivityShoppingList?)?.setPageTitle(title!!)
+                (activity as ActivityShoppingList?)?.setTitle(title!!)
                 if (deadLine != null) {
                     tv_sl_deadline.text = DateUtils.getTimeString(
                         shoppingList.deadLine!!,
