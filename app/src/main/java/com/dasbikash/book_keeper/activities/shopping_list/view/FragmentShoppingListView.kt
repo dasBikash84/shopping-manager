@@ -20,9 +20,11 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
+import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit.Companion.reminderUnitPeriods
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
+import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -154,11 +156,24 @@ class FragmentShoppingListView : FragmentTemplate() {
                     sl_deadline_text_holder.hide()
                 }
                 if (getCountDownTime() !=null){
-                    tv_sl_count_down.text = it.getString(R.string.sl_count_down,getCountDownTime()!!/DateUtils.MINUTE_IN_MS)
+
+                    shoppingList.getCountDownTime()!!.apply {
+                        val remUnitIndex = if(this > 0L && this % reminderUnitPeriods[1] == 0L){
+                            1
+                        }else{
+                            0
+                        }
+                        tv_sl_count_down.text =
+                            it.getString(
+                                R.string.sl_count_down_text,
+                                (this/reminderUnitPeriods[remUnitIndex]).toInt(),
+                                it.resources.getStringArray(R.array.reminder_time_units).toList().get(remUnitIndex)
+                            )
+                    }
                     ShoppingList.Companion.ReminderInterval.values().find {
                         it.intervalMs==getReminderInterval()
                     }!!.let {
-                        tv_sl_reminder_interval.text = getString(R.string.sl_remind_interval,if (checkIfEnglishLanguageSelected()) {it.text} else {it.textBangla})
+                        tv_sl_reminder_interval.text = getString(R.string.sl_remind_interval_text,if (checkIfEnglishLanguageSelected()) {it.text} else {it.textBangla})
                     }
                     sl_remainder_block.show()
                 }else{
@@ -200,6 +215,7 @@ class FragmentShoppingListView : FragmentTemplate() {
                     task = { deleteTask() }
                 )
             )
+            add(GetCalculatorMenuItem(context))
             add(
                 MenuViewItem(
                     text = "Share",

@@ -1,13 +1,16 @@
 package com.dasbikash.book_keeper.utils
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import com.dasbikash.book_keeper_repo.model.TimeDuration
+import com.dasbikash.menu_view.MenuViewItem
 import java.util.*
 
 fun Date.getWeekString():String{
@@ -54,4 +57,11 @@ fun Bitmap.rotateIfRequired():Bitmap{
         return ImageUtils.rotateBitmap(this,270)
     }
     return this
+}
+
+fun GetCalculatorMenuItem(context: Context):MenuViewItem{
+    return MenuViewItem(
+        text = context.getString(R.string.calculator_title),
+        task = {context.startActivity(Intent(context, ActivityCalculator::class.java))}
+    )
 }

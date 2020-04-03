@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.AuthRepo
@@ -40,8 +41,6 @@ import java.util.*
 class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     private lateinit var shoppingList: ShoppingList
-
-    private val reminderUnitPeriods = arrayOf<Long>(DateUtils.MINUTE_IN_MS,DateUtils.HOUR_IN_MS)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -359,16 +358,14 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     override fun getOptionsMenu(context: Context): MenuView? {
         val menuView = MenuView(menuItemFontSize = 20.00f)
-        menuView.add(
-            MenuViewItem(
-                text = context.getString(R.string.calculator_title),
-                task = {context.startActivity(Intent(context,ActivityCalculator::class.java))}
-            )
-        )
+        menuView.add(GetCalculatorMenuItem(context))
         return menuView
     }
 
     companion object {
+
+        val reminderUnitPeriods = arrayOf<Long>(DateUtils.MINUTE_IN_MS,DateUtils.HOUR_IN_MS)
+
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListEdit.ARG_SHOPPING_LIST_ID"
 

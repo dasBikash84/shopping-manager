@@ -104,6 +104,10 @@ object TranslatorUtils {
     }
 }
 
+fun Double.getCurrencyStringWithSymbol():String{
+    return NumberFormat.getCurrencyInstance().format(this).substring(1)
+}
+
 //will insert req comma
 fun Double.getCurrencyString():String{
     return NumberFormat.getCurrencyInstance().format(this).let {

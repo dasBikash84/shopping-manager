@@ -155,8 +155,8 @@
     <string name="shopping_list_name_error">ফর্দের নাম  ফাঁকা হতে পারবে না!!</string>
     <string name="sl_count_down_error">সর্বশেষ সময়সীমা  ১৫ মিনিটের কম হতে পারবে না।</string>
     <string name="add_shopping_item">পণ্য যোগ করুন</string>
-    <string name="sl_count_down">রিমাইন্ডার চালু হবে: %1$d মিনিট পূর্বে</string>
-    <string name="sl_remind_interval">রিমাইন্ডারের ব্যবধান: %1$s</string>
+    <string name="sl_count_down">রিমাইন্ডার চালু হবে:</string>
+    <string name="sl_remind_interval">রিমাইন্ডারের ব্যবধান:</string>
     <string name="sli_name_hint">পণ্যের নাম*</string>
     <string name="sli_details_hint">পণ্যের বিবরণ</string>
     <string name="sli_min_price_hint">সর্বনিম্ন একক মূল্য</string>

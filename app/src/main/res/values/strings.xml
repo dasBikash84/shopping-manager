@@ -179,8 +179,10 @@
     <string name="shopping_list_name_error">Shopping list name can\'t be blank!</string>
     <string name="sl_count_down_error">Count down must be greater than 15 minutes</string>
     <string name="add_shopping_item">Add item</string>
-    <string name="sl_count_down">Reminder starts before: %1$d minutes</string>
-    <string name="sl_remind_interval">Remind every: %1$s</string>
+    <string name="sl_count_down">Reminder starts before:</string>
+    <string name="sl_count_down_text">%1$d %2$s</string>
+    <string name="sl_remind_interval">Remind every:</string>
+    <string name="sl_remind_interval_text">%1$s</string>
     <string name="sli_name_hint">Product name*</string>
     <string name="sli_details_hint">Product details</string>
     <string name="sli_min_price_hint">Minimum unit price</string>
