@@ -172,7 +172,6 @@
     <string name="external_storage_permission_rational">গ্যালারি থেকে ছবি আনার জন্য আপনার  অনুমতি প্রয়োজন। আপনি কি অনুমতি দিতে চান?</string>
     <string name="open_settings_prompt_for_esp">গ্যালারি থেকে ছবি আনার জন্য আপনার  অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিং ওপেন করতে চান?</string>
     <string name="sl_count_down_prompt">রিমাইন্ডার চালু হবে:</string>
-    <string name="reminder_hint"><![CDATA[>১৫]]></string>
     <string name="sl_reminder_interval_prompt">রিমাইন্ডারের ব্যবধান:</string>
     <string name="signup_heading">নতুন অ্যাকাউন্ট খুলুন</string>
 </resources>

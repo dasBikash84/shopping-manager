@@ -44,4 +44,8 @@
         <item>বিবিধ</item>
         <item>ব্যাংক জমা</item>
     </string-array>
+    <string-array name="reminder_time_units">
+        <item>মিনিট পূর্বে</item>
+        <item>ঘণ্টা পূর্বে</item>
+    </string-array>
 </resources>

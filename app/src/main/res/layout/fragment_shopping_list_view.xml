@@ -27,14 +27,18 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
                     android:text="@string/exp_range_title_text"
+                    android:gravity="center_vertical|start"
                     android:textAlignment="gravity"
                     android:textSize="16sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_sl_price_range"
-                    style="@style/exp_entry_view_details_text"
+                    android:gravity="center_vertical|start"
+                    android:textAlignment="gravity"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:paddingStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="@string/exp_range_title_text" />
@@ -53,8 +57,8 @@
                     android:id="@+id/tv_sl_deadline_prompt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|start"
                     android:text="@string/sl_deadline"
+                    android:gravity="center_vertical|start"
                     android:textAlignment="gravity"
                     android:textSize="16sp" />
 

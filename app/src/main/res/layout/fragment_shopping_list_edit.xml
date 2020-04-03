@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/disable_deadline"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_set_sl_remainder"
@@ -98,50 +98,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:scrollbars="none">
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_sl_count_down_prompt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|start"
-                            android:minWidth="120dp"
-                            android:minHeight="32dp"
-                            android:text="@string/sl_count_down_prompt"
-                            android:textAlignment="gravity"
-                            android:textSize="20sp"/>
-
-                        <EditText
-                            android:id="@+id/et_sl_count_down"
-                            android:layout_width="60dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:hint="@string/reminder_hint"
-                            android:inputType="number"
-                            android:lines="1"/>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|start"
-                            android:minHeight="32dp"
-                            android:text="@string/hours_text"
-                            android:textAlignment="gravity"
-                            android:textSize="20sp" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </HorizontalScrollView>
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_sl_count_down_prompt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:minWidth="120dp"
+                        android:minHeight="32dp"
+                        android:text="@string/sl_count_down_prompt"
+                        android:textAlignment="gravity"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/et_sl_count_down"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:hint="@string/reminder_hint"
+                        android:inputType="number"
+                        android:lines="1" />
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:id="@+id/spinner_reminder_unit_selector"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -154,7 +148,7 @@
                         android:minHeight="40dp"
                         android:text="@string/sl_reminder_interval_prompt"
                         android:textAlignment="gravity"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp" />
 
                     <com.jaredrummler.materialspinner.MaterialSpinner
                         android:id="@+id/spinner_reminder_interval_selector"

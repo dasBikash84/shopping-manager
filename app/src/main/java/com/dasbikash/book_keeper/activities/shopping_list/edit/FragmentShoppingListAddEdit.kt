@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper.activities.shopping_list.edit
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
@@ -26,6 +28,8 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.date_time_picker.DateTimePicker
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_edit.*
@@ -36,6 +40,8 @@ import java.util.*
 class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     private lateinit var shoppingList: ShoppingList
+
+    private val reminderUnitPeriods = arrayOf<Long>(DateUtils.MINUTE_IN_MS,DateUtils.HOUR_IN_MS)
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -89,6 +95,20 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
                 }
             }
         )
+
+        spinner_reminder_unit_selector.setItems(resources.getStringArray(R.array.reminder_time_units).toList())
+
+        spinner_reminder_unit_selector.setOnItemSelectedListener(object :
+            MaterialSpinner.OnItemSelectedListener<String> {
+            override fun onItemSelected(
+                view: MaterialSpinner?,
+                position: Int,
+                id: Long,
+                item: String?
+            ) {
+                updateReminderInterval(et_sl_count_down.text.toString(),position)
+            }
+        })
 
         spinner_reminder_interval_selector.setOnItemSelectedListener(object :
             MaterialSpinner.OnItemSelectedListener<String> {
@@ -160,11 +180,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         et_sl_count_down.addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 (s?.toString() ?: "").let {
-                    if (it.isBlank()){
-                        0
-                    }else{
-                        it.trim().toInt()
-                    }.let { shoppingList.setCountDownTime(it * DateUtils.MINUTE_IN_MS) }
+                    updateReminderInterval(it)
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -203,6 +219,14 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
         cb_set_sl_remainder.isChecked = false
         sl_remainder_set_block.hide()
+    }
+
+    private fun updateReminderInterval(timeText: String,position: Int?=null) {
+        if (timeText.isBlank()) {
+            0
+        } else {
+            timeText.trim().toInt()
+        }.let { shoppingList.setCountDownTime(it * reminderUnitPeriods[position ?: spinner_reminder_unit_selector.selectedIndex]) }
     }
 
     private fun disableDeadline() {
@@ -304,7 +328,16 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             }
 
             if (shoppingList.getCountDownTime() != null) {
-                et_sl_count_down.setText((shoppingList.getCountDownTime()!! / DateUtils.MINUTE_IN_MS).toString().apply { debugLog(this) })
+                shoppingList.getCountDownTime()?.let {
+                    if(it > 0L && it % DateUtils.HOUR_IN_MS == 0L){
+                        et_sl_count_down.setText((it/reminderUnitPeriods[1]).toString())
+                        spinner_reminder_unit_selector.selectedIndex = 1
+                    }else{
+                        et_sl_count_down.setText((it/reminderUnitPeriods[0]).toString())
+                        spinner_reminder_unit_selector.selectedIndex = 0
+                    }
+                }
+//                et_sl_count_down.setText((shoppingList.getCountDownTime()!! / DateUtils.MINUTE_IN_MS).toString().apply { debugLog(this) })
                 ShoppingList.Companion.ReminderInterval.values()
                     .find { shoppingList.getReminderInterval() == it.intervalMs }?.let {
                         spinner_reminder_interval_selector.selectedIndex =
@@ -322,6 +355,17 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     override fun getExitPrompt(): String? {
         return getString(R.string.discard_and_exit_prompt)
+    }
+
+    override fun getOptionsMenu(context: Context): MenuView? {
+        val menuView = MenuView(menuItemFontSize = 20.00f)
+        menuView.add(
+            MenuViewItem(
+                text = context.getString(R.string.calculator_title),
+                task = {context.startActivity(Intent(context,ActivityCalculator::class.java))}
+            )
+        )
+        return menuView
     }
 
     companion object {

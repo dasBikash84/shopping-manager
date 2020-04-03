@@ -44,4 +44,8 @@
         <item>Miscellaneous</item>
         <item>Bank Deposit</item>
     </string-array>
+    <string-array name="reminder_time_units">
+        <item>Minutes</item>
+        <item>Hours</item>
+    </string-array>
 </resources>
