@@ -23,6 +23,7 @@ internal object ShoppingListReminderScheduler {
     fun runReminderScheduler(context: Context){
         debugLog("runReminderScheduler")
         GlobalScope.launch {
+            cancelCurrentTask(context)
             AuthRepo.getUser(context)?.let {
                 debugLog("runReminderScheduler: user: $it")
                 debugLog("before findAllWithReminder")
@@ -43,7 +44,6 @@ internal object ShoppingListReminderScheduler {
                         if (it.isNotEmpty()){
                             it.sorted().first().let {
                                 debugLog("First: calculateNextReminderTime: $it")
-                                cancelCurrentTask(context)
                                 scheduleNextTask(context,it)
                             }
                         }

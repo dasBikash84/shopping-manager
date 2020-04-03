@@ -50,6 +50,7 @@ object ShoppingListRepo:BookKeeperRepo() {
         shoppingList.updateModified()
         saveToFireBase(context, shoppingList)
         getShoppingListDao(context).add(shoppingList)
+        getSlReminderGenLogDao(context).deleteByShoppingListId(shoppingList.id)
     }
 
     private suspend fun saveToFireBase(context: Context,shoppingList: ShoppingList){

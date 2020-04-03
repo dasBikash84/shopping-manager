@@ -69,7 +69,7 @@ data class ShoppingList(
 
     companion object{
         private val MINIMUM_COUNT_DOWN_DELAY = DateUtils.MINUTE_IN_MS * 15
-        private val MINIMUM_DEADLINE_PERIOD = DateUtils.HOUR_IN_MS * 1
+        private val MINIMUM_DEADLINE_PERIOD = DateUtils.MINUTE_IN_MS * 15
 
         enum class ReminderInterval(val text:String,val textBangla:String,val intervalMs:Long?){
             ONCE("Once","শুধুমাত্র একবার",null),

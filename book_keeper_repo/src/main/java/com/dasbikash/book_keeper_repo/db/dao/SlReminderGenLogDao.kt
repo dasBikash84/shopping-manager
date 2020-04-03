@@ -14,4 +14,7 @@ interface SlReminderGenLogDao {
 
     @Query("SELECT * FROM SlReminderGenLog where shoppingListId=:shoppingListId")
     suspend fun findByShoppingListId(shoppingListId:String):List<SlReminderGenLog>
+
+    @Query("DELETE FROM SlReminderGenLog where shoppingListId=:shoppingListId")
+    suspend fun deleteByShoppingListId(shoppingListId:String)
 }
