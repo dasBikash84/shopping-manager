@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit.Companion.reminderUnitPeriods
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
+import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
@@ -197,32 +198,46 @@ class FragmentShoppingListView : FragmentTemplate() {
 
     override fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
-            add(
-                MenuViewItem(
-                    text = context.getString(R.string.edit),
-                    task = {
-                        (activity as ActivityShoppingList).addFragmentClearingBackStack(
-                            FragmentShoppingListAddEdit.getEditInstance(
-                                getShoppingListId()
-                            )
-                        )
-                    }
-                )
-            )
-            add(
-                MenuViewItem(
-                    text = context.getString(R.string.delete),
-                    task = { deleteTask() }
-                )
-            )
+            add(getEditOptionsMenuItem(context))
+            add(getDeleteOptionsMenuItem(context))
+            add(getOnLineShareOptionsMenuItem(context))
+            add(getOffLineShareOptionsMenuItem(context))
             add(GetCalculatorMenuItem(context))
-            add(
-                MenuViewItem(
-                    text = "Share",
-                    task = { showShortSnack("Sharing not implemented yet!") }
-                )
-            )
         }
+    }
+
+    private fun getOffLineShareOptionsMenuItem(context: Context): MenuViewItem {
+        return MenuViewItem(
+            text = context.getString(R.string.offline_share_text),
+            task = { startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId())) }
+        )
+    }
+
+    private fun getOnLineShareOptionsMenuItem(context: Context): MenuViewItem {
+        return MenuViewItem(
+            text = context.getString(R.string.online_share_text),
+            task = { startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId())) }
+        )
+    }
+
+    private fun getEditOptionsMenuItem(context: Context): MenuViewItem {
+        return MenuViewItem(
+            text = context.getString(R.string.edit),
+            task = {
+                (activity as ActivityShoppingList).addFragmentClearingBackStack(
+                    FragmentShoppingListAddEdit.getEditInstance(
+                        getShoppingListId()
+                    )
+                )
+            }
+        )
+    }
+
+    private fun getDeleteOptionsMenuItem(context: Context): MenuViewItem {
+        return MenuViewItem(
+            text = context.getString(R.string.delete),
+            task = { deleteTask() }
+        )
     }
 
     private fun deleteTask(){

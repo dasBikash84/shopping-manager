@@ -12,9 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:targetApi="m"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".activities.sl_item.ActivityShoppingListItem"/>
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+        <activity android:name=".activities.sl_share.ActivityShoppingListShare"></activity>
+        <activity android:name=".activities.sl_item.ActivityShoppingListItem" />
         <activity android:name=".activities.shopping_list.ActivityShoppingList" />
         <activity android:name=".activities.calculator.ActivityCalculator" />
         <activity android:name=".activities.login.ActivityLogin" />
@@ -27,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.expense_entry.ActivityExpenseEntry" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

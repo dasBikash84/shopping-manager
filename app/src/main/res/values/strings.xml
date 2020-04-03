@@ -222,4 +222,8 @@
     <string name="shopping_list_items_title">List items:</string>
     <string name="shopping_reminder">Shopping reminder!!</string>
     <string name="shopping_reminder_content">For list: %1$s</string>
+    <string name="offline_share_text">Share Offline</string>
+    <string name="online_share_text">Share Online</string>
+    <string name="offline_share_page_title">Share Shopping list offline</string>
+    <string name="online_share_page_title">Share Shopping list online</string>
 </resources>
