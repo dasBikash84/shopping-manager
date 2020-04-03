@@ -226,4 +226,7 @@
     <string name="online_share_text">Share Online</string>
     <string name="offline_share_page_title">Share Shopping list offline</string>
     <string name="online_share_page_title">Share Shopping list online</string>
+    <string name="share_online_instead_offline">\"%1$s\" is too large for offline share. Share online instead?</string>
+    <string name="done">Done</string>
+    <string name="done_prompt">Done?</string>
 </resources>

@@ -2,9 +2,14 @@ package com.dasbikash.book_keeper.activities.sl_share
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import androidx.annotation.Keep
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.utils.byteArray
+import com.dasbikash.book_keeper.utils.toCharArray
+import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.google.gson.Gson
+import kotlin.experimental.xor
 
 class ActivityShoppingListShare : ActivityTemplate() {
     override fun registerDefaultFragment(): FragmentTemplate {
@@ -43,4 +48,39 @@ class ActivityShoppingListShare : ActivityTemplate() {
             return intent
         }
     }
+}
+
+@Keep
+data class SlToQr(
+    var slShareMethod: SlShareMethod?=null,
+    var data:String?=null
+){
+    companion object{
+        private const val key: Byte = 0xDE.toByte()
+
+        fun getPayloadForOfflineSharing(shoppingList: ShoppingList):String{
+            return Gson().toJson(
+                    SlToQr(
+                        data = encodeShoppingListData(shoppingList),
+                        slShareMethod = SlShareMethod.OFF_LINE))
+        }
+
+        private fun encodeShoppingListData(shoppingList: ShoppingList):String{
+            return String(Gson().toJson(shoppingList).toCharArray().byteArray().map { it.xor(key) }.toByteArray().toCharArray())
+        }
+
+        fun decodeOffLinePayload(qrData: String):ShoppingList{
+            Gson().fromJson(qrData,SlToQr::class.java).data!!.let {
+                String(
+                    it.toCharArray().byteArray().map { it.xor(key) }.toByteArray().toCharArray())
+                    .let {
+                    return Gson().fromJson(it, ShoppingList::class.java)
+                }
+            }
+        }
+    }
+}
+
+enum class SlShareMethod{
+    OFF_LINE,ON_LINE
 }
