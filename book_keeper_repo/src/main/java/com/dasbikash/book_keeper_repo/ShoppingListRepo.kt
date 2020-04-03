@@ -6,11 +6,15 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
+import com.dasbikash.book_keeper_repo.model.SlReminderGenLog
+import com.dasbikash.book_keeper_repo.model.User
+import java.util.*
 
 object ShoppingListRepo:BookKeeperRepo() {
 
     private fun getShoppingListDao(context: Context) = getDatabase(context).shoppingListDao
     private fun getShoppingListItemDao(context: Context) = getDatabase(context).shoppingListItemDao
+    private fun getSlReminderGenLogDao(context: Context) = getDatabase(context).slReminderGenLogDao
 
     suspend fun getAllShoppingLists(context: Context):LiveData<List<ShoppingList>>{
         return AuthRepo.getUser(context)!!.let { getDatabase(context).shoppingListDao.findAllLiveData(it.id) }
@@ -118,5 +122,31 @@ object ShoppingListRepo:BookKeeperRepo() {
                     }
             }
         }
+    }
+
+    suspend fun findAllWithReminder(context: Context, user: User): List<ShoppingList> {
+        return getShoppingListDao(context).findAllWithReminder(user.id)
+    }
+
+    suspend fun calculateNextReminderTime(context: Context,shoppingList: ShoppingList): Date?{
+        if (shoppingList.deadLine !=null && shoppingList.getCountDownTime() !=null){
+            val firstReminderTime = shoppingList.deadLine!!.time - shoppingList.getCountDownTime()!!
+            val reminderLogs = getSlReminderGenLogDao(context).findByShoppingListId(shoppingList.id).sortedBy { it.created }
+            if (reminderLogs.isNotEmpty()){
+                if (shoppingList.getReminderInterval() != null){//single reminder check
+                    val nextReminderTime = reminderLogs.last().created.time + shoppingList.getReminderInterval()!!
+                    if (nextReminderTime < shoppingList.deadLine!!.time){
+                        return Date(nextReminderTime)
+                    }
+                }
+            }else{
+                return Date(firstReminderTime)
+            }
+        }
+        return null
+    }
+
+    suspend fun logShoppingReminder(context: Context, shoppingList: ShoppingList) {
+        getSlReminderGenLogDao(context).add(SlReminderGenLog(shoppingListId = shoppingList.id))
     }
 }

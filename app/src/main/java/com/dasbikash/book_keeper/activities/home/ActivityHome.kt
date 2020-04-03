@@ -15,6 +15,7 @@ import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -71,6 +72,7 @@ class ActivityHome : ActivityTemplate() {
                     if (BuildConfig.DEBUG) {
                         runOnUiThread({ showShortSnack("Data sync done!!") })
                     }
+                    ShoppingListReminderScheduler.runReminderScheduler(this@ActivityHome)
                 } catch (ex: Throwable) {
                     dataSynced = OnceSettableBoolean()
                     ex.printStackTrace()

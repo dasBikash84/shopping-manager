@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
@@ -257,6 +258,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         runWithContext {
             lifecycleScope.launch {
                 ShoppingListRepo.save(it, shoppingList)
+                ShoppingListReminderScheduler.runReminderScheduler(it.applicationContext)
                 exit()
             }
         }

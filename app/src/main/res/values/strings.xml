@@ -220,4 +220,6 @@
     <string name="disable_deadline">Disable deadline</string>
     <string name="disable_deadline_prompt">Disable deadline?</string>
     <string name="shopping_list_items_title">List items:</string>
+    <string name="shopping_reminder">Shopping reminder!!</string>
+    <string name="shopping_reminder_content">For list: %1$s</string>
 </resources>
