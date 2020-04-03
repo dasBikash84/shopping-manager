@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import kotlinx.android.synthetic.main.view_wait_screen.*
 
-class FragmentShareSlOffline:FragmentTemplate() {
+class FragmentShareSlOffline:FragmentTemplate(),WaitScreenOwner {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,6 +22,9 @@ class FragmentShareSlOffline:FragmentTemplate() {
     override fun getPageTitle(context: Context): String? {
         return context.getString(R.string.offline_share_page_title)
     }
+
+    override fun registerWaitScreen(): ViewGroup = wait_screen
+
     companion object{
         private const val ARG_SL_ID =
             "com.dasbikash.book_keeper.activities.sl_share.FragmentShareSlOffline.ARG_SL_ID"
