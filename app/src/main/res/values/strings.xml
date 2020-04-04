@@ -229,4 +229,11 @@
     <string name="share_online_instead_offline">\"%1$s\" is too large for offline share. Share online instead?</string>
     <string name="done">Done</string>
     <string name="done_prompt">Done?</string>
+    <string name="shopping_list_import_title">Import Shopping List</string>
+    <string name="offline_shopping_list_save_prompt">Offline shopping list found. Do you want to save?</string>
+    <string name="online_shopping_list_import_prompt">Online shopping list found. Do you want to issue import request?</string>
+    <string name="online_shopping_list_import_req_text">Post Request</string>
+    <string name="qr_format_error_prompt">Unrecognized QR code found!!</string>
+    <string name="rescan_text">Scan Again</string>
+    <string name="exit_text">Exit</string>
 </resources>

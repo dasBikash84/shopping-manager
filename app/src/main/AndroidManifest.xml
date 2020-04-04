@@ -4,6 +4,7 @@
     package="com.dasbikash.book_keeper">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -14,7 +15,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.sl_share.ActivityShoppingListShare"></activity>
+        <activity android:name=".activities.sl_import.ActivityShoppingListImport"></activity>
+        <activity android:name=".activities.sl_share.ActivityShoppingListShare" />
         <activity android:name=".activities.sl_item.ActivityShoppingListItem" />
         <activity android:name=".activities.shopping_list.ActivityShoppingList" />
         <activity android:name=".activities.calculator.ActivityCalculator" />

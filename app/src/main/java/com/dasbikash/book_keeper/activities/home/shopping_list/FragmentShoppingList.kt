@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home.shopping_list
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +9,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
+import com.dasbikash.book_keeper.activities.sl_import.ActivityShoppingListImport
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
+import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 
@@ -66,4 +72,21 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         }
     }
     override fun getPageTitle(context: Context):String? = context.getString(R.string.shopping_list_title)
+
+    override fun getOptionsMenu(context: Context): MenuView? {
+        val menuView = MenuView()
+        menuView.add(
+            MenuViewItem(
+                text = context.getString(R.string.shopping_list_import_title),
+                task = {activity?.let { (it as Activity).startActivity(ActivityShoppingListImport::class.java) }}
+            )
+        )
+        menuView.add(
+            MenuViewItem(
+                text = context.getString(R.string.add_shopping_list),
+                task = {showListAddDialog()}
+            )
+        )
+        return menuView
+    }
 }

@@ -38,14 +38,14 @@ class FragmentShareSlOffline:FragmentTemplate(),WaitScreenOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_done_offline_sharing.setOnClickListener {
-            runWithContext {
-                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                    message = it.getString(R.string.done_prompt),
-                    doOnPositivePress = {
+//            runWithContext {
+//                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+//                    message = it.getString(R.string.done_prompt),
+//                    doOnPositivePress = {
                         activity?.finish()
-                    }
-                ))
-            }
+//                    }
+//                ))
+//            }
         }
     }
 

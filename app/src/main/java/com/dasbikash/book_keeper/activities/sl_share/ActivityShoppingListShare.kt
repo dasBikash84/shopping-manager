@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.activities.sl_share
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.Keep
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.utils.byteArray
@@ -66,17 +67,27 @@ data class SlToQr(
         }
 
         private fun encodeShoppingListData(shoppingList: ShoppingList):String{
-            return String(Gson().toJson(shoppingList).toCharArray().byteArray().map { it.xor(key) }.toByteArray().toCharArray())
+            return Gson().toJson(shoppingList)
         }
 
-        fun decodeOffLinePayload(qrData: String):ShoppingList{
-            Gson().fromJson(qrData,SlToQr::class.java).data!!.let {
-                String(
-                    it.toCharArray().byteArray().map { it.xor(key) }.toByteArray().toCharArray())
-                    .let {
-                    return Gson().fromJson(it, ShoppingList::class.java)
+        fun decodeQrScanResult(qrData: String):SlToQr?{
+            try {
+                return Gson().fromJson(qrData,SlToQr::class.java)
+            }catch (ex:Throwable){
+                ex.printStackTrace()
+                return null
+            }
+        }
+
+        fun decodeOfflineShoppingList(slToQr: SlToQr):ShoppingList?{
+            slToQr.data?.let {
+                try {
+                    return Gson().fromJson(it,ShoppingList::class.java)
+                }catch (ex:Throwable){
+                    ex.printStackTrace()
                 }
             }
+            return null
         }
     }
 }
