@@ -65,6 +65,7 @@ fun GetCalculatorMenuItem(context: Context):MenuViewItem{
         task = {context.startActivity(Intent(context, ActivityCalculator::class.java))}
     )
 }
+
 internal fun ByteArray.toCharArray():CharArray{
     val charArray = CharArray(this.size)
     for (i in 0..size-1){

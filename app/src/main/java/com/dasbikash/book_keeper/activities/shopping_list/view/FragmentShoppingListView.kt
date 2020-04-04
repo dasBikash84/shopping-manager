@@ -113,9 +113,13 @@ class FragmentShoppingListView : FragmentTemplate() {
         viewModel.setShoppingListId(getShoppingListId())
 
         btn_add_shopping_item.setOnClickListener {
-            runWithActivity {
-                it.startActivity(ActivityShoppingListItem.getCreateIntent(it,getShoppingListId()))
-            }
+            launchAddItemScreen()
+        }
+    }
+
+    private fun launchAddItemScreen() {
+        runWithActivity {
+            it.startActivity(ActivityShoppingListItem.getCreateIntent(it, getShoppingListId()))
         }
     }
 
@@ -199,11 +203,19 @@ class FragmentShoppingListView : FragmentTemplate() {
     override fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
             add(getEditOptionsMenuItem(context))
-            add(getDeleteOptionsMenuItem(context))
             add(getOnLineShareOptionsMenuItem(context))
             add(getOffLineShareOptionsMenuItem(context))
+            add(getAddShoppingListItemAddMenuItem(context))
+            add(getDeleteOptionsMenuItem(context))
             add(GetCalculatorMenuItem(context))
         }
+    }
+
+    private fun getAddShoppingListItemAddMenuItem(context: Context): MenuViewItem {
+        return MenuViewItem(
+            text = context.getString(R.string.shopping_list_item_create_title),
+            task = { launchAddItemScreen() }
+        )
     }
 
     private fun getOffLineShareOptionsMenuItem(context: Context): MenuViewItem {
@@ -256,6 +268,8 @@ class FragmentShoppingListView : FragmentTemplate() {
 
 
     companion object{
+
+
 
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView.ARG_SHOPPING_LIST_ID"

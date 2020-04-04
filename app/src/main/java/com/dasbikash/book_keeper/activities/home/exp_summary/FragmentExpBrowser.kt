@@ -24,9 +24,13 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
+import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
+import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -279,4 +283,19 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
     }
     override fun registerWaitScreen(): ViewGroup = wait_screen
     override fun getPageTitle(context: Context):String? = context.getString(R.string.exp_browse_page_title)
+    override fun getOptionsMenu(context: Context): MenuView? {
+        val menuView = MenuView()
+        menuView.add(
+            MenuViewItem(
+                text = context.getString(R.string.share_app_text),
+                task = {
+                    runWithActivity {
+                        startActivity(OptionsIntentBuilderUtility.getShareAppIntent(it))
+                    }
+                }
+            )
+        )
+        menuView.add(GetCalculatorMenuItem(context))
+        return menuView
+    }
 }
