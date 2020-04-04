@@ -338,7 +338,6 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     private fun getShoppingListId(): String = arguments?.getString(ARG_SHOPPING_LIST_ID)!!
 
     private fun runWithReadStoragePermission(task:()->Unit) {
-        var onPermissionRationaleShouldBeShownCalled = false
         runWithActivity {
             Dexter.withActivity(it)
                 .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -352,7 +351,6 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
                         permission: PermissionRequest?,
                         token: PermissionToken?
                     ) {
-                        onPermissionRationaleShouldBeShownCalled = true
                         runWithContext {
                             DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                                 message = it.getString(R.string.external_storage_permission_rational),
@@ -370,12 +368,12 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
                     }
 
                     override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        if (!onPermissionRationaleShouldBeShownCalled){
+                        if (response?.isPermanentlyDenied == true){
                             runWithContext {
                                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                                     message = it.getString(R.string.open_settings_prompt_for_esp),
                                     doOnPositivePress = {
-                                        openAppSettings()
+                                        runWithActivity { it.openAppSettings()}
                                     },
                                     positiveButtonText = it.getString(R.string.yes),
                                     negetiveButtonText = it.getString(R.string.no)
@@ -384,15 +382,6 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
                         }
                     }
                 }).check()
-        }
-    }
-
-    private fun openAppSettings() {
-        activity?.let {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", it.packageName, null)
-            intent.data = uri
-            startActivity(intent)
         }
     }
 
@@ -526,5 +515,11 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
             return fragment
         }
     }
+}
 
+ fun Activity.openAppSettings() {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", packageName, null)
+    intent.data = uri
+    startActivity(intent)
 }

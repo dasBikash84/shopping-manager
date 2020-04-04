@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.sl_import
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runOnMainThread
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
 import com.dasbikash.book_keeper.activities.sl_share.SlShareMethod
 import com.dasbikash.book_keeper.activities.sl_share.SlToQr
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
@@ -24,8 +24,15 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.google.zxing.BarcodeFormat
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_shopping_list_import.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -78,7 +85,7 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
 
         btn_qr_format_error_rescan.setOnClickListener {
             qr_format_error_block.hide()
-            codeScanner.startPreview()
+            showScannerPreview()
         }
 
         btn_save_offline_sl.setOnClickListener {
@@ -86,14 +93,14 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
                 lifecycleScope.launch {
                     showWaitScreen()
                     ShoppingListRepo.saveOfflineShoppingList(it,offlineShoppingList)
-                    exitMessage = null
-                    activity?.onBackPressed()
+                    exit()
                 }
             }
         }
 
         btn_qr_format_error_rescan_exit.setOnClickListener { activity?.onBackPressed() }
         btn_save_offline_sl_cancel.setOnClickListener { activity?.onBackPressed() }
+        showScannerPreview()
     }
 
     private fun processOffLineSlQrScanResult(slToQr: SlToQr) {
@@ -117,9 +124,14 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
         exitMessage = null
     }
 
-    override fun onResume() {
-        super.onResume()
-        codeScanner.startPreview()
+    private fun showScannerPreview() {
+        runOnMainThread({
+            showWaitScreen()
+            runWithCameraPermission {
+                hideWaitScreen()
+                codeScanner.startPreview()
+            }
+        })
     }
 
     override fun onPause() {
@@ -132,4 +144,66 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
     }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
+
+    private fun runWithCameraPermission(task:()->Unit) {
+        runWithActivity {
+            Dexter.withActivity(it)
+                .withPermission(Manifest.permission.CAMERA)
+                .withListener(object : PermissionListener {
+
+                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                        task()
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: PermissionRequest?,
+                        token: PermissionToken?
+                    ) {
+                        runWithContext {
+                            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                                message = it.getString(R.string.camera_permission_rational),
+                                doOnPositivePress = {
+                                    token?.continuePermissionRequest()
+                                },
+                                doOnNegetivePress = {
+                                    token?.cancelPermissionRequest()
+                                    exit()
+                                },
+                                positiveButtonText = it.getString(R.string.show_permission_dialog),
+                                negetiveButtonText = it.getString(R.string.exit_text)
+                            ))
+                        }
+
+                    }
+
+                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        if (response?.isPermanentlyDenied == true){
+                            runWithContext {
+                                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                                    message = it.getString(R.string.open_settings_prompt_for_cam),
+                                    doOnPositivePress = {
+                                        runWithActivity { it.openAppSettings()}
+                                    },
+                                    doOnNegetivePress = {
+                                        exit()
+                                    },
+                                    positiveButtonText = it.getString(R.string.yes),
+                                    negetiveButtonText = it.getString(R.string.no)
+                                ))
+                            }
+                        }else{
+                            exit()
+                        }
+                    }
+                }).check()
+        }
+    }
+    private fun exit(){
+        debugLog("Exit")
+        lifecycleScope.launch {
+            delay(500)
+            exitMessage = null
+            activity?.finish()
+        }
+    }
 }
