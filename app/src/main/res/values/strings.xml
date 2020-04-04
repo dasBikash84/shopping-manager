@@ -52,7 +52,7 @@
     <string name="empty_verification_code_error">Empty verification code!</string>
     <string name="invalid_verification_code_message">Invalid verification code!</string>
     <string name="login_code_resend">Login code sent.</string>
-    <string name="hide_login_benefits">Don\'t show again.</string>
+    <string name="never_show_cb_text">Don\'t show again</string>
     <string name="add_expense_title">Add Expense Entry</string>
     <string name="edit_expense_title">Edit Expense Entry</string>
     <string name="total_expense_hint">Total expense amount</string>
@@ -239,4 +239,5 @@
     <string name="email_share_app_subject">Sharing BookKeeper android app</string>
     <string name="share_app_chooser_text">Share app Via</string>
     <string name="share_app_text">Share App</string>
+    <string name="share_online_suggestion">Online shared shopping lists are synced automatically among partners, which is not available for off-line shared lists. Share online instead?</string>
 </resources>

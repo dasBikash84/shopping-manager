@@ -42,7 +42,7 @@
         ২) বাজারের ফর্দ নিকটজনদের সাথে শেয়ার করা যাবে।\n
         3) সকল ডাটা এক্সেল আকারে ফোন থেকে ডাউনলোড করা যাবে।
     </string>
-    <string name="hide_login_benefits">পুনারায় দেখতে চাইনা।</string>
+    <string name="never_show_cb_text">পুনারায় দেখতে চাইনা</string>
     <string name="send_login_code_button">কোড পাঠানো হোক</string>
     <string name="resend_login_code_button">%1$s সেকেন্ড পরে কোড পুনরায়  পাঠানো যাবে।</string>
     <string name="resend_code_button">কোড পুনরায় পাঠানো হোক</string>

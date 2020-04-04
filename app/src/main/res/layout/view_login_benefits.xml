@@ -23,7 +23,7 @@
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cb_hide_login_benefits"
         android:layout_marginTop="8dp"
-        android:text="@string/hide_login_benefits"
+        android:text="@string/never_show_cb_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

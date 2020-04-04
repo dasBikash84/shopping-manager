@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -33,6 +34,7 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
 import kotlinx.coroutines.launch
@@ -221,7 +223,34 @@ class FragmentShoppingListView : FragmentTemplate() {
     private fun getOffLineShareOptionsMenuItem(context: Context): MenuViewItem {
         return MenuViewItem(
             text = context.getString(R.string.offline_share_text),
-            task = { startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId())) }
+            task = {
+                runWithContext {
+                    if (onlineShareSuggestionEnabled(context)){
+                        val view = LayoutInflater.from(it).inflate(R.layout.view_online_share_suggestion,null,false)
+                        val cb = view.findViewById<CheckBox>(R.id.cb_disable_online_share_suggestion)
+                        cb.setOnCheckedChangeListener { buttonView, isChecked ->
+                            if (isChecked){
+                                disableOnlineShareSuggestion(it)
+                            }else{
+                                enableOnlineShareSuggestion(it)
+                            }
+                        }
+                        DialogUtils.showAlertDialog(context,DialogUtils.AlertDialogDetails(
+                            view = view,
+                            positiveButtonText = it.getString(R.string.online_share_text),
+                            negetiveButtonText = it.getString(R.string.offline_share_text),
+                            doOnPositivePress = {
+                                startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId()))
+                            },
+                            doOnNegetivePress = {
+                                startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId()))
+                            }
+                        ))
+                    }else{
+                        startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId()))
+                    }
+                }
+            }
         )
     }
 
@@ -268,8 +297,8 @@ class FragmentShoppingListView : FragmentTemplate() {
 
 
     companion object{
-
-
+        private const val ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY =
+            "com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView.ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY"
 
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView.ARG_SHOPPING_LIST_ID"
@@ -281,6 +310,21 @@ class FragmentShoppingListView : FragmentTemplate() {
                 FragmentShoppingListView()
             fragment.arguments = arg
             return fragment
+        }
+
+        private fun disableOnlineShareSuggestion(context: Context){
+            SharedPreferenceUtils.getDefaultInstance()
+                .saveDataSync(context,true,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
+        }
+
+        private fun enableOnlineShareSuggestion(context: Context){
+            SharedPreferenceUtils.getDefaultInstance()
+                .removeKey(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
+        }
+
+        private fun onlineShareSuggestionEnabled(context: Context):Boolean{
+            return !SharedPreferenceUtils.getDefaultInstance()
+                .checkIfExists(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }
     }
 

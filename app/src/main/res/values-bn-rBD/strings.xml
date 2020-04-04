@@ -72,7 +72,7 @@
         ২) বাজারের ফর্দ নিকটজনদের সাথে শেয়ার করা যাবে।\n
         3) সকল ডাটা এক্সেল আকারে ফোন থেকে ডাউনলোড করা যাবে।
     </string>
-    <string name="hide_login_benefits">পুনারায় দেখতে চাইনা।</string>
+    <string name="never_show_cb_text">পুনারায় দেখতে চাইনা</string>
     <string name="calculator_title">ক্যালকুলেটর</string>
     <string name="delete_calc_history_prompt">ক্যালকুলেটরের হিস্ট্রি মুছবেন?</string>
     <string name="delete_calc_history_message">ক্যালকুলেটরের হিস্ট্রি মোছা হয়েছে।</string>
