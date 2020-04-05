@@ -243,4 +243,5 @@
     <string name="share_online_suggestion">Online shared shopping lists are synced automatically among partners, which is not available for off-line shared lists. Share online instead?</string>
     <string name="camera_permission_rational">Camera permission is required to scan QR code</string>
     <string name="show_permission_dialog">Show Permission Dialog</string>
+    <string name="scan_qr_code_to_import_list_prompt">Scan Qr code to import list:</string>
 </resources>
