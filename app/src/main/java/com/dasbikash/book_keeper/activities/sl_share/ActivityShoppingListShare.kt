@@ -3,14 +3,11 @@ package com.dasbikash.book_keeper.activities.sl_share
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.Keep
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
-import com.dasbikash.book_keeper.utils.byteArray
-import com.dasbikash.book_keeper.utils.toCharArray
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.model.User
 import com.google.gson.Gson
-import kotlin.experimental.xor
 
 class ActivityShoppingListShare : ActivityTemplate() {
     override fun registerDefaultFragment(): FragmentTemplate {
@@ -89,9 +86,42 @@ data class SlToQr(
             }
             return null
         }
+
+        fun getPayloadForOnlineSharing(shoppingList: ShoppingList,user:User): String {
+            return Gson().toJson(
+                SlToQr(
+                    data = dataForOnlineSharing(user,shoppingList),
+                    slShareMethod = SlShareMethod.ON_LINE))
+        }
+
+        private fun dataForOnlineSharing(user: User,shoppingList: ShoppingList): String {
+            return Gson().toJson(ShoppingListShareParams.getInstance(user, shoppingList))
+        }
     }
 }
 
 enum class SlShareMethod{
     OFF_LINE,ON_LINE
+}
+
+@Keep
+data class ShoppingListShareParams(
+    var userId:String?=null,
+    var shoppingListId:String?=null
+){
+    fun validateData(){
+        if (userId.isNullOrBlank() ||
+            shoppingListId.isNullOrBlank()){
+            throw IllegalArgumentException()
+        }
+    }
+
+    companion object{
+        fun getInstance(user: User,shoppingList: ShoppingList)
+            :ShoppingListShareParams{
+            val shoppingListShareParams = ShoppingListShareParams(user.id,shoppingList.id)
+            shoppingListShareParams.validateData()
+            return shoppingListShareParams
+        }
+    }
 }

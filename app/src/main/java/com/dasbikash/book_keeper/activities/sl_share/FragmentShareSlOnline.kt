@@ -2,28 +2,21 @@ package com.dasbikash.book_keeper.activities.sl_share
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
-import kotlinx.android.synthetic.main.view_wait_screen.*
+import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.ShoppingList
 
-class FragmentShareSlOnline:FragmentTemplate(), WaitScreenOwner {
+class FragmentShareSlOnline:FragmentShareShoppingList() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_share_sl_online, container, false)
+    override suspend fun getDataForQrCode(shoppingList: ShoppingList): String {
+        return SlToQr.getPayloadForOnlineSharing(shoppingList,AuthRepo.getUser(context!!)!!)
     }
 
-    override fun getPageTitle(context: Context): String? {
+    override fun getTitle(context: Context): String {
         return context.getString(R.string.online_share_page_title)
     }
 
-    override fun registerWaitScreen(): ViewGroup = wait_screen
+    override fun getShoppingListId():String = arguments!!.getString(ARG_SL_ID)!!
 
     companion object{
         private const val ARG_SL_ID =

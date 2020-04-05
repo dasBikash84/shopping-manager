@@ -14,7 +14,6 @@ import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
-
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
 import com.dasbikash.book_keeper.activities.sl_share.SlShareMethod
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.fragment_shopping_list_import.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
 
