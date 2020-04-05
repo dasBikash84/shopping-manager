@@ -5,10 +5,8 @@ import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
-import com.dasbikash.book_keeper_repo.model.ShoppingList
-import com.dasbikash.book_keeper_repo.model.ShoppingListItem
-import com.dasbikash.book_keeper_repo.model.SlReminderGenLog
-import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListShareService
+import com.dasbikash.book_keeper_repo.model.*
 import java.util.*
 
 object ShoppingListRepo : BookKeeperRepo() {
@@ -16,6 +14,7 @@ object ShoppingListRepo : BookKeeperRepo() {
     private fun getShoppingListDao(context: Context) = getDatabase(context).shoppingListDao
     private fun getShoppingListItemDao(context: Context) = getDatabase(context).shoppingListItemDao
     private fun getSlReminderGenLogDao(context: Context) = getDatabase(context).slReminderGenLogDao
+    private fun getShoppingListShareReqLogDao(context: Context) = getDatabase(context).shoppingListShareReqLogDao
 
     suspend fun getAllShoppingLists(context: Context): LiveData<List<ShoppingList>> {
         return AuthRepo.getUser(context)!!
@@ -173,5 +172,17 @@ object ShoppingListRepo : BookKeeperRepo() {
             saveLocal(context, it)
         }
         save(context, offlineShoppingList)
+    }
+
+    suspend fun postOnlineSlShareRequest(context: Context, slOwnerId: String, shoppingListId: String) {
+        val shoppingListShareReqLog =
+            ShoppingListShareReqLog(userId = AuthRepo.getUser(context)!!.id,ownerUserId = slOwnerId,shoppingListId = shoppingListId)
+        FireStoreShoppingListShareService.postRequest(AuthRepo.getUser(context)!!,shoppingListShareReqLog)
+        getShoppingListShareReqLogDao(context).add(shoppingListShareReqLog)
+    }
+
+    suspend fun isShareRequestValid(context: Context,shoppingListId:String):Boolean{
+        return findShoppingListItemById(context,shoppingListId)==null &&
+                getShoppingListShareReqLogDao(context).findByShoppingListId(shoppingListId)==null
     }
 }

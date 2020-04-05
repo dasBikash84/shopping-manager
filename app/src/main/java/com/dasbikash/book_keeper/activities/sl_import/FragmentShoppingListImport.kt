@@ -16,6 +16,7 @@ import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
+import com.dasbikash.book_keeper.activities.sl_share.ShoppingListShareParams
 import com.dasbikash.book_keeper.activities.sl_share.SlShareMethod
 import com.dasbikash.book_keeper.activities.sl_share.SlToQr
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
@@ -34,11 +35,12 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
+class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
 
     private lateinit var codeScanner: CodeScanner
     private var exitMessage:String?=null
     private lateinit var offlineShoppingList:ShoppingList
+    private lateinit var shoppingListShareParams: ShoppingListShareParams
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +65,7 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
                     if (it?.slShareMethod !=null && it.data!=null){
                         when(it.slShareMethod){
                             SlShareMethod.ON_LINE -> {
-                                TODO()
+                                processOnLineSlQrScanResult(it)
                             }
                             SlShareMethod.OFF_LINE ->{
                                 processOffLineSlQrScanResult(it)
@@ -77,7 +79,9 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
         }
 
         codeScanner.errorCallback= ErrorCallback {
-            showShortSnack("QR scanner error")
+            if(BuildConfig.DEBUG) {
+                showShortSnack("QR scanner error")
+            }
             it.printStackTrace()
         }
 
@@ -96,21 +100,59 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
             }
         }
 
+        btn_online_shopping_list_import.setOnClickListener {
+            postOnlineSlShareRequest()
+        }
+
         btn_qr_format_error_rescan_exit.setOnClickListener { activity?.onBackPressed() }
         btn_save_offline_sl_cancel.setOnClickListener { activity?.onBackPressed() }
+        btn_online_shopping_list_import_cancel.setOnClickListener { activity?.onBackPressed() }
         showScannerPreview()
     }
 
+    private fun postOnlineSlShareRequest() {
+        runWithContext {
+            showWaitScreen()
+            lifecycleScope.launch {
+                ShoppingListRepo.isShareRequestValid(it,shoppingListShareParams.shoppingListId!!).let {
+                    if (it){
+                        ShoppingListRepo.postOnlineSlShareRequest(
+                            context!!,shoppingListShareParams.userId!!,shoppingListShareParams.shoppingListId!!)
+                        showShortSnack(getString(R.string.shopping_list_share_request_posted))
+                    }else{
+                        showShortSnack(getString(R.string.duplicate_shopping_list_message))
+                    }
+                    delay(DELAY_BEFORE_EXIT)
+                    activity?.finish()
+                }
+            }
+        }
+    }
+
+    private fun processOnLineSlQrScanResult(slToQr: SlToQr) {
+        SlToQr.decodeOnlineRequestPayload(slToQr).let {
+            if (it!=null){
+                shoppingListShareParams = it
+                off_line_share_block.hide()
+                qr_format_error_block.hide()
+                on_line_share_block.show()
+                exitMessage = getString(R.string.discard_and_exit_prompt)
+            }else{
+                showResultErrorScreen()
+            }
+        }
+    }
+
     private fun processOffLineSlQrScanResult(slToQr: SlToQr) {
-        off_line_share_block.show()
-        on_line_share_block.hide()
-        qr_format_error_block.hide()
-        exitMessage = getString(R.string.discard_and_exit_prompt)
         SlToQr.decodeOfflineShoppingList(slToQr).let {
             if (it==null){
                 showResultErrorScreen()
             }else{
                 offlineShoppingList = it
+                off_line_share_block.show()
+                on_line_share_block.hide()
+                qr_format_error_block.hide()
+                exitMessage = getString(R.string.discard_and_exit_prompt)
             }
         }
     }
@@ -203,5 +245,8 @@ class FragmentShoppingListImport : FragmentTemplate(),WaitScreenOwner {
             exitMessage = null
             activity?.finish()
         }
+    }
+    companion object{
+        private const val DELAY_BEFORE_EXIT: Long = 1000L
     }
 }

@@ -87,6 +87,20 @@ data class SlToQr(
             return null
         }
 
+        fun decodeOnlineRequestPayload(slToQr: SlToQr):ShoppingListShareParams?{
+            slToQr.data?.let {
+                try {
+                    Gson().fromJson(it,ShoppingListShareParams::class.java)?.let {
+                        it.validateData()
+                        return it
+                    }
+                }catch (ex:Throwable){
+                    ex.printStackTrace()
+                }
+            }
+            return null
+        }
+
         fun getPayloadForOnlineSharing(shoppingList: ShoppingList,user:User): String {
             return Gson().toJson(
                 SlToQr(

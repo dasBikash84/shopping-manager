@@ -21,12 +21,15 @@ import androidx.room.TypeConverters
 import com.dasbikash.book_keeper_repo.db.dao.*
 import com.dasbikash.book_keeper_repo.db.room_converters.DateConverter
 import com.dasbikash.book_keeper_repo.db.room_converters.ExpenseItemListConverter
+import com.dasbikash.book_keeper_repo.db.room_converters.ShoppingListApprovalStatusConverter
 import com.dasbikash.book_keeper_repo.db.room_converters.StringListConverter
 import com.dasbikash.book_keeper_repo.model.*
 
 @Database(entities = [ExpenseEntry::class,User::class,ShoppingList::class,
-                        ShoppingListItem::class,RemoteImageInfo::class,SlReminderGenLog::class],version = 1, exportSchema = false)
-@TypeConverters(DateConverter::class,ExpenseItemListConverter::class,StringListConverter::class)
+                        ShoppingListItem::class,RemoteImageInfo::class,SlReminderGenLog::class,
+                        ShoppingListShareReqLog::class],version = 1, exportSchema = false)
+@TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
+                StringListConverter::class, ShoppingListApprovalStatusConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
 
     abstract val userDao:UserDao
@@ -35,6 +38,7 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val shoppingListItemDao:ShoppingListItemDao
     abstract val remoteImageInfoDao:RemoteImageInfoDao
     abstract val slReminderGenLogDao:SlReminderGenLogDao
+    abstract val shoppingListShareReqLogDao:ShoppingListShareReqLogDao
 
     companion object {
         private val DATABASE_NAME = "ex_man_database"
