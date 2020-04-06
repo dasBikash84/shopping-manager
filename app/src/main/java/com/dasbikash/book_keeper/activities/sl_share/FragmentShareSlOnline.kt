@@ -3,13 +3,14 @@ package com.dasbikash.book_keeper.activities.sl_share
 import android.content.Context
 import android.os.Bundle
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.models.SlToQr
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 
 class FragmentShareSlOnline:FragmentShareShoppingList() {
 
     override suspend fun getDataForQrCode(shoppingList: ShoppingList): String {
-        return SlToQr.getPayloadForOnlineSharing(shoppingList,AuthRepo.getUser(context!!)!!)
+        return SlToQr.getPayloadForOnlineSharing(shoppingList)
     }
 
     override fun getTitle(context: Context): String {

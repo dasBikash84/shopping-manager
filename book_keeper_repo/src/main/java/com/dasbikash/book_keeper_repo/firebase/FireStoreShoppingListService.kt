@@ -47,4 +47,26 @@ internal object FireStoreShoppingListService {
                 })
         }
     }
+
+    suspend fun fetchShoppingListById(shoppingListId:String):ShoppingList? {
+        return suspendCoroutine {
+            val continuation = it
+            FireStoreRefUtils
+                .getShoppingListCollectionRef()
+                .document(shoppingListId)
+                .get()
+                .addOnSuccessListener {
+                    it.toObject(ShoppingList::class.java).let {
+                        continuation.resume(it)
+                    }
+                }
+                .addOnFailureListener {
+                    continuation.resume(null)
+                    it.printStackTrace()
+                }
+        }
+    }
+
+    fun getFbPath(shoppingListId: String): String =
+        FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingListId).path
 }

@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.activities.sl_share
 import android.content.Context
 import android.os.Bundle
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.models.SlToQr
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 
 class FragmentShareSlOffline: FragmentShareShoppingList() {

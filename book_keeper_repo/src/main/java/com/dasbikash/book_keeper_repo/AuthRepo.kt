@@ -12,6 +12,10 @@ object AuthRepo:BookKeeperRepo() {
         return FirebaseAuthService.getFireBaseUser() != null
     }
 
+    fun getUserId(): String{
+        return FirebaseAuthService.getFireBaseUser()!!.uid
+    }
+
     suspend fun getUser(context: Context): User?{
         FirebaseAuthService.getFireBaseUser()?.let {
                 return getDatabase(context).userDao.findById(it.uid)
