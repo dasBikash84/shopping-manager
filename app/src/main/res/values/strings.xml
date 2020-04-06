@@ -244,6 +244,6 @@
     <string name="camera_permission_rational">Camera permission is required to scan QR code</string>
     <string name="show_permission_dialog">Show Permission Dialog</string>
     <string name="scan_qr_code_to_import_list_prompt">Scan Qr code to import list:</string>
-    <string name="duplicate_shopping_list_message">Duplicate shopping list! Exiting...</string>
+    <string name="duplicate_shopping_list_or_share_req_message">Duplicate shopping list or share request! Exiting…</string>
     <string name="shopping_list_share_request_posted">List share request posted. Please wait for owner approval.</string>
 </resources>

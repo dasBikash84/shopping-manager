@@ -1,9 +1,8 @@
-package com.dasbikash.book_keeper.models
+package com.dasbikash.book_keeper_repo.model
 
 import androidx.annotation.Keep
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.ShoppingList
 import java.util.*
 
 @Keep

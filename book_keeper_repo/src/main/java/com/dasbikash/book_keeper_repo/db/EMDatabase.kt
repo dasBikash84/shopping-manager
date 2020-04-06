@@ -26,8 +26,9 @@ import com.dasbikash.book_keeper_repo.db.room_converters.StringListConverter
 import com.dasbikash.book_keeper_repo.model.*
 
 @Database(entities = [ExpenseEntry::class,User::class,ShoppingList::class,
-                        ShoppingListItem::class,RemoteImageInfo::class,SlReminderGenLog::class,
-                        ShoppingListShareReqLog::class],version = 1, exportSchema = false)
+                        ShoppingListItem::class,RemoteImageInfo::class,
+                        SlReminderGenLog::class,OnlineDocShareReq::class],
+            version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
                 StringListConverter::class, ShoppingListApprovalStatusConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
@@ -38,7 +39,7 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val shoppingListItemDao:ShoppingListItemDao
     abstract val remoteImageInfoDao:RemoteImageInfoDao
     abstract val slReminderGenLogDao:SlReminderGenLogDao
-    abstract val shoppingListShareReqLogDao:ShoppingListShareReqLogDao
+    abstract val onlineDocShareReqDao:OnlineDocShareReqDao
 
     companion object {
         private val DATABASE_NAME = "ex_man_database"

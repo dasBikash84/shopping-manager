@@ -1,8 +1,8 @@
 package com.dasbikash.book_keeper.models
 
 import androidx.annotation.Keep
+import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
 import com.dasbikash.book_keeper_repo.model.ShoppingList
-import com.dasbikash.book_keeper_repo.model.User
 import com.google.gson.Gson
 
 @Keep

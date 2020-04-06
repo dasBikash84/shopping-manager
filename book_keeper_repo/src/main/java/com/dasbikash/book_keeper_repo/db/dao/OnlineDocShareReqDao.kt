@@ -17,14 +17,15 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.dasbikash.book_keeper_repo.model.ShoppingListShareReqLog
+import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
 
 @Dao
-internal interface ShoppingListShareReqLogDao {
+internal interface OnlineDocShareReqDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun add(shoppingListShareReqLog: ShoppingListShareReqLog)
+    suspend fun add(onlineDocShareReq: OnlineDocShareReq)
 
-    @Query("SELECT * FROM ShoppingListShareReqLog WHERE shoppingListId=:shoppingListId")
-    suspend fun findByShoppingListId(shoppingListId:String):ShoppingListShareReqLog?
+    @Query("SELECT * FROM OnlineDocShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
+    suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineDocShareReq?
 }

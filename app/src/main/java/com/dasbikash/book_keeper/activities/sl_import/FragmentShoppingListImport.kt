@@ -16,9 +16,9 @@ import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
-import com.dasbikash.book_keeper.activities.sl_share.ShoppingListShareParams
-import com.dasbikash.book_keeper.activities.sl_share.SlShareMethod
-import com.dasbikash.book_keeper.activities.sl_share.SlToQr
+import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
+import com.dasbikash.book_keeper.models.SlShareMethod
+import com.dasbikash.book_keeper.models.SlToQr
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -40,7 +40,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     private lateinit var codeScanner: CodeScanner
     private var exitMessage:String?=null
     private lateinit var offlineShoppingList:ShoppingList
-    private lateinit var shoppingListShareParams: ShoppingListShareParams
+    private lateinit var onlineDocShareParams: OnlineDocShareParams
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -114,13 +114,12 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
         runWithContext {
             showWaitScreen()
             lifecycleScope.launch {
-                ShoppingListRepo.isShareRequestValid(it,shoppingListShareParams.shoppingListId!!).let {
+                ShoppingListRepo.isShareRequestValid(it,onlineDocShareParams.documentPath!!).let {
                     if (it){
-                        ShoppingListRepo.postOnlineSlShareRequest(
-                            context!!,shoppingListShareParams.userId!!,shoppingListShareParams.shoppingListId!!)
+                        ShoppingListRepo.postOnlineSlShareRequest(context!!,onlineDocShareParams)
                         showShortSnack(getString(R.string.shopping_list_share_request_posted))
                     }else{
-                        showShortSnack(getString(R.string.duplicate_shopping_list_message))
+                        showShortSnack(getString(R.string.duplicate_shopping_list_or_share_req_message))
                     }
                     delay(DELAY_BEFORE_EXIT)
                     activity?.finish()
@@ -132,7 +131,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     private fun processOnLineSlQrScanResult(slToQr: SlToQr) {
         SlToQr.decodeOnlineRequestPayload(slToQr).let {
             if (it!=null){
-                shoppingListShareParams = it
+                onlineDocShareParams = it
                 off_line_share_block.hide()
                 qr_format_error_block.hide()
                 on_line_share_block.show()
@@ -247,6 +246,6 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
         }
     }
     companion object{
-        private const val DELAY_BEFORE_EXIT: Long = 1000L
+        private const val DELAY_BEFORE_EXIT: Long = 500L
     }
 }

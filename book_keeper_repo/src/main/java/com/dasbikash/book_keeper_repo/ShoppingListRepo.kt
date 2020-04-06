@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
-import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListShareService
+import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineDocShareService
 import com.dasbikash.book_keeper_repo.model.*
 import java.util.*
 
@@ -14,7 +14,7 @@ object ShoppingListRepo : BookKeeperRepo() {
     private fun getShoppingListDao(context: Context) = getDatabase(context).shoppingListDao
     private fun getShoppingListItemDao(context: Context) = getDatabase(context).shoppingListItemDao
     private fun getSlReminderGenLogDao(context: Context) = getDatabase(context).slReminderGenLogDao
-    private fun getShoppingListShareReqLogDao(context: Context) = getDatabase(context).shoppingListShareReqLogDao
+    private fun getOnlineDocShareReqDao(context: Context) = getDatabase(context).onlineDocShareReqDao
 
     suspend fun getAllShoppingLists(context: Context): LiveData<List<ShoppingList>> {
         return AuthRepo.getUser(context)!!
@@ -174,15 +174,27 @@ object ShoppingListRepo : BookKeeperRepo() {
         save(context, offlineShoppingList)
     }
 
-    suspend fun postOnlineSlShareRequest(context: Context, slOwnerId: String, shoppingListId: String) {
-        val shoppingListShareReqLog =
-            ShoppingListShareReqLog(userId = AuthRepo.getUser(context)!!.id,ownerUserId = slOwnerId,shoppingListId = shoppingListId)
-        FireStoreShoppingListShareService.postRequest(AuthRepo.getUser(context)!!,shoppingListShareReqLog)
-        getShoppingListShareReqLogDao(context).add(shoppingListShareReqLog)
+    suspend fun postOnlineSlShareRequest(context: Context, onlineDocShareParams: OnlineDocShareParams) {
+        val onlineDocShareReq = OnlineDocShareReq.getInstance(onlineDocShareParams)
+        FireStoreOnlineDocShareService.postRequest(onlineDocShareReq)
+        save(context,onlineDocShareReq)
     }
 
-    suspend fun isShareRequestValid(context: Context,shoppingListId:String):Boolean{
-        return findShoppingListItemById(context,shoppingListId)==null &&
-                getShoppingListShareReqLogDao(context).findByShoppingListId(shoppingListId)==null
+    suspend fun isShareRequestValid(context: Context, shoppingListPath:String):Boolean{
+        try {
+            val shoppingListId = shoppingListPath.split("/").let { return@let it.last() }
+            return findShoppingListItemById(context, shoppingListId) == null &&
+                    getOnlineDocShareReqDao(context).findByDocumentPathAndPartnerId(shoppingListPath) == null
+        }catch (ex:Throwable){
+            ex.printStackTrace()
+            return true
+        }
     }
+
+    internal suspend fun save(context:Context, onlineDocShareReq:OnlineDocShareReq){
+        getOnlineDocShareReqDao(context).add(onlineDocShareReq)
+    }
+
+    fun getFbPath(shoppingList: ShoppingList):String =
+        FireStoreShoppingListService.getFbPath(shoppingList.id)
 }
