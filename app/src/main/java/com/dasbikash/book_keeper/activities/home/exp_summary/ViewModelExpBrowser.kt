@@ -7,7 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.viewModelScope
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.ExpenseEntryFetchParam
+import com.dasbikash.book_keeper_repo.model.ExpenseEntryFetchParam
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
@@ -41,7 +41,10 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
         viewModelScope.launch {
             AuthRepo.getUser(mApplication).let {
                 debugLog(it ?: "No user")
-                expenseEntryFetchParam = ExpenseEntryFetchParam(user = it)
+                expenseEntryFetchParam =
+                    ExpenseEntryFetchParam(
+                        user = it
+                    )
                 refreshExpenseEntries()
             }
         }

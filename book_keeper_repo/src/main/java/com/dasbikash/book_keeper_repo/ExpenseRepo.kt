@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper_repo
 
 import android.content.Context
-import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -147,17 +146,5 @@ object ExpenseRepo:BookKeeperRepo() {
 
     private suspend fun getMaxExpenseModifiedTime(context: Context,user: User):Date?{
         return getDatabase(context).expenseEntryDao.getLatestModifiedTimeForUser(user.id)
-    }
-}
-
-@Keep
-data class ExpenseEntryFetchParam(
-    var searchText:String="",
-    var limit:Int=EXPENSE_FETCH_LIMIT_INC_VALUE,
-    var expenseCategory:Int?=null,
-    val user:User?=null
-){
-    companion object{
-        val EXPENSE_FETCH_LIMIT_INC_VALUE = 100
     }
 }

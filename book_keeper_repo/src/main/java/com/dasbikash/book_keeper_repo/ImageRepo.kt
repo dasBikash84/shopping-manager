@@ -10,6 +10,7 @@ import com.dasbikash.book_keeper_repo.exceptions.FileDownloadException
 import com.dasbikash.book_keeper_repo.exceptions.ImageDeletionException
 import com.dasbikash.book_keeper_repo.firebase.FirebaseStorageService
 import com.dasbikash.book_keeper_repo.model.RemoteImageInfo
+import com.dasbikash.book_keeper_repo.utils.scaled
 import java.io.File
 
 object ImageRepo:BookKeeperRepo() {
@@ -99,19 +100,4 @@ object ImageRepo:BookKeeperRepo() {
 
     private fun getRemoteImageInfoDao(context: Context) =
         getDatabase(context).remoteImageInfoDao
-}
-
-fun Bitmap.scaled(maxPixels:Float = 512.00f): Bitmap {
-
-    val ratio: Float = Math.min(
-        maxPixels / this.getWidth(),
-        maxPixels / this.getHeight()
-    )
-    val width = Math.round(ratio * this.getWidth())
-    val height = Math.round(ratio * this.getHeight())
-
-    return Bitmap.createScaledBitmap(
-        this, width,
-        height, true
-    )
 }

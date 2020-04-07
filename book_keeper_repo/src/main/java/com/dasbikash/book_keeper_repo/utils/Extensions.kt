@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper_repo.utils
 
+import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import java.io.ByteArrayInputStream
@@ -172,4 +173,19 @@ fun Date.getEnd():Date{
     cal.set(Calendar.MINUTE,59)
     cal.set(Calendar.SECOND,59)
     return cal.time
+}
+
+fun Bitmap.scaled(maxPixels:Float = 512.00f): Bitmap {
+
+    val ratio: Float = Math.min(
+        maxPixels / this.getWidth(),
+        maxPixels / this.getHeight()
+    )
+    val width = Math.round(ratio * this.getWidth())
+    val height = Math.round(ratio * this.getHeight())
+
+    return Bitmap.createScaledBitmap(
+        this, width,
+        height, true
+    )
 }
