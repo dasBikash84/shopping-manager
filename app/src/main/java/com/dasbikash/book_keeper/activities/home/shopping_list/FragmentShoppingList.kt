@@ -27,12 +27,13 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-// User may also share shopping list with connected users/ by QR code.
+import java.util.*
 
 class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelShoppingList
@@ -80,9 +81,13 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             override fun onChanged(list: List<OnlineDocShareReq>?) {
                 list?.let {
                     it.asSequence().forEach { processRecentOnlineDocShareRequest(it) }
+                    if (it.isNotEmpty()) {
+                        viewModel.setLastSharedRequestEntryUpdateTime()
+                    }
                 }
             }
         })
+        viewModel.setLastSharedRequestEntryUpdateTime()
     }
 
     private fun processRecentOnlineDocShareRequest(onlineDocShareReq: OnlineDocShareReq){
@@ -103,7 +108,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                         lifecycleScope.launch {
                             val shoppingList:ShoppingList = ShoppingListRepo.findById(it,onlineDocShareReq.sharedDocumentId()!!)!!
                             AuthRepo.findUserById(it,onlineDocShareReq.ownerId!!)?.let {
-                                showShortSnack(
+                                showLongSnack(
                                     getString(R.string.shopping_list_share_req_approved,it.displayText()),
                                     getString(R.string.show_list_action_text),
                                     {launchDetailView(shoppingList)}
@@ -116,7 +121,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                     runWithContext {
                         lifecycleScope.launch {
                             AuthRepo.findUserById(it,onlineDocShareReq.ownerId!!)?.let {
-                                showShortSnack(R.string.shopping_list_share_req_denied,it.displayText())
+                                showLongSnack(getString(R.string.shopping_list_share_req_denied,it.displayText()))
                             }
                         }
                     }

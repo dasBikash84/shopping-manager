@@ -26,7 +26,7 @@ object ImageRepo:BookKeeperRepo() {
             }
             return FirebaseStorageService.downloadImageFile(imageUrl).apply {
                 imageUrl.split("/").last().let {
-                    FileUtils.saveFileOnInternalStorage(this,context,it)
+                    FileUtils.saveFileOnInternalStorage(this,context,it,true)
                     debugLog("Saved on local storage")
                 }
             }

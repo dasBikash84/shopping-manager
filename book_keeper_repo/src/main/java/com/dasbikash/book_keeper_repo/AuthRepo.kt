@@ -2,6 +2,7 @@ package com.dasbikash.book_keeper_repo
 
 import android.app.Activity
 import android.content.Context
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.User
@@ -81,6 +82,7 @@ object AuthRepo:BookKeeperRepo() {
     suspend fun getCurrentMobileNumber(context: Context) = FirebaseAuthService.getCurrentMobileNumber(context)
 
     suspend fun findUserById(context: Context,userId:String):User?{
+        debugLog("findUserById: ${userId}")
 //        getUserDao(context).findById(userId)?.let {
 //            return it
 //        }

@@ -39,7 +39,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'com.github.dasBikash84:shared-preferences-ext:1.7.0'
-    implementation 'com.github.dasBikash84:android-basic-utils:2.3.0'
+    implementation 'com.github.dasBikash84:android-basic-utils:2.4.0'
     implementation 'com.github.dasBikash84:android-async-manager:1.7.0'
     implementation 'com.github.dasBikash84:android-image-utils:2.2.0'
 

@@ -28,6 +28,7 @@ internal object FirebaseUserService {
     }
 
     suspend fun findUserById(userId:String):User?{
+        debugLog("findUserById: ${userId}")
         return suspendCoroutine<User?> {
             val continuation = it
             FireStoreRefUtils

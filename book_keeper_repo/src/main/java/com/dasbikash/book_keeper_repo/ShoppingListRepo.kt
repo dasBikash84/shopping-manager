@@ -185,8 +185,8 @@ object ShoppingListRepo : BookKeeperRepo() {
     suspend fun isShareRequestValid(context: Context, shoppingListPath:String):Boolean{
         try {
             val shoppingListId = shoppingListPath.split("/").let { return@let it.last() }
-            return findShoppingListItemById(context, shoppingListId) == null &&
-                    getOnlineDocShareReqDao(context).findByDocumentPathAndPartnerId(shoppingListPath) == null
+            return findShoppingListItemById(context, shoppingListId) == null //&&
+//                    getOnlineDocShareReqDao(context).findByDocumentPathAndPartnerId(shoppingListPath) == null
         }catch (ex:Throwable){
             ex.printStackTrace()
             return true
@@ -194,14 +194,15 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     internal suspend fun save(context:Context, onlineDocShareReq:OnlineDocShareReq){
+        onlineDocShareReq.modified = Date()
         getOnlineDocShareReqDao(context).add(onlineDocShareReq)
     }
 
     fun getFbPath(shoppingList: ShoppingList):String =
         FireStoreShoppingListService.getFbPath(shoppingList.id)
 
-    fun getRecentModifiedShareRequestEntries(context: Context) =
-        getOnlineDocShareReqDao(context).getRecentModifiedEntries()
+    fun getRecentModifiedShareRequestEntries(context: Context,leastModifiedTime: Date) =
+        getOnlineDocShareReqDao(context).getRecentModifiedEntries(leastModifiedTime)
 
     fun setListenerForPendingOnlineSlShareRequest(
         context: Context,
@@ -234,7 +235,6 @@ object ShoppingListRepo : BookKeeperRepo() {
                                 saveFireBaseEntry(context,it)
                             }
                     }
-                    onlineDocShareReq.modified = Date()
                     save(context, onlineDocShareReq)
                 }
             }
