@@ -18,13 +18,13 @@ object AuthRepo:BookKeeperRepo() {
 
     suspend fun getUser(context: Context): User?{
         FirebaseAuthService.getFireBaseUser()?.let {
-                return getDatabase(context).userDao.findById(it.uid)
+                return getUserDao(context).findById(it.uid)
             }
         return null
     }
 
     private suspend fun saveLogin(context: Context, user: User){
-        getDatabase(context).userDao.add(user)
+        getUserDao(context).add(user)
     }
 
     suspend fun createUserWithEmailAndPassword(email:String,password:String,
@@ -79,4 +79,17 @@ object AuthRepo:BookKeeperRepo() {
 
     suspend fun codeResendWaitMs(context: Context):Long = FirebaseAuthService.codeResendWaitMs(context)
     suspend fun getCurrentMobileNumber(context: Context) = FirebaseAuthService.getCurrentMobileNumber(context)
+
+    suspend fun findUserById(context: Context,userId:String):User?{
+//        getUserDao(context).findById(userId)?.let {
+//            return it
+//        }
+        FirebaseUserService.findUserById(userId)?.let {
+            getUserDao(context).add(it)
+            return it
+        }
+        return null
+    }
+
+    private fun getUserDao(context: Context) = getDatabase(context).userDao
 }

@@ -8,13 +8,13 @@ import java.util.*
 
 @Keep
 @Entity(
-    foreignKeys = [
+    /*foreignKeys = [
         ForeignKey(
             entity = User::class,
             parentColumns = ["id"],
             childColumns = ["userId"]
         )
-    ],
+    ],*/
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
         Index(value = ["userId","title"], unique = true),
@@ -29,6 +29,7 @@ data class ShoppingList(
     var active:Boolean = true,
     var title:String?=null,
     var deadLine: Date?=null,
+    var partnerIds:List<String>?=null,
     var modified: Date = Date(),
     var created: Date = Date()
 ){

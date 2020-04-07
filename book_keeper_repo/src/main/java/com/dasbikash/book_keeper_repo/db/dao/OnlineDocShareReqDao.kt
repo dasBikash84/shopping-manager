@@ -13,12 +13,15 @@
 
 package com.dasbikash.book_keeper_repo.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
+import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
+import java.util.*
 
 @Dao
 internal interface OnlineDocShareReqDao {
@@ -28,4 +31,8 @@ internal interface OnlineDocShareReqDao {
 
     @Query("SELECT * FROM OnlineDocShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
     suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineDocShareReq?
+
+    @Query("SELECT * FROM OnlineDocShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
+    fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
+                                 partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineDocShareReq>>
 }

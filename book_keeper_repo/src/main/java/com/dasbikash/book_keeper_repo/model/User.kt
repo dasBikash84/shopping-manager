@@ -19,4 +19,13 @@ data class User(
     fun validateData():Boolean{
         return !id.isBlank() && (!phone.isNullOrBlank() || (!email.isNullOrBlank() && !firstName.isNullOrBlank()))
     }
+
+    fun displayText(): CharSequence {
+        return when{
+            firstName!=null ->{ "$firstName ${lastName ?: ""}"}
+            !email.isNullOrBlank() -> email!!
+            !phone.isNullOrBlank() -> phone!!
+            else -> ""
+        }
+    }
 }

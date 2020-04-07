@@ -1,12 +1,15 @@
 package com.dasbikash.book_keeper_repo
 
 import android.content.Context
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
 import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineDocShareService
 import com.dasbikash.book_keeper_repo.model.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 object ShoppingListRepo : BookKeeperRepo() {
@@ -16,9 +19,8 @@ object ShoppingListRepo : BookKeeperRepo() {
     private fun getSlReminderGenLogDao(context: Context) = getDatabase(context).slReminderGenLogDao
     private fun getOnlineDocShareReqDao(context: Context) = getDatabase(context).onlineDocShareReqDao
 
-    suspend fun getAllShoppingLists(context: Context): LiveData<List<ShoppingList>> {
-        return AuthRepo.getUser(context)!!
-            .let { getDatabase(context).shoppingListDao.findAllLiveData(it.id) }
+    fun getAllShoppingLists(context: Context): LiveData<List<ShoppingList>> {
+        return getDatabase(context).shoppingListDao.findAllLiveData()
     }
 
     suspend fun save(context: Context, shoppingListItem: ShoppingListItem) {
@@ -197,4 +199,45 @@ object ShoppingListRepo : BookKeeperRepo() {
 
     fun getFbPath(shoppingList: ShoppingList):String =
         FireStoreShoppingListService.getFbPath(shoppingList.id)
+
+    fun getRecentModifiedShareRequestEntries(context: Context) =
+        getOnlineDocShareReqDao(context).getRecentModifiedEntries()
+
+    fun setListenerForPendingOnlineSlShareRequest(
+        context: Context,
+        lifecycleOwner: LifecycleOwner,
+        onlineDocShareReq: OnlineDocShareReq
+    ) {
+        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineDocShareReq}")
+        FireStoreOnlineDocShareService
+            .setListenerForPendingOnlineDocShareRequest(
+                lifecycleOwner,
+                onlineDocShareReq,
+                {
+                    processDownloadedOnlineDocShareRequest(context,it)
+                }
+            )
+    }
+
+    private fun processDownloadedOnlineDocShareRequest(
+        context: Context,onlineDocShareReq: OnlineDocShareReq) {
+        debugLog("processDownloadedOnlineDocShareRequest: ${onlineDocShareReq}")
+        GlobalScope.launch {
+            debugLog("processDownloadedOnlineDocShareRequest: ${onlineDocShareReq.checkIfShoppingListShareRequest()}")
+            if (onlineDocShareReq.checkIfShoppingListShareRequest()) {
+                debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
+                if (onlineDocShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
+                    if (onlineDocShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
+                        FireStoreShoppingListService
+                            .fetchShoppingListById(onlineDocShareReq.sharedDocumentId()!!)?.let {
+                                debugLog("fetchShoppingListById: ${it}")
+                                saveFireBaseEntry(context,it)
+                            }
+                    }
+                    onlineDocShareReq.modified = Date()
+                    save(context, onlineDocShareReq)
+                }
+            }
+        }
+    }
 }

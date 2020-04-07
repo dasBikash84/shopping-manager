@@ -1,7 +1,10 @@
 package com.dasbikash.book_keeper_repo.firebase
 
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.model.User
 import com.google.firebase.auth.FirebaseUser
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 internal object FirebaseUserService {
 
@@ -22,5 +25,31 @@ internal object FirebaseUserService {
             phone = firebaseUser.phoneNumber!!
         )
         return saveUser(user)!!
+    }
+
+    suspend fun findUserById(userId:String):User?{
+        return suspendCoroutine<User?> {
+            val continuation = it
+            FireStoreRefUtils
+                .getUserCollectionRef()
+                .document(userId)
+                .get()
+                .addOnSuccessListener {
+                    it.toObject(User::class.java).let {
+                        if (it!=null){
+                            debugLog("User found")
+                            continuation.resume(it)
+                        }else{
+                            debugLog("User not found")
+                            continuation.resume(null)
+                        }
+                    }
+                }.addOnFailureListener {
+                    debugLog("User not found")
+                    it.printStackTrace()
+                    continuation.resume(null)
+                }
+
+        }
     }
 }
