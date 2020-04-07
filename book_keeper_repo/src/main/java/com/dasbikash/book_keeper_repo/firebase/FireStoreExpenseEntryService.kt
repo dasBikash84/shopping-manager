@@ -29,7 +29,6 @@ internal object FireStoreExpenseEntryService {
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                         .getExpenseEntryCollectionRef()
-                                        .whereEqualTo(EXPENSE_ENTRY_ACTIVE_FIELD,true)
                                         .whereEqualTo(EXPENSE_ENTRY_USER_ID_FIELD,user.id)
 
         lastUpdated?.let {

@@ -25,7 +25,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
     private fun getSqlForExpenseEntryFetch(expenseEntryFetchParam: ExpenseEntryFetchParam):Pair<String,List<Any>> {
         expenseEntryFetchParam.apply {
-            val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where ")
+            val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where active AND ")
             val params = mutableListOf<Any>()
 
             if (expenseCategory != null) {

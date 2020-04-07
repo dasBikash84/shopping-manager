@@ -20,19 +20,19 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 @Dao
 internal interface ShoppingListDao {
 
-    @Query("SELECT * FROM ShoppingList where id=:id")
+    @Query("SELECT * FROM  ShoppingList where id=:id AND active")
     fun findByIdLiveData(id: String): LiveData<ShoppingList>
 
-    @Query("SELECT * FROM ShoppingList where id=:id")
+    @Query("SELECT * FROM ShoppingList where id=:id AND active")
     suspend fun findById(id: String): ShoppingList?
 
-    @Query("SELECT * FROM ShoppingList ORDER BY modified DESC")
+    @Query("SELECT * FROM ShoppingList where active ORDER BY modified DESC")
     fun findAllLiveData(): LiveData<List<ShoppingList>>
 
-    @Query("SELECT * FROM ShoppingList where userId=:userId ORDER BY modified DESC")
+    @Query("SELECT * FROM ShoppingList where userId=:userId AND active ORDER BY modified DESC")
     fun findAll(userId: String): List<ShoppingList>
 
-    @Query("SELECT * FROM ShoppingList where userId=:userId AND title=:title")
+    @Query("SELECT * FROM ShoppingList where userId=:userId AND title=:title AND active")
     suspend fun findByUserAndTitle(userId: String,title:String): ShoppingList?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -44,6 +44,6 @@ internal interface ShoppingListDao {
     @Delete
     suspend fun delete(shoppingList: ShoppingList)
 
-    @Query("SELECT * FROM ShoppingList where userId=:userId AND deadLine is NOT NULL and countDownTime is NOT NULL")
+    @Query("SELECT * FROM ShoppingList where userId=:userId AND deadLine is NOT NULL and countDownTime is NOT NULL AND active")
     suspend fun findAllWithReminder(userId: String): List<ShoppingList>
 }

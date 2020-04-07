@@ -24,7 +24,7 @@ internal object FireStoreShoppingListService {
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                 .getShoppingListCollectionRef()
-                                .whereEqualTo(SHOPPING_LIST_ACTIVE_FIELD,true)
+//                                .whereEqualTo(SHOPPING_LIST_ACTIVE_FIELD,true)
                                 .whereEqualTo(SHOPPING_LIST_USER_ID_FIELD,user.id)
 
         lastUpdated?.let {

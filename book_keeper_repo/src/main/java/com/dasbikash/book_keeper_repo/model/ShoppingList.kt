@@ -8,13 +8,6 @@ import java.util.*
 
 @Keep
 @Entity(
-    /*foreignKeys = [
-        ForeignKey(
-            entity = User::class,
-            parentColumns = ["id"],
-            childColumns = ["userId"]
-        )
-    ],*/
     indices = arrayOf(
         Index(value = ["userId"], unique = false),
         Index(value = ["userId","title"], unique = true),
