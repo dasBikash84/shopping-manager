@@ -24,11 +24,12 @@ internal object FireStoreShoppingListService {
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                 .getShoppingListCollectionRef()
-//                                .whereEqualTo(SHOPPING_LIST_ACTIVE_FIELD,true)
                                 .whereEqualTo(SHOPPING_LIST_USER_ID_FIELD,user.id)
 
-        lastUpdated?.let {
+        if (lastUpdated!=null){
             query = query.whereGreaterThan(SHOPPING_LIST_MODIFIED_FIELD,lastUpdated)
+        }else{
+            query = query.whereEqualTo(SHOPPING_LIST_ACTIVE_FIELD,true)
         }
 
         return suspendCoroutine {

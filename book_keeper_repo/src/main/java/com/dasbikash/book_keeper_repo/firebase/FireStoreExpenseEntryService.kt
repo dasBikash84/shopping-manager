@@ -31,8 +31,10 @@ internal object FireStoreExpenseEntryService {
                                         .getExpenseEntryCollectionRef()
                                         .whereEqualTo(EXPENSE_ENTRY_USER_ID_FIELD,user.id)
 
-        lastUpdated?.let {
+        if (lastUpdated!=null){
             query = query.whereGreaterThan(EXPENSE_ENTRY_MODIFIED_FIELD,lastUpdated)
+        }else{
+            query = query.whereEqualTo(EXPENSE_ENTRY_ACTIVE_FIELD,true)
         }
 
         return suspendCoroutine {
