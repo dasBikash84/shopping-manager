@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.User
@@ -19,12 +20,11 @@ internal object FireStoreShoppingListService {
     fun saveShoppingList(shoppingList: ShoppingList) =
         FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingList.id).set(shoppingList)
 
-    suspend fun getLatestShoppingLists(user: User, lastUpdated: Date?=null):List<ShoppingList>?{
-        debugLog("user:$user")
+    suspend fun getLatestShoppingLists(lastUpdated: Date?=null):List<ShoppingList>?{
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                 .getShoppingListCollectionRef()
-                                .whereEqualTo(SHOPPING_LIST_USER_ID_FIELD,user.id)
+                                .whereEqualTo(SHOPPING_LIST_USER_ID_FIELD,AuthRepo.getUserId())
 
         if (lastUpdated!=null){
             query = query.whereGreaterThan(SHOPPING_LIST_MODIFIED_FIELD,lastUpdated)

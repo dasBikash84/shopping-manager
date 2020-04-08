@@ -32,6 +32,9 @@ internal interface ShoppingListDao {
     @Query("SELECT * FROM ShoppingList where userId=:userId AND active ORDER BY modified DESC")
     fun findAll(userId: String): List<ShoppingList>
 
+    @Query("SELECT * FROM ShoppingList ORDER BY modified DESC")
+    suspend fun findAll(): List<ShoppingList>
+
     @Query("SELECT * FROM ShoppingList where userId=:userId AND title=:title AND active")
     suspend fun findByUserAndTitle(userId: String,title:String): ShoppingList?
 

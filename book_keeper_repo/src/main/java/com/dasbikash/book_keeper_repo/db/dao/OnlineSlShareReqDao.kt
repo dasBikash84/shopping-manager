@@ -28,6 +28,9 @@ internal interface OnlineSlShareReqDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(onlineSlShareReq: OnlineSlShareReq)
 
+    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND partnerUserId=:partnerUserId ORDER BY modified ASC")
+    suspend fun findAll(ownerId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<OnlineSlShareReq>
+
     @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
     suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineSlShareReq?
 

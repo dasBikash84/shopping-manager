@@ -105,23 +105,57 @@ object ShoppingListRepo : BookKeeperRepo() {
         getShoppingListDao(context).delete(shoppingList)
     }
 
-    suspend fun syncData(context: Context) {
-        AuthRepo.getUser(context)?.apply {
-            getShoppingListDao(context).findAll(id).sortedBy { it.modified }.let {
-                if (it.isEmpty()) {
-                    return@let null
-                } else {
-                    return@let it.last().modified
-                }
-            }.let {
-                FireStoreShoppingListService
-                    .getLatestShoppingLists(this, it)
-                    ?.asSequence()
-                    ?.forEach {
-                        saveFireBaseEntry(context, it)
-                    }
+    suspend fun syncShoppingListData(context: Context) {
+        getShoppingListDao(context).findAll(AuthRepo.getUserId()).sortedBy { it.modified }.let {
+            if (it.isEmpty()) {
+                return@let null
+            } else {
+                return@let it.last().modified
             }
+        }.let {
+            FireStoreShoppingListService
+                .getLatestShoppingLists(it)
+                ?.asSequence()
+                ?.forEach {
+                    saveFireBaseEntry(context, it)
+                }
         }
+    }
+
+    suspend fun syncSlShareRequestData(context: Context){
+        getOnlineDocShareReqDao(context).findAll().let {
+            if (it.isEmpty()){
+                return@let null
+            }else{
+                return@let it.last().modified
+            }
+        }.let {
+            FireStoreOnlineSlShareService
+                .getLatestRequests(it).let {
+                    it.asSequence()
+                        .forEach { getOnlineDocShareReqDao(context).add(it)  }
+                    it.filter { it.checkIfApproved() }.map { it.sharedDocumentId()!! }.let {
+                        val sharedSlIds = mutableSetOf<String>()
+                        sharedSlIds.addAll(it)
+                        sharedSlIds.addAll(getSharedSlIds(context))
+                        sharedSlIds.asSequence().forEach {
+                            debugLog(it)
+                            FireStoreShoppingListService.fetchShoppingListById(it)?.let {
+                                debugLog(it)
+                                saveFireBaseEntry(context,it)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private suspend fun getSharedSlIds(context: Context): List<String> {
+        return getShoppingListDao(context)
+                    .findAll()
+                    .filter { it.userId != AuthRepo.getUserId() &&
+                                it.partnerIds?.contains(AuthRepo.getUserId()) == true }
+                    .map { it.id }
     }
 
     suspend fun findAllWithReminder(context: Context, user: User): List<ShoppingList> {

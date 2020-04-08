@@ -17,5 +17,6 @@ abstract class OnlineDocShareReq {
     fun checkIfFromMe():Boolean = partnerUserId == AuthRepo.getUserId()
     fun checkIfToMe():Boolean = ownerId == AuthRepo.getUserId()
     fun checkIfActive():Boolean = approvalStatus == ShoppingListApprovalStatus.PENDING
+    fun checkIfApproved():Boolean = approvalStatus == ShoppingListApprovalStatus.APPROVED
     fun refreshModified(){modified = Date()}
 }

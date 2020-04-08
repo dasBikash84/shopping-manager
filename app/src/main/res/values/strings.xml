@@ -251,5 +251,5 @@
     <string name="show_list_action_text">Show list</string>
     <string name="pending_sl_share_requests">Pending List Share Requests</string>
     <string name="to_me">Requested</string>
-    <string name="from_me">Shared</string>
+    <string name="from_me">To be Approved</string>
 </resources>

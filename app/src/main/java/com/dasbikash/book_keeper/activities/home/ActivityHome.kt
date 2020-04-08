@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper.activities.home
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -10,7 +9,6 @@ import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
-import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
@@ -68,7 +66,8 @@ class ActivityHome : ActivityTemplate() {
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
                     ExpenseRepo.syncData(this@ActivityHome)
-                    ShoppingListRepo.syncData(this@ActivityHome)
+                    ShoppingListRepo.syncShoppingListData(this@ActivityHome)
+                    ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
                     if (BuildConfig.DEBUG) {
                         runOnUiThread({ showShortSnack("Data sync done!!") })
                     }
