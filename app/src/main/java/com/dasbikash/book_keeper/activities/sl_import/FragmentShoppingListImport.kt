@@ -99,12 +99,13 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
                     if (it){
                         ShoppingListRepo.postOnlineSlShareRequest(context!!,onlineDocShareParams)
                         showShortSnack(getString(R.string.shopping_list_share_request_posted))
+                        delay(2000L)
                         exit()
                     }else{
                         showShortSnack(getString(R.string.duplicate_shopping_list_or_share_req_message))
+                        hideWaitScreen()
+                        showScannerPreview()
                     }
-                    hideWaitScreen()
-                    showScannerPreview()
                 }
             }
         }
@@ -243,7 +244,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     private fun exit(){
         debugLog("Exit")
         lifecycleScope.launch {
-            delay(500)
+            delay(50)
             activity?.finish()
         }
     }
