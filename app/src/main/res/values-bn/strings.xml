@@ -17,7 +17,7 @@
     <string name="bmi_budget">বাজেট</string>
     <string name="bmi_shopping_list">ফর্দ</string>
     <string name="shopping_list_title">বাজারের ফর্দ</string>
-    <string name="bmi_more">অন্যান্য</string>
+    <string name="bmi_account">অন্যান্য</string>
     <string name="login_by_prompt">লগইনের মাধ্যম</string>
     <string name="login_method_selection_prompt">লগইনের মাধ্যম নির্বাচন করুন</string>
     <string name="quit_sign_up_prompt">নতুন অ্যাকাউন্ট খোলা বাতিল করবেন?</string>

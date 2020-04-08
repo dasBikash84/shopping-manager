@@ -16,7 +16,7 @@
     <string name="bmi_budget">Budget</string>
     <string name="bmi_shopping_list">List</string>
     <string name="shopping_list_title">Shopping List</string>
-    <string name="bmi_more">More</string>
+    <string name="bmi_account">Account</string>
     <string name="login_by_prompt">Login method:</string>
     <string name="login_method_selection_prompt">Select login method:</string>
     <string name="quit_sign_up_prompt">Cancel sign up?</string>

@@ -33,11 +33,13 @@
         android:id="@+id/bmi_budget"
         android:icon="@drawable/ic_budget"
         android:title="@string/bmi_budget"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
     <item
-        android:id="@+id/bmi_more"
-        android:icon="@drawable/ic_options"
-        android:title="@string/bmi_more"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/bmi_account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/bmi_account"
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
 
 </menu>

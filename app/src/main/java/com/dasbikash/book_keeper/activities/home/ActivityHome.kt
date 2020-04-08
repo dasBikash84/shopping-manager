@@ -50,8 +50,8 @@ class ActivityHome : ActivityTemplate() {
                     loadFragmentIfLoggedIn(FragmentShoppingList::class.java)
                     true
                 }
-                R.id.bmi_more -> {
-                    loadFragmentIfNotLoadedAlready(FragmentMore::class.java)
+                R.id.bmi_account -> {
+                    loadFragmentIfNotLoadedAlready(FragmentAccount::class.java)
                     true
                 }
                 else -> false
@@ -63,6 +63,8 @@ class ActivityHome : ActivityTemplate() {
         btn_add_exp_entry.setOnClickListener {
             startActivity(ActivityExpenseEntry.getAddIntent(this))
         }
+
+        bottom_Navigation_View.menu.findItem(R.id.bmi_account).isVisible = AuthRepo.checkLogIn()
     }
 
     private fun dataSyncTask(){
