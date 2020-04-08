@@ -20,6 +20,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
+import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
 import java.util.*
 
 @Dao
@@ -38,6 +39,7 @@ internal interface OnlineSlShareReqDao {
     fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
                                  partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId")
-    fun getApprovalPendingEntries(ownerId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
+    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus")
+    fun getApprovalPendingEntries(ownerId: String=AuthRepo.getUserId(),
+                                  approvalStatus:ShoppingListApprovalStatus = ShoppingListApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>
 }

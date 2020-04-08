@@ -14,6 +14,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.startActivity
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
@@ -159,7 +160,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         menuView.add(
             MenuViewItem(
                 text = context.getString(R.string.pending_sl_share_requests),
-                task = { runWithActivity { it.startActivity(ActivityShoppingListShareRequests::class.java) }}
+                task = { runWithActivity { NetworkMonitor.runWithNetwork(it){it.startActivity(ActivityShoppingListShareRequests::class.java) }}}
             )
         )
         return menuView

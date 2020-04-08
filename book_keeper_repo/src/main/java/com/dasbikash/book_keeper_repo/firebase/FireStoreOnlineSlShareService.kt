@@ -23,6 +23,7 @@ internal object FireStoreOnlineSlShareService {
 
     fun postRequest(onlineSlShareReq: OnlineSlShareReq) {
         debugLog(onlineSlShareReq)
+        onlineSlShareReq.refreshModified()
         FireStoreRefUtils
             .getOnlineSlShareRequestCollectionRef()
             .document(onlineSlShareReq.id)
@@ -34,6 +35,10 @@ internal object FireStoreOnlineSlShareService {
                 debugLog("Post failure: ${it.javaClass.simpleName}")
             }
 
+    }
+
+    fun saveRequest(onlineSlShareReq: OnlineSlShareReq) {
+        postRequest(onlineSlShareReq)
     }
 
     fun setListenerForPendingOnlineDocShareRequest(

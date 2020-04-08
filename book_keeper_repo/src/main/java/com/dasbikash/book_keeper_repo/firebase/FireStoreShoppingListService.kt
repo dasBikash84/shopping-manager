@@ -17,8 +17,10 @@ internal object FireStoreShoppingListService {
     private const val SHOPPING_LIST_USER_ID_FIELD = "userId"
     private const val SHOPPING_LIST_ACTIVE_FIELD = "active"
 
-    fun saveShoppingList(shoppingList: ShoppingList) =
+    fun saveShoppingList(shoppingList: ShoppingList) {
+        shoppingList.updateModified()
         FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingList.id).set(shoppingList)
+    }
 
     suspend fun getLatestShoppingLists(lastUpdated: Date?=null):List<ShoppingList>?{
         debugLog("lastUpdated:$lastUpdated")

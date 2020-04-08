@@ -296,4 +296,26 @@ object ShoppingListRepo : BookKeeperRepo() {
                     saveFireBaseEntry(context, this)
                 }
     }
+
+    suspend fun approveOnlineShareRequest(
+        context: Context,
+        shoppingList: ShoppingList,
+        onlineSlShareReq: OnlineSlShareReq
+    ) {
+        val partnerIds = mutableSetOf<String>()
+        shoppingList.partnerIds?.let { partnerIds.addAll(it) }
+        partnerIds.add(onlineSlShareReq.partnerUserId!!)
+        shoppingList.partnerIds = partnerIds.toList()
+        saveToFireBase(context, shoppingList)
+        saveLocal(context, shoppingList)
+        onlineSlShareReq.approvalStatus = ShoppingListApprovalStatus.APPROVED
+        FireStoreOnlineSlShareService.saveRequest(onlineSlShareReq)
+        getOnlineDocShareReqDao(context).add(onlineSlShareReq)
+    }
+
+    suspend fun declineOnlineShareRequest(context: Context, onlineSlShareReq: OnlineSlShareReq) {
+        onlineSlShareReq.approvalStatus = ShoppingListApprovalStatus.DENIED
+        FireStoreOnlineSlShareService.saveRequest(onlineSlShareReq)
+        getOnlineDocShareReqDao(context).add(onlineSlShareReq)
+    }
 }

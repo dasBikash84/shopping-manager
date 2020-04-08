@@ -255,4 +255,7 @@
     <string name="exp_partner_details_text">Partner details:</string>
     <string name="approve">Approve</string>
     <string name="decline">Decline</string>
+    <string name="sl_share_request_approved_message">Shopping request share request approved.</string>
+    <string name="sl_share_request_declined_message">Shopping request share request declined.</string>
+    <string name="phone_hint">"Phone: "</string>
 </resources>

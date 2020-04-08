@@ -11,20 +11,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.models.TbaSlShareReq
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.menu_view.attachMenuViewForClick
 
-object TbaSlShareReqDiffCallback: DiffUtil.ItemCallback<TbaSlShareReq>(){
-    override fun areItemsTheSame(oldItem: TbaSlShareReq, newItem: TbaSlShareReq) = oldItem.onlineSlShareReq.id == newItem.onlineSlShareReq.id
+object TbaSlShareReqDiffCallback : DiffUtil.ItemCallback<TbaSlShareReq>() {
+    override fun areItemsTheSame(oldItem: TbaSlShareReq, newItem: TbaSlShareReq) =
+        oldItem.onlineSlShareReq.id == newItem.onlineSlShareReq.id
+
     override fun areContentsTheSame(oldItem: TbaSlShareReq, newItem: TbaSlShareReq): Boolean {
-        return oldItem==newItem
+        return oldItem == newItem
     }
 }
 
-class TbaSlShareReqListAdapter(private val launchDetailView:(ShoppingList)->Unit,
-                               private val approveTask:(TbaSlShareReq)->Unit,
-                               private val declineTask:(TbaSlShareReq)->Unit) :
+class TbaSlShareReqListAdapter(
+    private val approveTask: (TbaSlShareReq) -> Unit,
+    private val declineTask: (TbaSlShareReq) -> Unit
+) :
     ListAdapter<TbaSlShareReq, TbaSlShareReqListHolder>(
         TbaSlShareReqDiffCallback
     ) {
@@ -32,20 +36,20 @@ class TbaSlShareReqListAdapter(private val launchDetailView:(ShoppingList)->Unit
         return TbaSlShareReqListHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.view_tba_shopping_list_preview, parent, false
-            ),approveTask,declineTask
+            ), approveTask, declineTask
         )
     }
 
     override fun onBindViewHolder(holder: TbaSlShareReqListHolder, position: Int) {
-        val tbaSlShareReq = getItem(position)!!
-        holder.bind(tbaSlShareReq)
-        holder.itemView.setOnClickListener { launchDetailView(tbaSlShareReq.shoppingList) }
+        getItem(position).let { holder.bind(it) }
     }
 }
 
-class TbaSlShareReqListHolder(itemView: View,
-                              val approveTask:(TbaSlShareReq)->Unit,
-                              val declineTask:(TbaSlShareReq)->Unit) : RecyclerView.ViewHolder(itemView) {
+class TbaSlShareReqListHolder(
+    itemView: View,
+    val approveTask: (TbaSlShareReq) -> Unit,
+    val declineTask: (TbaSlShareReq) -> Unit
+) : RecyclerView.ViewHolder(itemView) {
 
     private val tv_sl_title_text: TextView = itemView.findViewById(
         R.id.tv_sl_title_text
@@ -78,6 +82,38 @@ class TbaSlShareReqListHolder(itemView: View,
     fun bind(tbaSlShareReq: TbaSlShareReq) {
         mTbaSlShareReq = tbaSlShareReq
         tv_sl_title_text.text = tbaSlShareReq.shoppingList.title
-        tv_partner_details_text.text = tbaSlShareReq.partner.detailsText()
+        tv_partner_details_text.text = getUserDetails(tbaSlShareReq.partner)
+    }
+
+    private fun getUserDetails(user: User): String {
+        val userDetails = StringBuilder("")
+        user.apply {
+            if (firstName != null || lastName != null) {
+                userDetails.append(itemView.context.getString(R.string.name_prompt))
+                firstName?.let {
+                    userDetails.append(" ")
+                    userDetails.append(it.trim())
+                    userDetails.append(" ")
+                }
+                lastName?.let {
+                    userDetails.append(" ")
+                    userDetails.append(it.trim())
+                }
+            }
+            email?.let {
+                userDetails.append("\n")
+                userDetails.append(itemView.context.getString(R.string.email_hint))
+                userDetails.append(": ")
+                userDetails.append(it.trim())
+            }
+            phone?.let {
+                userDetails.append("\n")
+                userDetails.append(itemView.context.getString(R.string.phone_hint))
+                userDetails.append(" ")
+                userDetails.append(it.trim())
+            }
+        }
+
+        return userDetails.toString()
     }
 }
