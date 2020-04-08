@@ -14,14 +14,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
@@ -36,6 +34,7 @@ import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_exp_summary.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -222,6 +221,29 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         setCategorySpinnerItems()
         all_exp_scroller.show()
         rv_time_wise_exp_holder.hide()
+
+        sr_page_holder.setOnRefreshListener {
+            runWithContext {
+                NetworkMonitor.runWithNetwork(it){
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        runOnMainThread({showWaitScreen()})
+                        try {
+                            ExpenseRepo.syncData(it)
+                        } catch (ex: Throwable) {
+                            ex.printStackTrace()
+                        }
+                        runOnMainThread({
+                            sr_page_holder.isRefreshing = false
+                            hideWaitScreen()
+                        })
+                    }
+                }.let {
+                    if (!it){
+                        sr_page_holder.isRefreshing = false
+                    }
+                }
+            }
+        }
     }
 
     private fun displayMonthWiseExpenses() {

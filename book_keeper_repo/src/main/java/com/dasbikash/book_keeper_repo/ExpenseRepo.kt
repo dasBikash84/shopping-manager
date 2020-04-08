@@ -118,7 +118,7 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     fun getExpenseEntryLiveDataByIds(context: Context,expenseEntryIds:List<String>):LiveData<List<ExpenseEntry>>{
-        val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where id IN (")
+        val sqlBuilder = StringBuilder("SELECT * from ExpenseEntry where active AND id IN (")
         for (i in 0..expenseEntryIds.size-1){
             sqlBuilder.append("'${expenseEntryIds.get(i)}'")
             if (i!=expenseEntryIds.size-1){

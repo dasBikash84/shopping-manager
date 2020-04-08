@@ -81,6 +81,7 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
                 expenseEntryListLiveData?.apply { expenseEntryListMediatorLiveData.removeSource(this) }
                 expenseEntryListLiveData = it
                 expenseEntryListMediatorLiveData.addSource(expenseEntryListLiveData!!,{
+                    it.forEach { debugLog("${it.id} ${it.details} ${it.active} ${it.modified}")}
                     expenseEntryListMediatorLiveData.postValue(it)
                 })
         }

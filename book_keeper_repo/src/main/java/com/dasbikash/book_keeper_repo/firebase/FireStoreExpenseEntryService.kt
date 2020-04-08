@@ -16,11 +16,14 @@ internal object FireStoreExpenseEntryService {
     private const val EXPENSE_ENTRY_USER_ID_FIELD = "userId"
     private const val EXPENSE_ENTRY_ACTIVE_FIELD = "active"
 
-    fun saveExpenseEntry(expenseEntry: ExpenseEntry) =
+    fun saveExpenseEntry(expenseEntry: ExpenseEntry) {
+        expenseEntry.updateModified()
         FireStoreRefUtils.getExpenseEntryCollectionRef().document(expenseEntry.id).set(expenseEntry)
+    }
 
     fun deleteExpenseEntry(expenseEntry: ExpenseEntry) {
         expenseEntry.active = false
+        expenseEntry.updateModified()
         saveExpenseEntry(expenseEntry)
     }
 
