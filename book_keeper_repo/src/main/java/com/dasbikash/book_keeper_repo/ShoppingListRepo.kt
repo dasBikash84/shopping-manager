@@ -140,10 +140,16 @@ object ShoppingListRepo : BookKeeperRepo() {
             }
         }.let {
             FireStoreOnlineSlShareService
-                .getLatestRequests(it).let {
-                    debugLog("getLatestRequests: ${it}")
+                .getLatestRequestsToMe(it).let {
+                    it?.forEach {
+                        debugLog("getLatestRequestsToMe: ${it}")
+                        getOnlineDocShareReqDao(context).add(it)
+                    }
+                }
+            (FireStoreOnlineSlShareService
+                .getLatestRequestsFromMe(it) ?: emptyList()).let {
                     it.forEach {
-                        debugLog("getLatestRequests: ${it}")
+                        debugLog("getLatestRequestsFromMe: ${it}")
                         getOnlineDocShareReqDao(context).add(it)
                     }
                     it.filter {

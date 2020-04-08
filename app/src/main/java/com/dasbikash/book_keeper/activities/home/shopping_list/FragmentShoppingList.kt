@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.startActivity
@@ -32,6 +33,7 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showLongSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
@@ -87,6 +89,30 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             }
         })
         viewModel.setLastSharedRequestEntryUpdateTime()
+
+        sr_page_holder.setOnRefreshListener {
+            runWithContext {
+                NetworkMonitor.runWithNetwork(it){
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        runOnMainThread({showWaitScreen()})
+                        try {
+                            ShoppingListRepo.syncShoppingListData(it)
+                            ShoppingListRepo.syncSlShareRequestData(it)
+                        } catch (ex: Throwable) {
+                            ex.printStackTrace()
+                        }
+                        runOnMainThread({
+                            sr_page_holder.isRefreshing = false
+                            hideWaitScreen()
+                        })
+                    }
+                }.let {
+                    if (!it){
+                        sr_page_holder.isRefreshing = false
+                    }
+                }
+            }
+        }
     }
 
     private fun processRecentOnlineDocShareRequest(onlineSlShareReq: OnlineSlShareReq){

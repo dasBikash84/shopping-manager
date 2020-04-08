@@ -57,7 +57,7 @@ internal object FireStoreOnlineSlShareService {
         return allRequests.toList()
     }
 
-    private suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
+    suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
 
         debugLog("lastUpdated:$lastUpdated")
 
@@ -72,7 +72,7 @@ internal object FireStoreOnlineSlShareService {
         return executeQuery(query)
     }
 
-    private suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
+    suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
 
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils

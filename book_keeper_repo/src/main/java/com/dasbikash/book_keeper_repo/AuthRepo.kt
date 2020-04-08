@@ -6,6 +6,8 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.User
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 object AuthRepo:BookKeeperRepo() {
 
@@ -70,7 +72,12 @@ object AuthRepo:BookKeeperRepo() {
         }
     }
 
-    fun signOut() = FirebaseAuthService.signOut()
+    fun signOut(context: Context){
+        GlobalScope.launch {
+            getDatabase(context).clearAllTables()
+        }
+        FirebaseAuthService.signOut()
+    }
 
     suspend fun sendPasswordResetEmail(email: String):Boolean =
         FirebaseAuthService.sendPasswordResetEmail(email)

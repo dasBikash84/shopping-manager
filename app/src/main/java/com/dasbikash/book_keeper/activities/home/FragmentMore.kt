@@ -75,7 +75,7 @@ class FragmentMore : FragmentTemplate() {
 
     private fun signOutTask() {
         runWithActivity {
-            AuthRepo.signOut()
+            AuthRepo.signOut(it)
             it.finish()
             it.startActivity(ActivityLogin::class.java)
         }
