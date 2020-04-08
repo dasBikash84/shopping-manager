@@ -18,6 +18,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.sl_import.ActivityShoppingListImport
+import com.dasbikash.book_keeper.activities.sl_share_requests.ActivityShoppingListShareRequests
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
@@ -156,6 +157,12 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             MenuViewItem(
                 text = context.getString(R.string.add_shopping_list),
                 task = {showListAddDialog()}
+            )
+        )
+        menuView.add(
+            MenuViewItem(
+                text = context.getString(R.string.pending_sl_share_requests),
+                task = { runWithActivity { it.startActivity(ActivityShoppingListShareRequests::class.java) }}
             )
         )
         return menuView

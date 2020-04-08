@@ -249,4 +249,7 @@
     <string name="shopping_list_share_req_denied">%1$s denied shopping list share request!</string>
     <string name="shopping_list_share_req_approved">%1$s approved shopping list share request!</string>
     <string name="show_list_action_text">Show list</string>
+    <string name="pending_sl_share_requests">Pending List Share Requests</string>
+    <string name="to_me">Requested</string>
+    <string name="from_me">Shared</string>
 </resources>
