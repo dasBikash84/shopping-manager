@@ -34,7 +34,7 @@ class ViewModelShoppingListShareRequests(private val mApplication: Application) 
     fun getTbaSlShareReqLiveData():LiveData<List<TbaSlShareReq>> = tbaSlShareReqLiveData
 
     private suspend fun getTbaSlShareReq(onlineSlShareReq: OnlineSlShareReq):TbaSlShareReq{
-        val shoppingList = ShoppingListRepo.findById(mApplication,onlineSlShareReq.sharedDocumentId()!!)!!
+        val shoppingList = ShoppingListRepo.findInLocalById(mApplication,onlineSlShareReq.sharedDocumentId()!!)!!
         val partner = AuthRepo.findUserById(mApplication,onlineSlShareReq.partnerUserId!!)!!
         return TbaSlShareReq(shoppingList, onlineSlShareReq, partner)
     }

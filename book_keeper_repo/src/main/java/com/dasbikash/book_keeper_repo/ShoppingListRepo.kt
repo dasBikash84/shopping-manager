@@ -76,8 +76,12 @@ object ShoppingListRepo : BookKeeperRepo() {
     fun getLiveDataById(context: Context, shoppingListId: String) =
         getDatabase(context).shoppingListDao.findByIdLiveData(shoppingListId)
 
+    suspend fun findInLocalById(context: Context, shoppingListId: String):ShoppingList? {
+        return getDatabase(context).shoppingListDao.findById(shoppingListId)
+    }
+
     suspend fun findById(context: Context, shoppingListId: String):ShoppingList? {
-        getDatabase(context).shoppingListDao.findById(shoppingListId)?.let {
+        findInLocalById(context,shoppingListId)?.let {
             return it
         }
         return fetchShoppingListById(shoppingListId,context)
@@ -230,8 +234,8 @@ object ShoppingListRepo : BookKeeperRepo() {
     suspend fun isShareRequestValid(context: Context, shoppingListPath:String):Boolean{
         try {
             val shoppingListId = shoppingListPath.split("/").let { return@let it.last() }
-            return findShoppingListItemById(context, shoppingListId) == null //&&
-//                    getOnlineDocShareReqDao(context).findByDocumentPathAndPartnerId(shoppingListPath) == null
+            debugLog(shoppingListId)
+            return findInLocalById(context, shoppingListId) == null
         }catch (ex:Throwable){
             ex.printStackTrace()
             return true

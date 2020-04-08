@@ -234,7 +234,7 @@
     <string name="offline_shopping_list_save_prompt">Offline shopping list found. Do you want to save?</string>
     <string name="online_shopping_list_import_prompt">Online shopping list found. Do you want to issue import request?</string>
     <string name="online_shopping_list_import_req_text">Post Request</string>
-    <string name="qr_format_error_prompt">QR code of unknown format!!</string>
+    <string name="qr_format_error_prompt">Unknown QR code format!!</string>
     <string name="rescan_text">Scan Again</string>
     <string name="exit_text">Exit</string>
     <string name="email_share_app_subject">Sharing BookKeeper android app</string>
@@ -244,7 +244,7 @@
     <string name="camera_permission_rational">Camera permission is required to scan QR code</string>
     <string name="show_permission_dialog">Show Permission Dialog</string>
     <string name="scan_qr_code_to_import_list_prompt">Scan Qr code to import list:</string>
-    <string name="duplicate_shopping_list_or_share_req_message">Duplicate shopping list or share request! Exiting…</string>
+    <string name="duplicate_shopping_list_or_share_req_message">Duplicate shopping list!!</string>
     <string name="shopping_list_share_request_posted">List share request posted. Please wait for owner approval.</string>
     <string name="shopping_list_share_req_denied">%1$s denied shopping list share request!</string>
     <string name="shopping_list_share_req_approved">%1$s approved shopping list share request!</string>

@@ -285,7 +285,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             lifecycleScope.launch {
                 if (!::shoppingList.isInitialized) {
                     if (isEditMode()) {
-                        shoppingList = ShoppingListRepo.findById(it, getShoppingListId())!!
+                        shoppingList = ShoppingListRepo.findInLocalById(it, getShoppingListId())!!
                         (activity as ActivityShoppingList?)?.apply {
                             setTitle(
                                 getString(

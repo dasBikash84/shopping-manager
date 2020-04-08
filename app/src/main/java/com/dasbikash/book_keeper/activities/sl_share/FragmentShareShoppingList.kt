@@ -52,7 +52,7 @@ abstract class FragmentShareShoppingList:FragmentTemplate(),WaitScreenOwner {
             showWaitScreen()
             lifecycleScope.launch {
                 if (!::shoppingList.isInitialized) {
-                    shoppingList = ShoppingListRepo.findById(it,getShoppingListId())!!
+                    shoppingList = ShoppingListRepo.findInLocalById(it,getShoppingListId())!!
                 }
                 val shoppingListItems = mutableListOf<ShoppingListItem>()
                 shoppingList.shoppingListItemIds?.asSequence()?.forEach {

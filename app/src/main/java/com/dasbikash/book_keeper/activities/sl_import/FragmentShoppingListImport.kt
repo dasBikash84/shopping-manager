@@ -12,16 +12,18 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.*
+import com.dasbikash.android_extensions.BuildConfig
+import com.dasbikash.android_extensions.runOnMainThread
+import com.dasbikash.android_extensions.runWithActivity
+import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
-import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
+import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.models.SlShareMethod
 import com.dasbikash.book_keeper.models.SlToQr
-import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.google.zxing.BarcodeFormat
 import com.karumi.dexter.Dexter
@@ -38,9 +40,6 @@ import kotlinx.coroutines.launch
 class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
 
     private lateinit var codeScanner: CodeScanner
-    private var exitMessage:String?=null
-    private lateinit var offlineShoppingList:ShoppingList
-    private lateinit var onlineDocShareParams: OnlineDocShareParams
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,34 +82,16 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
                 showShortSnack("QR scanner error")
             }
             it.printStackTrace()
+            showResultErrorScreen()
         }
 
-        btn_qr_format_error_rescan.setOnClickListener {
-            qr_format_error_block.hide()
-            showScannerPreview()
-        }
+        scanner_view.isAutoFocusButtonVisible=false
+        scanner_view.isFlashButtonVisible=false
 
-        btn_save_offline_sl.setOnClickListener {
-            runWithContext {
-                lifecycleScope.launch {
-                    showWaitScreen()
-                    ShoppingListRepo.saveOfflineShoppingList(it,offlineShoppingList)
-                    exit()
-                }
-            }
-        }
-
-        btn_online_shopping_list_import.setOnClickListener {
-            postOnlineSlShareRequest()
-        }
-
-        btn_qr_format_error_rescan_exit.setOnClickListener { activity?.onBackPressed() }
-        btn_save_offline_sl_cancel.setOnClickListener { activity?.onBackPressed() }
-        btn_online_shopping_list_import_cancel.setOnClickListener { activity?.onBackPressed() }
         showScannerPreview()
     }
 
-    private fun postOnlineSlShareRequest() {
+    private fun postOnlineSlShareRequest(onlineDocShareParams: OnlineDocShareParams) {
         runWithContext {
             showWaitScreen()
             lifecycleScope.launch {
@@ -118,11 +99,12 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
                     if (it){
                         ShoppingListRepo.postOnlineSlShareRequest(context!!,onlineDocShareParams)
                         showShortSnack(getString(R.string.shopping_list_share_request_posted))
+                        exit()
                     }else{
                         showShortSnack(getString(R.string.duplicate_shopping_list_or_share_req_message))
                     }
-                    delay(DELAY_BEFORE_EXIT)
-                    activity?.finish()
+                    hideWaitScreen()
+                    showScannerPreview()
                 }
             }
         }
@@ -131,11 +113,17 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     private fun processOnLineSlQrScanResult(slToQr: SlToQr) {
         SlToQr.decodeOnlineRequestPayload(slToQr).let {
             if (it!=null){
-                onlineDocShareParams = it
-                off_line_share_block.hide()
-                qr_format_error_block.hide()
-                on_line_share_block.show()
-                exitMessage = getString(R.string.discard_and_exit_prompt)
+                val onlineDocShareParams = it!!
+                runWithContext {
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.online_shopping_list_import_prompt),
+                        positiveButtonText = it.getString(R.string.online_shopping_list_import_req_text),
+                        negetiveButtonText = it.getString(R.string.cancel),
+                        doOnPositivePress = {postOnlineSlShareRequest(onlineDocShareParams)},
+                        doOnNegetivePress = {showScannerPreview()},
+                        isCancelable = false
+                    ))
+                }
             }else{
                 showResultErrorScreen()
             }
@@ -147,20 +135,39 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
             if (it==null){
                 showResultErrorScreen()
             }else{
-                offlineShoppingList = it
-                off_line_share_block.show()
-                on_line_share_block.hide()
-                qr_format_error_block.hide()
-                exitMessage = getString(R.string.discard_and_exit_prompt)
+                val offlineShoppingList = it!!
+                offlineShoppingList.partnerIds=null
+                runWithContext {
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.offline_shopping_list_save_prompt),
+                        positiveButtonText = it.getString(R.string.save_text),
+                        negetiveButtonText = it.getString(R.string.cancel),
+                        doOnPositivePress = {
+                            lifecycleScope.launch {
+                                showWaitScreen()
+                                ShoppingListRepo.saveOfflineShoppingList(it,offlineShoppingList)
+                                exit()
+                            }
+                        },
+                        doOnNegetivePress = {showScannerPreview()},
+                        isCancelable = false
+                    ))
+                }
             }
         }
     }
 
     private fun showResultErrorScreen() {
-        off_line_share_block.hide()
-        on_line_share_block.hide()
-        qr_format_error_block.show()
-        exitMessage = null
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.qr_format_error_prompt),
+                positiveButtonText = it.getString(R.string.rescan_text),
+                negetiveButtonText = it.getString(R.string.exit_text),
+                doOnPositivePress = {showScannerPreview()},
+                doOnNegetivePress = {exit()},
+                isCancelable = false
+            ))
+        }
     }
 
     private fun showScannerPreview() {
@@ -176,10 +183,6 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     override fun onPause() {
         super.onPause()
         codeScanner.releaseResources()
-    }
-
-    override fun getExitPrompt(): String? {
-        return exitMessage
     }
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
@@ -241,11 +244,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
         debugLog("Exit")
         lifecycleScope.launch {
             delay(500)
-            exitMessage = null
             activity?.finish()
         }
-    }
-    companion object{
-        private const val DELAY_BEFORE_EXIT: Long = 500L
     }
 }

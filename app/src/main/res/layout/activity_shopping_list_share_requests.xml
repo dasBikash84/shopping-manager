@@ -67,33 +67,6 @@
                 android:maxLines="1"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/fragment_nav_holder"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            app:layout_constraintTop_toBottomOf="@+id/title_holder">
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_received_requests_selector"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/white"
-                android:text="@string/from_me"
-                android:textSize="20sp"
-                android:gravity="center"/>
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_send_requests_selector"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@color/snow_white2"
-                android:layout_weight="1"
-                android:text="@string/to_me"
-                android:textSize="20sp"
-                android:gravity="center"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
         <FrameLayout
             android:id="@+id/lone_frame"
             android:layout_width="match_parent"
@@ -102,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_nav_holder"/>
+            app:layout_constraintTop_toBottomOf="@+id/title_holder"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

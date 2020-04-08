@@ -39,7 +39,7 @@ internal interface OnlineSlShareReqDao {
     fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
                                  partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus")
-    fun getApprovalPendingEntries(ownerId: String=AuthRepo.getUserId(),
+    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
+    fun getApprovalPendingEntries(ownerId:String = AuthRepo.getUserId(),
                                   approvalStatus:ShoppingListApprovalStatus = ShoppingListApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>
 }
