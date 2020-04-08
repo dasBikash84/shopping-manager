@@ -3,22 +3,21 @@ package com.dasbikash.book_keeper_repo.firebase
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
+import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 
-internal object FireStoreOnlineDocShareService {
+internal object FireStoreOnlineSlShareService {
 
-    fun postRequest(onlineDocShareReq: OnlineDocShareReq) {
-        debugLog(onlineDocShareReq)
+    fun postRequest(onlineSlShareReq: OnlineSlShareReq) {
+        debugLog(onlineSlShareReq)
         FireStoreRefUtils
-            .getOnlineDocShareRequestCollectionRef()
-            .document(onlineDocShareReq.id)
-            .set(onlineDocShareReq)
+            .getOnlineSlShareRequestCollectionRef()
+            .document(onlineSlShareReq.id)
+            .set(onlineSlShareReq)
             .addOnSuccessListener {
                 debugLog("Post success")
             }.addOnFailureListener {
@@ -30,26 +29,26 @@ internal object FireStoreOnlineDocShareService {
 
     fun setListenerForPendingOnlineDocShareRequest(
         lifecycleOwner: LifecycleOwner,
-        onlineDocShareReq: OnlineDocShareReq,
-        doOnDocumentChange:(OnlineDocShareReq)->Unit
+        onlineSlShareReq: OnlineSlShareReq,
+        doOnDocumentChange:(OnlineSlShareReq)->Unit
     ) {
-        debugLog("setListenerForPendingOnlineDocShareRequest: ${onlineDocShareReq}")
-        PendingOnlineDocShareRequestListener(lifecycleOwner, onlineDocShareReq, doOnDocumentChange)
+        debugLog("setListenerForPendingOnlineDocShareRequest: ${onlineSlShareReq}")
+        PendingOnlineDocShareRequestListener(lifecycleOwner, onlineSlShareReq, doOnDocumentChange)
     }
 }
 
 internal class PendingOnlineDocShareRequestListener(
     lifecycleOwner: LifecycleOwner,
-    onlineDocShareReq: OnlineDocShareReq,
-    val doOnDocumentChange:(OnlineDocShareReq)->Unit
+    onlineSlShareReq: OnlineSlShareReq,
+    val doOnDocumentChange:(OnlineSlShareReq)->Unit
 ):DefaultLifecycleObserver{
     private lateinit var listener:ListenerRegistration
     init {
         debugLog("init")
         lifecycleOwner.lifecycle.addObserver(this)
         listener = FireStoreRefUtils
-                    .getOnlineDocShareRequestCollectionRef()
-                    .document(onlineDocShareReq.id)
+                    .getOnlineSlShareRequestCollectionRef()
+                    .document(onlineSlShareReq.id)
                     .addSnapshotListener(object : EventListener<DocumentSnapshot>{
                         override fun onEvent(
                             documentSnapshot: DocumentSnapshot?,
@@ -58,7 +57,7 @@ internal class PendingOnlineDocShareRequestListener(
                             debugLog("onEvent")
                             documentSnapshot?.let {
                                 debugLog("documentSnapshot?.let")
-                                it.toObject(OnlineDocShareReq::class.java)?.let {
+                                it.toObject(OnlineSlShareReq::class.java)?.let {
                                     debugLog("it.toObject(OnlineDocShareReq::class.java)?")
                                     debugLog(it)
                                     if (it.approvalStatus!=ShoppingListApprovalStatus.PENDING) {

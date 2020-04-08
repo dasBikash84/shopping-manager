@@ -19,20 +19,19 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
-import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
+import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import java.util.*
 
 @Dao
-internal interface OnlineDocShareReqDao {
+internal interface OnlineSlShareReqDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun add(onlineDocShareReq: OnlineDocShareReq)
+    suspend fun add(onlineSlShareReq: OnlineSlShareReq)
 
-    @Query("SELECT * FROM OnlineDocShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
-    suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineDocShareReq?
+    @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
+    suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineSlShareReq?
 
-    @Query("SELECT * FROM OnlineDocShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
     fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
-                                 partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineDocShareReq>>
+                                 partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
 }

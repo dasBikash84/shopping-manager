@@ -23,24 +23,21 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
+import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showLongSnack
-import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.*
 
 class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelShoppingList
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
-    private val recentOnlineDocShareRequests = mutableListOf<OnlineDocShareReq>()
+    private val recentOnlineDocShareRequests = mutableListOf<OnlineSlShareReq>()
 
     private val shoppingListAdapter = ShoppingListAdapter({launchDetailView(it)})
 
@@ -78,8 +75,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             }
         })
 
-        viewModel.getRecentModifiedShareRequests().observe(this,object : Observer<List<OnlineDocShareReq>>{
-            override fun onChanged(list: List<OnlineDocShareReq>?) {
+        viewModel.getRecentModifiedShareRequests().observe(this,object : Observer<List<OnlineSlShareReq>>{
+            override fun onChanged(list: List<OnlineSlShareReq>?) {
                 list?.let {
                     it.asSequence().forEach { processRecentOnlineDocShareRequest(it) }
                     if (it.isNotEmpty()) {
@@ -91,24 +88,24 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         viewModel.setLastSharedRequestEntryUpdateTime()
     }
 
-    private fun processRecentOnlineDocShareRequest(onlineDocShareReq: OnlineDocShareReq){
-        debugLog("processRecentOnlineDocShareRequest: $onlineDocShareReq")
-        if (onlineDocShareReq.checkIfShoppingListShareRequest()) {
-            debugLog("checkIfShoppingListShareRequest: $onlineDocShareReq")
-            debugLog(onlineDocShareReq.approvalStatus.name)
-            when (onlineDocShareReq.approvalStatus) {
+    private fun processRecentOnlineDocShareRequest(onlineSlShareReq: OnlineSlShareReq){
+        debugLog("processRecentOnlineDocShareRequest: $onlineSlShareReq")
+        if (onlineSlShareReq.checkIfFromMe()) {
+            debugLog("checkIfShoppingListShareRequest: $onlineSlShareReq")
+            debugLog(onlineSlShareReq.approvalStatus.name)
+            when (onlineSlShareReq.approvalStatus) {
                 ShoppingListApprovalStatus.PENDING -> {
                     if (!recentOnlineDocShareRequests.map { it.id }
-                            .contains(onlineDocShareReq.id)) {
-                        recentOnlineDocShareRequests.add(onlineDocShareReq)
-                        setListenerForPendingOnlineSlShareRequest(onlineDocShareReq)
+                            .contains(onlineSlShareReq.id)) {
+                        recentOnlineDocShareRequests.add(onlineSlShareReq)
+                        setListenerForPendingOnlineSlShareRequest(onlineSlShareReq)
                     }
                 }
                 ShoppingListApprovalStatus.APPROVED -> {
                     runWithContext {
                         lifecycleScope.launch {
-                            val shoppingList:ShoppingList = ShoppingListRepo.findById(it,onlineDocShareReq.sharedDocumentId()!!)!!
-                            AuthRepo.findUserById(it,onlineDocShareReq.ownerId!!)?.let {
+                            val shoppingList:ShoppingList = ShoppingListRepo.findById(it,onlineSlShareReq.sharedDocumentId()!!)!!
+                            AuthRepo.findUserById(it,onlineSlShareReq.ownerId!!)?.let {
                                 showLongSnack(
                                     getString(R.string.shopping_list_share_req_approved,it.displayText()),
                                     getString(R.string.show_list_action_text),
@@ -121,7 +118,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                 ShoppingListApprovalStatus.DENIED -> {
                     runWithContext {
                         lifecycleScope.launch {
-                            AuthRepo.findUserById(it,onlineDocShareReq.ownerId!!)?.let {
+                            AuthRepo.findUserById(it,onlineSlShareReq.ownerId!!)?.let {
                                 showLongSnack(getString(R.string.shopping_list_share_req_denied,it.displayText()))
                             }
                         }
@@ -131,10 +128,10 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    private fun setListenerForPendingOnlineSlShareRequest(onlineDocShareReq: OnlineDocShareReq) {
-        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineDocShareReq}")
+    private fun setListenerForPendingOnlineSlShareRequest(onlineSlShareReq: OnlineSlShareReq) {
+        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineSlShareReq}")
         runWithActivity {
-            ShoppingListRepo.setListenerForPendingOnlineSlShareRequest(it,it as AppCompatActivity,onlineDocShareReq)
+            ShoppingListRepo.setListenerForPendingOnlineSlShareRequest(it,it as AppCompatActivity,onlineSlShareReq)
         }
     }
 

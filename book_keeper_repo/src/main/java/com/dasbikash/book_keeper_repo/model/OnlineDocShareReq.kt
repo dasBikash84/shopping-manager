@@ -1,37 +1,21 @@
 package com.dasbikash.book_keeper_repo.model
 
 import androidx.annotation.Keep
-import androidx.room.*
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.firebase.FireStoreRefUtils
 import java.util.*
 
 @Keep
-@Entity()
-data class OnlineDocShareReq(
-    @PrimaryKey
-    var id: String = "",
-    var ownerId: String? = null,
-    var partnerUserId: String? = null,
-    var documentPath: String? = null,
-    var approvalStatus: ShoppingListApprovalStatus = ShoppingListApprovalStatus.PENDING,
-    var modified: Date = Date()
-) {
-    fun checkIfShoppingListShareRequest():Boolean{
-        return documentPath?.startsWith(FireStoreRefUtils.SHOPPING_LIST_COLLECTION_NAME) == true &&
-                partnerUserId == AuthRepo.getUserId()
-    }
+abstract class OnlineDocShareReq {
+    abstract var id: String
+    abstract var ownerId: String?
+    abstract var partnerUserId: String?
+    abstract var documentPath: String?
+    abstract var approvalStatus: ShoppingListApprovalStatus
+    abstract var modified: Date
 
     fun sharedDocumentId():String? = documentPath?.split("/")?.last()
-
-    companion object{
-        fun getInstance(onlineDocShareParams:OnlineDocShareParams):OnlineDocShareReq{
-            return OnlineDocShareReq(
-                id=onlineDocShareParams.shareReqDocId,
-                ownerId = onlineDocShareParams.ownerId!!,
-                partnerUserId = AuthRepo.getUserId(),
-                documentPath = onlineDocShareParams.documentPath!!
-            )
-        }
-    }
+    fun checkIfFromMe():Boolean = partnerUserId == AuthRepo.getUserId()
+    fun checkIfToMe():Boolean = ownerId == AuthRepo.getUserId()
+    fun checkIfActive():Boolean = approvalStatus == ShoppingListApprovalStatus.PENDING
+    fun refreshModified(){modified = Date()}
 }

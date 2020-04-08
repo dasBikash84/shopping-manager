@@ -27,7 +27,7 @@ import com.dasbikash.book_keeper_repo.model.*
 
 @Database(entities = [ExpenseEntry::class,User::class,ShoppingList::class,
                         ShoppingListItem::class,RemoteImageInfo::class,
-                        SlReminderGenLog::class,OnlineDocShareReq::class],
+                        SlReminderGenLog::class,OnlineSlShareReq::class],
             version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
                 StringListConverter::class, ShoppingListApprovalStatusConverter::class)
@@ -39,10 +39,10 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val shoppingListItemDao:ShoppingListItemDao
     abstract val remoteImageInfoDao:RemoteImageInfoDao
     abstract val slReminderGenLogDao:SlReminderGenLogDao
-    abstract val onlineDocShareReqDao:OnlineDocShareReqDao
+    abstract val onlineSlShareReqDao:OnlineSlShareReqDao
 
     companion object {
-        private val DATABASE_NAME = "ex_man_database"
+        private val DATABASE_NAME = "book_keeper_db"
         @Volatile
         private lateinit var INSTANCE: EMDatabase
 

@@ -5,9 +5,8 @@ import androidx.lifecycle.*
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
-import com.dasbikash.book_keeper_repo.model.OnlineDocShareReq
+import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.ShoppingList
-import kotlinx.coroutines.launch
 import java.util.*
 
 class ViewModelShoppingList(private val mApplication: Application) : AndroidViewModel(mApplication) {
@@ -15,8 +14,8 @@ class ViewModelShoppingList(private val mApplication: Application) : AndroidView
     private val shoppingListsLiveData = MediatorLiveData<List<ShoppingList>>()
     fun getShoppingListLiveData(): LiveData<List<ShoppingList>> = shoppingListsLiveData
 
-    private var requestEntryLiveData:LiveData<List<OnlineDocShareReq>>? = null
-    private val recentModifiedShareRequestEntryLiveData = MediatorLiveData<List<OnlineDocShareReq>>()
+    private var requestEntryLiveData:LiveData<List<OnlineSlShareReq>>? = null
+    private val recentModifiedShareRequestEntryLiveData = MediatorLiveData<List<OnlineSlShareReq>>()
 
 
     init {
@@ -32,7 +31,7 @@ class ViewModelShoppingList(private val mApplication: Application) : AndroidView
             }
     }
 
-    fun getRecentModifiedShareRequests():LiveData<List<OnlineDocShareReq>> = recentModifiedShareRequestEntryLiveData
+    fun getRecentModifiedShareRequests():LiveData<List<OnlineSlShareReq>> = recentModifiedShareRequestEntryLiveData
 
     fun setLastSharedRequestEntryUpdateTime(time:Date=Date()){
         debugLog("setLastSharedRequestEntryUpdateTime: ${time}")

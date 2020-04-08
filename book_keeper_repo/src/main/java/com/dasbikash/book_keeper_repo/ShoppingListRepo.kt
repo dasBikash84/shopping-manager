@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
-import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineDocShareService
+import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineSlShareService
 import com.dasbikash.book_keeper_repo.model.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ object ShoppingListRepo : BookKeeperRepo() {
     private fun getShoppingListDao(context: Context) = getDatabase(context).shoppingListDao
     private fun getShoppingListItemDao(context: Context) = getDatabase(context).shoppingListItemDao
     private fun getSlReminderGenLogDao(context: Context) = getDatabase(context).slReminderGenLogDao
-    private fun getOnlineDocShareReqDao(context: Context) = getDatabase(context).onlineDocShareReqDao
+    private fun getOnlineDocShareReqDao(context: Context) = getDatabase(context).onlineSlShareReqDao
 
     fun getAllShoppingLists(context: Context): LiveData<List<ShoppingList>> {
         return getDatabase(context).shoppingListDao.findAllLiveData()
@@ -177,8 +177,8 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     suspend fun postOnlineSlShareRequest(context: Context, onlineDocShareParams: OnlineDocShareParams) {
-        val onlineDocShareReq = OnlineDocShareReq.getInstance(onlineDocShareParams)
-        FireStoreOnlineDocShareService.postRequest(onlineDocShareReq)
+        val onlineDocShareReq = OnlineSlShareReq.getInstance(onlineDocShareParams)
+        FireStoreOnlineSlShareService.postRequest(onlineDocShareReq)
         save(context,onlineDocShareReq)
     }
 
@@ -193,9 +193,9 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
     }
 
-    internal suspend fun save(context:Context, onlineDocShareReq:OnlineDocShareReq){
-        onlineDocShareReq.modified = Date()
-        getOnlineDocShareReqDao(context).add(onlineDocShareReq)
+    internal suspend fun save(context:Context, onlineSlShareReq:OnlineSlShareReq){
+        onlineSlShareReq.modified = Date()
+        getOnlineDocShareReqDao(context).add(onlineSlShareReq)
     }
 
     fun getFbPath(shoppingList: ShoppingList):String =
@@ -207,13 +207,13 @@ object ShoppingListRepo : BookKeeperRepo() {
     fun setListenerForPendingOnlineSlShareRequest(
         context: Context,
         lifecycleOwner: LifecycleOwner,
-        onlineDocShareReq: OnlineDocShareReq
+        onlineSlShareReq: OnlineSlShareReq
     ) {
-        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineDocShareReq}")
-        FireStoreOnlineDocShareService
+        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineSlShareReq}")
+        FireStoreOnlineSlShareService
             .setListenerForPendingOnlineDocShareRequest(
                 lifecycleOwner,
-                onlineDocShareReq,
+                onlineSlShareReq,
                 {
                     processDownloadedOnlineDocShareRequest(context,it)
                 }
@@ -221,21 +221,21 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     private fun processDownloadedOnlineDocShareRequest(
-        context: Context,onlineDocShareReq: OnlineDocShareReq) {
-        debugLog("processDownloadedOnlineDocShareRequest: ${onlineDocShareReq}")
+        context: Context, onlineSlShareReq: OnlineSlShareReq) {
+        debugLog("processDownloadedOnlineDocShareRequest: ${onlineSlShareReq}")
         GlobalScope.launch {
-            debugLog("processDownloadedOnlineDocShareRequest: ${onlineDocShareReq.checkIfShoppingListShareRequest()}")
-            if (onlineDocShareReq.checkIfShoppingListShareRequest()) {
+            debugLog("processDownloadedOnlineDocShareRequest: ${onlineSlShareReq.checkIfFromMe()}")
+            if (onlineSlShareReq.checkIfFromMe()) {
                 debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
-                if (onlineDocShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
-                    if (onlineDocShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
+                if (onlineSlShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
+                    if (onlineSlShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
                         FireStoreShoppingListService
-                            .fetchShoppingListById(onlineDocShareReq.sharedDocumentId()!!)?.let {
+                            .fetchShoppingListById(onlineSlShareReq.sharedDocumentId()!!)?.let {
                                 debugLog("fetchShoppingListById: ${it}")
                                 saveFireBaseEntry(context,it)
                             }
                     }
-                    save(context, onlineDocShareReq)
+                    save(context, onlineSlShareReq)
                 }
             }
         }
