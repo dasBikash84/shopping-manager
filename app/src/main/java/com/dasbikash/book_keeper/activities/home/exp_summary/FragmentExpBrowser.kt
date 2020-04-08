@@ -285,6 +285,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
     override fun getPageTitle(context: Context):String? = context.getString(R.string.exp_browse_page_title)
     override fun getOptionsMenu(context: Context): MenuView? {
         val menuView = MenuView()
+        menuView.add(GetCalculatorMenuItem(context))
         menuView.add(
             MenuViewItem(
                 text = context.getString(R.string.share_app_text),
@@ -295,7 +296,6 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                 }
             )
         )
-        menuView.add(GetCalculatorMenuItem(context))
         return menuView
     }
 }

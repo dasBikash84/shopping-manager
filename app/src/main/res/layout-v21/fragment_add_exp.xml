@@ -179,8 +179,9 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/off_white"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:elevation="8dp"
+                android:background="@color/off_white">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

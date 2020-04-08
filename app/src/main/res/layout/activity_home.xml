@@ -88,13 +88,14 @@
             app:fabSize="auto"
             android:src="@drawable/ic_add"
             android:padding="2dp"
-            app:backgroundTint="@color/dark_green"/>
+            app:backgroundTint="@color/dark_green"
+            android:visibility="gone"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_Navigation_View"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_height="48dp"
+            app:menu="@menu/home_bottom_navigation_menu"
             android:background="@drawable/bottom_navigation_background"
             app:itemIconTint="@drawable/bottom_navigation_colors"
             app:itemTextColor="@drawable/bottom_navigation_colors"
@@ -102,11 +103,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_add_exp_entry"
-            app:menu="@menu/home_bottom_navigation_menu"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="2dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

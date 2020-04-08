@@ -21,9 +21,7 @@ import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper.utils.optimizedString
+import com.dasbikash.book_keeper.utils.*
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -409,13 +407,16 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
 
     override fun getOptionsMenu(context: Context): MenuView? {
         val menuView = MenuView()
+        menuView.add(GetCalculatorMenuItem(context))
         menuView.add(
-            MenuViewItem(context.getString(R.string.calculator_title),{activity?.let { startActivity(
-                Intent(it,ActivityCalculator::class.java)
-            ) }})
-        )
-        menuView.add(
-            MenuViewItem("Notepad",{})
+            MenuViewItem(
+                text = context.getString(R.string.share_app_text),
+                task = {
+                    runWithActivity {
+                        startActivity(OptionsIntentBuilderUtility.getShareAppIntent(it))
+                    }
+                }
+            )
         )
         return menuView
     }

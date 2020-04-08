@@ -12,7 +12,7 @@
     <string name="last_name_hint">Last Name(Optional)</string>
     <string name="phone_no_hint">Mobile Number(Optional)</string>
     <string name="bmi_add">Add</string>
-    <string name="bmi_home">Browse Expenses</string>
+    <string name="bmi_home">Browse</string>
     <string name="bmi_budget">Budget</string>
     <string name="bmi_shopping_list">List</string>
     <string name="shopping_list_title">Shopping List</string>
