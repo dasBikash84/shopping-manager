@@ -178,22 +178,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
             shoppingList.apply {
                 (activity as ActivityShoppingList?)?.setTitle(title!!)
                 lifecycleScope.launch {
-                    var minExp = 0.0
-                    var maxExp = 0.0
-                    shoppingList.shoppingListItemIds?.let {
-                        it.map {
-                            ShoppingListRepo.findShoppingListItemById(context!!, it)?.let {
-                                return@let it.calculatePriceRange()
-                            }
-                        }.asSequence().forEach {
-                            it?.first?.let {
-                                minExp += it
-                            }
-                            it?.second?.let {
-                                maxExp += it
-                            }
-                        }
-                    }
+                    val (minExp,maxExp) = ShoppingList.calculateExpenseRange(it,shoppingList)
                     tv_sl_price_range.text = getString(R.string.sl_price_range,minExp,maxExp)
                 }
                 if (deadLine != null) {

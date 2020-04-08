@@ -3,17 +3,24 @@ package com.dasbikash.book_keeper.rv_helpers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.show
+import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.snackbar_ext.showLongSnack
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 object ShoppingListDiffCallback: DiffUtil.ItemCallback<ShoppingList>(){
     override fun areItemsTheSame(oldItem: ShoppingList, newItem: ShoppingList) = oldItem.id == newItem.id
@@ -55,6 +62,9 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tv_sl_deadline_text: TextView = itemView.findViewById(
         R.id.tv_sl_deadline_text
     )
+    private val iv_shared_sl: ImageView = itemView.findViewById(
+        R.id.iv_shared_sl
+    )
 
     fun bind(shoppingList: ShoppingList) {
         tv_sl_title_text.text = shoppingList.title
@@ -71,5 +81,17 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }else{
             tv_sl_deadline_text.hide()
         }
+        AsyncTaskManager.addTask<Unit,Unit> {
+            runBlocking {
+                val (minExp, maxExp) = ShoppingList.calculateExpenseRange(itemView.context, shoppingList)
+                runOnMainThread({tv_exp_range_text.text = itemView.context.resources.getString(R.string.sl_price_range, minExp, maxExp)})
+            }
+        }
+        if (shoppingList.partnerIds?.isNotEmpty() == true){
+            iv_shared_sl.show()
+        }else{
+            iv_shared_sl.hide()
+        }
+        iv_shared_sl.setOnClickListener { it.showLongSnack(itemView.context.resources.getString(R.string.shared_sl_message)) }
     }
 }

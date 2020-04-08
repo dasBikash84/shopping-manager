@@ -1,8 +1,10 @@
 package com.dasbikash.book_keeper_repo.model
 
+import android.content.Context
 import androidx.annotation.Keep
 import androidx.room.*
 import com.dasbikash.android_basic_utils.utils.DateUtils
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.google.firebase.firestore.Exclude
 import java.util.*
 
@@ -76,5 +78,25 @@ data class ShoppingList(
 
         fun validateDeadLine(deadLine: Date):Boolean =
             (deadLine.time - System.currentTimeMillis()) > MINIMUM_DEADLINE_PERIOD
+
+        suspend fun calculateExpenseRange(context: Context,shoppingList: ShoppingList):Pair<Double,Double>{
+            var minExp = 0.0
+            var maxExp = 0.0
+            shoppingList.shoppingListItemIds?.let {
+                it.map {
+                    ShoppingListRepo.findShoppingListItemById(context, it)?.let {
+                        return@let it.calculatePriceRange()
+                    }
+                }.asSequence().forEach {
+                    it?.first?.let {
+                        minExp += it
+                    }
+                    it?.second?.let {
+                        maxExp += it
+                    }
+                }
+            }
+            return Pair(minExp,maxExp)
+        }
     }
 }
