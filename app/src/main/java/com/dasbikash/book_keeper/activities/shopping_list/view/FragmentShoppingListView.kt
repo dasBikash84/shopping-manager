@@ -12,10 +12,9 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
+import com.dasbikash.android_network_monitor.NetworkMonitor
+import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
@@ -35,13 +34,17 @@ import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
-import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.lang.IllegalStateException
 
 
-class FragmentShoppingListView : FragmentTemplate() {
+class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
+
+    override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private lateinit var viewModel: ViewModelShoppingListView
     private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)},{editTask(it)},{deleteTask(it)},{closeTask(it)})
@@ -116,6 +119,51 @@ class FragmentShoppingListView : FragmentTemplate() {
 
         btn_add_shopping_item.setOnClickListener {
             launchAddItemScreen()
+        }
+
+        sr_page_holder.setOnRefreshListener {
+            runWithContext {
+                NetworkMonitor.runWithNetwork(it){
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        runOnMainThread({showWaitScreen()})
+                        syncShoppingList(it)
+                        runOnMainThread({
+                            sr_page_holder.isRefreshing = false
+                            hideWaitScreen()
+                        })
+                    }
+                }.let {
+                    if (!it){
+                        sr_page_holder.isRefreshing = false
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        runWithContext {
+            lifecycleScope.launch {
+                if (NetworkMonitor.isConnected()){
+                    delay(100)
+                    ShoppingListRepo.findById(it,getShoppingListId())?.let {
+                        debugLog("on resume: $it")
+                        if (!it.partnerIds.isNullOrEmpty()){
+                            debugLog("!it.partnerIds.isNullOrEmpty()")
+                            syncShoppingList(context!!)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private suspend fun syncShoppingList(context: Context) {
+        try {
+            ShoppingListRepo.syncShoppingListById(getShoppingListId(), context)
+        } catch (ex: Throwable) {
+            ex.printStackTrace()
         }
     }
 

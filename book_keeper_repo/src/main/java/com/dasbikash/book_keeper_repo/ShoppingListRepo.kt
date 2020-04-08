@@ -44,6 +44,10 @@ object ShoppingListRepo : BookKeeperRepo() {
         getShoppingListItemDao(context).add(shoppingListItem)
     }
 
+    suspend fun saveLocal(context: Context, shoppingListItems: List<ShoppingListItem>) {
+        getShoppingListItemDao(context).addAll(shoppingListItems)
+    }
+
     suspend fun save(context: Context, shoppingList: ShoppingList) {
         shoppingList.updateModified()
         saveToFireBase(context, shoppingList)
@@ -68,7 +72,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
         shoppingList.shoppingListItemIds = shoppingListItemIds.toList()
         saveLocal(context, shoppingList)
-        shoppingList.shoppingListItems?.asSequence()?.forEach {
+        shoppingList.shoppingListItems?.let {
             saveLocal(context, it)
         }
     }
@@ -84,7 +88,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         findInLocalById(context,shoppingListId)?.let {
             return it
         }
-        return fetchShoppingListById(shoppingListId,context)
+        return syncShoppingListById(shoppingListId,context)
     }
 
     suspend fun findShoppingListItemById(context: Context, shoppingListItemId: String) =
@@ -161,7 +165,7 @@ object ShoppingListRepo : BookKeeperRepo() {
                         sharedSlIds.addAll(it)
                         sharedSlIds.addAll(getSharedSlIds(context))
                         sharedSlIds.asSequence().forEach {
-                            fetchShoppingListById(it,context)
+                            syncShoppingListById(it,context)
                         }
                     }
                 }
@@ -287,7 +291,7 @@ object ShoppingListRepo : BookKeeperRepo() {
                 debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
                 if (onlineSlShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
                     if (onlineSlShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
-                        fetchShoppingListById(onlineSlShareReq.sharedDocumentId()!!, context)
+                        syncShoppingListById(onlineSlShareReq.sharedDocumentId()!!, context)
                     }
                     save(context, onlineSlShareReq)
                 }
@@ -295,7 +299,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
     }
 
-    private suspend fun fetchShoppingListById(
+    suspend fun syncShoppingListById(
         shoppingListId:String,
         context: Context
     ):ShoppingList? {
