@@ -259,4 +259,5 @@
     <string name="sl_share_request_declined_message">Shopping request share request declined.</string>
     <string name="phone_hint">"Phone: "</string>
     <string name="shared_sl_message">It\'s a shared shopping list.</string>
+    <string name="owner_sl_online_share_message">Only owner can share shopping list online!!</string>
 </resources>

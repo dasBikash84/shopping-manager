@@ -28,12 +28,14 @@ import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
+import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
@@ -290,7 +292,15 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     private fun getOnLineShareOptionsMenuItem(context: Context): MenuViewItem {
         return MenuViewItem(
             text = context.getString(R.string.online_share_text),
-            task = { startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId())) }
+            task = {
+                viewModel.getShoppingList().value?.let {
+                    if (it.userId == AuthRepo.getUserId()){
+                        startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId()))
+                    }else{
+                        showShortSnack(R.string.owner_sl_online_share_message)
+                    }
+                }
+            }
         )
     }
 
