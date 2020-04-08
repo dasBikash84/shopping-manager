@@ -28,4 +28,8 @@ data class User(
             else -> ""
         }
     }
+
+    fun detailsText(): CharSequence? {
+        return displayText()
+    }
 }

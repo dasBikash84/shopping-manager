@@ -76,21 +76,21 @@
             android:weightSum="2"
             app:layout_constraintTop_toBottomOf="@+id/title_holder">
             <com.dasbikash.android_view_utils.custom_views.ClickableTextView
+                android:id="@+id/tv_received_requests_selector"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                android:layout_weight="1"
+                android:text="@string/from_me"
+                android:textSize="20sp"
+                android:gravity="center"/>
+            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
                 android:id="@+id/tv_send_requests_selector"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@android:color/white"
-                android:text="@string/to_me"
-                android:textSize="20sp"
-                android:gravity="center"/>
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_received_requests_selector"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:background="@color/snow_white2"
-                android:text="@string/from_me"
+                android:text="@string/to_me"
                 android:textSize="20sp"
                 android:gravity="center"/>
         </androidx.appcompat.widget.LinearLayoutCompat>

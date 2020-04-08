@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_shopping_list_share_requests.*
 class ActivityShoppingListShareRequests : ActivityTemplate() {
 
     override fun getLayoutID(): Int = R.layout.activity_shopping_list_share_requests
-    override fun registerDefaultFragment(): FragmentTemplate = FragmentPendingRequestedLists()
+    override fun registerDefaultFragment(): FragmentTemplate = FragmentPendingSharedLists()
 
     private fun loadFragmentPendingRequest(){
         addFragmentClearingBackStack(FragmentPendingRequestedLists())

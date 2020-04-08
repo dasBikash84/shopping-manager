@@ -252,4 +252,7 @@
     <string name="pending_sl_share_requests">Pending List Share Requests</string>
     <string name="to_me">Requested</string>
     <string name="from_me">To be Approved</string>
+    <string name="exp_partner_details_text">Partner details:</string>
+    <string name="approve">Approve</string>
+    <string name="decline">Decline</string>
 </resources>
