@@ -76,8 +76,12 @@ object ShoppingListRepo : BookKeeperRepo() {
     fun getLiveDataById(context: Context, shoppingListId: String) =
         getDatabase(context).shoppingListDao.findByIdLiveData(shoppingListId)
 
-    suspend fun findById(context: Context, shoppingListId: String) =
-        getDatabase(context).shoppingListDao.findById(shoppingListId)
+    suspend fun findById(context: Context, shoppingListId: String):ShoppingList? {
+        getDatabase(context).shoppingListDao.findById(shoppingListId)?.let {
+            return it
+        }
+        return fetchShoppingListById(shoppingListId,context)
+    }
 
     suspend fun findShoppingListItemById(context: Context, shoppingListItemId: String) =
         getShoppingListItemDao(context).findById(shoppingListItemId)
@@ -124,6 +128,7 @@ object ShoppingListRepo : BookKeeperRepo() {
 
     suspend fun syncSlShareRequestData(context: Context){
         getOnlineDocShareReqDao(context).findAll().let {
+            debugLog("getOnlineDocShareReqDao: ${it}")
             if (it.isEmpty()){
                 return@let null
             }else{
@@ -132,18 +137,21 @@ object ShoppingListRepo : BookKeeperRepo() {
         }.let {
             FireStoreOnlineSlShareService
                 .getLatestRequests(it).let {
-                    it.asSequence()
-                        .forEach { getOnlineDocShareReqDao(context).add(it)  }
-                    it.filter { it.checkIfApproved() }.map { it.sharedDocumentId()!! }.let {
+                    debugLog("getLatestRequests: ${it}")
+                    it.forEach {
+                        debugLog("getLatestRequests: ${it}")
+                        getOnlineDocShareReqDao(context).add(it)
+                    }
+                    it.filter {
+                        debugLog("it.checkIfApproved(): $it")
+                        it.checkIfApproved()
+                    }.map { it.sharedDocumentId()!! }.let {
+                        debugLog("docids: $it")
                         val sharedSlIds = mutableSetOf<String>()
                         sharedSlIds.addAll(it)
                         sharedSlIds.addAll(getSharedSlIds(context))
                         sharedSlIds.asSequence().forEach {
-                            debugLog(it)
-                            FireStoreShoppingListService.fetchShoppingListById(it)?.let {
-                                debugLog(it)
-                                saveFireBaseEntry(context,it)
-                            }
+                            fetchShoppingListById(it,context)
                         }
                     }
                 }
@@ -155,7 +163,10 @@ object ShoppingListRepo : BookKeeperRepo() {
                     .findAll()
                     .filter { it.userId != AuthRepo.getUserId() &&
                                 it.partnerIds?.contains(AuthRepo.getUserId()) == true }
-                    .map { it.id }
+                    .map {
+                        debugLog("getSharedSlIds: $it")
+                        it.id
+                    }
     }
 
     suspend fun findAllWithReminder(context: Context, user: User): List<ShoppingList> {
@@ -238,6 +249,9 @@ object ShoppingListRepo : BookKeeperRepo() {
     fun getRecentModifiedShareRequestEntries(context: Context,leastModifiedTime: Date) =
         getOnlineDocShareReqDao(context).getRecentModifiedEntries(leastModifiedTime)
 
+    fun getApprovalPendingEntries(context: Context) =
+        getOnlineDocShareReqDao(context).getApprovalPendingEntries()
+
     fun setListenerForPendingOnlineSlShareRequest(
         context: Context,
         lifecycleOwner: LifecycleOwner,
@@ -263,15 +277,23 @@ object ShoppingListRepo : BookKeeperRepo() {
                 debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
                 if (onlineSlShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
                     if (onlineSlShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
-                        FireStoreShoppingListService
-                            .fetchShoppingListById(onlineSlShareReq.sharedDocumentId()!!)?.let {
-                                debugLog("fetchShoppingListById: ${it}")
-                                saveFireBaseEntry(context,it)
-                            }
+                        fetchShoppingListById(onlineSlShareReq.sharedDocumentId()!!, context)
                     }
                     save(context, onlineSlShareReq)
                 }
             }
         }
+    }
+
+    private suspend fun fetchShoppingListById(
+        shoppingListId:String,
+        context: Context
+    ):ShoppingList? {
+        debugLog("fetchShoppingListById: $shoppingListId")
+        return FireStoreShoppingListService
+                .fetchShoppingListById(shoppingListId)?.apply {
+                debugLog("fetchShoppingListById: $this")
+                    saveFireBaseEntry(context, this)
+                }
     }
 }

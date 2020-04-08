@@ -55,7 +55,7 @@ data class ShoppingList(
         }
     }
     override fun toString(): String {
-        return "ShoppingList(id='$id', userId=$userId, open=$open, active=$active, title=$title, deadLine=$deadLine, " +
+        return "ShoppingList(id='$id', userId=$userId, partnerIds = $partnerIds, open=$open, active=$active, title=$title, deadLine=$deadLine, " +
                 "modified=$modified, created=$created, reminderInterval=$reminderInterval, countDownTime=$countDownTime, " +
                 "shoppingListItemIds=$shoppingListItemIds, shoppingListItems=$shoppingListItems)"
     }

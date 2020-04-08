@@ -2,10 +2,14 @@ package com.dasbikash.book_keeper.activities.sl_share_requests
 
 import android.graphics.Color
 import android.os.Build
+import androidx.lifecycle.lifecycleScope
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import kotlinx.android.synthetic.main.activity_shopping_list_share_requests.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ActivityShoppingListShareRequests : ActivityTemplate() {
 
@@ -28,6 +32,14 @@ class ActivityShoppingListShareRequests : ActivityTemplate() {
         super.onResume()
         tv_send_requests_selector.setOnClickListener { loadFragmentPendingRequest() }
         tv_received_requests_selector.setOnClickListener { loadFragmentPendingSharedLists() }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                ShoppingListRepo.syncSlShareRequestData(this@ActivityShoppingListShareRequests)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
+        }
     }
 
     @Suppress("DEPRECATION")

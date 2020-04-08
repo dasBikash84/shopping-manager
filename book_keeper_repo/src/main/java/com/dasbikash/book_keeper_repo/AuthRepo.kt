@@ -83,9 +83,9 @@ object AuthRepo:BookKeeperRepo() {
 
     suspend fun findUserById(context: Context,userId:String):User?{
         debugLog("findUserById: ${userId}")
-//        getUserDao(context).findById(userId)?.let {
-//            return it
-//        }
+        getUserDao(context).findById(userId)?.let {
+            return it
+        }
         FirebaseUserService.findUserById(userId)?.let {
             getUserDao(context).add(it)
             return it

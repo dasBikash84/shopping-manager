@@ -22,10 +22,16 @@ class ViewModelShoppingList(private val mApplication: Application) : AndroidView
         ShoppingListRepo.getAllShoppingLists(mApplication).let {
                 shoppingListsLiveData.addSource(it,{
                     val shoppingLists = mutableListOf<ShoppingList>()
-                    it.asSequence().filter {
+                    it.map {
+                        debugLog("All: $it")
+                        it
+                    }.asSequence().filter {
                         it.userId == AuthRepo.getUserId() ||
                                 (it.partnerIds?.contains(AuthRepo.getUserId()) == true)
-                    }.forEach { shoppingLists.add(it) }
+                    }.forEach {
+                        debugLog("Filtered: ${it}")
+                        shoppingLists.add(it)
+                    }
                     shoppingListsLiveData.postValue(shoppingLists)
                 })
             }

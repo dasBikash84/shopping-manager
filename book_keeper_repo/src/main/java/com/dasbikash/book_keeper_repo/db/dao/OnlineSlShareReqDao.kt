@@ -28,7 +28,7 @@ internal interface OnlineSlShareReqDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(onlineSlShareReq: OnlineSlShareReq)
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND partnerUserId=:partnerUserId ORDER BY modified ASC")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId OR partnerUserId=:partnerUserId ORDER BY modified ASC")
     suspend fun findAll(ownerId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<OnlineSlShareReq>
 
     @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
@@ -37,4 +37,7 @@ internal interface OnlineSlShareReqDao {
     @Query("SELECT * FROM OnlineSlShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
     fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
                                  partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
+
+    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId")
+    fun getApprovalPendingEntries(ownerId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
 }
