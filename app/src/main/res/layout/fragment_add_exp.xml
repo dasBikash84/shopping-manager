@@ -272,10 +272,10 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.appcompat.widget.AppCompatButton
-                            style="@style/login_buttons2"
+                            style="@style/secondary_button"
                             android:id="@+id/btn_add_exp_item"
                             android:layout_width="160dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
                             android:text="@string/add_exp_item"
                             android:textAllCaps="false"
@@ -295,20 +295,18 @@
                 android:weightSum="2">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:id="@+id/btn_save_exp_entry"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/save_text"
                     android:textAllCaps="false" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:id="@+id/btn_cancel"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/cancel"

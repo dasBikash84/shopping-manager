@@ -113,9 +113,8 @@
                     android:weightSum="2">
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_signup"
-                        style="@style/login_buttons2"
+                        style="@style/primary_button"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/signup_textview"
                         android:layout_gravity="center"
@@ -123,9 +122,8 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_back_to_login"
-                        style="@style/login_buttons2"
+                        style="@style/primary_button"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="@string/cancel"
                         android:textAllCaps="false"

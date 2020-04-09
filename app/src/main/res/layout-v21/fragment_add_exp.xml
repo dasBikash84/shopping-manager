@@ -274,9 +274,8 @@
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_add_exp_item"
-                            style="@style/login_buttons2"
+                            style="@style/primary_button"
                             android:layout_width="160dp"
-                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="4dp"
                             android:text="@string/add_exp_item"
@@ -298,9 +297,8 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save_exp_entry"
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/save_text"
@@ -309,9 +307,8 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/cancel"

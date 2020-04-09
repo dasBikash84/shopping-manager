@@ -37,9 +37,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_done_offline_sharing"
-                style="@style/login_buttons2"
+                style="@style/primary_button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"

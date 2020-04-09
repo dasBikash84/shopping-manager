@@ -155,19 +155,16 @@
                 android:visibility="visible"
                 app:layoutManager="LinearLayoutManager" />
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/secondary_button"
                 android:id="@+id/btn_add_product_image"
                 android:layout_marginTop="4dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:minWidth="160dp"
                 android:layout_gravity="center"
-                android:textAllCaps="false"
-                android:text="@string/add_product_image_btn_text"
-                android:textColor="@color/color_navy_blue"/>
+                android:text="@string/add_product_image_btn_text"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/sli_brand_sug_holder"
@@ -195,19 +192,16 @@
                     app:layoutManager="LinearLayoutManager" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add_brand_sug"
+            <androidx.appcompat.widget.AppCompatButton
+                style="@style/secondary_button"
                 android:layout_marginTop="4dp"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:id="@+id/btn_add_brand_sug"
                 android:layout_width="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_height="wrap_content"
                 android:minWidth="160dp"
-                android:layout_gravity="center"
                 android:textAllCaps="false"
-                android:text="@string/add_brand_sug_btn_text"
-                android:textColor="@color/color_navy_blue"/>
+                android:text="@string/add_brand_sug_btn_text"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_marginTop="8dp"
@@ -219,9 +213,8 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save_sl_item"
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:text="@string/save_text"
@@ -230,9 +223,8 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    style="@style/login_buttons2"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:text="@string/cancel"
