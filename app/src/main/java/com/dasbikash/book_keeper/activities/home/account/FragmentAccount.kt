@@ -1,7 +1,11 @@
 package com.dasbikash.book_keeper.activities.home.account
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,22 +15,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_basic_utils.utils.uriToFile
+import com.dasbikash.android_camera_utils.CameraUtils
 import com.dasbikash.android_extensions.*
+import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.android_image_utils.displayImageFile
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.menu_view.MenuView
+import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
 
@@ -94,6 +106,10 @@ class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
             )
         }
 
+        iv_user_image.setOnClickListener {
+            runWithContext {importImageTask(it)}
+        }
+
 
         sr_page_holder.setOnRefreshListener {
             runWithContext {
@@ -109,6 +125,128 @@ class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
                 }.let {
                     if (!it){
                         sr_page_holder.isRefreshing = false
+                    }
+                }
+            }
+        }
+    }
+
+    private fun importImageTask(context: Context) {
+        val menuView = MenuView()
+        menuView.add(getCaptureImageTask())
+        menuView.add(getImportFromGalleryTask())
+        menuView.add(getImportFromLinkTask())
+        menuView.show(context)
+    }
+
+    private fun getCaptureImageTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.capture_iamge_with_camera_prompt),
+            task = {
+                    runWithActivity { PermissionUtils.runWithCameraPermission(it,onPermissionGranted = {
+                        CameraUtils.launchCameraForImage(this, REQUEST_TAKE_PHOTO)
+                    })
+                }
+            }
+        )
+    }
+
+    private fun getImportFromGalleryTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.import_image_from_internal_storage_prompt),
+            task = {
+                runWithReadStoragePermission { launchImportFromGallery() }
+            }
+        )
+    }
+
+    private fun runWithReadStoragePermission(task:()->Unit) {
+        runWithActivity {
+            PermissionUtils.runWithReadStoragePermission(
+                it,task,R.string.external_storage_permission_rational
+            )
+        }
+    }
+
+    private fun launchImportFromGallery(){
+        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, REQUEST_CODE_PICK_IMAGE)
+    }
+
+    private fun getImportFromLinkTask(): MenuViewItem {
+        return MenuViewItem(
+            text = getString(R.string.import_from_link_prompt),
+            task = {
+                runWithContext {
+                    val view = EditText(it)
+                    view.hint = it.getString(R.string.image_url_prompt)
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.image_url_dialog_message),
+                        view = view,
+                        doOnPositivePress = {
+                            if (view.text.toString().isNotBlank()){
+                                NetworkMonitor.runWithNetwork(it) {
+                                    showWaitScreen()
+                                    ImageUtils.fetchImageFromUrl(
+                                        view.text.toString().trim(), this, it, {
+                                            setUserImages(it)
+                                            hideWaitScreen()
+                                        }, {
+                                            hideWaitScreen()
+                                            showShortSnack(R.string.unknown_error_message)
+                                        }
+                                    )
+                                }
+                            }else{
+                                showShortSnack(R.string.blank_url_message)
+                            }
+                        }
+                    ))
+                }
+            }
+        )
+    }
+
+    private fun setUserImages(file: File) {
+        runWithContext {
+            lifecycleScope.launch(Dispatchers.IO) {
+                ImageRepo.uploadProductImage(it,file).let {
+                    profilePictureEditTask(it)
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                REQUEST_TAKE_PHOTO -> {
+                    runWithContext {
+                        CameraUtils.handleCapturedImageFile(
+                            it,
+                            { setUserImages(it) })
+                    }
+                }
+                REQUEST_CODE_PICK_IMAGE ->{
+                    debugLog("REQUEST_CODE_PICK_IMAGE")
+                    data?.data?.let {
+                        debugLog("Found image uri")
+                        processGalleryImageUri(it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun processGalleryImageUri(imageUri: Uri) {
+        runWithActivity {
+            lifecycleScope.launch {
+                it.uriToFile(imageUri).let {
+                    if (it!=null) {
+                        setUserImages(it)
+                    }else{
+                        showShortSnack(R.string.unknown_error_message)
                     }
                 }
             }
@@ -220,5 +358,16 @@ class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
         context?.let {
             AuthRepo.updateLastName(it, inputLastName)
         }
+    }
+
+    private suspend fun profilePictureEditTask(imageUrl:String){
+        context?.let {
+            AuthRepo.profilePictureEditTask(it, imageUrl)
+        }
+    }
+
+    companion object{
+        private const val REQUEST_TAKE_PHOTO = 1321
+        private const val REQUEST_CODE_PICK_IMAGE = 1867
     }
 }

@@ -34,19 +34,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@color/snow_white">
+                    android:background="@color/snow_white3">
 
                     <com.dasbikash.android_view_utils.custom_views.ClickableImageView
                         android:id="@+id/iv_user_image"
                         android:layout_width="160dp"
-                        android:layout_height="90dp"
+                        android:layout_height="160dp"
                         android:foregroundGravity="center"
-                        android:maxWidth="160dp"
                         android:src="@drawable/gen_profile"
+                        android:background="@drawable/profile_bg_oval"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:padding="24dp"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

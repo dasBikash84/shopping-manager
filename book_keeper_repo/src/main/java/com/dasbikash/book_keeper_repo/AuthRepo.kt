@@ -165,4 +165,11 @@ object AuthRepo:BookKeeperRepo() {
             }
         }
     }
+
+    suspend fun profilePictureEditTask(context: Context, imageUrl: String) {
+        getUser(context)!!.let {
+            it.photoUrl = imageUrl
+            updateUser(it, context)
+        }
+    }
 }
