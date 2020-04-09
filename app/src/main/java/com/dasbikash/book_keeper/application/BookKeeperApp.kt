@@ -28,7 +28,7 @@ class BookKeeperApp:Application() {
 
     companion object {
 
-        private val defaultLanguage = SupportedLanguage.BANGLA
+        private val defaultLanguage = SupportedLanguage.ENGLISH
 
         private const val LANGUAGE_SP_KEY =
             "com.dasbikash.book_keeper.application.BookKeeperApp.LANGUAGE_SP_KEY"
