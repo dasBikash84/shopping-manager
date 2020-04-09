@@ -35,9 +35,9 @@
                 android:layout_marginEnd="8dp"
                 tools:src="@mipmap/ic_launcher"/>
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_done_offline_sharing"
-                style="@style/login_buttons"
+                style="@style/login_buttons2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

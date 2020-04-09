@@ -3,175 +3,167 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_page_bg"
     android:gravity="center_vertical|top">
 
     <include
         layout="@layout/view_wait_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/app_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/login_method_holder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/snow_white">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/snow_white3"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/app_logo">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent">
+            android:minHeight="40dp"
+            android:text="@string/login_by_prompt"
+            android:textAlignment="gravity"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/app_logo"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="80dp"
-                android:src="@mipmap/ic_launcher" />
+        <ImageButton
+            android:id="@+id/btn_login_benefits"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="top"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_what"
+            android:visibility="gone" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:background="@color/snow_white2"
-                android:gravity="center"
-                android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/log_in_option_selector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/log_in_options"
+            android:minHeight="40dp"
+            android:prompt="@string/login_method_selection_prompt"
+            android:spinnerMode="dialog" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_email_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:hint="@string/email_hint"
+        app:layout_constraintTop_toBottomOf="@+id/login_method_holder">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:minHeight="40dp"
-                    android:text="@string/login_by_prompt"
-                    android:textAlignment="gravity"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:minHeight="40dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageButton
-                    android:id="@+id/btn_login_benefits"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="top"
-                    android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_what"
-                    android:visibility="gone" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_mobile_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:hint="@string/mobile_hint"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/et_email_holder">
 
-                <Spinner
-                    android:id="@+id/log_in_option_selector"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/log_in_options"
-                    android:minHeight="40dp"
-                    android:prompt="@string/login_method_selection_prompt"
-                    android:spinnerMode="dialog" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:minHeight="40dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/et_email_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:hint="@string/email_hint">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_user_id_suggestions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/snow_white2"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layoutManager="LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/et_mobile_holder" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:minHeight="40dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_password_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:hint="@string/password_hint"
+        app:layout_constraintTop_toBottomOf="@+id/et_mobile_holder"
+        app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/et_mobile_holder"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="4dp"
-                android:hint="@string/mobile_hint"
-                android:visibility="gone">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:minHeight="40dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_mobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLines="1"
-                    android:minHeight="40dp" />
-            </com.google.android.material.textfield.TextInputLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_login"
+        style="@style/login_buttons2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/login_button"
+        app:layout_constraintTop_toBottomOf="@id/et_password_holder" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_send_code"
+        style="@style/login_buttons2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/send_login_code_button"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:paddingBottom="16dp"
-                    android:id="@+id/rv_user_id_suggestions"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:background="@color/snow_white2"
-                    android:orientation="vertical"
-                    app:layoutManager="LinearLayoutManager" />
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_sign_up"
+        style="@style/login_buttons2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/sign_up_button"
+        app:layout_constraintTop_toBottomOf="@id/btn_send_code" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_password_holder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginEnd="4dp"
-                    android:hint="@string/password_hint"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:passwordToggleEnabled="true">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_password"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword"
-                        android:minHeight="40dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_login"
-                    style="@style/login_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/login_button"
-                    app:layout_constraintTop_toBottomOf="@id/et_password_holder" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_send_code"
-                    style="@style/login_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/send_login_code_button"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@id/btn_login" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_sign_up"
-                    style="@style/login_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/sign_up_button"
-                    app:layout_constraintTop_toBottomOf="@id/btn_send_code" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_guest_login"
-                    style="@style/login_buttons"
-                    android:layout_marginTop="40dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/guest_login_button"
-                    app:layout_constraintTop_toBottomOf="@id/btn_sign_up"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.core.widget.NestedScrollView>
-
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_guest_login"
+        style="@style/login_buttons2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/guest_login_button"
+        app:layout_constraintTop_toBottomOf="@id/btn_sign_up" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

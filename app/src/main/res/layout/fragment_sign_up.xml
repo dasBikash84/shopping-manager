@@ -111,25 +111,27 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:weightSum="2">
-                    <com.google.android.material.button.MaterialButton
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_signup"
-                        style="@style/login_buttons"
+                        style="@style/login_buttons2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="@string/signup_textview"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"/>
 
-                    <com.google.android.material.button.MaterialButton
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_back_to_login"
-                        style="@style/login_buttons"
+                        style="@style/login_buttons2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="@string/cancel"
                         android:textAllCaps="false"
                         android:visibility="visible"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:layout_margin="4dp"/>
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>

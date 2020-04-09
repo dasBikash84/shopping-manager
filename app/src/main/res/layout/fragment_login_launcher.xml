@@ -12,9 +12,9 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_login_launcher"
-            style="@style/login_buttons"
+            style="@style/login_buttons2"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:text="@string/login_launcher_text"

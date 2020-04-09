@@ -18,6 +18,13 @@
         <item name="android:paddingEnd">8dp</item>
     </style>
 
+    <style name="login_buttons2">
+        <item name="android:textColor">@color/color_navy_blue</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">@drawable/button_background1</item>
+    </style>
+
     <style name="sl_import_buttons" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textColor">@color/color_navy_blue</item>
         <item name="android:textSize">18sp</item>

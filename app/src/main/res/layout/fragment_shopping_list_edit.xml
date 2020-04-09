@@ -164,29 +164,31 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="40dp"
-                android:paddingEnd="40dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:weightSum="2">
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save_shopping_list"
-                    style="@style/login_buttons"
+                    style="@style/login_buttons2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/save_text"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:layout_margin="4dp" />
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    style="@style/login_buttons"
+                    style="@style/login_buttons2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/cancel"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:layout_margin="4dp"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -85,7 +85,7 @@
     <string name="exp_desc_title_text">বিস্তারিতঃ</string>
     <string name="exp_cat_title_text">খরচের খাতঃ</string>
     <string name="login_launcher_text">ফিচারটি ব্যাবহার করতে লগইন করুণ</string>
-    <string name="why_login_text">ফিচারটি ব্যক্তি বিশেষের ক্ষেত্রে প্রযোজ্য, তাই লগইন প্রয়োজন।</string>
+    <string name="why_login_text">ফিচারটি ব্যক্তি বিশেষের জন্য প্রযোজ্য, তাই লগইন প্রয়োজন।</string>
     <string name="brand_name_hint">কোম্পানির নাম</string>
     <string name="unit_price_hint">একক মূল্য*</string>
     <string name="add_exp_item">পণ্য যোগ করুণ</string>
@@ -175,11 +175,11 @@
     <string name="sl_reminder_interval_prompt">রিমাইন্ডারের ব্যবধান:</string>
     <string name="signup_heading">নতুন অ্যাকাউন্ট খুলুন</string>
     <string name="first_name_edit_prompt">নামের প্রথমাংশ পরিবর্তন করবেন?</string>
-    <string name="last_name_edit_prompt">নামের শেষাংশ পরিবর্তন করবেন?</string>
+    <string name="last_name_edit_prompt">পদবী পরিবর্তন করবেন?</string>
     <string name="phone_edit_prompt">ফোন নম্বর পরিবর্তন করবেন?</string>
     <string name="email_edit_prompt">ইমেইল অ্যাড্রেস পরিবর্তন করবেন?</string>
     <string name="empty_input_message">ফাঁকা ইনপুট!!</string>
-    <string name="last_name_prompt">নামের শেষাংশ</string>
+    <string name="last_name_prompt">পদবী</string>
     <string name="owner_sl_online_share_message">আপনি এই বাজারের ফর্দের স্বত্বাধিকারী নন!!</string>
     <string name="shared_sl_message">এই বাজারের ফর্দটি শেয়ার করা হয়েছে।</string>
     <string name="phone_hint">ফোন নম্বর</string>
@@ -218,7 +218,7 @@
     <string name="rescan_text">আবার স্ক্যান করুন</string>
     <string name="exit_text">" ফেরত যান"</string>
     <string name="share_app_text">অ্যাপ্লিকেশানটি শেয়ার করুন</string>
-    <string name="share_app_chooser_text">অ্যাপ্লিকেশানটি নিম্নের যেকোনো একটি মাদ্ধমের দ্বারা শেয়ার করুনঃ</string>
+    <string name="share_app_chooser_text">অ্যাপ্লিকেশানটি নিম্নের যেকোনো একটি মাধ্যমের দ্বারা শেয়ার করুনঃ</string>
     <string name="open_settings_prompt_for_cam">এই কাজটির জন্য ক্যামেরা ব্যাবহারের অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিংস ওপেন করতে চান?</string>
     <string name="phone_code_verify_fragment_exit_prompt">কোডটি যাচাই না করেই ফেরত যাবেন?</string>
     <string name="share_online_suggestion">অনলাইনে শেয়ার করা বাজারের ফর্দগুলো স্বয়ংক্রিয়ভাবে ব্যাবহারকারিদের ফোনে সিঙ্ক্রোনাইজ হয়। তাই অফ-লাইনের পরিবর্তে বাজারের ফর্দটি কি অনলাইনে শেয়ার করবেন?</string>

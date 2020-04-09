@@ -272,15 +272,16 @@
                                 app:layout_constraintTop_toTopOf="parent" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <com.google.android.material.button.MaterialButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/btn_add_exp_item"
-                            style="@style/login_buttons"
+                            style="@style/login_buttons2"
                             android:layout_width="160dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="4dp"
                             android:text="@string/add_exp_item"
-                            android:textAllCaps="false" />
+                            android:textAllCaps="false"
+                            android:layout_margin="6dp"/>
                     </androidx.appcompat.widget.LinearLayoutCompat>
                 </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
@@ -295,26 +296,28 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save_exp_entry"
-                    style="@style/login_buttons"
+                    style="@style/login_buttons2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/save_text"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:layout_margin="4dp"/>
 
-                <com.google.android.material.button.MaterialButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_cancel"
-                    style="@style/login_buttons"
+                    style="@style/login_buttons2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:layout_margin="4dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
