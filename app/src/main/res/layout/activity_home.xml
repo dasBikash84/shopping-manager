@@ -86,7 +86,7 @@
             android:focusable="true"
             app:borderWidth="0dp"
             app:fabSize="auto"
-            android:src="@drawable/ic_add"
+            android:src="@drawable/ic_add_exp"
             android:padding="2dp"
             app:backgroundTint="@color/dark_green"
             android:visibility="gone"/>
@@ -94,7 +94,7 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_Navigation_View"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="40dp"
             app:menu="@menu/home_bottom_navigation_menu"
             android:background="@drawable/bottom_navigation_background"
             app:itemIconTint="@drawable/bottom_navigation_colors"
@@ -105,7 +105,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp"
-            android:layout_marginBottom="2dp"/>
+            android:layout_marginBottom="2dp"
+            app:labelVisibilityMode="unlabeled"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

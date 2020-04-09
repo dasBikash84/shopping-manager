@@ -328,10 +328,7 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     private fun getCurrentUomIndex(): Int =  shoppingListItem.uom ?: 0
 
     private fun getCurrentCategoryIndex(): Int {
-        if (shoppingListItem.categoryId == null) {
-            shoppingListItem.categoryId = 0
-        }
-        return shoppingListItem.categoryId!!
+        return shoppingListItem.categoryId
     }
 
     private fun getShoppingListItemId(): String? = arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)
