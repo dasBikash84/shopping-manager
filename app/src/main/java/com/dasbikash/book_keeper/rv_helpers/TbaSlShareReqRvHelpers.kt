@@ -125,7 +125,7 @@ class TbaSlShareReqListHolder(
             phone?.let {
                 userDetails.append("\n")
                 userDetails.append(itemView.context.getString(R.string.phone_hint))
-                userDetails.append(" ")
+                userDetails.append(": ")
                 userDetails.append(it.trim())
             }
         }

@@ -257,7 +257,13 @@
     <string name="decline">Decline</string>
     <string name="sl_share_request_approved_message">Shopping request share request approved.</string>
     <string name="sl_share_request_declined_message">Shopping request share request declined.</string>
-    <string name="phone_hint">"Phone: "</string>
+    <string name="phone_hint">Phone</string>
     <string name="shared_sl_message">It\'s a shared shopping list.</string>
     <string name="owner_sl_online_share_message">Only owner can share shopping list online!!</string>
+    <string name="last_name_prompt">Last Name</string>
+    <string name="empty_input_message">Blank input!!</string>
+    <string name="email_edit_prompt">Update email?</string>
+    <string name="phone_edit_prompt">Update phone number?</string>
+    <string name="first_name_edit_prompt">Edit first name?</string>
+    <string name="last_name_edit_prompt">Update last name?</string>
 </resources>

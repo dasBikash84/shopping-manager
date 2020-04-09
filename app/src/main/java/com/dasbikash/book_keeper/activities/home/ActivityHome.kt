@@ -10,6 +10,7 @@ import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
+import com.dasbikash.book_keeper.activities.home.account.FragmentAccount
 import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate

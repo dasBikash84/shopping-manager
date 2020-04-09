@@ -13,10 +13,12 @@
 
 package com.dasbikash.book_keeper_repo.db.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 
 @Dao
@@ -33,4 +35,7 @@ internal interface UserDao {
 
     @Query("SELECT * FROM User WHERE id=:userId")
     suspend fun findById(userId: String):User?
+
+    @Query("SELECT * FROM User WHERE id=:userId")
+    fun getUserLiveDate(userId: String):LiveData<User>
 }

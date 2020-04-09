@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.dasbikash.book_keeper_repo.R
 import java.io.Serializable
 import java.lang.StringBuilder
+import java.util.*
 
 @Keep
 @Entity
@@ -17,7 +18,8 @@ data class User(
     var phone:String?=null,
     var firstName:String?=null,
     var lastName:String?=null,
-    var photoUrl:String?=null
+    var photoUrl:String?=null,
+    var modified:Date = Date()
 ):Serializable{
     fun validateData():Boolean{
         return !id.isBlank() && (!phone.isNullOrBlank() || (!email.isNullOrBlank() && !firstName.isNullOrBlank()))
@@ -30,5 +32,9 @@ data class User(
             !phone.isNullOrBlank() -> phone!!
             else -> ""
         }
+    }
+
+    fun updateModified(){
+        modified = Date()
     }
 }
