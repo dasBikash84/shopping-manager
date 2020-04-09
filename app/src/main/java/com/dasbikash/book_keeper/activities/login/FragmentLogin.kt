@@ -11,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope

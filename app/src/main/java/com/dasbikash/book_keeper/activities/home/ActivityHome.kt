@@ -23,6 +23,7 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ActivityHome : ActivityTemplate() {
 
@@ -133,6 +134,7 @@ class ActivityHome : ActivityTemplate() {
 
     override fun registerDefaultFragment(): FragmentTemplate {
         bottom_Navigation_View.selectedItemId = R.id.bmi_add
+        debugLog(Locale.getDefault().getDisplayLanguage())
         return FragmentExpAddEdit()
     }
 }
