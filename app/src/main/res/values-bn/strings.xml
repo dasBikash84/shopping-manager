@@ -226,4 +226,5 @@
     <string name="en_lang">English</string>
     <string name="switch_to_bn_prompt">ভাষা পরিবর্তন করে \"বাংলা\" করতে চান?</string>
     <string name="switch_to_en_prompt">Change language to \"English\"?</string>
+    <string name="email_verification_prompt">ইমেইল অ্যাড্রেস সুনিশ্চিত করুন…</string>
 </resources>

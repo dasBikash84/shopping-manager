@@ -172,4 +172,8 @@ object AuthRepo:BookKeeperRepo() {
             updateUser(it, context)
         }
     }
+
+    fun isVerified():Boolean{
+        return (FirebaseAuthService.getFireBaseUser() == null) || isPhoneLogin() || FirebaseAuthService.isUserVerified()
+    }
 }

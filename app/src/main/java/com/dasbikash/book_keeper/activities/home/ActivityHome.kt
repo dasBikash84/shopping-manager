@@ -93,28 +93,29 @@ class ActivityHome : ActivityTemplate() {
     }
 
     private fun syncAppData() {
-        NetworkMonitor
-            .runWithNetwork(this,{dataSyncTask()})
-            .let {
-                  if (!it){
-                      NetworkMonitor.addNetworkStateListener(
-                          NetworkStateListener.getInstance(
-                              doOnConnected = {dataSyncTask()},
-                              lifecycleOwner = this
-                          )
-                      )
-                  }else{
-                      debugLog("Settings sync routine ran.")
-                  }
+        if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
+            NetworkMonitor
+                .runWithNetwork(this@ActivityHome, { dataSyncTask() })
+                .let {
+                    if (!it) {
+                        NetworkMonitor.addNetworkStateListener(
+                            NetworkStateListener.getInstance(
+                                doOnConnected = { dataSyncTask() },
+                                lifecycleOwner = this@ActivityHome
+                            )
+                        )
+                    } else {
+                        debugLog("Settings sync routine ran.")
+                    }
                 }
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        page_title.text = getString(R.string.add_expense_title)
+        }
     }
 
     private fun <T:FragmentTemplate> loadFragmentIfLoggedIn(type:Class<T>){
+        getWaitForVerificationFragment()?.let {
+            addFragmentClearingBackStack(it)
+            return
+        }
         if (AuthRepo.checkLogIn()){
             loadFragmentIfNotLoadedAlready(type)
         }else{
@@ -123,18 +124,27 @@ class ActivityHome : ActivityTemplate() {
     }
 
     private fun <T:FragmentTemplate> loadFragmentIfNotLoadedAlready(type:Class<T>){
+        getWaitForVerificationFragment()?.let {
+            addFragmentClearingBackStack(it)
+            return
+        }
         if (getCurrentFragmentType() != type) {
             addFragmentClearingBackStack(type.newInstance())
         }
     }
 
-    fun loadHomeFragment(){
-        addFragmentClearingBackStack(getDefaultFragment())
-    }
-
     override fun registerDefaultFragment(): FragmentTemplate {
         bottom_Navigation_View.selectedItemId = R.id.bmi_add
-        debugLog(Locale.getDefault().getDisplayLanguage())
+        getWaitForVerificationFragment()?.let {
+            return it
+        }
         return FragmentExpAddEdit()
+    }
+
+    private fun getWaitForVerificationFragment():FragmentWaitForVerification?{
+        if (!AuthRepo.isVerified()){
+            return FragmentWaitForVerification()
+        }
+        return null
     }
 }

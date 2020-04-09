@@ -268,4 +268,7 @@
     <string name="en_lang">English</string>
     <string name="switch_to_bn_prompt">ভাষা পরিবর্তন করে \"বাংলা\" করতে চান?</string>
     <string name="switch_to_en_prompt">Change language to \"English\"?</string>
+    <string name="email_verification_prompt">Confirm your email address…</string>
+    <string name="email_verification_instruction">Please verify you email address using link given on sent email.</string>
+    <string name="resend_email">Resend Verification Email</string>
 </resources>

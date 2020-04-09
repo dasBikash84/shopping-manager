@@ -6,7 +6,8 @@
     android:alpha=".8"
     android:background="@android:color/white"
     android:gravity="center"
-    android:visibility="gone">
+    android:visibility="gone"
+    android:elevation="16dp">
 
     <ProgressBar
         style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
