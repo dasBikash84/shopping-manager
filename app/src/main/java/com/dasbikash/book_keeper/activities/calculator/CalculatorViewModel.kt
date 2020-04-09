@@ -2,6 +2,7 @@ package com.dasbikash.book_keeper.activities.calculator
 
 import android.app.Application
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -343,7 +344,7 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
         private const val MAX_INT_PART_LENGTH = 10
         private const val MAX_DECIMAL_PART_LENGTH = 4
         private val trailingZeroMatcher = Regex("(-?\\d+\\...?+)(0+)")
-
+        @Keep
         enum class CalculatorTask(val sign:String){
             ADD("+"),
             SUB("-"),

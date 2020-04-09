@@ -14,7 +14,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="32dp">
             <androidx.appcompat.widget.AppCompatTextView
                 android:text="@string/scan_qr_code_to_import_list_prompt"
                 android:paddingStart="4dp"
@@ -41,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:text="@string/done"
