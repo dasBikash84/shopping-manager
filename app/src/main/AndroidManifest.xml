@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activities.sl_share_requests.ActivityShoppingListShareRequests"></activity>
+        <activity android:name=".activities.sl_share_requests.ActivityShoppingListShareRequests" />
         <activity android:name=".activities.sl_import.ActivityShoppingListImport" />
         <activity android:name=".activities.sl_share.ActivityShoppingListShare" />
         <activity android:name=".activities.sl_item.ActivityShoppingListItem" />

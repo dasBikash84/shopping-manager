@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.models.SlShareMethod
 import com.dasbikash.book_keeper.models.SlToQr
+import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -190,55 +191,11 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
 
     private fun runWithCameraPermission(task:()->Unit) {
         runWithActivity {
-            Dexter.withActivity(it)
-                .withPermission(Manifest.permission.CAMERA)
-                .withListener(object : PermissionListener {
+            PermissionUtils.runWithCameraPermission(
+                it,
+                onPermissionGranted = {task()},
+                onPermissionDenied = {exit()})
 
-                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                        task()
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken?
-                    ) {
-                        runWithContext {
-                            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                                message = it.getString(R.string.camera_permission_rational),
-                                doOnPositivePress = {
-                                    token?.continuePermissionRequest()
-                                },
-                                doOnNegetivePress = {
-                                    token?.cancelPermissionRequest()
-                                    exit()
-                                },
-                                positiveButtonText = it.getString(R.string.show_permission_dialog),
-                                negetiveButtonText = it.getString(R.string.exit_text)
-                            ))
-                        }
-
-                    }
-
-                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        if (response?.isPermanentlyDenied == true){
-                            runWithContext {
-                                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                                    message = it.getString(R.string.open_settings_prompt_for_cam),
-                                    doOnPositivePress = {
-                                        runWithActivity { it.openAppSettings()}
-                                    },
-                                    doOnNegetivePress = {
-                                        exit()
-                                    },
-                                    positiveButtonText = it.getString(R.string.yes),
-                                    negetiveButtonText = it.getString(R.string.no)
-                                ))
-                            }
-                        }else{
-                            exit()
-                        }
-                    }
-                }).check()
         }
     }
     private fun exit(){

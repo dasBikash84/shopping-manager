@@ -1,6 +1,5 @@
 package com.dasbikash.book_keeper.activities.sl_item
 
-import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -34,6 +33,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
+import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -42,12 +42,6 @@ import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
@@ -336,49 +330,9 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
 
     private fun runWithReadStoragePermission(task:()->Unit) {
         runWithActivity {
-            Dexter.withActivity(it)
-                .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .withListener(object : PermissionListener{
-
-                    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                        task()
-                    }
-
-                    override fun onPermissionRationaleShouldBeShown(
-                        permission: PermissionRequest?,
-                        token: PermissionToken?
-                    ) {
-                        runWithContext {
-                            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                                message = it.getString(R.string.external_storage_permission_rational),
-                                doOnPositivePress = {
-                                    token?.continuePermissionRequest()
-                                },
-                                doOnNegetivePress = {
-                                    token?.cancelPermissionRequest()
-                                },
-                                positiveButtonText = it.getString(R.string.yes),
-                                negetiveButtonText = it.getString(R.string.no)
-                            ))
-                        }
-
-                    }
-
-                    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        if (response?.isPermanentlyDenied == true){
-                            runWithContext {
-                                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                                    message = it.getString(R.string.open_settings_prompt_for_esp),
-                                    doOnPositivePress = {
-                                        runWithActivity { it.openAppSettings()}
-                                    },
-                                    positiveButtonText = it.getString(R.string.yes),
-                                    negetiveButtonText = it.getString(R.string.no)
-                                ))
-                            }
-                        }
-                    }
-                }).check()
+            PermissionUtils.runWithReadStoragePermission(
+                it,task,R.string.external_storage_permission_rational
+            )
         }
     }
 
@@ -467,7 +421,10 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
         return MenuViewItem(
             text = getString(R.string.capture_iamge_with_camera_prompt),
             task = {
-                launchCameraForImage(this, REQUEST_TAKE_PHOTO)
+                    runWithActivity { PermissionUtils.runWithCameraPermission(it,onPermissionGranted = {
+                        launchCameraForImage(this, REQUEST_TAKE_PHOTO)
+                    })
+                }
             }
         )
     }

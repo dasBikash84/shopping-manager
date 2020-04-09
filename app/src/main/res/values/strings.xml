@@ -210,8 +210,8 @@
     <string name="import_from_link_prompt">Import from link</string>
     <string name="unknown_error_message">Error occurred!!! Please retry.</string>
     <string name="external_storage_permission_rational">\"Phone storage read permission\" is required for importing image. Do you want to view permission dialog?</string>
-    <string name="open_settings_prompt_for_esp">\"Phone storage read permission\" is required for importing image. But you disabled that previously. Now that permission can only be enabled from application settings. Do you want to open application settings?</string>
-    <string name="open_settings_prompt_for_cam">\"Camera permission\" is required to scan QR code. But you disabled that previously. Now that permission can only be enabled from application settings. Do you want to open application settings?</string>
+    <string name="open_settings_prompt_for_esp">\"Phone storage read permission\" is required for this operation. But you disabled that previously. Now that permission can only be enabled from application settings. Do you want to open application settings?</string>
+    <string name="open_settings_prompt_for_cam">\"Camera permission\" is required for this operation. But you disabled that previously. Now that permission can only be enabled from application settings. Do you want to open application settings?</string>
     <string name="image_url_prompt">Image url</string>
     <string name="image_url_dialog_message">Please input valid image url and press ok.</string>
     <string name="blank_url_message">Blank image url!!</string>
@@ -241,7 +241,7 @@
     <string name="share_app_chooser_text">Share app Via</string>
     <string name="share_app_text">Share App</string>
     <string name="share_online_suggestion">Online shared shopping lists are synced automatically among partners, which is not available for off-line shared lists. Share online instead?</string>
-    <string name="camera_permission_rational">Camera permission is required to scan QR code</string>
+    <string name="camera_permission_rational">Camera permission is required for this operation.</string>
     <string name="show_permission_dialog">Show Permission Dialog</string>
     <string name="scan_qr_code_to_import_list_prompt">Scan Qr code to import list:</string>
     <string name="duplicate_shopping_list_or_share_req_message">Duplicate shopping list!!</string>
