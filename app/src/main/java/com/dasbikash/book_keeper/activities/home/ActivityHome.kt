@@ -117,7 +117,7 @@ class ActivityHome : ActivityTemplate() {
         if (AuthRepo.checkLogIn()){
             loadFragmentIfNotLoadedAlready(type)
         }else{
-            addFragmentClearingBackStack(FragmentLogInLauncher())
+            addFragmentClearingBackStack(FragmentLogInLauncher.getInstance(type.newInstance().getPageTitle(this)))
         }
     }
 

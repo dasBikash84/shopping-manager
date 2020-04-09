@@ -14,7 +14,7 @@ import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import kotlinx.android.synthetic.main.fragment_login_launcher.*
 
-class FragmentLogInLauncher : FragmentTemplate() {
+class FragmentLogInLauncher private constructor() : FragmentTemplate() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,5 +39,19 @@ class FragmentLogInLauncher : FragmentTemplate() {
         }
     }
 
-    override fun getPageTitle(context: Context):String? = context.getString(R.string.app_name)
+    override fun getPageTitle(context: Context):String? = arguments?.getString(ARG_TITLE)// context.getString(R.string.app_name)
+
+    companion object{
+        private const val ARG_TITLE =
+            "com.dasbikash.book_keeper.activities.home.FragmentLogInLauncher.ARG_TITLE"
+
+        fun getInstance(title: String?): FragmentLogInLauncher {
+            val arg = Bundle()
+            arg.putString(ARG_TITLE, title)
+            val fragment = FragmentLogInLauncher()
+            fragment.arguments = arg
+            return fragment
+        }
+
+    }
 }
