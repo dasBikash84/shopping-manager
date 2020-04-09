@@ -2,14 +2,22 @@ package com.dasbikash.book_keeper_repo
 
 import android.app.Activity
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
+import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.io.Serializable
+import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object AuthRepo:BookKeeperRepo() {
     private val PHONE_LOG_IN_PROVIDER_ID="phone"
@@ -176,4 +184,71 @@ object AuthRepo:BookKeeperRepo() {
     fun isVerified():Boolean{
         return (FirebaseAuthService.getFireBaseUser() == null) || isPhoneLogin() || FirebaseAuthService.isUserVerified()
     }
+
+    suspend fun sendEmailVerificationLink(context: Context): Long? {
+        FirebaseAuthService.getFireBaseUser()?.let {
+            getEmailVerificationRequestLog(context)?.apply {
+                if (email == it.email){
+                    (System.currentTimeMillis() - sentTime!!.time).let{
+                        if (it < VERIFICATION_EMAIL_MINIMUM_INTERVAL){
+                            return VERIFICATION_EMAIL_MINIMUM_INTERVAL-it
+                        }
+                    }
+                }
+            }
+            try {
+                FirebaseAuthService.sendEmailVerificationLink(it)
+                saveEmailVerificationRequestLog(context,it.email!!)
+                return null
+            }catch (ex:Throwable){
+                ex.printStackTrace()
+            }
+        }
+        return VERIFICATION_EMAIL_MINIMUM_INTERVAL
+    }
+
+    suspend fun refreshLogin():Boolean{
+        return suspendCoroutine<Boolean> {
+            val continuation = it
+            FirebaseAuthService
+                .getFireBaseUser()
+                ?.reload()
+                ?.addOnSuccessListener {
+                    continuation.resume(true)
+                }
+                ?.addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(false)
+                }
+        }
+    }
+
+    private const val VERIFICATION_EMAIL_MINIMUM_INTERVAL = DateUtils.MINUTE_IN_MS * 3
+
+    private const val EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY =
+        "com.dasbikash.book_keeper_repo.EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY"
+    private suspend fun saveEmailVerificationRequestLog(context: Context,email: String){
+        SharedPreferenceUtils
+            .getDefaultInstance()
+            .saveDataSuspended(
+                context,
+                EmailVerificationRequestLog(email,Date()),
+                EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY
+            )
+    }
+    private suspend fun getEmailVerificationRequestLog(context: Context):EmailVerificationRequestLog?{
+        return SharedPreferenceUtils
+                .getDefaultInstance()
+                .getDataSuspended(
+                    context,
+                    EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY,
+                    EmailVerificationRequestLog::class.java
+                )
+    }
 }
+
+@Keep
+data class EmailVerificationRequestLog(
+    var email: String?=null,
+    var sentTime:Date?=null
+):Serializable

@@ -23,10 +23,11 @@
             android:paddingEnd="8dp">
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_verification_instruction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
-                android:gravity="start|center_vertical"
+                android:gravity="center"
                 android:minHeight="40dp"
                 android:padding="4dp"
                 android:text="@string/email_verification_instruction"
@@ -34,7 +35,8 @@
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
-                style="@style/primary_button"
+                android:id="@+id/btn_resend_verification_email"
+                style="@style/secondary_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

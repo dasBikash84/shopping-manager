@@ -36,7 +36,7 @@ internal object FirebaseAuthService {
                                                firstName:String,lastName:String,mobile:String){
         createUser(email, password).let {
             try {
-                sendEmailVerification(it)
+                sendEmailVerificationLink(it)
 
                 val user = User(
                     id = it.uid,
@@ -106,7 +106,7 @@ internal object FirebaseAuthService {
         }
     }
 
-    suspend fun sendEmailVerification(firebaseUser: FirebaseUser):FirebaseUser{
+    suspend fun sendEmailVerificationLink(firebaseUser: FirebaseUser):FirebaseUser{
         return suspendCoroutine {
             val continuation = it
             firebaseUser.sendEmailVerification().addOnCompleteListener {

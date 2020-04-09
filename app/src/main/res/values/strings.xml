@@ -270,5 +270,8 @@
     <string name="switch_to_en_prompt">Change language to \"English\"?</string>
     <string name="email_verification_prompt">Confirm your email address…</string>
     <string name="email_verification_instruction">Please verify you email address using link given on sent email.</string>
+    <string name="email_verification_instruction_with_email">Please verify you email address \"%1$s\" using link given on sent email.</string>
     <string name="resend_email">Resend Verification Email</string>
+    <string name="email_verification_link_sent">Email sent.</string>
+    <string name="email_verification_sent_error">Please wait %1$d seconds.</string>
 </resources>
