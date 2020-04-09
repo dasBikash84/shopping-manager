@@ -21,6 +21,8 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.application.BookKeeperApp
+import com.dasbikash.book_keeper.models.SupportedLanguage
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
@@ -136,6 +138,14 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
+        btn_bn_lang.setOnClickListener {
+            setBnLangAction()
+        }
+
+        btn_en_lang.setOnClickListener {
+            setEnLangAction()
+        }
+
         viewModel.getUserIdSuggestions().observe(this,object : Observer<List<String>>{
             override fun onChanged(suggestions: List<String>?) {
                 (suggestions ?: emptyList()).let {
@@ -155,6 +165,52 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                 btn_login_benefits.show()
             }else{
                 btn_login_benefits.hide()
+            }
+        }
+    }
+
+    private fun setEnLangAction() {
+        runWithActivity {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.switch_to_en_prompt),
+                doOnPositivePress = {
+                    BookKeeperApp.changeLanguageSettings(it,SupportedLanguage.ENGLISH)
+                }
+            ))
+        }
+    }
+
+    private fun setBnLangAction() {
+        runWithActivity {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = it.getString(R.string.switch_to_bn_prompt),
+                doOnPositivePress = {
+                    BookKeeperApp.changeLanguageSettings(it,SupportedLanguage.BANGLA)
+                }
+            ))
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        displayLanguageOpButtons()
+    }
+
+    private fun displayLanguageOpButtons() {
+        runWithContext {
+            when (BookKeeperApp.getLanguageSetting(it)) {
+                SupportedLanguage.ENGLISH -> {
+                    btn_bn_lang.show()
+                    btn_en_lang_inactive.show()
+                    btn_en_lang.hide()
+                    btn_bn_lang_inactive.hide()
+                }
+                SupportedLanguage.BANGLA -> {
+                    btn_bn_lang.hide()
+                    btn_en_lang_inactive.hide()
+                    btn_en_lang.show()
+                    btn_bn_lang_inactive.show()
+                }
             }
         }
     }

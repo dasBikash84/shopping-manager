@@ -15,6 +15,7 @@
     <color name="white_smoke">#f5f5f5</color>
     <color name="default_page_bg">#ffe7e7</color>
     <color name="cyan">#FF00FFFF</color>
+    <color name="bg_30_white">#48ffffff</color>
     <color name="bg_50_white">#80ffffff</color>
     <color name="bg_80_white">#CCffffff</color>
     <color name="bg_90_white">#E6ffffff</color>

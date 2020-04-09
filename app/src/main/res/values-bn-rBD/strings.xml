@@ -222,4 +222,8 @@
     <string name="open_settings_prompt_for_cam">এই কাজটির জন্য ক্যামেরা ব্যাবহারের অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিংস ওপেন করতে চান?</string>
     <string name="phone_code_verify_fragment_exit_prompt">কোডটি যাচাই না করেই ফেরত যাবেন?</string>
     <string name="share_online_suggestion">অনলাইনে শেয়ার করা বাজারের ফর্দগুলো স্বয়ংক্রিয়ভাবে ব্যাবহারকারিদের ফোনে সিঙ্ক্রোনাইজ হয়। তাই অফ-লাইনের পরিবর্তে বাজারের ফর্দটি কি অনলাইনে শেয়ার করবেন?</string>
+    <string name="bn_lang">বাংলা</string>
+    <string name="en_lang">English</string>
+    <string name="switch_to_bn_prompt">ভাষা পরিবর্তন করে \"বাংলা\" করতে চান?</string>
+    <string name="switch_to_en_prompt">Change language to \"English\"?</string>
 </resources>

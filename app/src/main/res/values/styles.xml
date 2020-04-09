@@ -25,12 +25,23 @@
         <item name="android:background">@drawable/custom_btn_bg</item>
         <item name="android:layout_height">40dp</item>
     </style>
+
     <style name="secondary_button">
         <item name="android:textColor">@color/color_navy_blue</item>
         <item name="android:textSize">15sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">32dp</item>
         <item name="android:background">@drawable/custom_btn_bg</item>
+    </style>
+
+    <style name="secondary_button_inactive">
+        <item name="android:textColor">@android:color/tab_indicator_text</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:background">@drawable/custom_inactive_btn_bg</item>
+        <item name="android:clickable">false</item>
+        <item name="android:enabled">false</item>
     </style>
 
     <style name="sl_import_buttons" parent="Widget.MaterialComponents.Button.UnelevatedButton">
