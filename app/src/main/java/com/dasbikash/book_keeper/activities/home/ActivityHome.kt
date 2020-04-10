@@ -147,4 +147,8 @@ class ActivityHome : ActivityTemplate() {
         }
         return null
     }
+
+    fun loadHomeFragment(){
+        addFragmentClearingBackStack(getDefaultFragment())
+    }
 }

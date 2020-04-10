@@ -316,7 +316,14 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     }
 
     private fun resetView() {
-        runWithActivity {activity?.finish()}
+        runWithActivity {
+            if (it is ActivityHome){
+                showShortSnack(R.string.expense_saved_message)
+                it.loadHomeFragment()
+            }else {
+                activity?.finish()
+            }
+        }
     }
 
     override fun getExitPrompt(): String? {
