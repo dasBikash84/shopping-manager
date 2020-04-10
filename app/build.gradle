@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
+apply from: project.property("book_keeper.signing") + ".gradle";
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -71,17 +73,17 @@ dependencies {
     implementation 'com.github.dasBikash84:android-camera-utils:1.2.0'
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.0.1'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.2'
 
     implementation 'com.jaredrummler:material-spinner:1.3.1'
     implementation 'com.github.kenglxn.QRGen:android:2.6.0'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
-    implementation 'com.karumi:dexter:6.0.2'
+    implementation 'com.karumi:dexter:6.1.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'com.github.YarikSOffice:lingver:1.2.2'
 
-    def work_version = "2.4.0-alpha01"
+    def work_version = '2.4.0-alpha02'
     implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation "androidx.work:work-rxjava2:$work_version"
     androidTestImplementation "androidx.work:work-testing:$work_version"
