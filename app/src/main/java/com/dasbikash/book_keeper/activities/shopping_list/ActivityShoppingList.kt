@@ -2,6 +2,8 @@ package com.dasbikash.book_keeper.activities.shopping_list
 
 import android.content.Context
 import android.content.Intent
+import com.dasbikash.android_extensions.startActivity
+import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
@@ -37,14 +39,30 @@ class ActivityShoppingList : ActivityTemplate() {
         super.setPageTitle(titleText)
     }
 
+    private fun isNotificationInstance():Boolean = intent.hasExtra(EXTRA_NOTIFICATION_INTENT)
+
+    override fun onBackPressed() {
+        if (isNotificationInstance()){
+            finish()
+            startActivity(ActivityHome::class.java)
+        }else {
+            super.onBackPressed()
+        }
+    }
+
     companion object{
 
         private const val EXTRA_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_ID"
+
         private const val EXTRA_SHOPPING_LIST_EDIT_MODE =
             "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_EDIT_MODE"
+
         private const val EXTRA_SHOPPING_LIST_CREATE_MODE =
             "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_SHOPPING_LIST_CREATE_MODE"
+
+        private const val EXTRA_NOTIFICATION_INTENT =
+            "com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList.EXTRA_NOTIFICATION_INTENT"
 
         private fun isEditIntent(intent: Intent):Boolean =
             intent.hasExtra(EXTRA_SHOPPING_LIST_EDIT_MODE)
@@ -69,6 +87,12 @@ class ActivityShoppingList : ActivityTemplate() {
 
         fun getViewIntent(context: Context,shoppingListId:String):Intent{
             return getIntent(context, shoppingListId)
+        }
+
+        fun getViewIntentForNotification(context: Context,shoppingListId:String):Intent{
+            val intent = getIntent(context, shoppingListId)
+            intent.putExtra(EXTRA_NOTIFICATION_INTENT,EXTRA_NOTIFICATION_INTENT)
+            return intent
         }
 
         fun getEditIntent(context: Context,shoppingListId:String):Intent{

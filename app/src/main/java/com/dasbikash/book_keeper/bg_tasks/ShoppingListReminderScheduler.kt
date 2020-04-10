@@ -126,7 +126,7 @@ class SlReminderGenWork(appContext: Context, workerParams: WorkerParameters)
             applicationContext,
             applicationContext.getString(R.string.shopping_reminder),
             applicationContext.getString(R.string.shopping_reminder_content,shoppingList.title),
-            ActivityShoppingList.getViewIntent(applicationContext,shoppingList.id),
+            ActivityShoppingList.getViewIntentForNotification(applicationContext,shoppingList.id),
             R.mipmap.ic_launcher
         )
         ShoppingListRepo.logShoppingReminder(applicationContext,shoppingList)
