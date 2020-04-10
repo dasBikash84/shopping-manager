@@ -1,6 +1,5 @@
 package com.dasbikash.book_keeper.activities.home
 
-import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -23,7 +22,6 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 class ActivityHome : ActivityTemplate() {
 

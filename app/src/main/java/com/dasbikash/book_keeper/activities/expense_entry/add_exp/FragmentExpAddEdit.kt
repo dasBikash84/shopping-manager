@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper.activities.expense_entry.add_exp
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,7 +16,6 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter

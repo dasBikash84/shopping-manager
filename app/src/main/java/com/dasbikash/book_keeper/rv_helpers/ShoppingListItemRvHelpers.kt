@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem

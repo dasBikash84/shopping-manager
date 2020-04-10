@@ -18,10 +18,7 @@ import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showShortSnack
-import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_wait_for_vefification.*
-import kotlinx.android.synthetic.main.fragment_wait_for_vefification.logout_block
-import kotlinx.android.synthetic.main.fragment_wait_for_vefification.sr_page_holder
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.launch
 

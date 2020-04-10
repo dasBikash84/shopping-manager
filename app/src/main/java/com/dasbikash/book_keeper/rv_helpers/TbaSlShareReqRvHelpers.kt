@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.models.TbaSlShareReq
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem

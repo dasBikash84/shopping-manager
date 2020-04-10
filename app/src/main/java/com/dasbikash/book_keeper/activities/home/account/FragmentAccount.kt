@@ -284,7 +284,9 @@ class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
                 ImageRepo
                     .downloadImageFile(context,it)
                     ?.let {
-                        iv_user_image.displayImageFile(it)
+                        if (isAdded && iv_user_image!=null){
+                            iv_user_image.displayImageFile(it)
+                        }
                     }
             }
         }

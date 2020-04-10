@@ -18,8 +18,6 @@ import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.snackbar_ext.showLongSnack
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 object ShoppingListDiffCallback: DiffUtil.ItemCallback<ShoppingList>(){

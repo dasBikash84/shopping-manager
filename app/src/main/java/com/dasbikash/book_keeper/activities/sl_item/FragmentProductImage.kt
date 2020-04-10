@@ -1,10 +1,10 @@
 package com.dasbikash.book_keeper.activities.sl_item
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
@@ -12,7 +12,6 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_image_utils.ImageUtils
-
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo

@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper.activities.shopping_list.edit
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,7 +17,6 @@ import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
@@ -31,12 +29,10 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
-import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_edit.*
 import kotlinx.coroutines.launch
-import java.lang.IllegalStateException
 import java.util.*
 
 class FragmentShoppingListAddEdit : FragmentTemplate() {

@@ -1,6 +1,5 @@
 package com.dasbikash.book_keeper.activities.sl_import
 
-import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.models.SlShareMethod
 import com.dasbikash.book_keeper.models.SlToQr
@@ -27,12 +25,6 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.google.zxing.BarcodeFormat
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.android.synthetic.main.fragment_shopping_list_import.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay

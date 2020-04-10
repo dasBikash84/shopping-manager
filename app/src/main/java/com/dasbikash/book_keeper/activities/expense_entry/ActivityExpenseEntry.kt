@@ -6,7 +6,6 @@ import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAdd
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
-import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 
 class ActivityExpenseEntry : ActivityTemplate(){
 
