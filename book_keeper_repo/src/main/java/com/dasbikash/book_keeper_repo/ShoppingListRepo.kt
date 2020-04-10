@@ -188,7 +188,9 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     suspend fun calculateNextReminderTime(context: Context, shoppingList: ShoppingList): Date? {
-        if (shoppingList.deadLine != null && shoppingList.getCountDownTime() != null) {
+        if (shoppingList.deadLine != null &&
+            shoppingList.getCountDownTime() != null &&
+            System.currentTimeMillis() < shoppingList.deadLine!!.time) {
             val firstReminderTime = shoppingList.deadLine!!.time - shoppingList.getCountDownTime()!!
             val reminderLogs = getSlReminderGenLogDao(context).findByShoppingListId(shoppingList.id)
                 .sortedBy { it.created }
