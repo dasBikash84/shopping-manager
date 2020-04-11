@@ -19,7 +19,8 @@ data class RemoteImageInfo(
     var localName:String = "${UUID.randomUUID().toString().let { it.substring(it.length-12,it.length) }}_${System.nanoTime()}.png",
     var remotePath:String?=null,
     var uploadRunning:Boolean = true,
-    var modified:Long = System.currentTimeMillis()
+    var modified:Long = System.currentTimeMillis(),
+    var isProductImage:Boolean = true
 ){
     fun prepForUpload(){
         modified = System.currentTimeMillis()

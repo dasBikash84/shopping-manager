@@ -210,7 +210,7 @@ class FragmentAccount : FragmentTemplate(),WaitScreenOwner {
     private fun setUserImages(file: File) {
         runWithContext {
             lifecycleScope.launch(Dispatchers.IO) {
-                ImageRepo.uploadProductImage(it,file).let {
+                ImageRepo.uploadProfilePicture(it,file).let {
                     profilePictureEditTask(it)
                 }
             }

@@ -42,10 +42,18 @@ object ImageRepo:BookKeeperRepo() {
             return uploadProductImage(context,it)
         }
     }
-    suspend fun uploadProductImage(context: Context,imageBitmap: Bitmap):String {
+
+    suspend fun uploadProfilePicture(context: Context,image: File):String {
+        ImageUtils.getBitmapFromFileSuspended(image)!!.let {
+            return uploadProductImage(context,it,false)
+        }
+    }
+
+    private suspend fun uploadProductImage(context: Context,imageBitmap: Bitmap,
+                                           isProductImage:Boolean = true):String {
         debugLog("uploadProductImage")
         val scaledBitmap = imageBitmap.scaled()
-        val remoteImageInfo = RemoteImageInfo()
+        val remoteImageInfo = RemoteImageInfo(isProductImage = isProductImage)
         val imageFile = ImageUtils.getPngFromBitmap(scaledBitmap,remoteImageInfo.localName,context)
         FileUtils.saveFileOnInternalStorage(imageFile,context,remoteImageInfo.localName)
         return scheduleImageUpload(scaledBitmap, remoteImageInfo, context)
@@ -59,9 +67,10 @@ object ImageRepo:BookKeeperRepo() {
         val bitmapForUpload = imageBitmap ?: ImageUtils.getBitmapFromFile(FileUtils.readFileFromInternalStorage(context,remoteImageInfo.localName)!!)!!
         val remotePath =
             FirebaseStorageService
-                .uploadProductImage(
+                .uploadImage(
                     bitmapForUpload,
                     remoteImageInfo.localName,
+                    remoteImageInfo.isProductImage,
                     { markUploaded(context.applicationContext, remoteImageInfo, it) },
                     { markUploadError(context.applicationContext, remoteImageInfo) }
                 )

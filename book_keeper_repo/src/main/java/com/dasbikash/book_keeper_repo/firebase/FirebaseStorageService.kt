@@ -4,15 +4,12 @@ import android.graphics.Bitmap
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.exceptions.FileDownloadException
 import com.dasbikash.book_keeper_repo.exceptions.ImageDeletionException
-import com.dasbikash.book_keeper_repo.exceptions.ImageUploadException
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -79,25 +76,18 @@ internal object FirebaseStorageService {
         )
     }
 
-//    suspend fun uploadProductImage(imageBitmap: Bitmap): String {
-//        debugLog("uploadProductImage")
-//        return uploadImageBitmap(
-//            imageBitmap,
-//            PRODUCT_PICTURE_DIR
-//        )
-//    }
-
-    fun uploadProductImage(imageBitmap: Bitmap,fileName:String,
+    fun uploadImage(imageBitmap: Bitmap,fileName:String,isProductImage:Boolean = true,
                                    doOnUpload:suspend (String)->Unit,doOnError:suspend ()->Unit):String{
-        debugLog("uploadProductImage")
-        return uploadImageBitmap(
-            imageBitmap,PRODUCT_PICTURE_DIR,fileName, doOnUpload, doOnError)
+        debugLog("uploadImage")
+        return when(isProductImage) {
+            true -> uploadImageBitmap(
+                imageBitmap, PRODUCT_PICTURE_DIR,
+                fileName, doOnUpload, doOnError
+            )
+            false -> uploadImageBitmap(
+                imageBitmap, PROFILE_PICTURE_DIR,
+                fileName, doOnUpload, doOnError
+            )
+        }
     }
-
-//    suspend fun uploadProfilePicture(imageBitmap: Bitmap): String {
-//        return uploadImageBitmap(
-//            imageBitmap,
-//            PROFILE_PICTURE_DIR
-//        )
-//    }
 }
