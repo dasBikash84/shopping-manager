@@ -186,9 +186,10 @@ object AuthRepo:BookKeeperRepo() {
         }
     }
 
-    suspend fun profilePictureEditTask(context: Context, imageUrl: String) {
+    suspend fun profilePictureEditTask(context: Context, imageUrls: Pair<String,String>) {
         getUser(context)!!.let {
-            it.photoUrl = imageUrl
+            it.photoUrl = imageUrls.first
+            it.thumbPhotoUrl = imageUrls.second
             updateUser(it, context)
         }
     }

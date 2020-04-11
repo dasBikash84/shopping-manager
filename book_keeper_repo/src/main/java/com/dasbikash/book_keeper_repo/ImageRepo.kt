@@ -39,24 +39,25 @@ object ImageRepo:BookKeeperRepo() {
 
     suspend fun uploadProductImage(context: Context,image: File):String {
         ImageUtils.getBitmapFromFileSuspended(image)!!.let {
-            return uploadProductImage(context,it)
+            return uploadImage(context,it.scaled())
         }
     }
 
-    suspend fun uploadProfilePicture(context: Context,image: File):String {
+    suspend fun uploadProfilePicture(context: Context,image: File):Pair<String,String> {
         ImageUtils.getBitmapFromFileSuspended(image)!!.let {
-            return uploadProductImage(context,it,false)
+            val mainUrl = uploadImage(context,it.scaled(384.00f),false)
+            val thumbUrl = uploadImage(context,it.scaled(96.00f),false)
+            return Pair(mainUrl,thumbUrl)
         }
     }
 
-    private suspend fun uploadProductImage(context: Context,imageBitmap: Bitmap,
-                                           isProductImage:Boolean = true):String {
+    private suspend fun uploadImage(context: Context, imageBitmap: Bitmap,
+                                    isProductImage:Boolean = true):String {
         debugLog("uploadProductImage")
-        val scaledBitmap = imageBitmap.scaled()
         val remoteImageInfo = RemoteImageInfo(isProductImage = isProductImage)
-        val imageFile = ImageUtils.getPngFromBitmap(scaledBitmap,remoteImageInfo.localName,context)
+        val imageFile = ImageUtils.getPngFromBitmap(imageBitmap,remoteImageInfo.localName,context)
         FileUtils.saveFileOnInternalStorage(imageFile,context,remoteImageInfo.localName)
-        return scheduleImageUpload(scaledBitmap, remoteImageInfo, context)
+        return scheduleImageUpload(imageBitmap, remoteImageInfo, context)
     }
 
     internal suspend fun scheduleImageUpload(

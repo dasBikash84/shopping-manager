@@ -19,6 +19,7 @@ data class User(
     var firstName:String?=null,
     var lastName:String?=null,
     var photoUrl:String?=null,
+    var thumbPhotoUrl:String?=null,
     var modified:Date = Date()
 ):Serializable{
     fun validateData():Boolean{

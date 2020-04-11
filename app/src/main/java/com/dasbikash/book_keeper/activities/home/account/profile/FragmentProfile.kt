@@ -364,9 +364,9 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
     }
 
-    private suspend fun profilePictureEditTask(imageUrl:String){
+    private suspend fun profilePictureEditTask(imageUrls:Pair<String,String>){
         context?.let {
-            AuthRepo.profilePictureEditTask(it, imageUrl)
+            AuthRepo.profilePictureEditTask(it, imageUrls)
         }
     }
 
