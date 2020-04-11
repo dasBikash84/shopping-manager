@@ -14,14 +14,14 @@
 package com.dasbikash.book_keeper_repo.db.room_converters
 
 import androidx.room.TypeConverter
-import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
+import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 
-internal object ShoppingListApprovalStatusConverter {
+internal object RequestApprovalStatusConverter {
 
     @TypeConverter
     @JvmStatic
-    internal fun fromShoppingListApprovalStatus(shoppingListApprovalStatus: ShoppingListApprovalStatus?): Int? {
-        shoppingListApprovalStatus?.let {
+    internal fun fromShoppingListApprovalStatus(requestApprovalStatus: RequestApprovalStatus?): Int? {
+        requestApprovalStatus?.let {
             return it.ordinal
         }
         return null
@@ -29,9 +29,9 @@ internal object ShoppingListApprovalStatusConverter {
 
     @TypeConverter
     @JvmStatic
-    internal fun toShoppingListApprovalStatus(value: Int?): ShoppingListApprovalStatus? {
+    internal fun toShoppingListApprovalStatus(value: Int?): RequestApprovalStatus? {
         value?.let {
-            return ShoppingListApprovalStatus.values()[it]
+            return RequestApprovalStatus.values()[it]
         }
         return null
     }

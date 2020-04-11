@@ -6,7 +6,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
-import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
+import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
@@ -128,7 +128,7 @@ internal class PendingOnlineDocShareRequestListener(
                                 it.toObject(OnlineSlShareReq::class.java)?.let {
                                     debugLog("it.toObject(OnlineDocShareReq::class.java)?")
                                     debugLog(it)
-                                    if (it.approvalStatus!=ShoppingListApprovalStatus.PENDING) {
+                                    if (it.approvalStatus!=RequestApprovalStatus.PENDING) {
                                         listener.remove()
                                     }
                                     doOnDocumentChange(it)

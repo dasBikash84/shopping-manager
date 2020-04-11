@@ -27,7 +27,7 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.ShoppingList
-import com.dasbikash.book_keeper_repo.model.ShoppingListApprovalStatus
+import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showLongSnack
@@ -121,14 +121,14 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             debugLog("checkIfShoppingListShareRequest: $onlineSlShareReq")
             debugLog(onlineSlShareReq.approvalStatus.name)
             when (onlineSlShareReq.approvalStatus) {
-                ShoppingListApprovalStatus.PENDING -> {
+                RequestApprovalStatus.PENDING -> {
                     if (!recentOnlineDocShareRequests.map { it.id }
                             .contains(onlineSlShareReq.id)) {
                         recentOnlineDocShareRequests.add(onlineSlShareReq)
                         setListenerForPendingOnlineSlShareRequest(onlineSlShareReq)
                     }
                 }
-                ShoppingListApprovalStatus.APPROVED -> {
+                RequestApprovalStatus.APPROVED -> {
                     runWithContext {
                         lifecycleScope.launch {
                             val shoppingList:ShoppingList = ShoppingListRepo.findById(it,onlineSlShareReq.sharedDocumentId()!!)!!
@@ -142,7 +142,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                         }
                     }
                 }
-                ShoppingListApprovalStatus.DENIED -> {
+                RequestApprovalStatus.DENIED -> {
                     runWithContext {
                         lifecycleScope.launch {
                             AuthRepo.findUserById(it,onlineSlShareReq.ownerId!!)?.let {

@@ -14,7 +14,7 @@ data class OnlineSlShareReq(
     override var ownerId: String? = null,
     override var partnerUserId: String? = null,
     override var documentPath: String? = null,
-    override var approvalStatus: ShoppingListApprovalStatus = ShoppingListApprovalStatus.PENDING,
+    override var approvalStatus: RequestApprovalStatus = RequestApprovalStatus.PENDING,
     override var modified: Date = Date()
 ):OnlineDocShareReq() {
 

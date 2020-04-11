@@ -274,4 +274,10 @@
     <string name="resend_email">Resend Verification Email</string>
     <string name="email_verification_link_sent">Email sent.</string>
     <string name="email_verification_sent_error">Please wait %1$d seconds.</string>
+    <string name="profile_text">Profile</string>
+    <string name="connections_text">Connections</string>
+    <string name="connection_requests_text">Connection Requests</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

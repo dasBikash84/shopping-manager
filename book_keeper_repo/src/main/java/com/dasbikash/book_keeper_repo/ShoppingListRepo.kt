@@ -291,8 +291,8 @@ object ShoppingListRepo : BookKeeperRepo() {
             debugLog("processDownloadedOnlineDocShareRequest: ${onlineSlShareReq.checkIfFromMe()}")
             if (onlineSlShareReq.checkIfFromMe()) {
                 debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
-                if (onlineSlShareReq.approvalStatus != ShoppingListApprovalStatus.PENDING) {
-                    if (onlineSlShareReq.approvalStatus == ShoppingListApprovalStatus.APPROVED) {
+                if (onlineSlShareReq.approvalStatus != RequestApprovalStatus.PENDING) {
+                    if (onlineSlShareReq.approvalStatus == RequestApprovalStatus.APPROVED) {
                         syncShoppingListById(onlineSlShareReq.sharedDocumentId()!!, context)
                     }
                     save(context, onlineSlShareReq)
@@ -324,13 +324,13 @@ object ShoppingListRepo : BookKeeperRepo() {
         shoppingList.partnerIds = partnerIds.toList()
         saveToFireBase(context, shoppingList)
         saveLocal(context, shoppingList)
-        onlineSlShareReq.approvalStatus = ShoppingListApprovalStatus.APPROVED
+        onlineSlShareReq.approvalStatus = RequestApprovalStatus.APPROVED
         FireStoreOnlineSlShareService.saveRequest(onlineSlShareReq)
         getOnlineDocShareReqDao(context).add(onlineSlShareReq)
     }
 
     suspend fun declineOnlineShareRequest(context: Context, onlineSlShareReq: OnlineSlShareReq) {
-        onlineSlShareReq.approvalStatus = ShoppingListApprovalStatus.DENIED
+        onlineSlShareReq.approvalStatus = RequestApprovalStatus.DENIED
         FireStoreOnlineSlShareService.saveRequest(onlineSlShareReq)
         getOnlineDocShareReqDao(context).add(onlineSlShareReq)
     }

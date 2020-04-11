@@ -13,23 +13,18 @@
 
 package com.dasbikash.book_keeper_repo.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
-import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
-import java.util.*
+import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 
 @Dao
-internal interface OnlineSlShareReqDao {
+internal interface ConnectionRequestDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun add(onlineSlShareReq: OnlineSlShareReq)
+    suspend fun add(connectionRequest: ConnectionRequest)
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId OR partnerUserId=:partnerUserId ORDER BY modified ASC")
+    /*@Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId OR partnerUserId=:partnerUserId ORDER BY modified ASC")
     suspend fun findAll(ownerId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<OnlineSlShareReq>
 
     @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
@@ -41,5 +36,5 @@ internal interface OnlineSlShareReqDao {
 
     @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
     fun getApprovalPendingEntries(ownerId:String = AuthRepo.getUserId(),
-                                  approvalStatus:RequestApprovalStatus = RequestApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>
+                                  approvalStatus:RequestApprovalStatus = RequestApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>*/
 }
