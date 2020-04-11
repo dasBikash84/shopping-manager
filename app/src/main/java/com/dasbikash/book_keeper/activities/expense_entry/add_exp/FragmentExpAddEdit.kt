@@ -263,7 +263,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
             et_brand_name.setText(brandName ?: "")
             et_unit_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
-            uom_selector.selectedIndex = uom!!
+            uom_selector.selectedIndex = uom
         }
         removeExpenseItem(expenseItem)
     }
@@ -346,39 +346,38 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     private fun initData() {
         runWithContext {
             showWaitScreen()
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch {
                 expenseCategories.addAll(resources.getStringArray(R.array.expense_categories))
                 spinner_category_selector.setItems(expenseCategories)
                 uoms.addAll(resources.getStringArray(R.array.uoms))
                 uom_selector.setItems(uoms)
 
-                withContext(Dispatchers.Main) {
-                    getExpenseEntry()?.let {
-                        expenseEntry = it
-                        debugLog(it)
-                        setTime(it.time!!)
-                        et_description.setText(it.details)
-                        et_vat_ait.setText(it.taxVat.toString())
-                        if (!it.expenseItems.isNullOrEmpty()) {
-                            it.expenseItems?.let {
-                                debugLog("$it")
-                                viewModel?.addExpenseItems(it)
-                                expense_item_list_holder.show()
-                            }
-                        }else {
-                            cb_set_expense_manually.isChecked = true
-                            runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
+                getExpenseEntry()?.let {
+                    expenseEntry = it
+                    debugLog(it)
+                    setTime(it.time!!)
+                    et_description.setText(it.details)
+                    et_vat_ait.setText(it.taxVat.toString())
+                    if (!it.expenseItems.isNullOrEmpty()) {
+                        it.expenseItems?.let {
+                            debugLog("$it")
+                            viewModel?.addExpenseItems(it)
+                            expense_item_list_holder.show()
                         }
-                        it.categoryId?.let {
-                            spinner_category_selector.selectedIndex = it
-                        }
-                        btn_cancel.show()
-                        btn_cancel.setOnClickListener {
-                            activity?.onBackPressed()
-                        }
+                    }else {
+                        cb_set_expense_manually.isChecked = true
+                        runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
                     }
-                    hideWaitScreen()
+                    it.categoryId?.let {
+                        spinner_category_selector.selectedIndex = it
+                    }
+                    btn_cancel.show()
+                    btn_cancel.setOnClickListener {
+                        activity?.onBackPressed()
+                    }
                 }
+
+                hideWaitScreen()
             }
         }
     }

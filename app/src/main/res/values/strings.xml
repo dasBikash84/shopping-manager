@@ -17,7 +17,7 @@
     <string name="bmi_shopping_list">List</string>
     <string name="shopping_list_title">Shopping List</string>
     <string name="bmi_account">Account</string>
-    <string name="login_by_prompt">Login using:</string>
+    <string name="login_by_prompt">Login using</string>
     <string name="login_method_selection_prompt">Select login method:</string>
     <string name="quit_sign_up_prompt">Cancel sign up?</string>
     <string name="yes">Yes</string>
@@ -25,7 +25,7 @@
     <string name="invalid_email_error">Invalid email address!</string>
     <string name="invalid_password_error">Password can\'t be blank</string>
     <string name="password_mismatch_error">Passwords don\'t match!</string>
-    <string name="invalid_mobile_number_error">Invalid moble number</string>
+    <string name="invalid_mobile_number_error">Invalid mobile number</string>
     <string name="launch_sign_up_prompt">Sign up with current data?</string>
     <string name="load_sign_up_prompt">Launch Sign up?</string>
     <string name="sign_up_success_mesage">Sign up success! A validation email has been sent to you. Please verify you email address.</string>

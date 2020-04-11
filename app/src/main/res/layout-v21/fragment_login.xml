@@ -75,11 +75,9 @@
             android:gravity="center"
             android:text="@string/login_by_prompt"
             android:textAlignment="gravity"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:background="@color/snow_white3"
+            android:textSize="16sp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"/>
+            android:paddingEnd="4dp"/>
 
         <ImageButton
             android:id="@+id/btn_login_benefits"

@@ -72,25 +72,37 @@ object AuthRepo:BookKeeperRepo() {
         }
     }
 
+    suspend fun checkIfAlreadyVerified(context: Context): User?{
+        try {
+            FirebaseAuthService.logInUserWithPhoneAuthCredential(context)?.let {
+                return processPhoneLogin(context,it)
+            }
+        }catch (ex:Throwable){
+            ex.printStackTrace()
+        }
+        return null
+    }
+
     suspend fun logInUserWithVerificationCode(context: Context,code:String): User {
-        FirebaseAuthService.logInUserWithVerificationCode(context, code).let {
-            try {
-                val firebaseUser = it
-                FirebaseUserService.getUser(it).let {
-                    if (it==null){
-                        FirebaseUserService.createUserForPhoneLogin(firebaseUser).let {
-                            saveLogin(context, it)
-                            return it
-                        }
-                    }else {
+        return processPhoneLogin(context,FirebaseAuthService.logInUserWithVerificationCode(context, code))
+    }
+
+    private suspend fun processPhoneLogin(context: Context,firebaseUser: FirebaseUser): User {
+        try {
+            FirebaseUserService.getUser(firebaseUser).let {
+                if (it==null){
+                    FirebaseUserService.createUserForPhoneLogin(firebaseUser).let {
                         saveLogin(context, it)
                         return it
                     }
+                }else {
+                    saveLogin(context, it)
+                    return it
                 }
-            }catch (ex:Throwable){
-                FirebaseAuthService.signOut()
-                throw ex
             }
+        }catch (ex:Throwable){
+            FirebaseAuthService.signOut()
+            throw ex
         }
     }
 

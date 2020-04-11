@@ -233,10 +233,10 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun sendCodeAction() {
-        runWithContext {
-            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                message = it.getString(R.string.send_login_code_prompt),
-                doOnPositivePress = {
+//        runWithContext {
+//            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+//                message = it.getString(R.string.send_login_code_prompt),
+//                doOnPositivePress = {
                     et_mobile.text.toString().let {
                         if (ValidationUtils.validateBdMobileNumber(it)) {
                             sendCodeTask(it.trim())
@@ -244,9 +244,9 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                             et_mobile.error = getString(R.string.invalid_mobile_number_error)
                         }
                     }
-                }
-            ))
-        }
+//                }
+//            ))
+//        }
     }
 
     private fun sendCodeTask(phone:String) {

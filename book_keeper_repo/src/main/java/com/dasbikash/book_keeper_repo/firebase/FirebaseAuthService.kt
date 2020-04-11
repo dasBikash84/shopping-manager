@@ -205,10 +205,7 @@ internal object FirebaseAuthService {
             )
         }
         val spu = SharedPreferenceUtils.getDefaultInstance()
-        spu.removeKey(activity,VERIFICATION_ID_SP_KEY)
-        spu.removeKey(activity,AUTH_CREDENTIALS_SP_KEY)
-        spu.removeKey(activity, CODE_SEND_TIME_SP_KEY)
-        spu.removeKey(activity, MOBILE_NUMBER_SP_KEY)
+        clearPhoneAuthData(activity)
         if (data is String){
             spu.saveDataSuspended(activity,data,VERIFICATION_ID_SP_KEY)
             spu.saveDataSuspended(activity, Date(),CODE_SEND_TIME_SP_KEY)
@@ -222,6 +219,16 @@ internal object FirebaseAuthService {
         }
 
         throw LoginCodeGenerationException()
+    }
+
+    private fun clearPhoneAuthData(
+        context: Context
+    ) {
+        val spu = SharedPreferenceUtils.getDefaultInstance()
+        spu.removeKey(context, VERIFICATION_ID_SP_KEY)
+        spu.removeKey(context, AUTH_CREDENTIALS_SP_KEY)
+        spu.removeKey(context, CODE_SEND_TIME_SP_KEY)
+        spu.removeKey(context, MOBILE_NUMBER_SP_KEY)
     }
 
     val channel = Channel<Any>()
@@ -249,8 +256,18 @@ internal object FirebaseAuthService {
         }
     }
 
-    suspend fun logInUserWithVerificationCode(context: Context,code:String): FirebaseUser{
-        val credential = getPhoneAuthCredential(context,code)!!
+    suspend fun logInUserWithVerificationCode(context: Context,code:String): FirebaseUser {
+        return logInUserWithPhoneAuthCredential(getPhoneAuthCredential(context, code)!!)
+    }
+
+    suspend fun logInUserWithPhoneAuthCredential(context: Context): FirebaseUser?{
+        getPhoneAuthCredential(context)?.let {
+            return logInUserWithPhoneAuthCredential(it)
+        }
+        return null
+    }
+
+    private suspend fun logInUserWithPhoneAuthCredential(credential: PhoneAuthCredential): FirebaseUser{
         return suspendCoroutine {
             val continuation = it
             FirebaseAuth.getInstance().signInWithCredential(credential)
@@ -269,12 +286,27 @@ internal object FirebaseAuthService {
     }
 
     private suspend fun getPhoneAuthCredential(context: Context,code:String):PhoneAuthCredential? {
+        getPhoneAuthCredential(context)?.let {
+            return it
+        }
+        getPhoneAuthCredentialByCode(context, code)?.let {
+            return it
+        }
+        return null
+    }
+
+    private suspend fun getPhoneAuthCredential(context: Context):PhoneAuthCredential? {
         SharedPreferenceUtils
             .getDefaultInstance()
             .getParcelableDataSuspended(
-                context, AUTH_CREDENTIALS_SP_KEY,PhoneAuthCredential.CREATOR)?.let {
-            return it
-        }
+                context, AUTH_CREDENTIALS_SP_KEY, PhoneAuthCredential.CREATOR
+            )?.let {
+                return it
+            }
+        return null
+    }
+
+    private suspend fun getPhoneAuthCredentialByCode(context: Context,code:String):PhoneAuthCredential?{
         SharedPreferenceUtils
             .getDefaultInstance()
             .getDataSuspended(context, VERIFICATION_ID_SP_KEY, String::class.java)?.let {
@@ -282,27 +314,4 @@ internal object FirebaseAuthService {
             }
         return null
     }
-
-    /*
-
-    suspend fun reloadUser(doOnSuccess: () -> Unit) {
-        getFireBaseUser()?.reload()?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                doOnSuccess()
-            }
-        }
-    }
-
-    fun isUserVerified(): Boolean {
-        return getFireBaseUser()?.isEmailVerified ?: false
-    }
-
-    fun getIdToken(status: Boolean, doOnSuccess: () -> Unit) {
-        getFireBaseUser()?.getIdToken(status)?.addOnCompleteListener {
-            if (it.isSuccessful) {
-                doOnSuccess()
-            }
-        }
-    }*/
-
 }

@@ -16,6 +16,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_code_verify.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -94,13 +95,8 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
         lifecycleScope.launch {
             showWaitScreen()
             try {
-                AuthRepo.logInUserWithVerificationCode(context,code)
-                AuthRepo.getCurrentMobileNumber(context)?.let {
-                    LoginViewModel.saveUserId(context,it)
-                }
-                runWithActivity {
-                    it.finish()
-                    it.startActivity(ActivityHome::class.java)
+                AuthRepo.logInUserWithVerificationCode(context,code).let {
+                    processLogin(context,it)
                 }
             }catch (ex:Throwable){
                 ex.printStackTrace()
@@ -110,10 +106,27 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
+    private fun processLogin(context: Context,user: User){
+        (user.phone!!).let {
+            LoginViewModel.saveUserId(context,it)
+        }
+        runWithActivity {
+            it.finish()
+            it.startActivity(ActivityHome::class.java)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        lifecycleScope.launch {
-            refreshResendStatus()
+        runWithContext {
+            lifecycleScope.launch {
+                showWaitScreen()
+                AuthRepo.checkIfAlreadyVerified(it)?.apply {
+                    processLogin(it,this)
+                }
+                hideWaitScreen()
+                refreshResendStatus()
+            }
         }
     }
 
