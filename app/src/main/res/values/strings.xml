@@ -17,7 +17,7 @@
     <string name="bmi_shopping_list">List</string>
     <string name="shopping_list_title">Shopping List</string>
     <string name="bmi_account">Account</string>
-    <string name="login_by_prompt">Login method:</string>
+    <string name="login_by_prompt">Login using:</string>
     <string name="login_method_selection_prompt">Select login method:</string>
     <string name="quit_sign_up_prompt">Cancel sign up?</string>
     <string name="yes">Yes</string>
@@ -41,7 +41,7 @@
         2) Sharing shopping list with connected users.\n
         3) Offline data import.
     </string>
-    <string name="send_login_code_button">Send Code</string>
+    <string name="send_login_code_button">Send Verification Code</string>
     <string name="resend_login_code_button">Resend Code in %1$s secs</string>
     <string name="resend_code_button">Resend Code</string>
     <string name="login_code_send_failure">Code sending failed!</string>

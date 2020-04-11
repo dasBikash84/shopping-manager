@@ -43,7 +43,7 @@
         3) সকল ডাটা এক্সেল আকারে ফোন থেকে ডাউনলোড করা যাবে।
     </string>
     <string name="never_show_cb_text">পুনারায় দেখতে চাইনা</string>
-    <string name="send_login_code_button">কোড পাঠানো হোক</string>
+    <string name="send_login_code_button">ভেরিফিকেশান কোড পাঠান</string>
     <string name="resend_login_code_button">%1$s সেকেন্ড পরে কোড পুনরায়  পাঠানো যাবে।</string>
     <string name="resend_code_button">কোড পুনরায় পাঠানো হোক</string>
     <string name="login_code_send_failure">কোড পাঠানো বার্থ হয়েছে!</string>
@@ -51,7 +51,7 @@
     <string name="verify_code_button">" কোড সুনিশ্চিত করুন"</string>
     <string name="login_prompt">প্রদত্ত তথ্য দিয়ে লগইন করবেন?</string>
     <string name="send_login_code_prompt">লগইনের জন্য কোড পাঠাতে চান?</string>
-    <string name="empty_verification_code_error">ভেরিফিকেশান কোড  প্রদান করা বাদ্ধতামুলক!</string>
+    <string name="empty_verification_code_error">ভেরিফিকেশান কোড প্রদান করা বাদ্ধতামুলক!</string>
     <string name="invalid_verification_code_message">" আপনি ভুল ভেরিফিকেশান কোড  প্রদান করেছেন!"</string>
     <string name="login_code_resend">লগইনের জন্য কোড  পাঠানো হয়েছে।</string>
     <string name="add_expense_title">খরচের তথ্য এন্ট্রি</string>

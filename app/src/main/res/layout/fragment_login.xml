@@ -65,20 +65,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/snow_white3"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@+id/app_logo">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:minHeight="40dp"
             android:text="@string/login_by_prompt"
             android:textAlignment="gravity"
             android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:background="@color/snow_white3"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"/>
 
         <ImageButton
             android:id="@+id/btn_login_benefits"
@@ -89,14 +90,12 @@
             android:src="@drawable/ic_what"
             android:visibility="gone" />
 
-        <Spinner
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
             android:id="@+id/log_in_option_selector"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:entries="@array/log_in_options"
-            android:minHeight="40dp"
-            android:prompt="@string/login_method_selection_prompt"
-            android:spinnerMode="dialog" />
+            android:minHeight="40dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -106,6 +105,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/email_hint"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/login_method_holder">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -123,7 +123,6 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/mobile_hint"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/et_email_holder">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -154,6 +153,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/password_hint"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/et_mobile_holder"
         app:passwordToggleEnabled="true">
 
@@ -171,6 +171,7 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/login_button"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/et_password_holder" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -179,7 +180,6 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/send_login_code_button"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <androidx.appcompat.widget.AppCompatButton

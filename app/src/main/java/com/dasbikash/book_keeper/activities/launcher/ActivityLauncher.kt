@@ -28,7 +28,7 @@ class ActivityLauncher : AppCompatActivity() {
         debugLog("initApp")
         initNetworkMonitor()
         AsyncTaskManager.init()
-        LoggerUtils.init(BuildConfig.DEBUG)
+//        LoggerUtils.init(BuildConfig.DEBUG)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

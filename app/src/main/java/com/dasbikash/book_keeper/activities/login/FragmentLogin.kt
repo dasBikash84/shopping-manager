@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
@@ -15,6 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
@@ -29,6 +29,7 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
+import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.launch
@@ -52,10 +53,10 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun onSuggestionClick(suggestionText: String) {
-        if (log_in_option_selector.selectedItemPosition == 0){
-            et_email.setText(suggestionText)
-        }else{
+        if (log_in_option_selector.selectedIndex == 0){
             et_mobile.setText(suggestionText)
+        }else{
+            et_email.setText(suggestionText)
         }
     }
 
@@ -96,14 +97,14 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             }
         }
 
-        log_in_option_selector.setOnItemSelectedListener(object :AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        log_in_option_selector.setOnItemSelectedListener(object : MaterialSpinner.OnItemSelectedListener<String>{
             override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
+                view: MaterialSpinner?,
                 position: Int,
-                id: Long
+                id: Long,
+                item: String?
             ) {
+
                 runWithContext {
                     hideKeyboard()
                     lifecycleScope.launch {
@@ -112,6 +113,8 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                 }
             }
         })
+
+        log_in_option_selector.setItems(resources.getStringArray(R.array.log_in_options).toList().apply { debugLog(this) })
 
         btn_send_code.setOnClickListener {
             hideKeyboard()
@@ -160,13 +163,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             }
         })
 
-        runWithContext {
-            if (isLoginBenefitsVisible(it)){
-                btn_login_benefits.show()
-            }else{
-                btn_login_benefits.hide()
-            }
-        }
+        enableSmsLoginViewItems()
     }
 
     private fun setEnLangAction() {
@@ -258,7 +255,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                 lifecycleScope.launch {
                     showWaitScreen()
                     try {
-                        AuthRepo.sendLoginCodeToMobile(ValidationUtils.sanitizeNumber(phone), it)
+                        AuthRepo.sendLoginCodeToMobile(ValidationUtils.sanitizeNumber(phone).apply { debugLog(it) }, it)
                         loadCodeVerificationScreen()
                     }catch (ex:Throwable){
                         ex.printStackTrace()
@@ -277,29 +274,34 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun setLoginViewItems(position: Int) {
+        debugLog("setLoginViewItems: $position")
         if (position == 0) {
-            enableEmailLoginViewItems()
-        } else {
             enableSmsLoginViewItems()
+        } else {
+            enableEmailLoginViewItems()
         }
     }
 
     private fun enableEmailLoginViewItems() {
+        debugLog("enableEmailLoginViewItems")
         et_email.setText("")
         et_mobile.setText("")
         et_email_holder.show()
         et_password_holder.show()
         btn_login.show()
+        btn_sign_up.show()
         et_mobile_holder.hide()
         btn_send_code.hide()
     }
 
     private fun enableSmsLoginViewItems() {
+        debugLog("enableSmsLoginViewItems")
         et_email.setText("")
         et_mobile.setText("")
         et_email_holder.hide()
         et_password_holder.hide()
         btn_login.hide()
+        btn_sign_up.hide()
         et_mobile_holder.show()
         btn_send_code.show()
     }

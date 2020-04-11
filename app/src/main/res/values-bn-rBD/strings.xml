@@ -36,7 +36,7 @@
     <string name="reset_password_text">পাসওয়ার্ড পরিবর্তন</string>
     <string name="reset_password_hint">পাসওয়ার্ড পরিবর্তন করবেন?</string>
     <string name="password_reset_email_sent">পাসওয়ার্ড পরিবর্তনের জন্য লিঙ্ক ইমেইল করা হয়েছে। দয়া করে চেক করুন।</string>
-    <string name="send_login_code_button">কোড পাঠানো হোক</string>
+    <string name="send_login_code_button">ভেরিফিকেশান কোড পাঠান</string>
     <string name="resend_login_code_button">%1$s সেকেন্ড পরে কোড পুনরায়  পাঠানো যাবে।</string>
     <string name="resend_code_button">কোড পুনরায় পাঠানো হোক</string>
     <string name="login_code_send_failure">কোড পাঠানো বার্থ হয়েছে!</string>
