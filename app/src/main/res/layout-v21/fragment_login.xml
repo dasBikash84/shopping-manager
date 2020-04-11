@@ -105,6 +105,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/email_hint"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/login_method_holder">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -122,7 +123,6 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/mobile_hint"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/et_email_holder">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -154,6 +154,7 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:hint="@string/password_hint"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/et_mobile_holder"
         app:passwordToggleEnabled="true">
 
@@ -171,6 +172,7 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/login_button"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/et_password_holder" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -179,7 +181,6 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/send_login_code_button"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -188,6 +189,7 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/sign_up_button"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/btn_send_code" />
 
     <androidx.appcompat.widget.AppCompatButton

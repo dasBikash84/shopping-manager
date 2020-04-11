@@ -301,7 +301,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:text="@string/save_text"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:layout_margin="4dp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     style="@style/primary_button"
@@ -311,7 +312,8 @@
                     android:layout_weight="1"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:layout_margin="4dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -273,11 +273,11 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.appcompat.widget.AppCompatButton
+                            style="@style/secondary_button"
                             android:id="@+id/btn_add_exp_item"
-                            style="@style/primary_button"
                             android:layout_width="160dp"
+                            android:layout_height="32dp"
                             android:layout_gravity="center"
-                            android:layout_marginTop="4dp"
                             android:text="@string/add_exp_item"
                             android:textAllCaps="false"
                             android:layout_margin="6dp"/>
