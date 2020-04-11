@@ -1,18 +1,21 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.User
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.Query
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 internal object FirebaseUserService {
 
     private const val MODIFIED_FIELD = "modified"
     private const val ID_FIELD = "id"
+    private const val EMAIL_FIELD = "email"
+    private const val PHONE_FIELD = "phone"
 
     fun saveUser(user: User): User?{
         if (user.validateData()) {
@@ -36,29 +39,18 @@ internal object FirebaseUserService {
     }
 
     suspend fun findUserById(userId:String):User?{
-        debugLog("findUserById: ${userId}")
-        return suspendCoroutine<User?> {
-            val continuation = it
-            FireStoreRefUtils
-                .getUserCollectionRef()
-                .document(userId)
-                .get()
-                .addOnSuccessListener {
-                    it.toObject(User::class.java).let {
-                        if (it!=null){
-                            debugLog("User found")
-                            continuation.resume(it)
-                        }else{
-                            debugLog("User not found")
-                            continuation.resume(null)
-                        }
-                    }
-                }.addOnFailureListener {
-                    debugLog("User not found")
-                    it.printStackTrace()
-                    continuation.resume(null)
-                }
 
+        debugLog("userId:$userId")
+
+        val query = FireStoreRefUtils
+                            .getUserCollectionRef()
+                            .whereEqualTo(ID_FIELD,userId)
+        processUserListQuery(query).let {
+            if (it.isEmpty()){
+                return null
+            }else{
+                return it.get(0)
+            }
         }
     }
 
@@ -70,28 +62,44 @@ internal object FirebaseUserService {
                         .getUserCollectionRef()
                         .whereEqualTo(ID_FIELD,user.id)
                         .whereGreaterThan(MODIFIED_FIELD,user.modified)
+        processUserListQuery(query).let {
+            if (it.isEmpty()){
+                return null
+            }else{
+                return it.get(0)
+            }
+        }
+    }
 
+    suspend fun findUsersByEmail(email: String):List<User>{
+        debugLog("findUsersByEmail: $email")
+        val query = FireStoreRefUtils
+                            .getUserCollectionRef()
+                            .whereEqualTo(EMAIL_FIELD,email.trim())
+
+        return processUserListQuery(query)
+    }
+
+    suspend fun findUsersByPhone(phone: String):List<User>{
+        debugLog("findUsersByPhone: $phone")
+        val query = FireStoreRefUtils
+                            .getUserCollectionRef()
+                            .whereEqualTo(PHONE_FIELD,phone)
+
+        return processUserListQuery(query)
+    }
+
+    private suspend fun processUserListQuery(query: Query): List<User> {
         return suspendCoroutine {
             val continuation = it
             query.get()
-                .addOnCompleteListener(OnCompleteListener {
-                    if(it.isSuccessful){
-                        try {
-                            it.result!!.toObjects(User::class.java).let {
-                                if (it.isNotEmpty()){
-                                    continuation.resume(it.get(0))
-                                }else{
-                                    continuation.resume(null)
-                                }
-                            }
-                        }catch (ex:Throwable){
-                            ex.printStackTrace()
-                            continuation.resume(null)
-                        }
-                    }else{
-                        continuation.resume(null)
-                    }
-                })
+                .addOnSuccessListener {
+                    continuation.resume(it.toObjects(User::class.java))
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(emptyList())
+                }
         }
     }
 }

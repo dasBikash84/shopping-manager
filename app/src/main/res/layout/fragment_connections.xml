@@ -1,15 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sr_page_holder"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.home.account.FragmentConnections">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="FragmentConnections" />
+        android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="2dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:gravity="top|center_vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/user_search_et_holder"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:hint="@string/search_user_hint"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_search_user"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_search_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:lines="1" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/btn_search_user"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_search"
+                    app:layout_constraintBottom_toBottomOf="@+id/user_search_et_holder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    app:layout_constraintTop_toBottomOf="@+id/user_search_et_holder"
+                    android:id="@+id/rv_user_search_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="LinearLayoutManager"
+                    android:visibility="gone"/>
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/connected_user_list_holder"
+                    app:layout_constraintTop_toBottomOf="@+id/user_search_et_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_connected_user_list_prompt"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="4dp"
+                        android:textSize="18sp"
+                        android:background="@color/snow_white"
+                        android:text="@string/connected_users_title"
+                        android:gravity="center_vertical|start"
+                        android:textColor="@color/color_navy_blue"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            app:layout_constraintTop_toBottomOf="@+id/user_search_et_holder"
+                            android:id="@+id/rv_connected_user_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layoutManager="LinearLayoutManager"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/request_pending_user_list_holder"
+                    app:layout_constraintTop_toBottomOf="@+id/connected_user_list_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_request_pending_user_list_prompt"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="4dp"
+                        android:textSize="18sp"
+                        android:background="@color/snow_white"
+                        android:text="@string/request_pending_users_title"
+                        android:gravity="center_vertical|start"
+                        android:textColor="@color/color_navy_blue"/>
+                        <androidx.recyclerview.widget.RecyclerView
+                            app:layout_constraintTop_toBottomOf="@+id/user_search_et_holder"
+                            android:id="@+id/rv_request_pending_user_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layoutManager="LinearLayoutManager"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

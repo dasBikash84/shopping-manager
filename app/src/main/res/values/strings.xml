@@ -280,4 +280,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_user_hint">Search user by email or phone number</string>
+    <string name="connected_users_title">Connected Users:</string>
+    <string name="request_pending_users_title">Pending requests:</string>
+    <string name="invalid_user_search_string">Please provide valid email or phone number</string>
 </resources>
