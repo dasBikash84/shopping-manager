@@ -22,6 +22,7 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ActivityHome : ActivityTemplate() {
@@ -71,12 +72,13 @@ class ActivityHome : ActivityTemplate() {
     private fun dataSyncTask(){
         if (!dataSynced.get()) {
             dataSynced.set()
-            lifecycleScope.launch(Dispatchers.IO) {
+            GlobalScope.launch(Dispatchers.IO) {
                 try {
                     ExpenseRepo.syncData(this@ActivityHome)
                     ShoppingListRepo.syncShoppingListData(this@ActivityHome)
                     ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
                     ConnectionRequestRepo.syncData(this@ActivityHome)
+                    AuthRepo.syncUserData(this@ActivityHome)
                     if (BuildConfig.DEBUG) {
                         runOnUiThread({ showShortSnack("Data sync done!!") })
                     }
