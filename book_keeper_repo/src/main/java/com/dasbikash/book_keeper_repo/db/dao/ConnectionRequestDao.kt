@@ -47,5 +47,5 @@ internal interface ConnectionRequestDao {
     fun getLiveDataForRequestedPending(status:RequestApprovalStatus=RequestApprovalStatus.PENDING, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
 
     @Query("SELECT * FROM ConnectionRequest WHERE partnerUserId=:userId AND approvalStatus=:status AND active ORDER BY modified DESC")
-    fun getLiveDataForReceivedRequests(status:RequestApprovalStatus=RequestApprovalStatus.PENDING, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
+    fun getLiveDataForReceivedPendingRequests(status:RequestApprovalStatus=RequestApprovalStatus.PENDING, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
 }

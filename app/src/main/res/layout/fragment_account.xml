@@ -5,63 +5,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/nav_holder"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:orientation="horizontal"
-            android:background="@android:color/darker_gray">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="140dp"
-                android:gravity="center"
-                android:text="@string/profile_text"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:background="@android:color/white"
-                android:layout_marginEnd="2dp"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_connections"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="140dp"
-                android:gravity="center"
-                android:text="@string/connections_text"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:background="@color/snow_white2"
-                android:layout_marginEnd="2dp"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_con_requests"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minWidth="140dp"
-                android:gravity="center"
-                android:text="@string/connection_requests_text"
-                android:textSize="18sp"
-                android:textColor="@android:color/black"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:background="@color/snow_white2"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </HorizontalScrollView>
+        android:layout_height="32dp"
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_profile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:minWidth="140dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/profile_text"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_connections"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="2dp"
+            android:background="@color/snow_white2"
+            android:gravity="center"
+            android:minWidth="140dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/connections_text"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_weight="1"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <FrameLayout
         android:id="@+id/frame_account"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/nav_holder"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nav_holder" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -280,7 +280,8 @@
 
     <string name="search_user_hint">Search user by email or phone number</string>
     <string name="connected_users_title">Connected Users:</string>
-    <string name="request_pending_users_title">Pending Requests:</string>
+    <string name="request_pending_from_me_title">Pending requests from me:</string>
+    <string name="request_pending_to_me_title">Pending requests to me:</string>
     <string name="invalid_user_search_string">Please provide valid email or phone number</string>
     <string name="display_name">%1$s %2$s</string>
     <string name="email_sub">Regarding \"BookKeeper\"</string>

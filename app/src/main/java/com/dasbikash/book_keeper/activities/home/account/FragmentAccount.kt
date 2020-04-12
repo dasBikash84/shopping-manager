@@ -27,7 +27,6 @@ class FragmentAccount : FragmentTemplate() {
 
         tv_profile.setOnClickListener { loadProfileFragment() }
         tv_connections.setOnClickListener { loadConnectionsFragment() }
-        tv_con_requests.setOnClickListener { loadConnectionRequestsFragment() }
 
         loadProfileFragment()
     }
@@ -42,7 +41,6 @@ class FragmentAccount : FragmentTemplate() {
                 .commit()
             tv_profile.setBackgroundColor(Color.WHITE)
             tv_connections.setBackgroundColor(Color.LTGRAY)
-            tv_con_requests.setBackgroundColor(Color.LTGRAY)
         }
     }
 
@@ -56,19 +54,6 @@ class FragmentAccount : FragmentTemplate() {
                 .commit()
             tv_connections.setBackgroundColor(Color.WHITE)
             tv_profile.setBackgroundColor(Color.LTGRAY)
-            tv_con_requests.setBackgroundColor(Color.LTGRAY)
-        }
-    }
-
-    private fun loadConnectionRequestsFragment(){
-        (activity as AppCompatActivity).apply {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_account, FragmentProfileConnectionRequests())
-                .commit()
-            tv_con_requests.setBackgroundColor(Color.WHITE)
-            tv_profile.setBackgroundColor(Color.LTGRAY)
-            tv_connections.setBackgroundColor(Color.LTGRAY)
         }
     }
 

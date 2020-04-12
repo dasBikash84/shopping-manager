@@ -41,7 +41,8 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
 
     private val userSearchReasultAdapter = SearchedUserAdapter({addUserAction(it)})
     private val connectedUserAdapter = ConnectionUserAdapter({context, user ->  getMenuViewForConnectedUsers(context, user)})
-    private val connectionPendingUserAdapter = ConnectionUserAdapter({context, user ->  getMenuViewForConnectionPendingUsers(context, user)})
+    private val connectionPendingFromMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingFromMeUsers(context, user)})
+    private val connectionPendingToMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingToMeUsers(context, user)})
     private lateinit var viewModel: ViewModelConnections
 
     private fun addUserAction(user: User) {
@@ -91,7 +92,54 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         return menuView
     }
 
-    private fun getMenuViewForConnectionPendingUsers(context: Context,user: User):MenuView{
+    private fun getMenuViewForConnectionPendingToMeUsers(context: Context, user: User):MenuView{
+        debugLog("getMenuViewForConnectionPendingUsers: $user")
+        val menuView = MenuView()
+
+        user.apply {
+            menuView.add(
+                MenuViewItem(
+                    text = context.getString(R.string.approve),
+                    task = {
+                        DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+                            message = context.getString(R.string.approve)+"?",
+                            doOnPositivePress = {
+                                NetworkMonitor.runWithNetwork(context) {
+                                    lifecycleScope.launch {
+                                        showWaitScreen()
+                                        ConnectionRequestRepo.approveRequest(context,user)
+                                        hideWaitScreen()
+                                    }
+                                }
+                            }
+                        ))
+                    }
+                )
+            )
+            menuView.add(
+                MenuViewItem(
+                    text = context.getString(R.string.decline),
+                    task = {
+                        DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+                            message = context.getString(R.string.decline)+"?",
+                            doOnPositivePress = {
+                                NetworkMonitor.runWithNetwork(context) {
+                                    lifecycleScope.launch {
+                                        showWaitScreen()
+                                        ConnectionRequestRepo.declineRequest(context,user)
+                                        hideWaitScreen()
+                                    }
+                                }
+                            }
+                        ))
+                    }
+                )
+            )
+        }
+        return menuView
+    }
+
+    private fun getMenuViewForConnectionPendingFromMeUsers(context: Context, user: User):MenuView{
         debugLog("getMenuViewForConnectionPendingUsers: $user")
         val menuView = MenuView()
 
@@ -150,7 +198,8 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         super.onViewCreated(view, savedInstanceState)
         rv_user_search_result.adapter = userSearchReasultAdapter
         rv_connected_user_list.adapter = connectedUserAdapter
-        rv_request_pending_user_list.adapter = connectionPendingUserAdapter
+        rv_request_pending_from_me_user_list.adapter = connectionPendingFromMeUserAdapter
+        rv_request_pending_to_me_user_list.adapter = connectionPendingToMeUserAdapter
         viewModel = ViewModelProviders.of(this).get(ViewModelConnections::class.java)
         btn_search_user.setOnClickListener {
             et_search_user.text.toString().trim().let {
@@ -172,6 +221,29 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
             }
         }
 
+        viewModel.getReceivedPendingLiveData().observe(this,object : Observer<List<ConnectionRequest>> {
+            override fun onChanged(list: List<ConnectionRequest>?) {
+                (list ?: emptyList()).let {
+                    debugLog(it)
+                    if (!it.isEmpty()){
+                        val connectionRequests = it
+                        runWithContext {
+                            lifecycleScope.launch {
+                                connectionRequests.map {
+                                    AuthRepo.findUserById(context!!,it.requesterUserId!!)!!
+                                }.let {
+                                    connectionPendingToMeUserAdapter.submitList(it)
+                                    request_pending_to_me_user_list_holder.show()
+                                }
+                            }
+                        }
+                    }else{
+                        request_pending_to_me_user_list_holder.hide()
+                    }
+                }
+            }
+        })
+
         viewModel.getRequestedPendingLiveData().observe(this,object : Observer<List<ConnectionRequest>>{
             override fun onChanged(list: List<ConnectionRequest>?) {
                 (list ?: emptyList()).let {
@@ -183,13 +255,13 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                                 connectionRequests.map {
                                     AuthRepo.findUserById(context!!,it.partnerUserId!!)!!
                                 }.let {
-                                    connectionPendingUserAdapter.submitList(it)
-                                    request_pending_user_list_holder.show()
+                                    connectionPendingFromMeUserAdapter.submitList(it)
+                                    request_pending_from_me_user_list_holder.show()
                                 }
                             }
                         }
                     }else{
-                        request_pending_user_list_holder.hide()
+                        request_pending_from_me_user_list_holder.hide()
                     }
                 }
             }
@@ -204,7 +276,7 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                         runWithContext {
                             lifecycleScope.launch {
                                 connectionRequests.map {
-                                    AuthRepo.findUserById(context!!,it.partnerUserId!!)!!
+                                    AuthRepo.findUserById(context!!,if (it.requesterUserId==AuthRepo.getUserId()) {it.partnerUserId!!} else {it.requesterUserId!!})!!
                                 }.let {
                                     connectedUserAdapter.submitList(it)
                                     connected_user_list_holder.show()

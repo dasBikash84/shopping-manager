@@ -48,6 +48,17 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
         return getDao(context).findPendingRequest(user.id) > 0
     }
 
+    suspend fun approveRequest(context: Context,user: User){
+        getDao(context)
+            .findAll(requesterUserId = user.id,partnerUserId = user.id)
+            .filter { it.active && it.checkIfPending() }
+            .let {
+                if (it.isNotEmpty()){
+                    approveRequest(context,it.get(0))
+                }
+            }
+    }
+
     suspend fun approveRequest(context: Context,connectionRequest: ConnectionRequest){
         syncData(context)
         val subRequest = getDao(context).findById(connectionRequest.id)!!
@@ -63,6 +74,17 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
                     getDao(context).add(connectionRequest)
                 }
             )
+    }
+
+    suspend fun declineRequest(context: Context,user: User){
+        getDao(context)
+            .findAll(requesterUserId = user.id,partnerUserId = user.id)
+            .filter { it.active && it.checkIfPending() }
+            .let {
+                if (it.isNotEmpty()){
+                    declineRequest(context,it.get(0))
+                }
+            }
     }
 
     suspend fun declineRequest(context: Context,connectionRequest: ConnectionRequest){
@@ -123,4 +145,5 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
     fun getLivaDataForApprovedConnections(context: Context) = getDao(context).getLiveDataForApprovedRequests()
 
     fun getLivaDataForRequestedPending(context: Context) = getDao(context).getLiveDataForRequestedPending()
+    fun getLiveDataForReceivedPendingRequests(context: Context) = getDao(context).getLiveDataForReceivedPendingRequests()
 }
