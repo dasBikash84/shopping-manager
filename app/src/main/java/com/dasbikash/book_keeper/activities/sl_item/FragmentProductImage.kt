@@ -37,11 +37,11 @@ class FragmentProductImage: Fragment() {
 
         runWithContext {
             lifecycleScope.launch {
-                ImageRepo.downloadImageFile(it, getImageLoc())?.let {
+                ImageRepo.downloadImageFile(it, getImageLoc(),doOnDownload = {
                     ImageUtils.getBitmapFromFile(it)?.let {
                         iv_product_image_full.setImageBitmap(it.rotateIfRequired())
                     }
-                }
+                })
             }
         }
 

@@ -15,25 +15,23 @@ import java.io.File
 
 object ImageRepo:BookKeeperRepo() {
 
-    suspend fun downloadImageFile(context: Context,imageUrl:String): File? {
-        try {
-            imageUrl.split("/").let {
-                if (it.isNotEmpty()){
-                    FileUtils.readFileFromInternalStorage(context,it.last())?.let {
-                        debugLog("Found on local storage")
-                        return it
-                    }
+    fun downloadImageFile(context: Context,imageUrl:String,
+                          doOnDownload:(File)->Unit,doOnError: (() -> Unit)?=null) {
+        imageUrl.split("/").last().let {
+            val fileName = it
+            if (it.isNotEmpty()){
+                FileUtils.readFileFromInternalStorage(context,fileName)?.let {
+                    debugLog("Found on local storage")
+                    doOnDownload(it)
                 }
             }
-            return FirebaseStorageService.downloadImageFile(imageUrl).apply {
-                imageUrl.split("/").last().let {
-                    FileUtils.saveFileOnInternalStorage(this,context,it,true)
-                    debugLog("Saved on local storage")
-                }
-            }
-        }catch (ex: FileDownloadException){
-            ex.printStackTrace()
-            return null
+            FirebaseStorageService
+                .downloadImageFile(
+                    imageUrl,fileName, {
+                        FileUtils.saveFileOnInternalStorage(it,context,fileName)
+                        doOnDownload(it)
+                        it.delete()
+                    }, doOnError)
         }
     }
 

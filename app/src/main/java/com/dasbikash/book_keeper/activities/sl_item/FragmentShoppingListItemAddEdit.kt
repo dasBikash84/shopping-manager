@@ -62,11 +62,11 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     private val imageListAdapter = StringListAdapter({view,text->
         runWithContext {
             lifecycleScope.launch {
-                ImageRepo.downloadImageFile(it, text)?.let {
+                ImageRepo.downloadImageFile(it, text,doOnDownload = {
                     ImageUtils.getBitmapFromFile(it)?.let {
                         (view as ImageView).setImageBitmap(it.rotateIfRequired())
                     }
-                }
+                })
             }
         }
     },{doOnProductImageClick(it)},R.layout.view_single_preview_image)

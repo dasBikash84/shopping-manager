@@ -286,12 +286,9 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             tv_last_name.text = lastName?.trim() ?: ""
             photoUrl?.let {
                 ImageRepo
-                    .downloadImageFile(context,it)
-                    ?.let {
-                        if (isAdded && iv_user_image!=null){
-                            iv_user_image.displayImageFile(it)
-                        }
-                    }
+                    .downloadImageFile(context,it,doOnDownload = {
+                        iv_user_image.displayImageFile(it)
+                    })
             }
         }
     }

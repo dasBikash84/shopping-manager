@@ -85,16 +85,13 @@ abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemV
             }
             thumbPhotoUrl.let {
                 if (it!=null) {
-                    AsyncTaskManager.addTask<Any, Any> {
-                        GlobalScope.launch {
-                            ImageRepo.downloadImageFile(itemView.context, it)?.let {
-                                try {
-                                    ImageUtils.displayImageFile(iv_user_image, it)
-                                } catch (ex: Throwable) {
-                                }
-                            }
-                        }
-                    }
+//                    AsyncTaskManager.addTask<Any, Any> {
+//                        GlobalScope.launch {
+                            ImageRepo.downloadImageFile(itemView.context, it,doOnDownload = {
+                                ImageUtils.displayImageFile(iv_user_image, it)
+                            })
+//                        }
+//                    }
                 }else{
                     iv_user_image.setImageResource(R.drawable.ic_account)
                 }

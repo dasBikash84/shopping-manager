@@ -1,8 +1,8 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import android.graphics.Bitmap
+import com.dasbikash.android_basic_utils.utils.FileUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.exceptions.FileDownloadException
 import com.dasbikash.book_keeper_repo.exceptions.ImageDeletionException
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -54,20 +54,37 @@ internal object FirebaseStorageService {
         return filepath.path
     }
 
-    suspend fun downloadImageFile(imageUrl:String):File{
-        return suspendCoroutine<File> {
-            val continuation = it
-            val storageRef = FirebaseStorage.getInstance().reference
-            val islandRef = storageRef.child(imageUrl)
-            val localFile = File.createTempFile("images", "jpg")
+    fun downloadImageFile(imageUrl:String,fileName: String,
+                            doOnDownload:(File)->Unit,doOnError: (() -> Unit)?){
 
-            islandRef.getFile(localFile).addOnSuccessListener {
-                continuation.resume(localFile)
-            }.addOnFailureListener {
-                debugLog(it.message ?: it::class.java.simpleName)
-                continuation.resumeWithException(FileDownloadException(it))
+        val (prefix,suffix) = fileName.split(".").let {
+            if (it.isEmpty()){
+                return
+            }else{
+                if (it.size==1){
+                    return@let Pair(it.get(0),"")
+                }else{
+                    return@let Pair(it.get(0),it.get(1))
+                }
             }
-        }
+        }.apply { debugLog(this) }
+        val storageRef = FirebaseStorage.getInstance().reference
+        val fileRef = storageRef.child(imageUrl)
+        val localFile = File.createTempFile(prefix, suffix)
+        fileRef
+            .getFile(localFile)
+            .addOnSuccessListener{
+                try {
+                    doOnDownload(localFile)
+                }catch (ex:Throwable){
+                    ex.printStackTrace()
+                }
+            }
+            .addOnFailureListener {
+                debugLog(it.message ?: it::class.java.simpleName)
+                it.printStackTrace()
+                doOnError?.invoke()
+            }
     }
 
     suspend fun deleteFileByUrl(url:String){
