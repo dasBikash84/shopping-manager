@@ -25,21 +25,27 @@ internal interface ConnectionRequestDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(connectionRequest: ConnectionRequest)
 
-    @Query("SELECT * FROM ConnectionRequest WHERE requesterUserId=:requesterUserId OR partnerUserId=:partnerUserId ORDER BY modified DESC")
+    @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:requesterUserId OR partnerUserId=:partnerUserId) AND active ORDER BY modified DESC")
     suspend fun findAll(requesterUserId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<ConnectionRequest>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAll(list: List<ConnectionRequest>)
 
-    @Query("SELECT count(*) FROM ConnectionRequest WHERE (requesterUserId=:partnerUserId OR partnerUserId=:partnerUserId) AND approvalStatus !=:statusToNeg")
+    @Query("SELECT count(*) FROM ConnectionRequest WHERE (requesterUserId=:partnerUserId OR partnerUserId=:partnerUserId) AND approvalStatus !=:statusToNeg  AND active")
     suspend fun findPendingRequest(partnerUserId:String,statusToNeg: RequestApprovalStatus=RequestApprovalStatus.DENIED):Int
 
     @Delete
     suspend fun delete(connectionRequest: ConnectionRequest)
 
-    @Query("SELECT * FROM ConnectionRequest WHERE id=:id")
+    @Query("SELECT * FROM ConnectionRequest WHERE id=:id  AND active")
     suspend fun findById(id: String): ConnectionRequest?
 
-    @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:userId OR partnerUserId=:userId) AND approvalStatus=:status ORDER BY modified DESC")
-    fun getLiveDataForStatus(status:RequestApprovalStatus,userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
+    @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:userId OR partnerUserId=:userId) AND approvalStatus=:status AND active ORDER BY modified DESC")
+    fun getLiveDataForApprovedRequests(status:RequestApprovalStatus=RequestApprovalStatus.APPROVED, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
+
+    @Query("SELECT * FROM ConnectionRequest WHERE requesterUserId=:userId AND approvalStatus=:status AND active ORDER BY modified DESC")
+    fun getLiveDataForRequestedPending(status:RequestApprovalStatus=RequestApprovalStatus.PENDING, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
+
+    @Query("SELECT * FROM ConnectionRequest WHERE partnerUserId=:userId AND approvalStatus=:status AND active ORDER BY modified DESC")
+    fun getLiveDataForReceivedRequests(status:RequestApprovalStatus=RequestApprovalStatus.PENDING, userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
 }

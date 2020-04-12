@@ -15,6 +15,7 @@ package com.dasbikash.book_keeper.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.app.ShareCompat
 import com.dasbikash.book_keeper.R
 
@@ -33,5 +34,23 @@ object OptionsIntentBuilderUtility {
             .setChooserTitle(activity.resources.getString(R.string.share_app_chooser_text))
             .setText(getAppLink(activity))
             .createChooserIntent()
+    }
+
+
+    fun launchEmailDialog(activity: Activity,emailAddress:String) {
+        activity.startActivity(
+            ShareCompat.IntentBuilder.from(activity)
+                .setType("text/plain")
+                .setSubject(activity.resources.getString(R.string.email_sub))
+                .addEmailTo(emailAddress)
+                .setChooserTitle("Email to: $emailAddress")
+                .createChooserIntent()
+        )
+    }
+
+    fun dialPartner(activity: Activity,phoneNumber:String) {
+        activity.startActivity(
+            Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber))
+        )
     }
 }

@@ -11,15 +11,15 @@ import java.util.*
 data class ConnectionRequest(
     @PrimaryKey
     var id: String=UUID.randomUUID().toString(),
-    var requesterUserId: String?,
-    var partnerUserId: String?,
-    var approvalStatus: RequestApprovalStatus,
+    var requesterUserId: String?=null,
+    var partnerUserId: String?=null,
+    var approvalStatus: RequestApprovalStatus=RequestApprovalStatus.PENDING,
     var active: Boolean=true,
     var modified: Date = Date()
 ){
     fun checkIfFromMe():Boolean =  requesterUserId == AuthRepo.getUserId()
     fun checkIfToMe():Boolean = partnerUserId == AuthRepo.getUserId()
-    fun checkIfActive():Boolean = approvalStatus == RequestApprovalStatus.PENDING
+    fun checkIfPending():Boolean = approvalStatus == RequestApprovalStatus.PENDING
     fun checkIfApproved():Boolean = approvalStatus == RequestApprovalStatus.APPROVED
     fun refreshModified(){modified = Date()}
 }

@@ -27,7 +27,7 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
     suspend fun submitNewRequest(context: Context,user: User){
         if (user.id == AuthRepo.getUserId()){return}
         syncData(context)
-        if (checkIfRequestPending(context,user)){
+        if (checkIfOnList(context,user)){
             return
         }
         val connectionRequest =
@@ -44,7 +44,7 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
             )
     }
 
-    private suspend fun checkIfRequestPending(context: Context,user: User): Boolean {
+    suspend fun checkIfOnList(context: Context, user: User): Boolean {
         return getDao(context).findPendingRequest(user.id) > 0
     }
 
@@ -82,6 +82,28 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
             )
     }
 
+    suspend fun deleteApprovedConnection(context: Context, user: User){
+        getDao(context)
+            .findAll(requesterUserId = user.id,partnerUserId = user.id)
+            .filter { it.active && it.checkIfApproved() }
+            .let {
+                if (it.isNotEmpty()){
+                    deleteConnection(context,it.get(0))
+                }
+            }
+    }
+
+    suspend fun deletePendingConnection(context: Context, user: User){
+        getDao(context)
+            .findAll(requesterUserId = user.id,partnerUserId = user.id)
+            .filter { it.active && it.checkIfPending() }
+            .let {
+                if (it.isNotEmpty()){
+                    deleteConnection(context,it.get(0))
+                }
+            }
+    }
+
     suspend fun deleteConnection(context: Context,connectionRequest: ConnectionRequest){
         syncData(context)
         val subRequest = getDao(context).findById(connectionRequest.id)!!
@@ -98,9 +120,7 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
             )
     }
 
-    fun getLivaDataForApprovedConnections(context: Context) =
-        getDao(context).getLiveDataForStatus(RequestApprovalStatus.APPROVED)
+    fun getLivaDataForApprovedConnections(context: Context) = getDao(context).getLiveDataForApprovedRequests()
 
-    fun getLivaDataForPendingConnections(context: Context) =
-        getDao(context).getLiveDataForStatus(RequestApprovalStatus.PENDING)
+    fun getLivaDataForRequestedPending(context: Context) = getDao(context).getLiveDataForRequestedPending()
 }

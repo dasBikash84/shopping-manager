@@ -278,11 +278,14 @@
     <string name="connections_text">Connections</string>
     <string name="connection_requests_text">Connection Requests</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="search_user_hint">Search user by email or phone number</string>
     <string name="connected_users_title">Connected Users:</string>
-    <string name="request_pending_users_title">Pending requests:</string>
+    <string name="request_pending_users_title">Pending Requests:</string>
     <string name="invalid_user_search_string">Please provide valid email or phone number</string>
     <string name="display_name">%1$s %2$s</string>
+    <string name="email_sub">Regarding \"BookKeeper\"</string>
+    <string name="call_prompt">Call user</string>
+    <string name="email_prompt">Email User</string>
+    <string name="delete_user">Delete from connections</string>
+    <string name="delete_con_request">Delete request</string>
 </resources>
