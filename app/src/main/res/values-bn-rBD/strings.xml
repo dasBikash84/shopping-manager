@@ -210,7 +210,7 @@
     <string name="share_online_instead_offline">%1$s বাজারের ফর্দটি খুব লম্বা হওয়ায় অফ-লাইনে শেয়ার করা  সম্ভব নয়। তার পরিবর্তে অনলাইনে শেয়ার করবেন?</string>
     <string name="done">করা হয়েছে</string>
     <string name="done_prompt">করা হয়েছে?</string>
-    <string name="shopping_list_import_title">বাজারের ফর্দ আমদানি করুন</string>
+    <string name="shopping_list_import_title">QR কোড স্ক্যান করে বাজারের ফর্দ আমদানি করুন</string>
     <string name="offline_shopping_list_save_prompt">অফ-লাইনে বাজারের বাজারের ফর্দ শেয়ার করা হয়েছে। সেটা কি সেভ করবেন?</string>
     <string name="online_shopping_list_import_prompt">অনলাইনে শেয়ার করা বাজারের ফর্দ আমদানির জন্য অনুরোধ পাঠাতে চান?</string>
     <string name="online_shopping_list_import_req_text">অনুরোধ পাঠানো হোক</string>
