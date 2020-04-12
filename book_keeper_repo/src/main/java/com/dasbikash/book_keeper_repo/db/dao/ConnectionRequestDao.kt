@@ -13,10 +13,11 @@
 
 package com.dasbikash.book_keeper_repo.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
+import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 
 @Dao
 internal interface ConnectionRequestDao {
@@ -24,17 +25,21 @@ internal interface ConnectionRequestDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(connectionRequest: ConnectionRequest)
 
-    /*@Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId OR partnerUserId=:partnerUserId ORDER BY modified ASC")
-    suspend fun findAll(ownerId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<OnlineSlShareReq>
+    @Query("SELECT * FROM ConnectionRequest WHERE requesterUserId=:requesterUserId OR partnerUserId=:partnerUserId ORDER BY modified DESC")
+    suspend fun findAll(requesterUserId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<ConnectionRequest>
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
-    suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineSlShareReq?
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addAll(list: List<ConnectionRequest>)
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
-    fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
-                                 partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
+    @Query("SELECT count(*) FROM ConnectionRequest WHERE (requesterUserId=:partnerUserId OR partnerUserId=:partnerUserId) AND approvalStatus !=:statusToNeg")
+    suspend fun findPendingRequest(partnerUserId:String,statusToNeg: RequestApprovalStatus=RequestApprovalStatus.DENIED):Int
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
-    fun getApprovalPendingEntries(ownerId:String = AuthRepo.getUserId(),
-                                  approvalStatus:RequestApprovalStatus = RequestApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>*/
+    @Delete
+    suspend fun delete(connectionRequest: ConnectionRequest)
+
+    @Query("SELECT * FROM ConnectionRequest WHERE id=:id")
+    suspend fun findById(id: String): ConnectionRequest?
+
+    @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:userId OR partnerUserId=:userId) AND approvalStatus=:status ORDER BY modified DESC")
+    fun getLiveDataForStatus(status:RequestApprovalStatus,userId:String = AuthRepo.getUserId()):LiveData<List<ConnectionRequest>>
 }

@@ -14,7 +14,8 @@ data class ConnectionRequest(
     var requesterUserId: String?,
     var partnerUserId: String?,
     var approvalStatus: RequestApprovalStatus,
-    var modified: Date
+    var active: Boolean=true,
+    var modified: Date = Date()
 ){
     fun checkIfFromMe():Boolean =  requesterUserId == AuthRepo.getUserId()
     fun checkIfToMe():Boolean = partnerUserId == AuthRepo.getUserId()

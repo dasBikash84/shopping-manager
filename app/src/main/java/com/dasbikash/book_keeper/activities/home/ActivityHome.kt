@@ -16,6 +16,7 @@ import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -75,6 +76,7 @@ class ActivityHome : ActivityTemplate() {
                     ExpenseRepo.syncData(this@ActivityHome)
                     ShoppingListRepo.syncShoppingListData(this@ActivityHome)
                     ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
+                    ConnectionRequestRepo.syncData(this@ActivityHome)
                     if (BuildConfig.DEBUG) {
                         runOnUiThread({ showShortSnack("Data sync done!!") })
                     }

@@ -1,28 +1,40 @@
 package com.dasbikash.book_keeper.activities.home.account
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
+import com.dasbikash.android_network_monitor.NetworkMonitor
+import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.SearchedUserAdapter
 import com.dasbikash.book_keeper.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
+import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_connections.*
+import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class FragmentConnections : Fragment() {
+class FragmentConnections : Fragment(),WaitScreenOwner {
+
+    override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private val userSearchReasultAdapter = SearchedUserAdapter({doOnSearchedUserClick(it)})
+    private lateinit var viewModel:ViewModelConnections
 
     private fun doOnSearchedUserClick(user: User) {
         debugLog(user)
@@ -38,6 +50,7 @@ class FragmentConnections : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rv_user_search_result.adapter = userSearchReasultAdapter
+        viewModel = ViewModelProviders.of(this).get(ViewModelConnections::class.java)
         btn_search_user.setOnClickListener {
             et_search_user.text.toString().trim().let {
                 if (it.isNotBlank()){
@@ -48,6 +61,46 @@ class FragmentConnections : Fragment() {
 
         btn_close_user_search_result.setOnClickListener {
             user_search_result_holder.hide()
+        }
+
+        sr_page_holder.setOnRefreshListener {
+            runWithContext {
+                if (!syncConnectionRequestData(it)){
+                    sr_page_holder.isRefreshing = false
+                }
+            }
+        }
+
+        viewModel.getPendingLiveData().observe(this,object : Observer<List<ConnectionRequest>>{
+            override fun onChanged(list: List<ConnectionRequest>?) {
+                (list ?: emptyList()).let {
+
+                }
+            }
+        })
+
+        viewModel.getApprovedLiveData().observe(this,object : Observer<List<ConnectionRequest>>{
+            override fun onChanged(list: List<ConnectionRequest>?) {
+                (list ?: emptyList()).let {
+
+                }
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        runWithContext { syncConnectionRequestData(it)}
+    }
+
+    private fun syncConnectionRequestData(context:Context):Boolean {
+        return NetworkMonitor.runWithNetwork(context) {
+            lifecycleScope.launch {
+                showWaitScreen()
+                ConnectionRequestRepo.syncData(context)
+                sr_page_holder.isRefreshing = false
+                hideWaitScreen()
+            }
         }
     }
 
