@@ -62,7 +62,7 @@ object AuthRepo : BookKeeperRepo() {
         firstName: String, lastName: String, mobile: String
     ) =
         FirebaseAuthService.createUserWithEmailAndPassword(
-            email,
+            email.toLowerCase(),
             password,
             firstName,
             lastName,

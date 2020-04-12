@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
@@ -77,7 +78,7 @@ internal object FirebaseUserService {
                             .getUserCollectionRef()
                             .whereEqualTo(EMAIL_FIELD,email.trim())
 
-        return processUserListQuery(query)
+        return processUserListQuery(query).filter { it.id != AuthRepo.getUserId() }
     }
 
     suspend fun findUsersByPhone(phone: String):List<User>{
@@ -86,7 +87,7 @@ internal object FirebaseUserService {
                             .getUserCollectionRef()
                             .whereEqualTo(PHONE_FIELD,phone)
 
-        return processUserListQuery(query)
+        return processUserListQuery(query).filter { it.id != AuthRepo.getUserId() }
     }
 
     private suspend fun processUserListQuery(query: Query): List<User> {
