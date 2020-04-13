@@ -28,7 +28,7 @@ internal object ShoppingListReminderScheduler {
                 debugLog("runReminderScheduler: user: $it")
                 debugLog("before findAllWithReminder")
                 ShoppingListRepo
-                    .findAllWithReminder(context,it)
+                    .findAllWithReminder(context)
                     .map {
                         debugLog(it)
                         ShoppingListRepo.calculateNextReminderTime(context,it).apply {
@@ -101,7 +101,7 @@ class SlReminderGenWork(appContext: Context, workerParams: WorkerParameters)
                debugLog("doWork: user: $it")
                debugLog("before findAllWithReminder")
                ShoppingListRepo
-                   .findAllWithReminder(applicationContext, it)
+                   .findAllWithReminder(applicationContext)
                    .forEach {
                        debugLog("Inside foreach: $it")
                        ShoppingListRepo.calculateNextReminderTime(applicationContext, it).apply {

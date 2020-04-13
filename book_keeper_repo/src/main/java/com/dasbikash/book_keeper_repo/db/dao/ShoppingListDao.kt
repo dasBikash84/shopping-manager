@@ -47,6 +47,6 @@ internal interface ShoppingListDao {
     @Delete
     suspend fun delete(shoppingList: ShoppingList)
 
-    @Query("SELECT * FROM ShoppingList where userId=:userId AND deadLine is NOT NULL and countDownTime is NOT NULL AND active")
-    suspend fun findAllWithReminder(userId: String): List<ShoppingList>
+    @Query("SELECT * FROM ShoppingList where deadLine is NOT NULL and countDownTime is NOT NULL AND active")
+    suspend fun findAllWithReminder(): List<ShoppingList>
 }

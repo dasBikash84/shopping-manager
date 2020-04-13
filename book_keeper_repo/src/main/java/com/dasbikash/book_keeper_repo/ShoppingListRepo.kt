@@ -184,8 +184,8 @@ object ShoppingListRepo : BookKeeperRepo() {
                     }
     }
 
-    suspend fun findAllWithReminder(context: Context, user: User): List<ShoppingList> {
-        return getShoppingListDao(context).findAllWithReminder(user.id)
+    suspend fun findAllWithReminder(context: Context): List<ShoppingList> {
+        return getShoppingListDao(context).findAllWithReminder()
     }
 
     suspend fun calculateNextReminderTime(context: Context, shoppingList: ShoppingList): Date? {
