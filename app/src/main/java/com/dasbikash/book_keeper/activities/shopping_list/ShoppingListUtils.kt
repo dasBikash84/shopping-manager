@@ -73,7 +73,14 @@ class ShoppingListUtils {
                         ToastUtils.showShortToast(context,R.string.shared_with_all_connected_user)
                     }else{
                         runOnMainThread({
-                            launchShoppingListSendDialog(context,shoppingList,connectedUsers.filter { shoppingList.partnerIds?.contains(it.id) == false })
+                            launchShoppingListSendDialog(
+                                context,shoppingList,
+                                connectedUsers
+                                    .filter {
+                                        shoppingList.partnerIds?.contains(it.id) == false &&
+                                                shoppingList.userId != it.id
+                                    }
+                            )
                         })
                     }
                 }
