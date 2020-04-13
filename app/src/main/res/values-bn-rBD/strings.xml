@@ -250,4 +250,11 @@
     <string name="no_connected_user">কোন সংযুক্ত ইউজার পাওয়া যায়নি</string>
     <string name="shared_with_all_connected_user">ইতিমধ্যেই সকল সংযুক্ত ইউজারকে পাঠানো হয়েছে</string>
     <string name="shopping_list_send_message">" বাজারের ফর্দ %1$s-কে পাঠানো হয়েছে"</string>
+    <string name="chip_dsc_deadline_text">↓সময়সীমা</string>
+    <string name="chip_asc_deadline_text">↑সময়সীমা</string>
+    <string name="chip_dsc_title_text">↓নাম</string>
+    <string name="chip_asc_title_text">↑নাম</string>
+    <string name="chip_self_sl_text">নিজের</string>
+    <string name="chip_imported_sl_text">আমদানি করা</string>
+    <string name="chip_shared_sl_text">শেয়ার করা</string>
 </resources>

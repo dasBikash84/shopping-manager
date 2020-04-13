@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -40,6 +41,14 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelShoppingList
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
+    private var filterMode = FilterMode.ALL
+    private var sortMode = SortMode.ascDeadline
+    private enum class FilterMode{ALL,SELF,IMPORTED,SHARED}
+    private enum class SortMode{dscDeadline,ascDeadline,dscExp,ascExp,dscTitle,ascTitle}
+
+    private val shoppingLists = mutableListOf<ShoppingList>()
+
+
     private val recentOnlineDocShareRequests = mutableListOf<OnlineSlShareReq>()
 
     private val shoppingListAdapter = ShoppingListAdapter({launchDetailView(it)})
@@ -73,7 +82,9 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         viewModel.getShoppingListLiveData().observe(this,object : Observer<List<ShoppingList>>{
             override fun onChanged(list: List<ShoppingList>?) {
                 (list ?: emptyList()).let {
-                    shoppingListAdapter.submitList(it.sortedByDescending { it.deadLine })
+                    shoppingLists.clear()
+                    shoppingLists.addAll(it)
+                    updateDisplay()
                 }
             }
         })
@@ -92,6 +103,117 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
 
         sr_page_holder.setOnRefreshListener {
             syncShoppingListData()
+        }
+
+        chip_all.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.ALL
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_self_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.SELF
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_imported_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.IMPORTED
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_shared_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.SHARED
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_dsc_deadline.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.dscDeadline
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_asc_deadline.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.ascDeadline
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_dsc_expense_range.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.dscExp
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_asc_expense_range.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.ascExp
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_dsc_title.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.dscTitle
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_asc_title.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    sortMode = SortMode.ascTitle
+                    updateDisplay()
+                }
+            }
+        })
+    }
+
+    private fun updateDisplay(){
+        shoppingLists.let {
+            when(filterMode){
+                FilterMode.ALL -> shoppingLists.toList()
+                FilterMode.SELF -> shoppingLists.filter { it.userId == AuthRepo.getUserId() }
+                FilterMode.IMPORTED -> shoppingLists.filter { it.userId !=AuthRepo.getUserId() }
+                FilterMode.SHARED -> shoppingLists.filter { it.userId == AuthRepo.getUserId() && !it.partnerIds.isNullOrEmpty() }
+            }
+        }.let {
+            when(sortMode){
+                SortMode.dscDeadline -> it.sortedByDescending { it.deadLine }
+                SortMode.ascDeadline -> it.sortedBy { it.deadLine }
+                SortMode.dscTitle -> it.sortedByDescending { it.title }
+                SortMode.ascTitle -> it.sortedBy { it.title }
+                else -> it
+            }
+        }.let {
+            shoppingListAdapter.submitList(it)
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sr_page_holder"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,14 +16,161 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_shopping_list"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:layoutManager="LinearLayoutManager"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="-33dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <HorizontalScrollView
+                    android:id="@+id/filter_chips_scroller"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@android:color/white"
+                    android:scrollbarSize="2dp"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:chipSpacingHorizontal="8dp"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_all"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:minWidth="100dp"
+                            android:text="@string/all_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_self_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_self_sl_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_imported_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_imported_sl_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_shared_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:text="@string/chip_shared_sl_text"
+                            android:textAlignment="center" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/snow_white"
+                    android:scrollbarSize="2dp"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:chipSpacingHorizontal="8dp"
+                        app:singleLine="true"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_dsc_deadline"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_dsc_deadline_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_asc_deadline"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_asc_deadline_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_dsc_expense_range"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_dsc_exp_range_text"
+                            android:textAlignment="center"
+                            android:visibility="gone"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_asc_expense_range"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_asc_exp_range_text"
+                            android:textAlignment="center"
+                            android:visibility="gone"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_dsc_title"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_dsc_title_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_asc_title"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="100dp"
+                            android:text="@string/chip_asc_title_text"
+                            android:textAlignment="center" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="8dp"
+                    android:id="@+id/rv_shopping_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layoutManager="LinearLayoutManager"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_add_shopping_list"
