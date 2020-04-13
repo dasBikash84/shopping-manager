@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Parcelable
 import android.os.SystemClock
 import com.dasbikash.async_manager.runSuspended
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.exceptions.LoginCodeGenerationException
 import com.dasbikash.book_keeper_repo.exceptions.SignInException
@@ -33,7 +34,7 @@ internal object FirebaseAuthService {
     private const val MOBILE_NUMBER_SP_KEY = "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.MOBILE_NUMBER_SP_KEY"
 
     suspend fun createUserWithEmailAndPassword(email:String,password:String,
-                                               firstName:String,lastName:String,mobile:String){
+                                               firstName:String,lastName:String,mobile:String):User{
         createUser(email, password).let {
             try {
                 sendEmailVerificationLink(it)
@@ -64,7 +65,7 @@ internal object FirebaseAuthService {
                 user.isMobileLogin = false
 
                 FirebaseUserService.saveUser(user)!!
-                signOut()
+                return user
             }catch (ex:Throwable){
                 do {
                     try {

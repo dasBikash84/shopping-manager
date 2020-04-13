@@ -247,7 +247,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it, {
                 lifecycleScope.launch {
                     showWaitScreen()
-                    AuthRepo.findUserByPhoneNFlow(phone).let {
+                    AuthRepo.findEmailLoginUsersByPhoneNFlow(phone).let {
                         debugLog(it)
                         if (it.isEmpty()){
                             sendCodeTask(phone)
@@ -324,7 +324,6 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         et_email_holder.show()
         et_password_holder.show()
         btn_login.show()
-        btn_sign_up.show()
         et_mobile_holder.hide()
         btn_send_code.hide()
     }
@@ -336,7 +335,6 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         et_email_holder.hide()
         et_password_holder.hide()
         btn_login.hide()
-        btn_sign_up.hide()
         et_mobile_holder.show()
         btn_send_code.show()
     }

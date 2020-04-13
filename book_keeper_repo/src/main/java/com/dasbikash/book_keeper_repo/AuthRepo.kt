@@ -33,7 +33,7 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     fun getUserId(): String {
-        return FirebaseAuthService.getFireBaseUser()!!.uid
+        return FirebaseAuthService.getFireBaseUser()?.uid ?: ""
     }
 
     suspend fun getUser(context: Context): User? {
@@ -59,16 +59,19 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     suspend fun createUserWithEmailAndPassword(
-        email: String, password: String,
+        context: Context,email: String, password: String,
         firstName: String, lastName: String, mobile: String
-    ) =
+    ) {
         FirebaseAuthService.createUserWithEmailAndPassword(
             email.toLowerCase(),
             password,
             firstName,
             lastName,
             mobile
-        )
+        ).let {
+            saveLogin(context,it)
+        }
+    }
 
     fun resolveSignUpException(ex: Throwable): String =
         FirebaseAuthService.resolveSignUpException(ex)
@@ -295,8 +298,7 @@ object AuthRepo : BookKeeperRepo() {
         }
     }
 
-    suspend fun findUserByPhoneNFlow(phone: String): List<User> {
-//        val users = mutableListOf<User>()
+    suspend fun findEmailLoginUsersByPhoneNFlow(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
             .findEmailLoginUsersByPhone(phone).let {
@@ -304,7 +306,6 @@ object AuthRepo : BookKeeperRepo() {
                 if (it.isNotEmpty()){
                     return it
                 }
-//                users.addAll(it)
             }
         getSecondPhoneSearchString(phone)?.let {
             debugLog(it)
@@ -313,10 +314,30 @@ object AuthRepo : BookKeeperRepo() {
                 if (it.isNotEmpty()){
                     return it
                 }
-//                users.addAll(it)
             }
         }
-        return emptyList()//users.toList()
+        return emptyList()
+    }
+
+    suspend fun findUsersByPhoneNFlow(phone: String): List<User> {
+        debugLog("phone: $phone")
+        FirebaseUserService
+            .findUsersByPhone(phone).let {
+                debugLog(it)
+                if (it.isNotEmpty()){
+                    return it
+                }
+            }
+        getSecondPhoneSearchString(phone)?.let {
+            debugLog(it)
+            FirebaseUserService.findUsersByPhone(it).let {
+                debugLog(it)
+                if (it.isNotEmpty()){
+                    return it
+                }
+            }
+        }
+        return emptyList()
     }
 
     suspend fun findUserByPhone(phone: String): Flow<User> {
