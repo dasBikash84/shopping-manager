@@ -28,7 +28,7 @@ class FragmentAccount : FragmentTemplate() {
         tv_profile.setOnClickListener { loadProfileFragment() }
         tv_connections.setOnClickListener { loadConnectionsFragment() }
 
-        loadProfileFragment()
+        loadProfileFragmentAnyWay()
     }
 
     private fun loadProfileFragment(){
@@ -39,6 +39,12 @@ class FragmentAccount : FragmentTemplate() {
                         return
                     }
                 }
+            loadProfileFragmentAnyWay()
+        }
+    }
+
+    private fun loadProfileFragmentAnyWay(){
+        (activity as AppCompatActivity).apply {
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_account,
