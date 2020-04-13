@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.github.dasBikash84:notification_utils:1.0.0'
     implementation 'com.github.dasBikash84:android-image-utils:2.2.0'
     implementation 'com.github.dasBikash84:android-camera-utils:1.2.0'
+    implementation 'com.github.dasBikash84:android-toast-utils:1.2.0'
 
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.0.2'

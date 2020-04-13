@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -18,23 +17,20 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
+import com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit.Companion.reminderUnitPeriods
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
-import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
-import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
@@ -236,10 +232,8 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     private fun getShoppingListId():String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
 
     override fun getOptionsMenu(context: Context): MenuView? {
-        return MenuView().apply {
+        return ShoppingListUtils.getShareOptionsMenu(context,getShoppingListId()).apply {
             add(getEditOptionsMenuItem(context))
-            add(getOnLineShareOptionsMenuItem(context))
-            add(getOffLineShareOptionsMenuItem(context))
             add(getAddShoppingListItemAddMenuItem(context))
             add(getDeleteOptionsMenuItem(context))
             add(GetCalculatorMenuItem(context))
@@ -250,55 +244,6 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
         return MenuViewItem(
             text = context.getString(R.string.shopping_list_item_create_title),
             task = { launchAddItemScreen() }
-        )
-    }
-
-    private fun getOffLineShareOptionsMenuItem(context: Context): MenuViewItem {
-        return MenuViewItem(
-            text = context.getString(R.string.offline_share_text),
-            task = {
-                runWithContext {
-                    if (onlineShareSuggestionEnabled(context)){
-                        val view = LayoutInflater.from(it).inflate(R.layout.view_online_share_suggestion,null,false)
-                        val cb = view.findViewById<CheckBox>(R.id.cb_disable_online_share_suggestion)
-                        cb.setOnCheckedChangeListener { buttonView, isChecked ->
-                            if (isChecked){
-                                disableOnlineShareSuggestion(it)
-                            }else{
-                                enableOnlineShareSuggestion(it)
-                            }
-                        }
-                        DialogUtils.showAlertDialog(context,DialogUtils.AlertDialogDetails(
-                            view = view,
-                            positiveButtonText = it.getString(R.string.online_share_text),
-                            negetiveButtonText = it.getString(R.string.offline_share_text),
-                            doOnPositivePress = {
-                                startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId()))
-                            },
-                            doOnNegetivePress = {
-                                startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId()))
-                            }
-                        ))
-                    }else{
-                        startActivity(ActivityShoppingListShare.getOfflineShareInstance(context,getShoppingListId()))
-                    }
-                }
-            }
-        )
-    }
-
-    private fun getOnLineShareOptionsMenuItem(context: Context): MenuViewItem {
-        return MenuViewItem(
-            text = context.getString(R.string.online_share_text),
-            task = {
-                viewModel.getShoppingList().value?.let {
-                    if (it.userId == AuthRepo.getUserId()){
-                        startActivity(ActivityShoppingListShare.getOnlineShareInstance(context,getShoppingListId()))
-                    }else{
-                        showShortSnack(R.string.owner_sl_online_share_message)
-                    }
-                }
-            }
         )
     }
 
@@ -336,10 +281,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-
     companion object{
-        private const val ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY =
-            "com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView.ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY"
 
         private const val ARG_SHOPPING_LIST_ID =
             "com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView.ARG_SHOPPING_LIST_ID"
@@ -351,21 +293,6 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                 FragmentShoppingListView()
             fragment.arguments = arg
             return fragment
-        }
-
-        private fun disableOnlineShareSuggestion(context: Context){
-            SharedPreferenceUtils.getDefaultInstance()
-                .saveDataSync(context,true,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
-        }
-
-        private fun enableOnlineShareSuggestion(context: Context){
-            SharedPreferenceUtils.getDefaultInstance()
-                .removeKey(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
-        }
-
-        private fun onlineShareSuggestionEnabled(context: Context):Boolean{
-            return !SharedPreferenceUtils.getDefaultInstance()
-                .checkIfExists(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }
     }
 
