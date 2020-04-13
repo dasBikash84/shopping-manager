@@ -28,6 +28,9 @@ internal interface ConnectionRequestDao {
     @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:requesterUserId OR partnerUserId=:partnerUserId) AND active ORDER BY modified DESC")
     suspend fun findAll(requesterUserId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<ConnectionRequest>
 
+    @Query("SELECT * FROM ConnectionRequest WHERE (requesterUserId=:currentUserId OR partnerUserId=:currentUserId) AND approvalStatus=:status AND active ORDER BY modified DESC")
+    suspend fun findByApprovalStatus(currentUserId:String = AuthRepo.getUserId(),status:RequestApprovalStatus = RequestApprovalStatus.APPROVED):List<ConnectionRequest>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAll(list: List<ConnectionRequest>)
 

@@ -146,4 +146,15 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
 
     fun getLivaDataForRequestedPending(context: Context) = getDao(context).getLiveDataForRequestedPending()
     fun getLiveDataForReceivedPendingRequests(context: Context) = getDao(context).getLiveDataForReceivedPendingRequests()
+    suspend fun getAllActiveConnections(context: Context):List<User> {
+        return getDao(context)
+                .findByApprovalStatus(currentUserId = AuthRepo.getUserId(),status = RequestApprovalStatus.APPROVED)
+                .map {
+                    AuthRepo
+                        .findUserById(
+                            context,
+                            if (it.requesterUserId==AuthRepo.getUserId()) {it.partnerUserId} else {it.requesterUserId} ?: ""
+                        )
+                }.filter { it!=null }.map { it!! }
+    }
 }

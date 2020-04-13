@@ -85,13 +85,12 @@ abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemV
             }
             thumbPhotoUrl.let {
                 if (it!=null) {
-//                    AsyncTaskManager.addTask<Any, Any> {
-//                        GlobalScope.launch {
-                            ImageRepo.downloadImageFile(itemView.context, it,doOnDownload = {
+                    ImageRepo
+                        .downloadImageFile(
+                            itemView.context, it,doOnDownload = {
                                 ImageUtils.displayImageFile(iv_user_image, it)
-                            })
-//                        }
-//                    }
+                            }
+                        )
                 }else{
                     iv_user_image.setImageResource(R.drawable.ic_account)
                 }
@@ -134,5 +133,35 @@ class ConnectionUserPreviewHolder(itemView: View,
     override fun bind(user: User) {
         super.bind(user)
         iv_connection_options.attachMenuViewForClick(getOptionsMenu(itemView.context,user))
+    }
+}
+
+class ConnectionUserPreviewForSlSendAdapter(private val sendSlTask:(User)->Unit)
+    :ListAdapter<User, ConnectionUserPreviewForSlSendHolder>(UserDiffCallback) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionUserPreviewForSlSendHolder {
+        return ConnectionUserPreviewForSlSendHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.view_connection_user_preview, parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: ConnectionUserPreviewForSlSendHolder, position: Int) {
+        val user = getItem(position)!!
+        holder.bind(user)
+        holder
+            .itemView
+            .setOnClickListener {
+                sendSlTask(user)
+            }
+    }
+}
+class ConnectionUserPreviewForSlSendHolder(itemView: View) : UserPreviewHolder(itemView) {
+    private val iv_connection_options:ImageView = itemView.findViewById(R.id.iv_connection_options)
+    @CallSuper
+    override fun bind(user: User) {
+        super.bind(user)
+        iv_connection_options.hide()
     }
 }
