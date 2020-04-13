@@ -5,9 +5,6 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -17,7 +14,7 @@ internal object FirebaseUserService {
     private const val ID_FIELD = "id"
     private const val EMAIL_FIELD = "email"
     private const val PHONE_FIELD = "phone"
-    private const val PHONE_LOGIN_FIELD = "isMobileLogin"
+    private const val PHONE_LOGIN_FIELD = "mobileLogin"
 
     fun saveUser(user: User): User?{
         if (user.validateData()) {
@@ -36,7 +33,7 @@ internal object FirebaseUserService {
         val user = User(
             id = firebaseUser.uid,
             phone = firebaseUser.phoneNumber!!,
-            isMobileLogin = true
+            mobileLogin = true
         )
         return saveUser(user)!!
     }

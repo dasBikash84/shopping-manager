@@ -21,7 +21,7 @@ data class User(
     var photoUrl:String?=null,
     var thumbPhotoUrl:String?=null,
     var modified:Date = Date(),
-    var isMobileLogin:Boolean = true
+    var mobileLogin:Boolean = true
 ):Serializable{
     fun validateData():Boolean{
         return !id.isBlank() && (!phone.isNullOrBlank() || (!email.isNullOrBlank() && !firstName.isNullOrBlank()))

@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Parcelable
 import android.os.SystemClock
 import com.dasbikash.async_manager.runSuspended
-import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.exceptions.LoginCodeGenerationException
 import com.dasbikash.book_keeper_repo.exceptions.SignInException
@@ -62,7 +61,7 @@ internal object FirebaseAuthService {
                     }
                 }
 
-                user.isMobileLogin = false
+                user.mobileLogin = false
 
                 FirebaseUserService.saveUser(user)!!
                 return user
