@@ -67,20 +67,19 @@ class ShoppingListUtils {
                 ShoppingListRepo.findById(context, shoppingListId)?.let {
                     val shoppingList = it
                     val connectedUsers = ConnectionRequestRepo.getAllActiveConnections(context)
+                    val usersForShare = connectedUsers
+                                                    .filter {
+                                                        shoppingList.partnerIds?.contains(it.id) == false &&
+                                                                shoppingList.userId != it.id
+                                                    }
                     if (connectedUsers.isEmpty()){
                         ToastUtils.showShortToast(context,R.string.no_connected_user)
-                    }else if (shoppingList.partnerIds?.containsAll(connectedUsers.map { it.id }) == true){
+                    }else if (usersForShare.isEmpty()){
                         ToastUtils.showShortToast(context,R.string.shared_with_all_connected_user)
                     }else{
                         runOnMainThread({
                             launchShoppingListSendDialog(
-                                context,shoppingList,
-                                connectedUsers
-                                    .filter {
-                                        shoppingList.partnerIds?.contains(it.id) == false &&
-                                                shoppingList.userId != it.id
-                                    }
-                            )
+                                context,shoppingList,usersForShare)
                         })
                     }
                 }
