@@ -223,24 +223,27 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         rv_time_wise_exp_holder.hide()
 
         sr_page_holder.setOnRefreshListener {
-            runWithContext {
-                NetworkMonitor.runWithNetwork(it){
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        runOnMainThread({showWaitScreen()})
-                        try {
-                            ExpenseRepo.syncData(it)
-                        } catch (ex: Throwable) {
-                            ex.printStackTrace()
-                        }
-                        runOnMainThread({
-                            sr_page_holder.isRefreshing = false
-                            hideWaitScreen()
-                        })
-                    }
-                }.let {
-                    if (!it){
-                        sr_page_holder.isRefreshing = false
-                    }
+            syncExpData()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncExpData()
+    }
+
+    private fun syncExpData() {
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    ExpenseRepo.syncData(it)
+                    runOnMainThread({
+                        sr_page_holder?.isRefreshing = false
+                    })
+                }
+            }.let {
+                if (!it) {
+                    sr_page_holder.isRefreshing = false
                 }
             }
         }

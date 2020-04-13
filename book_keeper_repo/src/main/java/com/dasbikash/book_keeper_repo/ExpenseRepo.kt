@@ -13,12 +13,14 @@ import java.util.*
 
 object ExpenseRepo:BookKeeperRepo() {
 
+    private fun getExpenseEntryDao(context: Context) = getDatabase(context).expenseEntryDao
+
     suspend fun saveExpenseEntry(context: Context,expenseEntry: ExpenseEntry):Boolean{
         AuthRepo.getUser(context)?.let {
             expenseEntry.userId = it.id
             FireStoreExpenseEntryService.saveExpenseEntry(expenseEntry)
         }
-        getDatabase(context).expenseEntryDao.add(expenseEntry)
+        getExpenseEntryDao(context).add(expenseEntry)
         return true
     }
 
@@ -52,7 +54,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
         val (sqlBuilder,params) = getSqlForExpenseEntryFetch(expenseEntryFetchParam)
         debugLog(sqlBuilder)
-        return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByRawQuery(
+        return getExpenseEntryDao(context).getExpenseEntryLiveDataByRawQuery(
                                                         SimpleSQLiteQuery(sqlBuilder,params.toTypedArray()))
     }
 
@@ -60,7 +62,7 @@ object ExpenseRepo:BookKeeperRepo() {
         if (AuthRepo.checkLogIn()){
             FireStoreExpenseEntryService.deleteExpenseEntry(expenseEntry)
         }
-        getDatabase(context).expenseEntryDao.delete(expenseEntry)
+        getExpenseEntryDao(context).delete(expenseEntry)
     }
 
     suspend fun getDayBasedExpenseEntryGroups(context: Context):List<TimeBasedExpenseEntryGroup>{
@@ -83,9 +85,9 @@ object ExpenseRepo:BookKeeperRepo() {
 
     private suspend fun getExpenseDates(context: Context): List<Date> {
         return if (AuthRepo.checkLogIn()) {
-            getDatabase(context).expenseEntryDao.getDates(AuthRepo.getUser(context)!!.id)
+            getExpenseEntryDao(context).getDates(AuthRepo.getUser(context)!!.id)
         } else {
-            getDatabase(context).expenseEntryDao.getDates()
+            getExpenseEntryDao(context).getDates()
         }
     }
 
@@ -100,9 +102,9 @@ object ExpenseRepo:BookKeeperRepo() {
     private suspend fun getTotalExpense(context: Context,startTime: Date, endTime: Date): Double {
         return AuthRepo.getUser(context).let {
             if (it==null){
-                getDatabase(context).expenseEntryDao.getTotalExpense(startTime.time,endTime.time)
+                getExpenseEntryDao(context).getTotalExpense(startTime.time,endTime.time)
             }else{
-                getDatabase(context).expenseEntryDao.getTotalExpense(it.id,startTime.time,endTime.time)
+                getExpenseEntryDao(context).getTotalExpense(it.id,startTime.time,endTime.time)
             }
         }
     }
@@ -110,9 +112,9 @@ object ExpenseRepo:BookKeeperRepo() {
     private suspend fun getExpenseEntryIds(context: Context,startTime: Date, endTime: Date): List<String> {
         return AuthRepo.getUser(context).let {
             if (it==null){
-                getDatabase(context).expenseEntryDao.getExpenseEntryIds(startTime.time,endTime.time)
+                getExpenseEntryDao(context).getExpenseEntryIds(startTime.time,endTime.time)
             }else{
-                getDatabase(context).expenseEntryDao.getExpenseEntryIds(it.id,startTime.time,endTime.time)
+                getExpenseEntryDao(context).getExpenseEntryIds(it.id,startTime.time,endTime.time)
             }
         }
     }
@@ -127,24 +129,20 @@ object ExpenseRepo:BookKeeperRepo() {
         }
         sqlBuilder.append(")")
         debugLog(sqlBuilder.toString())
-        return getDatabase(context).expenseEntryDao.getExpenseEntryLiveDataByInRawQuery(SimpleSQLiteQuery(sqlBuilder.toString()))
+        return getExpenseEntryDao(context).getExpenseEntryLiveDataByInRawQuery(SimpleSQLiteQuery(sqlBuilder.toString()))
     }
 
     suspend fun getExpenseEntryById(context: Context,id:String):ExpenseEntry?{
-        return getDatabase(context).expenseEntryDao.findById(id)
+        return getExpenseEntryDao(context).findById(id)
     }
 
     suspend fun syncData(context: Context) {
-        AuthRepo.getUser(context)?.let {
-            FireStoreExpenseEntryService.getLatestExpenseEntries(
-                it, getMaxExpenseModifiedTime(context,it))?.let {
-                it.asSequence().forEach { debugLog(it)}
-                getDatabase(context).expenseEntryDao.addAll(it)
-            }
-        }
+        FireStoreExpenseEntryService
+            .getLatestExpenseEntries(getMaxExpenseModifiedTime(context))
+            .let { getExpenseEntryDao(context).addAll(it)}
     }
 
-    private suspend fun getMaxExpenseModifiedTime(context: Context,user: User):Date?{
-        return getDatabase(context).expenseEntryDao.getLatestModifiedTimeForUser(user.id)
+    private suspend fun getMaxExpenseModifiedTime(context: Context):Date?{
+        return getExpenseEntryDao(context).getLatestModifiedTimeForUser(AuthRepo.getUserId())
     }
 }

@@ -74,7 +74,7 @@ class ActivityHome : ActivityTemplate() {
             dataSynced.set()
             GlobalScope.launch(Dispatchers.IO) {
                 try {
-                    ExpenseRepo.syncData(this@ActivityHome)
+//                    ExpenseRepo.syncData(this@ActivityHome)
                     ShoppingListRepo.syncShoppingListData(this@ActivityHome)
                     ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
                     ConnectionRequestRepo.syncData(this@ActivityHome)

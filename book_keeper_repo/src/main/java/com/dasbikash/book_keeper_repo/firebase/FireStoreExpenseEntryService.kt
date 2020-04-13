@@ -1,6 +1,7 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.User
@@ -27,23 +28,28 @@ internal object FireStoreExpenseEntryService {
         saveExpenseEntry(expenseEntry)
     }
 
-    suspend fun getLatestExpenseEntries(user: User,lastUpdated: Date?=null):List<ExpenseEntry>?{
-        debugLog("user:$user")
+    suspend fun getLatestExpenseEntries(lastUpdated: Date?=null):List<ExpenseEntry>{
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                         .getExpenseEntryCollectionRef()
-                                        .whereEqualTo(EXPENSE_ENTRY_USER_ID_FIELD,user.id)
+                                        .whereEqualTo(EXPENSE_ENTRY_USER_ID_FIELD,AuthRepo.getUserId())
+
 
         if (lastUpdated!=null){
             query = query.whereGreaterThan(EXPENSE_ENTRY_MODIFIED_FIELD,lastUpdated)
-        }else{
-            query = query.whereEqualTo(EXPENSE_ENTRY_ACTIVE_FIELD,true)
         }
 
         return suspendCoroutine {
             val continuation = it
             query.get()
-                .addOnCompleteListener(OnCompleteListener {
+                .addOnSuccessListener {
+                    continuation.resume(it.toObjects(ExpenseEntry::class.java))
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(emptyList())
+                }
+                /*.addOnCompleteListener(OnCompleteListener {
                     if(it.isSuccessful){
                         try {
                             continuation.resume(it.result!!.toObjects(ExpenseEntry::class.java))
@@ -53,7 +59,7 @@ internal object FireStoreExpenseEntryService {
                     }else{
                         continuation.resumeWithException(it.exception ?: FbDocumentReadException())
                     }
-                })
+                })*/
         }
     }
 }
