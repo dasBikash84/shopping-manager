@@ -34,6 +34,12 @@ class FragmentAccount : FragmentTemplate() {
     private fun loadProfileFragment(){
         (activity as AppCompatActivity).apply {
             supportFragmentManager
+                .findFragmentById(R.id.frame_account)?.let {
+                    if (it is FragmentProfile){
+                        return
+                    }
+                }
+            supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_account,
                     FragmentProfile()
@@ -46,6 +52,12 @@ class FragmentAccount : FragmentTemplate() {
 
     private fun loadConnectionsFragment(){
         (activity as AppCompatActivity).apply {
+            supportFragmentManager
+                .findFragmentById(R.id.frame_account)?.let {
+                    if (it is FragmentConnections){
+                        return
+                    }
+                }
             supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.frame_account,
