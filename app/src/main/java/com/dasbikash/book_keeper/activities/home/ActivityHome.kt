@@ -74,21 +74,12 @@ class ActivityHome : ActivityTemplate() {
             dataSynced.set()
             GlobalScope.launch(Dispatchers.IO) {
                 try {
-//                    ExpenseRepo.syncData(this@ActivityHome)
-//                    ShoppingListRepo.syncShoppingListData(this@ActivityHome)
-//                    ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
-                    ConnectionRequestRepo.syncData(this@ActivityHome)
-                    AuthRepo.syncUserData(this@ActivityHome)
-                    if (BuildConfig.DEBUG) {
-                        runOnUiThread({ showShortSnack("Data sync done!!") })
-                    }
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityHome)
+                    debugLog("Data sync done!!")
                 } catch (ex: Throwable) {
                     dataSynced = OnceSettableBoolean()
                     ex.printStackTrace()
-                    if (BuildConfig.DEBUG) {
-                        runOnUiThread({ showShortSnack("Data sync failure!!") })
-                    }
+                    debugLog("Data sync failure!!")
                 }
             }
         }

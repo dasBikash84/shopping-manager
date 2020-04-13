@@ -289,4 +289,5 @@
     <string name="email_prompt">Email User</string>
     <string name="delete_user">Delete from connections</string>
     <string name="delete_con_request">Delete request</string>
+    <string name="no_pending_list_message">No pending request found.</string>
 </resources>

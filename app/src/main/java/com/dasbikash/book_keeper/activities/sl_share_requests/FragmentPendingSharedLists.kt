@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.book_keeper.R
@@ -15,8 +16,10 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.models.TbaSlShareReq
 import com.dasbikash.book_keeper.rv_helpers.TbaSlShareReqListAdapter
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_pending_shared_lists.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class FragmentPendingSharedLists : FragmentTemplate() {
@@ -86,8 +89,41 @@ class FragmentPendingSharedLists : FragmentTemplate() {
             override fun onChanged(list: List<TbaSlShareReq>?) {
                 (list ?: emptyList()).let {
                     tbaSlShareReqListAdapter.submitList(it)
+                    if (it.isEmpty()){
+                        showLongSnack(R.string.no_pending_list_message)
+                    }
                 }
             }
         })
+
+        sr_page_holder.setOnRefreshListener {
+            syncSlShareRequestData()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncSlShareRequestData()
+    }
+
+    private fun syncSlShareRequestData(){
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it){
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        ShoppingListRepo.syncSlShareRequestData(it)
+                    } catch (ex: Throwable) {
+                        ex.printStackTrace()
+                    }
+                    runOnMainThread({
+                        sr_page_holder?.isRefreshing = false
+                    })
+                }
+            }.let {
+                if (!it){
+                    sr_page_holder.isRefreshing = false
+                }
+            }
+        }
     }
 }

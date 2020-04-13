@@ -111,24 +111,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
 
 
-        sr_page_holder.setOnRefreshListener {
-            runWithContext {
-                NetworkMonitor.runWithNetwork(it){
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        runOnMainThread({showWaitScreen()})
-                        AuthRepo.refreshUserData(it)
-                        runOnMainThread({
-                            sr_page_holder.isRefreshing = false
-                            hideWaitScreen()
-                        })
-                    }
-                }.let {
-                    if (!it){
-                        sr_page_holder.isRefreshing = false
-                    }
-                }
-            }
-        }
+        sr_page_holder.setOnRefreshListener {syncUserData()}
     }
 
     private fun importImageTask(context: Context) {
@@ -259,10 +242,19 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
     override fun onResume() {
         super.onResume()
+        syncUserData()
+    }
+
+    private fun syncUserData(){
         runWithContext {
-            if (NetworkMonitor.isConnected()){
+            NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    AuthRepo.refreshUserData(it)
+                    AuthRepo.syncUserData(it)
+                    runOnMainThread({sr_page_holder.isRefreshing = false})
+                }
+            }.let {
+                if (!it){
+                    sr_page_holder.isRefreshing = false
                 }
             }
         }

@@ -117,49 +117,26 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
             launchAddItemScreen()
         }
 
-        sr_page_holder.setOnRefreshListener {
-            runWithContext {
-                NetworkMonitor.runWithNetwork(it){
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        runOnMainThread({showWaitScreen()})
-                        syncShoppingList(it)
-                        runOnMainThread({
-                            sr_page_holder.isRefreshing = false
-                            hideWaitScreen()
-                        })
-                    }
-                }.let {
-                    if (!it){
-                        sr_page_holder.isRefreshing = false
-                    }
-                }
-            }
-        }
+        sr_page_holder.setOnRefreshListener {syncShoppingListData()}
     }
 
     override fun onResume() {
         super.onResume()
-        runWithContext {
-            lifecycleScope.launch {
-                if (NetworkMonitor.isConnected()){
-                    delay(100)
-                    ShoppingListRepo.findById(it,getShoppingListId())?.let {
-                        debugLog("on resume: $it")
-                        if (!it.partnerIds.isNullOrEmpty()){
-                            debugLog("!it.partnerIds.isNullOrEmpty()")
-                            syncShoppingList(context!!)
-                        }
-                    }
-                }
-            }
-        }
+        syncShoppingListData()
     }
 
-    private suspend fun syncShoppingList(context: Context) {
-        try {
-            ShoppingListRepo.syncShoppingListById(getShoppingListId(), context)
-        } catch (ex: Throwable) {
-            ex.printStackTrace()
+    private fun syncShoppingListData(){
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    ShoppingListRepo.syncShoppingListById(getShoppingListId(),it)
+                    runOnMainThread({sr_page_holder.isRefreshing = false})
+                }
+            }.let {
+                if (!it){
+                    sr_page_holder.isRefreshing = false
+                }
+            }
         }
     }
 

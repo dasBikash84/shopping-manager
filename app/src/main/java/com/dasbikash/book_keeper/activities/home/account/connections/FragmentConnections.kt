@@ -12,10 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
@@ -32,6 +29,7 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_connections.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -214,11 +212,7 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         }
 
         sr_page_holder.setOnRefreshListener {
-            runWithContext {
-                if (!syncConnectionRequestData(it)){
-                    sr_page_holder.isRefreshing = false
-                }
-            }
+            syncConnectionRequestData()
         }
 
         viewModel.getReceivedPendingLiveData().observe(this,object : Observer<List<ConnectionRequest>> {
@@ -293,16 +287,20 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
 
     override fun onResume() {
         super.onResume()
-        runWithContext { syncConnectionRequestData(it)}
+        syncConnectionRequestData()
     }
 
-    private fun syncConnectionRequestData(context:Context):Boolean {
-        return NetworkMonitor.runWithNetwork(context) {
-            lifecycleScope.launch {
-                showWaitScreen()
-                ConnectionRequestRepo.syncData(context)
-                sr_page_holder.isRefreshing = false
-                hideWaitScreen()
+    private fun syncConnectionRequestData() {
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it) {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    ConnectionRequestRepo.syncData(it)
+                    runOnMainThread({sr_page_holder.isRefreshing = false})
+                }
+            }.let {
+                if (!it){
+                    sr_page_holder.isRefreshing = false
+                }
             }
         }
     }
