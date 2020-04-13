@@ -1,14 +1,12 @@
 package com.dasbikash.book_keeper.activities.shopping_list
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.CheckBox
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_toast_utils.ToastUtils
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -25,17 +23,17 @@ class ShoppingListUtils {
         private const val ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY =
             "com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils.ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY"
 
-        fun disableOnlineShareSuggestion(context: Context){
+        private fun disableOnlineShareSuggestion(context: Context){
             SharedPreferenceUtils.getDefaultInstance()
                 .saveDataSync(context,true,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }
 
-        fun enableOnlineShareSuggestion(context: Context){
+        private fun enableOnlineShareSuggestion(context: Context){
             SharedPreferenceUtils.getDefaultInstance()
                 .removeKey(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }
 
-        fun onlineShareSuggestionEnabled(context: Context):Boolean{
+        private fun onlineShareSuggestionEnabled(context: Context):Boolean{
             return !SharedPreferenceUtils.getDefaultInstance()
                 .checkIfExists(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }

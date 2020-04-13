@@ -121,7 +121,7 @@ class FragmentPendingSharedLists : FragmentTemplate() {
                 }
             }.let {
                 if (!it){
-                    sr_page_holder.isRefreshing = false
+                    sr_page_holder?.isRefreshing = false
                 }
             }
         }

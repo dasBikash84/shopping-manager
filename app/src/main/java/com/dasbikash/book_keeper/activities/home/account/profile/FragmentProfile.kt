@@ -250,11 +250,11 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     AuthRepo.syncUserData(it)
-                    runOnMainThread({sr_page_holder.isRefreshing = false})
+                    runOnMainThread({sr_page_holder?.isRefreshing = false})
                 }
             }.let {
                 if (!it){
-                    sr_page_holder.isRefreshing = false
+                    sr_page_holder?.isRefreshing = false
                 }
             }
         }

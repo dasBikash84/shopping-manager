@@ -243,7 +243,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                 }
             }.let {
                 if (!it) {
-                    sr_page_holder.isRefreshing = false
+                    sr_page_holder?.isRefreshing = false
                 }
             }
         }

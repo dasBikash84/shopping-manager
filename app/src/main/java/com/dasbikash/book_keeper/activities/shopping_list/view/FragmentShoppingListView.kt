@@ -130,11 +130,11 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     ShoppingListRepo.syncShoppingListById(getShoppingListId(),it)
-                    runOnMainThread({sr_page_holder.isRefreshing = false})
+                    runOnMainThread({sr_page_holder?.isRefreshing = false})
                 }
             }.let {
                 if (!it){
-                    sr_page_holder.isRefreshing = false
+                    sr_page_holder?.isRefreshing = false
                 }
             }
         }
