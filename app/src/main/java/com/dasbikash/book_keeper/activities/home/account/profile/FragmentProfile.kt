@@ -35,6 +35,7 @@ import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -76,6 +77,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         iv_edit_email.setOnClickListener {
             launchUserParamEditDialog(
                 {emailEditTask(it)},
+                viewModel.getUserLiveData().value?.email,
                 R.string.email_edit_prompt,
                 R.string.email_hint,
                 R.string.invalid_email_error
@@ -85,6 +87,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         iv_edit_phone_num.setOnClickListener {
             launchUserParamEditDialog(
                 {phoneEditTask(it)},
+                viewModel.getUserLiveData().value?.phone,
                 R.string.phone_edit_prompt,
                 R.string.phone_hint
             )
@@ -93,6 +96,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         iv_edit_first_name.setOnClickListener {
             launchUserParamEditDialog(
                 {firstNameEditTask(it)},
+                viewModel.getUserLiveData().value?.firstName,
                 R.string.first_name_edit_prompt,
                 R.string.first_name_hint
             )
@@ -101,6 +105,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         iv_edit_last_name.setOnClickListener {
             launchUserParamEditDialog(
                 {lastNameEditTask(it)},
+                viewModel.getUserLiveData().value?.lastName,
                 R.string.last_name_edit_prompt,
                 R.string.last_name_prompt
             )
@@ -302,11 +307,16 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
     }
 
-    private fun launchUserParamEditDialog(paramEditTask:suspend (String)->Unit, @StringRes promptId:Int,
+    private fun launchUserParamEditDialog(paramEditTask:suspend (String)->Unit, currentValue:String?,
+                                          @StringRes promptId:Int,
                                           @StringRes hintId:Int?,@StringRes errorMessageId:Int?=null){
         runWithContext {
             val view = EditText(it)
-            hintId?.apply { view.hint = it.getString(this) }
+            if (currentValue!=null){
+                view.setText(currentValue)
+            }else {
+                hintId?.apply { view.hint = it.getString(this) }
+            }
             DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                 message = it.getString(promptId),
                 positiveButtonText = it.getString(R.string.save_text),
@@ -337,6 +347,12 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
     private suspend fun phoneEditTask(inputPhone:String){
         context?.let {
+            AuthRepo.findUsersByPhoneNFlow(inputPhone).let {
+                if (it.isNotEmpty()) {
+                    showShortSnack(R.string.mobile_number_taken_error)
+                    return
+                }
+            }
             AuthRepo.updatePhone(it, inputPhone)
         }
     }
