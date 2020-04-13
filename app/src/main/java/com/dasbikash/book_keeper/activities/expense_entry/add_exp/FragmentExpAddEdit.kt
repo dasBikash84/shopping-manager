@@ -135,7 +135,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 id: Long,
                 item: String?
             ) {
-                viewModel?.setExpenseCategory(position/*expenseCategories.get(position)*/)
+                viewModel?.setExpenseCategory(position)
             }
         })
 
@@ -368,8 +368,9 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                         cb_set_expense_manually.isChecked = true
                         runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
                     }
-                    it.categoryId?.let {
+                    it.categoryId.let {
                         spinner_category_selector.selectedIndex = it
+                        viewModel?.setExpenseCategory(it)
                     }
                     btn_cancel.show()
                     btn_cancel.setOnClickListener {
