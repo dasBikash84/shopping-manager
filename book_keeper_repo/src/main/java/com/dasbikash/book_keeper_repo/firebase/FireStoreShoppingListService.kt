@@ -22,7 +22,7 @@ internal object FireStoreShoppingListService {
         FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingList.id).set(shoppingList)
     }
 
-    suspend fun getLatestShoppingLists(lastUpdated: Date?=null):List<ShoppingList>?{
+    suspend fun getLatestShoppingLists(lastUpdated: Date?=null):List<ShoppingList>{
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                                 .getShoppingListCollectionRef()
@@ -37,17 +37,23 @@ internal object FireStoreShoppingListService {
         return suspendCoroutine {
             val continuation = it
             query.get()
-                .addOnCompleteListener(OnCompleteListener {
-                    if(it.isSuccessful){
-                        try {
-                            continuation.resume(it.result!!.toObjects(ShoppingList::class.java))
-                        }catch (ex:Throwable){
-                            continuation.resumeWithException(FbDocumentReadException(ex))
-                        }
-                    }else{
-                        continuation.resumeWithException(it.exception ?: FbDocumentReadException())
-                    }
-                })
+                .addOnSuccessListener {
+                    continuation.resume(it.toObjects(ShoppingList::class.java))
+                }.addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(emptyList())
+                }
+//                .addOnCompleteListener(OnCompleteListener {
+//                    if(it.isSuccessful){
+//                        try {
+//                            continuation.resume(it.result!!.toObjects(ShoppingList::class.java))
+//                        }catch (ex:Throwable){
+//                            continuation.resumeWithException(FbDocumentReadException(ex))
+//                        }
+//                    }else{
+//                        continuation.resumeWithException(it.exception ?: FbDocumentReadException())
+//                    }
+//                })
         }
     }
 

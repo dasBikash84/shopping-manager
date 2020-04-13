@@ -127,8 +127,8 @@ object ShoppingListRepo : BookKeeperRepo() {
         }.let {
             FireStoreShoppingListService
                 .getLatestShoppingLists(it)
-                ?.asSequence()
-                ?.forEach {
+                .asSequence()
+                .forEach {
                     saveFireBaseEntry(context, it)
                 }
         }
@@ -144,14 +144,15 @@ object ShoppingListRepo : BookKeeperRepo() {
             }
         }.let {
             FireStoreOnlineSlShareService
-                .getLatestRequestsToMe(it).let {
-                    it?.forEach {
+                .getLatestRequestsToMe(it)
+                .asSequence()
+                .forEach {
                         debugLog("getLatestRequestsToMe: ${it}")
                         getOnlineDocShareReqDao(context).add(it)
-                    }
                 }
+
             (FireStoreOnlineSlShareService
-                .getLatestRequestsFromMe(it) ?: emptyList()).let {
+                .getLatestRequestsFromMe(it)).let {
                     it.forEach {
                         debugLog("getLatestRequestsFromMe: ${it}")
                         getOnlineDocShareReqDao(context).add(it)

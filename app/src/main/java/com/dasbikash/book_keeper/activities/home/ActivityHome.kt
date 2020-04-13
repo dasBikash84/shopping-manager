@@ -75,8 +75,8 @@ class ActivityHome : ActivityTemplate() {
             GlobalScope.launch(Dispatchers.IO) {
                 try {
 //                    ExpenseRepo.syncData(this@ActivityHome)
-                    ShoppingListRepo.syncShoppingListData(this@ActivityHome)
-                    ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
+//                    ShoppingListRepo.syncShoppingListData(this@ActivityHome)
+//                    ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
                     ConnectionRequestRepo.syncData(this@ActivityHome)
                     AuthRepo.syncUserData(this@ActivityHome)
                     if (BuildConfig.DEBUG) {

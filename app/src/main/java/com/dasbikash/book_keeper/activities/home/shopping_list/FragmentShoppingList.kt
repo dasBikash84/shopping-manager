@@ -91,28 +91,35 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         viewModel.setLastSharedRequestEntryUpdateTime()
 
         sr_page_holder.setOnRefreshListener {
-            runWithContext {
-                NetworkMonitor.runWithNetwork(it){
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        runOnMainThread({showWaitScreen()})
-                        try {
-                            ShoppingListRepo.syncShoppingListData(it)
-                            ShoppingListRepo.syncSlShareRequestData(it)
-                        } catch (ex: Throwable) {
-                            ex.printStackTrace()
-                        }
-                        runOnMainThread({
-                            sr_page_holder.isRefreshing = false
-                            hideWaitScreen()
-                        })
+            syncShoppingListData()
+        }
+    }
+
+    private fun syncShoppingListData(){
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it){
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        ShoppingListRepo.syncShoppingListData(it)
+                        ShoppingListRepo.syncSlShareRequestData(it)
+                    } catch (ex: Throwable) {
+                        ex.printStackTrace()
                     }
-                }.let {
-                    if (!it){
-                        sr_page_holder.isRefreshing = false
-                    }
+                    runOnMainThread({
+                        sr_page_holder?.isRefreshing = false
+                    })
+                }
+            }.let {
+                if (!it){
+                    sr_page_holder.isRefreshing = false
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncShoppingListData()
     }
 
     private fun processRecentOnlineDocShareRequest(onlineSlShareReq: OnlineSlShareReq){

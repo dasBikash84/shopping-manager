@@ -50,14 +50,14 @@ internal object FireStoreOnlineSlShareService {
         PendingOnlineDocShareRequestListener(lifecycleOwner, onlineSlShareReq, doOnDocumentChange)
     }
 
-    suspend fun getLatestRequests(lastUpdated: Date?=null):List<OnlineSlShareReq>{
-        val allRequests = mutableListOf<OnlineSlShareReq>()
-        getLatestRequestsToMe(lastUpdated)?.let { allRequests.addAll(it) }
-        getLatestRequestsFromMe(lastUpdated)?.let { allRequests.addAll(it) }
-        return allRequests.toList()
-    }
+//    suspend fun getLatestRequests(lastUpdated: Date?=null):List<OnlineSlShareReq>{
+//        val allRequests = mutableListOf<OnlineSlShareReq>()
+//        getLatestRequestsToMe(lastUpdated)?.let { allRequests.addAll(it) }
+//        getLatestRequestsFromMe(lastUpdated)?.let { allRequests.addAll(it) }
+//        return allRequests.toList()
+//    }
 
-    suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
+    suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<OnlineSlShareReq>{
 
         debugLog("lastUpdated:$lastUpdated")
 
@@ -72,7 +72,7 @@ internal object FireStoreOnlineSlShareService {
         return executeQuery(query)
     }
 
-    suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<OnlineSlShareReq>?{
+    suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<OnlineSlShareReq>{
 
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
@@ -86,11 +86,17 @@ internal object FireStoreOnlineSlShareService {
         return executeQuery(query)
     }
 
-    private suspend fun executeQuery(query: Query): List<OnlineSlShareReq>? {
+    private suspend fun executeQuery(query: Query): List<OnlineSlShareReq>{
         return suspendCoroutine {
             val continuation = it
             query.get()
-                .addOnCompleteListener(OnCompleteListener {
+                .addOnSuccessListener {
+                    continuation.resume(it.toObjects(OnlineSlShareReq::class.java))
+                }.addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(emptyList())
+                }
+                /*.addOnCompleteListener(OnCompleteListener {
                     if (it.isSuccessful) {
                         try {
                             continuation.resume(it.result!!.toObjects(OnlineSlShareReq::class.java))
@@ -100,7 +106,7 @@ internal object FireStoreOnlineSlShareService {
                     } else {
                         continuation.resumeWithException(it.exception ?: FbDocumentReadException())
                     }
-                })
+                })*/
         }
     }
 }
