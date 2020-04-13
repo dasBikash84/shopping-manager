@@ -246,4 +246,8 @@
     <string name="request_pending_to_me_title">আমাকে পাঠানো অপেক্ষামান অনুরোধসমুহঃ</string>
     <string name="delete_con_request">অনুরোধটি মুছুন</string>
     <string name="delete_user">সংযোগটি মুছুন</string>
+    <string name="send_shopping_list">সংযুক্ত ইউজারকে পাঠান</string>
+    <string name="no_connected_user">কোন সংযুক্ত ইউজার পাওয়া যায়নি</string>
+    <string name="shared_with_all_connected_user">ইতিমধ্যেই সকল সংযুক্ত ইউজারকে পাঠানো হয়েছে</string>
+    <string name="shopping_list_send_message">" বাজারের ফর্দ %1$s-কে পাঠানো হয়েছে"</string>
 </resources>
