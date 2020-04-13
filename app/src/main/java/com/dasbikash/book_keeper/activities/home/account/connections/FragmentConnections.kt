@@ -19,7 +19,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.ConnectionUserAdapter
 import com.dasbikash.book_keeper.rv_helpers.SearchedUserAdapter
 import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
-import com.dasbikash.book_keeper.utils.ValidationUtils
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest

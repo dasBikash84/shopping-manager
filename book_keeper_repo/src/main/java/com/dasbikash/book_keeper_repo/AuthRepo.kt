@@ -9,6 +9,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.GlobalScope
@@ -294,6 +295,30 @@ object AuthRepo : BookKeeperRepo() {
         }
     }
 
+    suspend fun findUserByPhoneNFlow(phone: String): List<User> {
+//        val users = mutableListOf<User>()
+        debugLog("phone: $phone")
+        FirebaseUserService
+            .findEmailLoginUsersByPhone(phone).let {
+                debugLog(it)
+                if (it.isNotEmpty()){
+                    return it
+                }
+//                users.addAll(it)
+            }
+        getSecondPhoneSearchString(phone)?.let {
+            debugLog(it)
+            FirebaseUserService.findEmailLoginUsersByPhone(it).let {
+                debugLog(it)
+                if (it.isNotEmpty()){
+                    return it
+                }
+//                users.addAll(it)
+            }
+        }
+        return emptyList()//users.toList()
+    }
+
     suspend fun findUserByPhone(phone: String): Flow<User> {
         return flow<User> {
             FirebaseUserService.findUsersByPhone(phone).asSequence().forEach {
@@ -310,13 +335,16 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     private fun getSecondPhoneSearchString(phone: String):String?{
-        return if (phone.matches(Regex(PHONE_NUM_PATTERN_FIRST_PLUS))) {
-            phone.substring(3)
-        } else if (phone.matches(Regex(PHONE_NUM_PATTERN_LEADING_ZEROS))) {
-            phone.substring(4)
-        } else {
-            null
+        if (ValidationUtils.validateBdMobileNumber(phone)) {
+            return if (phone.matches(Regex(PHONE_NUM_PATTERN_FIRST_PLUS))) {
+                phone.substring(3)
+            } else if (phone.matches(Regex(PHONE_NUM_PATTERN_LEADING_ZEROS))) {
+                phone.substring(4)
+            } else {
+                "+88$phone"
+            }
         }
+        return null
     }
 
     suspend fun syncUserData(context: Context) {

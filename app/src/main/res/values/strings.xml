@@ -303,4 +303,8 @@
     <string name="chip_asc_exp_range_text">↑Expense Range</string>
     <string name="chip_dsc_title_text">↓Title</string>
     <string name="chip_asc_title_text">↑Title</string>
+    <string name="continue_with_mobile">Continue with phone</string>
+    <string name="log_in_with_email">Login with email</string>
+    <string name="existing_email_login_prompt">This number is already associated with a user bearing email id \"%1$s\". Login with existing email instead?</string>
+    <string name="a_text">a</string>
 </resources>

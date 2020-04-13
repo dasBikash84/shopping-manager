@@ -24,7 +24,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.models.SupportedLanguage
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
-import com.dasbikash.book_keeper.utils.ValidationUtils
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
@@ -233,20 +233,55 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun sendCodeAction() {
-//        runWithContext {
-//            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-//                message = it.getString(R.string.send_login_code_prompt),
-//                doOnPositivePress = {
-                    et_mobile.text.toString().let {
-                        if (ValidationUtils.validateBdMobileNumber(it)) {
-                            sendCodeTask(it.trim())
-                        } else {
-                            et_mobile.error = getString(R.string.invalid_mobile_number_error)
+        et_mobile.text.toString().let {
+            if (it.isNotBlank() ) {
+                checkUserWithSameNumber(it.trim())
+            } else {
+                et_mobile.error = getString(R.string.invalid_mobile_number_error)
+            }
+        }
+    }
+
+    private fun checkUserWithSameNumber(phone: String) {
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it, {
+                lifecycleScope.launch {
+                    showWaitScreen()
+                    AuthRepo.findUserByPhoneNFlow(phone).let {
+                        debugLog(it)
+                        if (it.isEmpty()){
+                            sendCodeTask(phone)
+                        }else{
+                            DialogUtils.showAlertDialog(context!!, DialogUtils.AlertDialogDetails(
+                                message = context!!.getString(R.string.existing_email_login_prompt,getMaskedEmail(it.get(0).email)),
+                                doOnPositivePress = {
+                                    hideWaitScreen()
+                                    log_in_option_selector.selectedIndex = 1
+                                    enableEmailLoginViewItems()
+                                },
+                                doOnNegetivePress = {
+                                    sendCodeTask(phone)
+                                },
+                                negetiveButtonText = context!!.getString(R.string.continue_with_mobile),
+                                positiveButtonText= context!!.getString(R.string.log_in_with_email),
+                                isCancelable = false
+                            ))
                         }
                     }
-//                }
-//            ))
-//        }
+                }
+            })
+        }
+    }
+
+    private fun getMaskedEmail(email: String?): String {
+        email?.let {
+            emailMatcher.replace(it,{
+                "${it.groupValues[1]}******${it.groupValues[3]}"
+            }).let {
+                return it
+            }
+        }
+        return context!!.getString(R.string.a_text)
     }
 
     private fun sendCodeTask(phone:String) {
@@ -362,6 +397,9 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     companion object{
+
+        private val emailMatcher = Regex("(.{3})(.+)(@.+)")
+
         private const val LOGIN_BENEFITS_SHOW_FLAG_SP_KEY =
             "com.dasbikash.exp_man.activities.login.FragmentLogin.LOGIN_BENEFITS_SHOW_FLAG_SP_KEY"
 

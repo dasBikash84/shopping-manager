@@ -61,6 +61,8 @@ internal object FirebaseAuthService {
                     }
                 }
 
+                user.isMobileLogin = false
+
                 FirebaseUserService.saveUser(user)!!
                 signOut()
             }catch (ex:Throwable){

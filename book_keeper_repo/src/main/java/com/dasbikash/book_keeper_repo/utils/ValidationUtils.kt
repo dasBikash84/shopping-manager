@@ -1,4 +1,4 @@
-package com.dasbikash.book_keeper.utils
+package com.dasbikash.book_keeper_repo.utils
 
 import java.util.*
 
@@ -16,11 +16,16 @@ class ValidationUtils {
         )
 
         fun validateEmailAddress(emailAddress: CharSequence) =
-            emailAddress.trim().toString().toLowerCase(Locale.getDefault()).matches(emailValidator)
+            emailAddress.trim().toString().toLowerCase(Locale.getDefault()).matches(
+                emailValidator
+            )
 
 
         fun sanitizeNumber(phoneNumber: String): String {
-            if (!validateBdMobileNumber(phoneNumber)){return phoneNumber}
+            if (!validateBdMobileNumber(
+                    phoneNumber
+                )
+            ){return phoneNumber}
             return "+88${phoneNumber.substring(phoneNumber.length-11,phoneNumber.length)}"
         }
 
