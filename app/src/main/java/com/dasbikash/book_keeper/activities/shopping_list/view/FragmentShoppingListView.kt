@@ -208,10 +208,13 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     private fun getShoppingListId():String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
 
     override fun getOptionsMenu(context: Context): MenuView? {
-        return ShoppingListUtils.getShareOptionsMenu(context,getShoppingListId()).apply {
+        return MenuView().apply {
             add(getEditOptionsMenuItem(context))
-            add(getAddShoppingListItemAddMenuItem(context))
             add(getDeleteOptionsMenuItem(context))
+            ShoppingListUtils.getShareOptionsMenu(context,getShoppingListId()).let {
+                this.addAll(it)
+            }
+            add(getAddShoppingListItemAddMenuItem(context))
             add(GetCalculatorMenuItem(context))
         }
     }

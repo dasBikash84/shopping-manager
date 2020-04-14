@@ -46,12 +46,12 @@ class ShoppingListUtils {
                 .checkIfExists(context,ONLINE_SHARE_SUGGESTION_DISABLE_SP_KEY)
         }
 
-        fun getShareOptionsMenu(context: Context, shoppingListId: String): MenuView {
-            return MenuView().apply {
-                add(getSendOptionsMenuItem(context,shoppingListId))
-                add(getOnLineShareOptionsMenuItem(context,shoppingListId))
-                add(getOffLineShareOptionsMenuItem(context,shoppingListId))
-            }
+        fun getShareOptionsMenu(context: Context, shoppingListId: String): List<MenuViewItem> {
+            return listOf(
+                getSendOptionsMenuItem(context,shoppingListId),
+                getOnLineShareOptionsMenuItem(context,shoppingListId),
+                getOffLineShareOptionsMenuItem(context,shoppingListId)
+            )
         }
 
         fun getShareOptionsMenu(context: Context, shoppingList: ShoppingList): MenuView {
