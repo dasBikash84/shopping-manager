@@ -309,4 +309,5 @@
     <string name="a_text">a</string>
     <string name="mobile_number_taken_error">This number is already registered!</string>
     <string name="email_taken">This email address is already registered with system!</string>
+    <string name="show_partners">Show List Sharing Partners</string>
 </resources>

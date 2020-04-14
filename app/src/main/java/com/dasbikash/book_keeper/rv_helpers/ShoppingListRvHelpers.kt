@@ -87,6 +87,6 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
         }
 
-        iv_options.attachMenuViewForClick(ShoppingListUtils.getShareOptionsMenu(itemView.context,shoppingList.id))
+        iv_options.attachMenuViewForClick(ShoppingListUtils.getShareOptionsMenu(itemView.context,shoppingList))
     }
 }

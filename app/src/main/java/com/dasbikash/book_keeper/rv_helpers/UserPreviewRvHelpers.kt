@@ -161,3 +161,27 @@ class ConnectionUserPreviewForSlSendHolder(itemView: View) : UserPreviewHolder(i
         iv_connection_options.hide()
     }
 }
+
+class ConnectionUserPreviewForDisplay(itemView: View) : UserPreviewHolder(itemView) {
+    private val iv_connection_options:ImageView = itemView.findViewById(R.id.iv_connection_options)
+    init {
+        iv_connection_options.hide()
+    }
+}
+
+class ConnectionUserPreviewForDisplayAdapter()
+    :ListAdapter<User, ConnectionUserPreviewForDisplay>(UserDiffCallback) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionUserPreviewForDisplay {
+        return ConnectionUserPreviewForDisplay(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.view_connection_user_preview, parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: ConnectionUserPreviewForDisplay, position: Int) {
+        val user = getItem(position)!!
+        holder.bind(user)
+    }
+}

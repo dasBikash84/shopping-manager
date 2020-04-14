@@ -10,6 +10,7 @@ import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_toast_utils.ToastUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
+import com.dasbikash.book_keeper.rv_helpers.ConnectionUserPreviewForDisplayAdapter
 import com.dasbikash.book_keeper.rv_helpers.ConnectionUserPreviewForSlSendAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
@@ -51,6 +52,67 @@ class ShoppingListUtils {
                 add(getOnLineShareOptionsMenuItem(context,shoppingListId))
                 add(getOffLineShareOptionsMenuItem(context,shoppingListId))
             }
+        }
+
+        fun getShareOptionsMenu(context: Context, shoppingList: ShoppingList): MenuView {
+            return MenuView().apply {
+                add(getSendOptionsMenuItem(context,shoppingList.id))
+                add(getOnLineShareOptionsMenuItem(context,shoppingList.id))
+                add(getOffLineShareOptionsMenuItem(context,shoppingList.id))
+                if (!shoppingList.partnerIds.isNullOrEmpty()){
+                    add(getPartnerViewMenuItem(context,shoppingList))
+                }
+            }
+        }
+
+        private fun getPartnerViewMenuItem(
+            context: Context,
+            shoppingList: ShoppingList
+        ): MenuViewItem {
+            return MenuViewItem(
+                text = context.getString(R.string.show_partners),
+                task = {showSlPartners(context,shoppingList)}
+            )
+        }
+
+        private fun showSlPartners(context: Context, shoppingList: ShoppingList) {
+            GlobalScope.launch {
+                val partnerIds = mutableListOf<String>()
+                shoppingList.apply {
+                    if (userId!=AuthRepo.getUserId()){
+                        partnerIds.add(userId!!)
+                    }
+                    this.partnerIds
+                        ?.filter { it!=AuthRepo.getUserId() }
+                        ?.let {
+                            partnerIds.addAll(it)
+                        }
+                }
+                if (partnerIds.isNotEmpty()){
+                    val partners = partnerIds
+                                                    .map { AuthRepo.findUserById(context,it) }
+                                                    .filter { it!=null }
+                                                    .map { it!! }
+
+                    runOnMainThread({showParnerlist(context, partners)})
+                }
+            }
+        }
+
+        private fun showParnerlist(
+            context: Context,
+            partners: List<User>
+        ) {
+            val partnerListView = LayoutInflater.from(context).inflate(R.layout.view_lone_rv,null,false)
+            val dialog=DialogUtils.createAlertDialog(context,DialogUtils.AlertDialogDetails(
+                view = partnerListView,
+                negetiveButtonText = ""
+            ))
+            val rv = partnerListView.findViewById<RecyclerView>(R.id.rv_single)
+            val adapter = ConnectionUserPreviewForDisplayAdapter()
+            rv.adapter = adapter
+            adapter.submitList(partners)
+            dialog.show()
         }
 
         private fun getSendOptionsMenuItem(context: Context, shoppingListId: String): MenuViewItem {
