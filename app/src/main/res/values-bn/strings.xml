@@ -267,4 +267,6 @@
     <string name="chip_all_bought_sl_text">কেনা হয়েছে</string>
     <string name="chip_expired_sl_text">মেয়াদোত্তীর্ণ</string>
     <string name="show_partners">" যারা শেয়ার করছেন"</string>
+    <string name="sl_note">নির্দেশনা:</string>
+    <string name="shopping_list_note_hint">ফর্দ সম্মন্ধে বিশেষ নির্দেশনা</string>
 </resources>

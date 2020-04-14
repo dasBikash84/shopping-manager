@@ -313,4 +313,6 @@
     <string name="chip_expired_sl_text">Expired</string>
     <string name="chip_all_bought_sl_text">Purchased</string>
     <string name="chip_deadline_today_text">Today\'s</string>
+    <string name="shopping_list_note_hint">Special instructions regarding list</string>
+    <string name="sl_note">Instructions: </string>
 </resources>

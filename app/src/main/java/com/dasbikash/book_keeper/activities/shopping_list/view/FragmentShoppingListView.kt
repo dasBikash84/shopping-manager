@@ -201,6 +201,14 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                         }
                     }
                 }
+                note.let {
+                    if (it.isNullOrBlank()){
+                        sl_note_holder.hide()
+                    }else{
+                        tv_sl_note.text = it.trim()
+                        sl_note_holder.show()
+                    }
+                }
             }
         }
     }

@@ -155,6 +155,37 @@
                                 android:textSize="16sp"
                                 tools:text="@string/sl_remind_interval_text" />
                         </androidx.appcompat.widget.LinearLayoutCompat>
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:id="@+id/sl_note_holder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical|start"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:text="@string/sl_note"
+                                android:textAlignment="gravity"
+                                android:textSize="16sp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_sl_note"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical|start"
+                                android:paddingStart="4dp"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:textAlignment="gravity"
+                                android:textColor="@android:color/black"
+                                android:textSize="16sp"
+                                tools:text="@string/sl_note" />
+                        </androidx.appcompat.widget.LinearLayoutCompat>
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

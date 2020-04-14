@@ -26,6 +26,7 @@ data class ShoppingList(
     var open:Boolean = true,
     var active:Boolean = true,
     var title:String?=null,
+    var note:String?=null,
     var deadLine: Date?=null,
     var partnerIds:List<String>?=null,
     var modified: Date = Date(),

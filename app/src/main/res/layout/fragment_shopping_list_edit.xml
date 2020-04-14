@@ -30,6 +30,20 @@
                     android:lines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="8dp"
+                android:id="@+id/shopping_list_note_et_Holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/shopping_list_note_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_shopping_list_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

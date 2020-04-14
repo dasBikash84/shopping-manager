@@ -68,6 +68,20 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
 
+        et_shopping_list_note.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(s: Editable?) {
+                (s?.toString() ?: "").let {
+                    if (it.isBlank()){
+                        shoppingList.note = null
+                    }else {
+                        shoppingList.note = it.trim()
+                    }
+                }
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         sl_deadline_tv_holder.setOnClickListener {
             runWithContext {
                 hideKeyboard()
@@ -307,6 +321,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
     private fun refreshView() {
         debugLog(shoppingList)
         et_shopping_list_name.setText(shoppingList.title)
+        et_shopping_list_note.setText(shoppingList.note)
         if (shoppingList.deadLine == null){
             tv_sl_deadline.text = getString(R.string.click_to_set_prompt)
             cb_disable_deadline.hide()
