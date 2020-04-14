@@ -299,8 +299,6 @@
     <string name="chip_shared_sl_text">Shared</string>
     <string name="chip_dsc_deadline_text">↓Deadline</string>
     <string name="chip_asc_deadline_text">↑Deadline</string>
-    <string name="chip_dsc_exp_range_text">↓Expense Range</string>
-    <string name="chip_asc_exp_range_text">↑Expense Range</string>
     <string name="chip_dsc_title_text">↓Title</string>
     <string name="chip_asc_title_text">↑Title</string>
     <string name="continue_with_mobile">Continue with phone</string>
@@ -311,7 +309,7 @@
     <string name="email_taken">This email address is already registered with system!</string>
     <string name="show_partners">Show List Sharing Partners</string>
     <string name="chip_expired_sl_text">Expired</string>
-    <string name="chip_all_bought_sl_text">Purchased</string>
+    <string name="chip_not_bought_sl_text">Pending</string>
     <string name="chip_deadline_today_text">Today\'s</string>
     <string name="shopping_list_note_hint">Special instructions regarding list</string>
     <string name="sl_note">Instructions: </string>

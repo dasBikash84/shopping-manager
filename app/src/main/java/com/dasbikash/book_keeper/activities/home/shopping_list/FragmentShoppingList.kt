@@ -46,8 +46,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private var filterMode = FilterMode.ALL
     private var sortMode = SortMode.dscDeadline
 
-    private enum class FilterMode{ALL,SELF,IMPORTED,SHARED,EXPIRED,ALL_BOUGHT,DEADLINE_TODAY}
-    private enum class SortMode{dscDeadline,ascDeadline,dscExp,ascExp,dscTitle,ascTitle}
+    private enum class FilterMode{ALL,SELF,IMPORTED,SHARED,EXPIRED,PENDING,DEADLINE_TODAY}
+    private enum class SortMode{dscDeadline,ascDeadline,dscTitle,ascTitle}
 
     private val shoppingLists = mutableListOf<ShoppingList>()
 
@@ -153,10 +153,10 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             }
         })
 
-        chip_all_bought_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+        chip_not_bought_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
-                    filterMode = FilterMode.ALL_BOUGHT
+                    filterMode = FilterMode.PENDING
                     updateDisplay()
                 }
             }
@@ -184,24 +184,6 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
                     sortMode = SortMode.ascDeadline
-                    updateDisplay()
-                }
-            }
-        })
-
-        chip_dsc_expense_range.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
-                if (checked){
-                    sortMode = SortMode.dscExp
-                    updateDisplay()
-                }
-            }
-        })
-
-        chip_asc_expense_range.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
-            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
-                if (checked){
-                    sortMode = SortMode.ascExp
                     updateDisplay()
                 }
             }
@@ -235,7 +217,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                         FilterMode.SELF -> shoppingLists.filter { it.userId == AuthRepo.getUserId() }
                         FilterMode.IMPORTED -> shoppingLists.filter { it.userId !=AuthRepo.getUserId() }
                         FilterMode.SHARED -> shoppingLists.filter { it.userId == AuthRepo.getUserId() && !it.partnerIds.isNullOrEmpty() }
-                        FilterMode.ALL_BOUGHT -> shoppingLists.filter {ShoppingListRepo.checkIfAllBought(context!!,it)}
+                        FilterMode.PENDING -> shoppingLists.filter {!ShoppingListRepo.checkIfAllBought(context!!,it)}
                         FilterMode.EXPIRED -> shoppingLists.filter {it.deadLine !=null && it.deadLine!!.time < System.currentTimeMillis()}
                         FilterMode.DEADLINE_TODAY -> shoppingLists.filter {it.deadLine !=null && it.deadLine!!.getDayCount() == Date().getDayCount()}
                     }
