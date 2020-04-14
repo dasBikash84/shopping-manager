@@ -339,6 +339,13 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
     private suspend fun emailEditTask(inputEmail:String){
         if (ValidationUtils.validateEmailAddress(inputEmail)) {
+            if (AuthRepo.findUserByEmail(inputEmail).isNotEmpty()){
+                showShortSnack(R.string.email_taken)
+                return
+            }
+            if (AuthRepo.getUser(context!!)?.email == inputEmail){
+                return
+            }
             context?.let { AuthRepo.updateUserEmail(it,inputEmail)}
         } else {
             showShortSnack(R.string.invalid_email_error)

@@ -257,4 +257,9 @@
     <string name="chip_self_sl_text">নিজের</string>
     <string name="chip_imported_sl_text">আমদানি করা</string>
     <string name="chip_shared_sl_text">শেয়ার করা</string>
+    <string name="continue_with_mobile">ফোন নাম্বার দিয়ে লগইন করবেন</string>
+    <string name="log_in_with_email">ইমেইল দিয়ে লগইন করবেন</string>
+    <string name="a_text">একটি</string>
+    <string name="mobile_number_taken_error">এই নাম্বারটি ইতিপূর্বে অন্য ইউজার ব্যাবহার করেছেন।</string>
+    <string name="existing_email_login_prompt">এই নাম্বারটি বর্তমানে \"%1$s\" ইমেইল আইডিবিশিষ্ট ইউজারের সাথে সংযুক্ত। উক্ত ইমেইলটি ব্যাবহার করে লগইন করবেন?</string>
 </resources>

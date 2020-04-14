@@ -50,56 +50,71 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
 
         btn_signup.setOnClickListener {
             hideKeyboard()
-            runWithContext { NetworkMonitor.runWithNetwork(it) {signUpClickAction()}}
+            runWithContext {
+                NetworkMonitor
+                    .runWithNetwork(it) {
+                        lifecycleScope.launch {
+                            signUpClickAction(it)
+                        }
+                    }
+            }
         }
 
         mExitPrompt = getString(R.string.quit_sign_up_prompt)
     }
 
-    private fun signUpClickAction() {
+    private suspend fun signUpClickAction(context: Context) {
+        showWaitScreen()
         if (!ValidationUtils.validateEmailAddress(et_email.text.toString())){
             et_email.setError(getString(R.string.invalid_email_error))
+            showShortSnack(R.string.invalid_email_error)
+            return
+        }
+        if (AuthRepo.findUserByEmail(et_email.text.toString().trim()).isNotEmpty()){
+            hideWaitScreen()
+            et_email.setError(getString(R.string.email_taken))
+            showShortSnack(R.string.email_taken)
             return
         }
         if (et_password.text.isNullOrEmpty()){
             et_password.setError(getString(R.string.invalid_password_error))
+            showShortSnack(R.string.invalid_password_error)
             return
         }
         if (et_confirm_password.text.isNullOrEmpty()){
             et_confirm_password.setError(getString(R.string.invalid_password_error))
+            showShortSnack(R.string.invalid_password_error)
             return
         }
         if (et_confirm_password.text.toString() != et_password.text.toString()){
             et_confirm_password.setError(getString(R.string.password_mismatch_error))
+            showShortSnack(R.string.password_mismatch_error)
             return
         }
         if (et_first_name.text.isNullOrBlank()){
             et_first_name.setError(getString(R.string.invalid_first_name))
+            showShortSnack(R.string.invalid_first_name)
             return
         }
-        runWithContext {
-            showWaitScreen()
-            lifecycleScope.launch(Dispatchers.IO) {
-                AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
-                    runOnMainThread({
-                        if (it.isNotEmpty()){
-                            et_mobile.setError(getString(R.string.mobile_number_taken_error))
-                            hideWaitScreen()
-                        }else{
-                            DialogUtils.showAlertDialog(context!!, DialogUtils.AlertDialogDetails(
-                                title = getString(R.string.launch_sign_up_prompt),
-                                doOnPositivePress = {
-                                    signUpTask(et_email.text!!.trim().toString(),et_password.text.toString(),
-                                        et_first_name.text!!.trim().toString(),
-                                        et_last_name.text?.trim().toString(),
-                                        et_mobile.text?.trim().toString())
-                                }
-                            ))
-                        }
-                    })
-                }
+        showWaitScreen()
+            AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
+                runOnMainThread({
+                    if (it.isNotEmpty()){
+                        et_mobile.setError(getString(R.string.mobile_number_taken_error))
+                        hideWaitScreen()
+                    }else{
+                        DialogUtils.showAlertDialog(context!!, DialogUtils.AlertDialogDetails(
+                            title = getString(R.string.launch_sign_up_prompt),
+                            doOnPositivePress = {
+                                signUpTask(et_email.text!!.trim().toString(),et_password.text.toString(),
+                                    et_first_name.text!!.trim().toString(),
+                                    et_last_name.text?.trim().toString(),
+                                    et_mobile.text?.trim().toString())
+                            }
+                        ))
+                    }
+                })
             }
-        }
     }
 
     private fun signUpTask(email:String,password:String,
