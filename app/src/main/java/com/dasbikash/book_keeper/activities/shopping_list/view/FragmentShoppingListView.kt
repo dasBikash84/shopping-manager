@@ -34,7 +34,6 @@ import com.dasbikash.menu_view.MenuViewItem
 import kotlinx.android.synthetic.main.fragment_shopping_list_view.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 

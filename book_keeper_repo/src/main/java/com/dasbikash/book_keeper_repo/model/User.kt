@@ -1,12 +1,9 @@
 package com.dasbikash.book_keeper_repo.model
 
-import android.content.Context
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.dasbikash.book_keeper_repo.R
 import java.io.Serializable
-import java.lang.StringBuilder
 import java.util.*
 
 @Keep

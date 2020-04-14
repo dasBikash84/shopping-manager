@@ -33,10 +33,8 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.*
 
 class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {

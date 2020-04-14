@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import android.graphics.Bitmap
-import com.dasbikash.android_basic_utils.utils.FileUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.exceptions.ImageDeletionException
 import com.google.firebase.storage.FirebaseStorage

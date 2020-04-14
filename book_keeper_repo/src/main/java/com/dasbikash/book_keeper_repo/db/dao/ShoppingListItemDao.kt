@@ -14,7 +14,6 @@
 package com.dasbikash.book_keeper_repo.db.dao
 
 import androidx.room.*
-import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 
 @Dao

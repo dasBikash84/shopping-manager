@@ -2,13 +2,9 @@ package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
-import com.dasbikash.book_keeper_repo.model.User
-import com.google.android.gms.tasks.OnCompleteListener
 import java.util.*
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 internal object FireStoreExpenseEntryService {

@@ -6,7 +6,6 @@ import com.dasbikash.android_basic_utils.utils.FileUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper_repo.bg_tasks.ImageUploaderTaskUtils
-import com.dasbikash.book_keeper_repo.exceptions.FileDownloadException
 import com.dasbikash.book_keeper_repo.exceptions.ImageDeletionException
 import com.dasbikash.book_keeper_repo.firebase.FirebaseStorageService
 import com.dasbikash.book_keeper_repo.model.RemoteImageInfo

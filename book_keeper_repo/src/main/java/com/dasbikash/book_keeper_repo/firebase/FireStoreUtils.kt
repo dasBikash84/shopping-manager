@@ -1,6 +1,5 @@
 package com.dasbikash.book_keeper_repo.firebase
 
-import com.dasbikash.book_keeper_repo.exceptions.FbDocumentReadException
 import com.dasbikash.book_keeper_repo.exceptions.FbDocumentWriteException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException

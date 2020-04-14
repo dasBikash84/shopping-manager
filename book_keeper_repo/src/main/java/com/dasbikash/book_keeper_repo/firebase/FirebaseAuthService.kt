@@ -5,10 +5,10 @@ import android.content.Context
 import android.os.Parcelable
 import android.os.SystemClock
 import com.dasbikash.async_manager.runSuspended
-import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.exceptions.LoginCodeGenerationException
 import com.dasbikash.book_keeper_repo.exceptions.SignInException
 import com.dasbikash.book_keeper_repo.exceptions.SignUpException
+import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*

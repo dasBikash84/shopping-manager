@@ -1,6 +1,5 @@
 package com.dasbikash.book_keeper.rv_helpers
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

@@ -2,7 +2,10 @@ package com.dasbikash.book_keeper_repo.model
 
 import android.content.Context
 import androidx.annotation.Keep
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.google.firebase.firestore.Exclude

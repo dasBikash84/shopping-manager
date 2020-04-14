@@ -22,7 +22,6 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 class ShoppingListUtils {
 

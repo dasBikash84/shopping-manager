@@ -14,15 +14,11 @@ import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.show
 import com.dasbikash.android_image_utils.ImageUtils
-import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.attachMenuViewForClick
-import kotlinx.android.synthetic.main.view_searched_user_preview.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 object UserDiffCallback: DiffUtil.ItemCallback<User>(){
     override fun areItemsTheSame(oldItem: User, newItem: User) = oldItem.id == newItem.id

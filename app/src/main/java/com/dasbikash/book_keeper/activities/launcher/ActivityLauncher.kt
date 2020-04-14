@@ -3,12 +3,10 @@ package com.dasbikash.book_keeper.activities.launcher
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.LoggerUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.AsyncTaskManager
-import com.dasbikash.book_keeper.BuildConfig
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin

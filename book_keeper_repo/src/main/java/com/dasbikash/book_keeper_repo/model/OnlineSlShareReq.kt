@@ -4,7 +4,6 @@ import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.firebase.FireStoreConUtils
 import com.dasbikash.book_keeper_repo.firebase.FireStoreRefUtils
 import java.util.*
 

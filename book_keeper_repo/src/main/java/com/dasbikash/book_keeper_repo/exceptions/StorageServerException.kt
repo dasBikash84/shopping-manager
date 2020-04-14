@@ -1,7 +1,5 @@
 package com.dasbikash.book_keeper_repo.exceptions
 
-import java.lang.RuntimeException
-
 abstract class StorageServerException: RuntimeException {
 
     constructor() {}
