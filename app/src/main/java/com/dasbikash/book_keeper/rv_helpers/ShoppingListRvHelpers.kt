@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.rv_helpers
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,12 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.utils.getDayCount
 import com.dasbikash.menu_view.attachMenuViewForClick
 import kotlinx.coroutines.runBlocking
+import java.util.*
 
 object ShoppingListDiffCallback: DiffUtil.ItemCallback<ShoppingList>(){
     override fun areItemsTheSame(oldItem: ShoppingList, newItem: ShoppingList) = oldItem.id == newItem.id
@@ -63,6 +67,9 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val iv_options: ViewGroup = itemView.findViewById(
         R.id.iv_options
     )
+    private val content_holder: ViewGroup = itemView.findViewById(
+        R.id.content_holder
+    )
 
     fun bind(shoppingList: ShoppingList) {
         tv_sl_title_text.text = shoppingList.title
@@ -84,9 +91,31 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             runBlocking {
                 val (minExp, maxExp) = ShoppingList.calculateExpenseRange(itemView.context, shoppingList)
                 runOnMainThread({tv_exp_range_text.text = itemView.context.resources.getString(R.string.sl_price_range, minExp, maxExp)})
+                setBgColor(shoppingList)
             }
         }
 
         iv_options.attachMenuViewForClick(ShoppingListUtils.getShareOptionsMenu(itemView.context,shoppingList))
+    }
+
+    private suspend fun setBgColor(shoppingList: ShoppingList) {
+        when{
+            ShoppingListRepo.getShoppingListItems(itemView.context,shoppingList)?.filter { it.expenseEntryId!=null }?.size ?: 0 ==
+                    shoppingList.shoppingListItemIds?.size ?: 0 -> setBgColor(ALL_BOUGHT_BG)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.time < System.currentTimeMillis() -> setBgColor(DEADLINE_EXPIRED_BG)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.getDayCount() == Date().getDayCount() -> setBgColor(DEADLINE_DAY_BG)
+            else -> setBgColor(PENDING_BG)
+        }
+    }
+
+    private fun setBgColor(color: Int) {
+        runOnMainThread({ content_holder.setBackgroundColor(color) })
+    }
+
+    companion object{
+        private const val DEADLINE_EXPIRED_BG = Color.RED
+        private const val ALL_BOUGHT_BG = Color.GREEN
+        private const val DEADLINE_DAY_BG = Color.MAGENTA
+        private const val PENDING_BG = Color.WHITE
     }
 }

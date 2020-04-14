@@ -14,10 +14,10 @@
         android:elevation="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:orientation="vertical">
+            android:padding="2dp">
             <com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout
                 android:id="@+id/iv_options"
                 app:layout_constraintTop_toTopOf="parent"
