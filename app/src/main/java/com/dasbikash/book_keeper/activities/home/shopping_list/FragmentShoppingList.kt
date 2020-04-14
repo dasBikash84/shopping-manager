@@ -44,7 +44,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private var filterMode = FilterMode.ALL
-    private var sortMode = SortMode.ascDeadline
+    private var sortMode = SortMode.dscDeadline
+
     private enum class FilterMode{ALL,SELF,IMPORTED,SHARED,EXPIRED,ALL_BOUGHT,DEADLINE_TODAY}
     private enum class SortMode{dscDeadline,ascDeadline,dscExp,ascExp,dscTitle,ascTitle}
 
