@@ -262,4 +262,9 @@
     <string name="a_text">একটি</string>
     <string name="mobile_number_taken_error">এই নাম্বারটি ইতিপূর্বে অন্য ইউজার ব্যাবহার করেছেন।</string>
     <string name="existing_email_login_prompt">এই নাম্বারটি বর্তমানে \"%1$s\" ইমেইল আইডিবিশিষ্ট ইউজারের সাথে সংযুক্ত। উক্ত ইমেইলটি ব্যাবহার করে লগইন করবেন?</string>
+    <string name="email_taken">এই ইমেইলটি ইতিপূর্বে অন্য ইউজার ব্যাবহার করেছেন।</string>
+    <string name="chip_deadline_today_text">আজকের</string>
+    <string name="chip_all_bought_sl_text">কেনা হয়েছে</string>
+    <string name="chip_expired_sl_text">মেয়াদোত্তীর্ণ</string>
+    <string name="show_partners">" যারা শেয়ার করছেন"</string>
 </resources>

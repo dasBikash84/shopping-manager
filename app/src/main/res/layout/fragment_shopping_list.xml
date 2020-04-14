@@ -55,6 +55,33 @@
                             android:textAlignment="center" />
 
                         <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_deadline_today_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:text="@string/chip_deadline_today_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_expired_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:text="@string/chip_expired_sl_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip_all_bought_sl"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:minWidth="80dp"
+                            android:text="@string/chip_all_bought_sl_text"
+                            android:textAlignment="center" />
+
+                        <com.google.android.material.chip.Chip
                             android:id="@+id/chip_self_sl"
                             style="@style/Widget.MaterialComponents.Chip.Choice"
                             android:layout_width="wrap_content"

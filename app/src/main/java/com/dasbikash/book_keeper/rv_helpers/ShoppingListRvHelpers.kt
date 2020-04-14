@@ -100,8 +100,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private suspend fun setBgColor(shoppingList: ShoppingList) {
         when{
-            ShoppingListRepo.getShoppingListItems(itemView.context,shoppingList)?.filter { it.expenseEntryId!=null }?.size ?: 0 ==
-                    shoppingList.shoppingListItemIds?.size ?: 0 -> setBgColor(ALL_BOUGHT_BG)
+            ShoppingListRepo.checkIfAllBought(itemView.context,shoppingList) -> setBgColor(ALL_BOUGHT_BG)
             shoppingList.deadLine !=null && shoppingList.deadLine!!.time < System.currentTimeMillis() -> setBgColor(DEADLINE_EXPIRED_BG)
             shoppingList.deadLine !=null && shoppingList.deadLine!!.getDayCount() == Date().getDayCount() -> setBgColor(DEADLINE_DAY_BG)
             else -> setBgColor(PENDING_BG)

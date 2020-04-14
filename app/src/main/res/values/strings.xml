@@ -310,4 +310,7 @@
     <string name="mobile_number_taken_error">This number is already registered!</string>
     <string name="email_taken">This email address is already registered with system!</string>
     <string name="show_partners">Show List Sharing Partners</string>
+    <string name="chip_expired_sl_text">Expired</string>
+    <string name="chip_all_bought_sl_text">Purchased</string>
+    <string name="chip_deadline_today_text">Today\'s</string>
 </resources>

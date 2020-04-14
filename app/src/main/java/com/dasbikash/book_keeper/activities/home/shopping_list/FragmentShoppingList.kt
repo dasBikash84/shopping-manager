@@ -29,6 +29,7 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 import com.dasbikash.book_keeper_repo.model.ShoppingList
+import com.dasbikash.book_keeper_repo.utils.getDayCount
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showLongSnack
@@ -36,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_shopping_list.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private lateinit var viewModel: ViewModelShoppingList
@@ -43,7 +45,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
 
     private var filterMode = FilterMode.ALL
     private var sortMode = SortMode.ascDeadline
-    private enum class FilterMode{ALL,SELF,IMPORTED,SHARED}
+    private enum class FilterMode{ALL,SELF,IMPORTED,SHARED,EXPIRED,ALL_BOUGHT,DEADLINE_TODAY}
     private enum class SortMode{dscDeadline,ascDeadline,dscExp,ascExp,dscTitle,ascTitle}
 
     private val shoppingLists = mutableListOf<ShoppingList>()
@@ -141,6 +143,33 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             }
         })
 
+        chip_expired_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.EXPIRED
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_all_bought_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.ALL_BOUGHT
+                    updateDisplay()
+                }
+            }
+        })
+
+        chip_deadline_today_sl.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
+                if (checked){
+                    filterMode = FilterMode.DEADLINE_TODAY
+                    updateDisplay()
+                }
+            }
+        })
+
         chip_dsc_deadline.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
             override fun onCheckedChanged(p0: CompoundButton?, checked: Boolean) {
                 if (checked){
@@ -197,23 +226,30 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun updateDisplay(){
-        shoppingLists.let {
-            when(filterMode){
-                FilterMode.ALL -> shoppingLists.toList()
-                FilterMode.SELF -> shoppingLists.filter { it.userId == AuthRepo.getUserId() }
-                FilterMode.IMPORTED -> shoppingLists.filter { it.userId !=AuthRepo.getUserId() }
-                FilterMode.SHARED -> shoppingLists.filter { it.userId == AuthRepo.getUserId() && !it.partnerIds.isNullOrEmpty() }
+        runWithContext {
+            lifecycleScope.launch {
+                shoppingLists.let {
+                    when(filterMode){
+                        FilterMode.ALL -> shoppingLists.toList()
+                        FilterMode.SELF -> shoppingLists.filter { it.userId == AuthRepo.getUserId() }
+                        FilterMode.IMPORTED -> shoppingLists.filter { it.userId !=AuthRepo.getUserId() }
+                        FilterMode.SHARED -> shoppingLists.filter { it.userId == AuthRepo.getUserId() && !it.partnerIds.isNullOrEmpty() }
+                        FilterMode.ALL_BOUGHT -> shoppingLists.filter {ShoppingListRepo.checkIfAllBought(context!!,it)}
+                        FilterMode.EXPIRED -> shoppingLists.filter {it.deadLine !=null && it.deadLine!!.time < System.currentTimeMillis()}
+                        FilterMode.DEADLINE_TODAY -> shoppingLists.filter {it.deadLine !=null && it.deadLine!!.getDayCount() == Date().getDayCount()}
+                    }
+                }.let {
+                    when(sortMode){
+                        SortMode.dscDeadline -> it.sortedByDescending { it.deadLine }
+                        SortMode.ascDeadline -> it.sortedBy { it.deadLine }
+                        SortMode.dscTitle -> it.sortedByDescending { it.title }
+                        SortMode.ascTitle -> it.sortedBy { it.title }
+                        else -> it
+                    }
+                }.let {
+                    shoppingListAdapter.submitList(it)
+                }
             }
-        }.let {
-            when(sortMode){
-                SortMode.dscDeadline -> it.sortedByDescending { it.deadLine }
-                SortMode.ascDeadline -> it.sortedBy { it.deadLine }
-                SortMode.dscTitle -> it.sortedByDescending { it.title }
-                SortMode.ascTitle -> it.sortedBy { it.title }
-                else -> it
-            }
-        }.let {
-            shoppingListAdapter.submitList(it)
         }
     }
 

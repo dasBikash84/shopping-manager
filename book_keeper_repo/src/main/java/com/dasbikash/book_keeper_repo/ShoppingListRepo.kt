@@ -60,6 +60,12 @@ object ShoppingListRepo : BookKeeperRepo() {
         FireStoreShoppingListService.saveShoppingList(shoppingList)
     }
 
+    suspend fun checkIfAllBought(context: Context, shoppingList: ShoppingList):Boolean{
+        return  getShoppingListItems(context,shoppingList)
+                    ?.filter { it.expenseEntryId!=null }
+                    ?.size ?: 0 == shoppingList.shoppingListItemIds?.size ?: 0
+    }
+
     suspend fun getShoppingListItems(context: Context, shoppingList: ShoppingList)
             : List<ShoppingListItem>? {
         return shoppingList.shoppingListItemIds?.map { getShoppingListItemDao(context).findById(it)!! }
