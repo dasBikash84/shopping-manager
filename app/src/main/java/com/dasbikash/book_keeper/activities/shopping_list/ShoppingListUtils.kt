@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.activities.shopping_list
 import android.content.Context
 import android.view.LayoutInflater
 import android.widget.CheckBox
+import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -23,6 +24,7 @@ import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ShoppingListUtils {
 
@@ -62,7 +64,43 @@ class ShoppingListUtils {
                 if (!shoppingList.partnerIds.isNullOrEmpty()){
                     add(getPartnerViewMenuItem(context,shoppingList))
                 }
+                add(getCreateCopyMenuViewItem(context,shoppingList))
             }
+        }
+
+        private fun getCreateCopyMenuViewItem(
+            context: Context,
+            shoppingList: ShoppingList
+        ): MenuViewItem {
+            return MenuViewItem(
+                text = context.getString(R.string.sl_copy),
+                task = { createCopy(context, shoppingList)}
+            )
+        }
+
+        private fun createCopy(context: Context,shoppingList: ShoppingList){
+            debugLog("createCopy: $shoppingList")
+            val title = "${shoppingList.title!!}_2"
+            val editText = EditText(context)
+            editText.setText(title)
+            editText.hint = context.getString(R.string.name_prompt)
+            DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+                message = context.getString(R.string.save_copied_sl),
+                positiveButtonText = context.getString(R.string.save_text),
+                negetiveButtonText = context.getString(R.string.cancel),
+                view = editText,
+                doOnPositivePress = {
+                    GlobalScope.launch {
+                        if (ShoppingListRepo
+                            .saveCopiedShoppingList(
+                                context,shoppingList.id,editText.text.toString())){
+                            ToastUtils.showShortToast(context,R.string.sl_copy_saved)
+                        }else{
+                            ToastUtils.showShortToast(context,R.string.sl_copy_save_failure)
+                        }
+                    }
+                }
+            ))
         }
 
         private fun getPartnerViewMenuItem(

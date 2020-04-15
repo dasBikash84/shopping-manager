@@ -349,7 +349,6 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
                         spinner_reminder_unit_selector.selectedIndex = 0
                     }
                 }
-//                et_sl_count_down.setText((shoppingList.getCountDownTime()!! / DateUtils.MINUTE_IN_MS).toString().apply { debugLog(this) })
                 ShoppingList.Companion.ReminderInterval.values()
                     .find { shoppingList.getReminderInterval() == it.intervalMs }?.let {
                         spinner_reminder_interval_selector.selectedIndex =

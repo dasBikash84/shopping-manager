@@ -220,28 +220,52 @@ object ShoppingListRepo : BookKeeperRepo() {
         getSlReminderGenLogDao(context).add(SlReminderGenLog(shoppingListId = shoppingList.id))
     }
 
-    suspend fun saveOfflineShoppingList(context: Context, offlineShoppingList: ShoppingList) {
-        val user = AuthRepo.getUser(context)!!
-        getShoppingListDao(context).findByUserAndTitle(user.id,offlineShoppingList.title!!.trim())?.let {
-            offlineShoppingList.title = "${offlineShoppingList.title}_${DateUtils.getLongDateString(Date())}"
+    suspend fun saveOfflineShoppingList(context: Context, shoppingList: ShoppingList) {
+        getShoppingListDao(context).findByUserAndTitle(AuthRepo.getUserId(),shoppingList.title!!.trim())?.let {
+            shoppingList.title = "${shoppingList.title}_${DateUtils.getLongDateString(Date())}"
         }
+        saveCopiedShoppingList(context, shoppingList)
+    }
+
+    suspend fun saveCopiedShoppingList(context: Context, shoppingListId: String,name:String):Boolean{
+        if (name.isBlank()){return false}
+        getShoppingListDao(context)
+            .findByUserAndTitle(
+                AuthRepo.getUserId(),name.trim())?.let {
+                return false
+            }
+        val shoppingList = findById(context, shoppingListId)!!
+        debugLog("saveCopiedShoppingList: $shoppingList")
+        shoppingList.title = name.trim()
+        shoppingList.deadLine = null
+        shoppingList.setCountDownTime(null)
+        shoppingList.setReminderInterval(null)
+        shoppingList.shoppingListItems = getShoppingListItems(context, shoppingList)
+        debugLog("saveCopiedShoppingList: $shoppingList")
+        saveCopiedShoppingList(context, shoppingList)
+        return true
+    }
+
+    private suspend fun saveCopiedShoppingList(context: Context, shoppingList: ShoppingList){
         UUID.randomUUID().toString().apply {
-            offlineShoppingList.id = this
-            offlineShoppingList.shoppingListItems?.forEach {
+            shoppingList.id = this
+            shoppingList.shoppingListItems?.forEach {
                 it.id = UUID.randomUUID().toString()
                 it.shoppingListId = this
                 it.expenseEntryId = null
             }
         }
-        offlineShoppingList.userId = user.id
-        offlineShoppingList.shoppingListItemIds =
-            offlineShoppingList.shoppingListItems?.map { it.id }
-        debugLog(offlineShoppingList)
-        saveLocal(context, offlineShoppingList)
-        offlineShoppingList.shoppingListItems?.forEach {
+        shoppingList.partnerIds = null
+        shoppingList.userId = AuthRepo.getUserId()
+        shoppingList.shoppingListItemIds =
+            shoppingList.shoppingListItems?.map { it.id }
+        debugLog("saveCopiedShoppingList 2: $shoppingList")
+        saveLocal(context, shoppingList)
+        shoppingList.shoppingListItems?.forEach {
             saveLocal(context, it)
         }
-        save(context, offlineShoppingList)
+        debugLog("saveCopiedShoppingList 2: $shoppingList")
+        save(context, shoppingList)
     }
 
     suspend fun postOnlineSlShareRequest(context: Context, onlineDocShareParams: OnlineDocShareParams) {

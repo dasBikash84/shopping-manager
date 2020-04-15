@@ -313,4 +313,8 @@
     <string name="chip_deadline_today_text">Today\'s</string>
     <string name="shopping_list_note_hint">Special instructions regarding list</string>
     <string name="sl_note">Instructions: </string>
+    <string name="save_copied_sl">Save copy of shopping list as:</string>
+    <string name="sl_copy_saved">Shopping list copied.</string>
+    <string name="sl_copy_save_failure">Failed to copy shopping list!! Please retry.</string>
+    <string name="sl_copy">Create Copy</string>
 </resources>

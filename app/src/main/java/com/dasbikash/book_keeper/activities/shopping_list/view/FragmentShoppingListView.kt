@@ -148,6 +148,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     private fun refreshView(shoppingList: ShoppingList) {
         runWithContext {
             shoppingList.apply {
+                debugLog("spppp: $this")
                 (activity as ActivityShoppingList?)?.setTitle(title!!)
                 lifecycleScope.launch {
                     val (minExp,maxExp) = ShoppingList.calculateExpenseRange(it,shoppingList)
@@ -201,10 +202,13 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                         }
                     }
                 }
+                debugLog("note: $note")
                 note.let {
                     if (it.isNullOrBlank()){
+                        debugLog("it.isNullOrBlank()")
                         sl_note_holder.hide()
                     }else{
+                        debugLog("it.trim(): ${it.trim()}")
                         tv_sl_note.text = it.trim()
                         sl_note_holder.show()
                     }

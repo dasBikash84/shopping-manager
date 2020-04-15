@@ -269,4 +269,8 @@
     <string name="show_partners">" যারা শেয়ার করছেন"</string>
     <string name="sl_note">নির্দেশনা:</string>
     <string name="shopping_list_note_hint">ফর্দ সম্মন্ধে বিশেষ নির্দেশনা</string>
+    <string name="sl_copy">অনুলিপি করুন</string>
+    <string name="sl_copy_saved">অনুলিপি করা হয়েছে।</string>
+    <string name="sl_copy_save_failure">অনুলিপি করা  সম্ভব হয়নি! দয়া করে পুনরায় চেষ্টা করুন।</string>
+    <string name="save_copied_sl">বাজারের ফর্দ অনুলিপির জন্য নাম প্রদান করুনঃ</string>
 </resources>
