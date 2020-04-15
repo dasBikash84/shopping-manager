@@ -228,7 +228,7 @@
     <string name="switch_to_en_prompt">Change language to \"English\"?</string>
     <string name="email_verification_prompt">ইমেইল অ্যাড্রেস সুনিশ্চিত করুন…</string>
     <string name="email_verification_instruction">ইমেইলে পাঠানো লিঙ্কটি ব্যাবহার করে আপনার ইমেইল অ্যাড্রেসটি  সুনিশ্চিত করুন।</string>
-    <string name="email_verification_instruction_with_email">ইমেইলে পাঠানো লিঙ্কটি ব্যাবহার করে আপনার ইমেইল অ্যাড্রেস \\\"%1$s\\\" সুনিশ্চিত করুন।</string>
+    <string name="email_verification_instruction_with_email">ইমেইলে পাঠানো লিঙ্কটি ব্যাবহার করে আপনার ইমেইল অ্যাড্রেস \"%1$s\" সুনিশ্চিত করুন।</string>
     <string name="email_verification_link_sent">ইমেইল পাঠানো হয়েছে।</string>
     <string name="resend_email">ভেরিফিকেশান ইমেইল পুনরায় পাঠান</string>
     <string name="email_verification_sent_error">অনুগ্রহ করে %1$d সেকেন্ড অপেক্ষা করুন।</string>

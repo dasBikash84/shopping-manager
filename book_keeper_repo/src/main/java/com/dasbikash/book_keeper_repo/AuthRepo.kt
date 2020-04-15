@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.book_keeper_repo.exceptions.SignUpException
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
@@ -61,20 +62,38 @@ object AuthRepo : BookKeeperRepo() {
 
     suspend fun createUserWithEmailAndPassword(
         context: Context,email: String, password: String,
-        firstName: String, lastName: String, mobile: String
+        firstName: String, lastName: String, mobile: String,
+        language: SupportedLanguage?=null
     ) {
-        FirebaseAuthService.createUserWithEmailAndPassword(
-            email.toLowerCase(),
-            password,
-            firstName,
-            lastName,
-            mobile
-        ).let {
-            saveLogin(context,it)
+        FirebaseAuthService
+            .createUserWithEmailAndPassword(
+                context,email.trim().toLowerCase(Locale.ENGLISH),password
+            ).let {
+                createUser(it,email,firstName, lastName, mobile,language)
+                    .let {
+                        saveLogin(context,it)
+                    }
+            }
+    }
+
+    private fun createUser(
+        userId: String,email: String,
+        firstName: String, lastName: String, mobile: String,
+        language: SupportedLanguage?
+    ):User {
+        return User().apply {
+            id = userId
+            this.email = email.trim().toLowerCase(Locale.ENGLISH)
+            this.firstName = firstName.trim()
+            this.lastName = lastName.trim()
+            phone = mobile.trim()
+            mobileLogin = false
+            language?.let { this.language=it }
+            FirebaseUserService.saveUser(this)
         }
     }
 
-    fun resolveSignUpException(ex: Throwable): String =
+    fun resolveSignUpException(ex: SignUpException): String =
         FirebaseAuthService.resolveSignUpException(ex)
 
     suspend fun logInUserWithEmailAndPassword(
@@ -234,26 +253,10 @@ object AuthRepo : BookKeeperRepo() {
         return (FirebaseAuthService.getFireBaseUser() == null) || isPhoneLogin() || FirebaseAuthService.isUserVerified()
     }
 
-    suspend fun sendEmailVerificationLink(context: Context): Long? {
-        FirebaseAuthService.getFireBaseUser()?.let {
-            getEmailVerificationRequestLog(context)?.apply {
-                if (email == it.email) {
-                    (System.currentTimeMillis() - sentTime!!.time).let {
-                        if (it < VERIFICATION_EMAIL_MINIMUM_INTERVAL) {
-                            return VERIFICATION_EMAIL_MINIMUM_INTERVAL - it
-                        }
-                    }
-                }
-            }
-            try {
-                FirebaseAuthService.sendEmailVerificationLink(it)
-                saveEmailVerificationRequestLog(context, it.email!!)
-                return null
-            } catch (ex: Throwable) {
-                ex.printStackTrace()
-            }
-        }
-        return VERIFICATION_EMAIL_MINIMUM_INTERVAL
+    fun getEmailVerificationLinkGenDelay(context:Context):Long = FirebaseAuthService.getEmailVerificationLinkGenDelay(context)
+
+    suspend fun sendEmailVerificationLink(context:Context){
+        FirebaseAuthService.generateEmailVerificationLink(context)
     }
 
     suspend fun refreshLogin(): Boolean {
@@ -270,31 +273,6 @@ object AuthRepo : BookKeeperRepo() {
                     continuation.resume(false)
                 }
         }
-    }
-
-    private const val VERIFICATION_EMAIL_MINIMUM_INTERVAL = DateUtils.MINUTE_IN_MS * 3
-
-    private const val EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY =
-        "com.dasbikash.book_keeper_repo.EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY"
-
-    private suspend fun saveEmailVerificationRequestLog(context: Context, email: String) {
-        SharedPreferenceUtils
-            .getDefaultInstance()
-            .saveDataSuspended(
-                context,
-                EmailVerificationRequestLog(email, Date()),
-                EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY
-            )
-    }
-
-    private suspend fun getEmailVerificationRequestLog(context: Context): EmailVerificationRequestLog? {
-        return SharedPreferenceUtils
-            .getDefaultInstance()
-            .getDataSuspended(
-                context,
-                EMAIL_VERIFICATION_REQUEST_LOG_SP_KEY,
-                EmailVerificationRequestLog::class.java
-            )
     }
 
     suspend fun findUserByEmail(email: String): List<User> {

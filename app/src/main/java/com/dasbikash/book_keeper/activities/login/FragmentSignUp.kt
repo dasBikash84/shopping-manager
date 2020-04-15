@@ -5,16 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_extensions.*
+import com.dasbikash.android_extensions.hideKeyboard
+import com.dasbikash.android_extensions.runWithActivity
+import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.utils.ValidationUtils
+import com.dasbikash.book_keeper_repo.exceptions.SignUpException
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -62,18 +69,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
     }
 
     private suspend fun signUpClickAction(context: Context) {
-        showWaitScreen()
-        if (!ValidationUtils.validateEmailAddress(et_email.text.toString())){
-            et_email.setError(getString(R.string.invalid_email_error))
-            showShortSnack(R.string.invalid_email_error)
-            return
-        }
-        if (AuthRepo.findUserByEmail(et_email.text.toString().trim()).isNotEmpty()){
-            hideWaitScreen()
-            et_email.setError(getString(R.string.email_taken))
-            showShortSnack(R.string.email_taken)
-            return
-        }
+
         if (et_password.text.isNullOrEmpty()){
             et_password.setError(getString(R.string.invalid_password_error))
             showShortSnack(R.string.invalid_password_error)
@@ -95,24 +91,44 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             return
         }
         showWaitScreen()
+        et_mobile.text!!.trim().toString().let {
+            if (it.isNotBlank()){
+                AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
+                    if (it.isNotEmpty()){
+                        et_mobile.setError(getString(R.string.mobile_number_taken_error))
+                        hideWaitScreen()
+                    }else{
+                        showSignUpPrompt(context)
+                    }
+                }
+            }else{
+                showSignUpPrompt(context)
+            }
+        }/*
             AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
                 runOnMainThread({
                     if (it.isNotEmpty()){
                         et_mobile.setError(getString(R.string.mobile_number_taken_error))
                         hideWaitScreen()
                     }else{
-                        DialogUtils.showAlertDialog(context!!, DialogUtils.AlertDialogDetails(
-                            title = getString(R.string.launch_sign_up_prompt),
-                            doOnPositivePress = {
-                                signUpTask(et_email.text!!.trim().toString(),et_password.text.toString(),
-                                    et_first_name.text!!.trim().toString(),
-                                    et_last_name.text?.trim().toString(),
-                                    et_mobile.text?.trim().toString())
-                            }
-                        ))
+                        showSignUpPrompt(context)
                     }
                 })
+            }*/
+    }
+
+    private fun showSignUpPrompt(context: Context): AlertDialog {
+        return DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+            title = getString(R.string.launch_sign_up_prompt),
+            doOnPositivePress = {
+                signUpTask(
+                    et_email.text!!.trim().toString(), et_password.text.toString(),
+                    et_first_name.text!!.trim().toString(),
+                    et_last_name.text?.trim().toString(),
+                    et_mobile.text?.trim().toString()
+                )
             }
+        ))
     }
 
     private fun signUpTask(email:String,password:String,
@@ -122,17 +138,17 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
                 showWaitScreen()
                 try {
                     AuthRepo
-                        .createUserWithEmailAndPassword(it,email, password,firstName, lastName, mobile)
-                    showShortSnack(R.string.sign_up_success_mesage)
+                        .createUserWithEmailAndPassword(it,email, password,firstName, lastName, mobile,BookKeeperApp.getLanguageSetting(it))
+                    showLongSnack(R.string.sign_up_success_mesage)
                     delay(2000)
                     mExitPrompt = null
                     runWithActivity {
                         it.startActivity(ActivityHome::class.java)
                         it.finish()
                     }
-                }catch (ex:Throwable){
+                }catch (ex:SignUpException){
                     AuthRepo.resolveSignUpException(ex).let {
-                        showShortSnack(it)
+                        showIndefiniteSnack(it)
                     }
                     hideWaitScreen()
                 }

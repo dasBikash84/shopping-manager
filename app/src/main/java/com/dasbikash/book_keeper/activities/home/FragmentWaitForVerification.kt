@@ -17,9 +17,11 @@ import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_wait_for_vefification.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
@@ -49,17 +51,12 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                 NetworkMonitor.runWithNetwork(it) {
                     lifecycleScope.launch {
                         showWaitScreen()
-                        AuthRepo.sendEmailVerificationLink(it).let {
-                            if (it == null) {
-                                showShortSnack(R.string.email_verification_link_sent)
-                            } else {
-                                showShortSnack(
-                                    context!!.getString(
-                                        R.string.email_verification_sent_error,
-                                        it / 1000
-                                    )
-                                )
-                            }
+                        try {
+                            AuthRepo.sendEmailVerificationLink(it)
+                            showShortSnack(R.string.email_verification_link_sent)
+                        }catch (ex:Throwable){
+                            ex.printStackTrace()
+                            showIndefiniteSnack(ex.message ?: it.getString(R.string.unknown_error_message))
                         }
                         hideWaitScreen()
                     }
@@ -72,6 +69,32 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                 AuthRepo.getUser(it)?.apply {
                     tv_verification_instruction.text = it.getString(R.string.email_verification_instruction_with_email,email)
                 }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshAction()
+        runWithContext {
+            lifecycleScope.launch {
+                var iter = 0
+                do {
+                    AuthRepo.getEmailVerificationLinkGenDelay(it).let {
+                        if (it > 0) {
+                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it/1000)
+                            btn_resend_verification_email.isEnabled = false
+                        } else {
+                            btn_resend_verification_email.text = getString(R.string.resend_email)
+                            btn_resend_verification_email.isEnabled = true
+                        }
+                    }
+                    delay(1000L)
+                    iter++
+                    if (iter % AUTO_REFRESH_INTERVAL_SEC == 0 ){
+                        refreshAction()
+                    }
+                } while (isAdded && isResumed)
             }
         }
     }
@@ -116,4 +139,8 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
     }
 
     override fun getPageTitle(context: Context):String? = context.getString(R.string.email_verification_prompt)
+
+    companion object{
+        private const val AUTO_REFRESH_INTERVAL_SEC = 15
+    }
 }
