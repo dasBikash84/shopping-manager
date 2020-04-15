@@ -15,6 +15,7 @@ import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -96,7 +97,7 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
             showWaitScreen()
             try {
                 AuthRepo.logInUserWithVerificationCode(context,code).let {
-                    processLogin(context,it)
+                    processLogin(it)
                 }
             }catch (ex:Throwable){
                 ex.printStackTrace()
@@ -106,13 +107,9 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    private fun processLogin(context: Context,user: User){
-        (user.phone!!).let {
-            LoginViewModel.saveUserId(context,it)
-        }
+    private fun processLogin(user: User){
         runWithActivity {
-            it.finish()
-            it.startActivity(ActivityHome::class.java)
+            ActivityLogin.processLogin(it,user)
         }
     }
 
@@ -122,7 +119,7 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
             lifecycleScope.launch {
                 showWaitScreen()
                 AuthRepo.checkIfAlreadyVerified(it)?.apply {
-                    processLogin(it,this)
+                    processLogin(this)
                 }
                 hideWaitScreen()
                 refreshResendStatus()

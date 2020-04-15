@@ -22,9 +22,10 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
-import com.dasbikash.book_keeper.models.SupportedLanguage
+import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.BookKeeperRepo
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
@@ -171,7 +172,8 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                 message = it.getString(R.string.switch_to_en_prompt),
                 doOnPositivePress = {
-                    BookKeeperApp.changeLanguageSettings(it,SupportedLanguage.ENGLISH)
+                    BookKeeperApp.changeLanguageSettings(it,
+                        SupportedLanguage.ENGLISH)
                 }
             ))
         }
@@ -182,7 +184,8 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                 message = it.getString(R.string.switch_to_bn_prompt),
                 doOnPositivePress = {
-                    BookKeeperApp.changeLanguageSettings(it,SupportedLanguage.BANGLA)
+                    BookKeeperApp.changeLanguageSettings(it,
+                        SupportedLanguage.BANGLA)
                 }
             ))
         }
@@ -347,12 +350,11 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                     .logInUserWithEmailAndPassword(
                         context,
                         et_email.text!!.toString(), et_password.text!!.toString()
-                    )
-                LoginViewModel.saveUserId(context,et_email.text.toString())
-                runWithActivity {
-                    it.finish()
-                    it.startActivity(ActivityHome::class.java)
-                }
+                    ).apply {
+                        runWithActivity {
+                            ActivityLogin.processLogin(it,this)
+                        }
+                    }
             } catch (ex: Throwable) {
                 ex.printStackTrace()
                 hideWaitScreen()

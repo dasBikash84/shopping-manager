@@ -17,6 +17,7 @@ data class User(
     var lastName:String?=null,
     var photoUrl:String?=null,
     var thumbPhotoUrl:String?=null,
+    var language: SupportedLanguage = SupportedLanguage.ENGLISH,
     var modified:Date = Date(),
     var mobileLogin:Boolean = true
 ):Serializable{

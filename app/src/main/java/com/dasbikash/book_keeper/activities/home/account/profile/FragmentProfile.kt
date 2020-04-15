@@ -26,9 +26,11 @@ import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
+import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ImageRepo
+import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.menu_view.MenuView
@@ -37,6 +39,7 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -114,6 +117,35 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             runWithContext {importImageTask(it)}
         }
 
+        spinner_language_selector.setItems(SupportedLanguage.values().map { it.displayName }.toList())
+
+        spinner_language_selector.setOnItemSelectedListener { view, position, id, item ->
+            debugLog(position)
+            debugLog(item)
+            viewModel.getUserLiveData().value?.let {
+                if (item != it.language.displayName){
+                    val language = SupportedLanguage.values().find { it.displayName==item }!!
+                    runWithContext {
+                        DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                            message = it.getString(R.string.change_language_prompt,language.displayName),
+                            doOnPositivePress = {
+                                runWithActivity {
+                                    lifecycleScope.launch {
+                                        AuthRepo.updateUserLanguage(it,language)
+                                        BookKeeperApp.changeLanguageSettings(it,language)
+                                    }
+                                }
+                            },
+                            doOnNegetivePress = {
+                                spinner_language_selector.selectedIndex = if (position==1) {0} else {1}
+                            },
+                            positiveButtonText = it.getString(R.string.yes),
+                            negetiveButtonText = it.getString(R.string.no)
+                        ))
+                    }
+                }
+            }
+        }
 
         sr_page_holder.setOnRefreshListener {syncUserData()}
     }
@@ -264,7 +296,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
     }
 
-    private suspend fun refreshView(context: Context,user: User) {
+    private fun refreshView(context: Context,user: User) {
         when(AuthRepo.isPhoneLogin()){
             true -> {
                 iv_edit_email.show()
@@ -286,6 +318,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                         iv_user_image.displayImageFile(it)
                     })
             }
+            spinner_language_selector.selectedIndex = SupportedLanguage.values().indexOf(language)
         }
     }
 

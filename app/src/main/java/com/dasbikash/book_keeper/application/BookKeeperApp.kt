@@ -6,7 +6,7 @@ import android.content.Context
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
-import com.dasbikash.book_keeper.models.SupportedLanguage
+import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.yariksoffice.lingver.Lingver
 import com.yariksoffice.lingver.store.PreferenceLocaleStore

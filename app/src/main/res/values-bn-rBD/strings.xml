@@ -37,8 +37,8 @@
     <string name="reset_password_hint">পাসওয়ার্ড পরিবর্তন করবেন?</string>
     <string name="password_reset_email_sent">পাসওয়ার্ড পরিবর্তনের জন্য লিঙ্ক ইমেইল করা হয়েছে। দয়া করে চেক করুন।</string>
     <string name="send_login_code_button">ভেরিফিকেশান কোড পাঠান</string>
-    <string name="resend_login_code_button">%1$s সেকেন্ড পরে কোড পুনরায়  পাঠানো যাবে।</string>
-    <string name="resend_code_button">কোড পুনরায় পাঠানো হোক</string>
+    <string name="resend_login_code_button">%1$s সেকেন্ড পরে কোড পুনরায়  পাঠানো যাবে</string>
+    <string name="resend_code_button">পুনরায় কোড পাঠান</string>
     <string name="login_code_send_failure">কোড পাঠানো বার্থ হয়েছে!</string>
     <string name="verification_code_hint">ভেরিফিকেশান কোড</string>
     <string name="verify_code_button">" কোড সুনিশ্চিত করুন"</string>
@@ -273,4 +273,6 @@
     <string name="sl_copy_saved">অনুলিপি করা হয়েছে।</string>
     <string name="sl_copy_save_failure">অনুলিপি করা  সম্ভব হয়নি! দয়া করে পুনরায় চেষ্টা করুন।</string>
     <string name="save_copied_sl">বাজারের ফর্দ অনুলিপির জন্য নাম প্রদান করুনঃ</string>
+    <string name="language_prompt">ভাষা</string>
+    <string name="change_language_prompt">ভাষা পরিবর্তন করে \"%1$s\" করবেন?</string>
 </resources>

@@ -8,6 +8,7 @@ import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
+import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
@@ -178,6 +179,13 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun updateUserEmail(context: Context, inputEmail: String) {
         getUser(context)!!.let {
             it.email = inputEmail
+            updateUser(it, context)
+        }
+    }
+
+    suspend fun updateUserLanguage(context: Context, language: SupportedLanguage) {
+        getUser(context)!!.let {
+            it.language = language
             updateUser(it, context)
         }
     }

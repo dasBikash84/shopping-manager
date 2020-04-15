@@ -19,10 +19,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dasbikash.book_keeper_repo.db.dao.*
+import com.dasbikash.book_keeper_repo.db.room_converters.*
 import com.dasbikash.book_keeper_repo.db.room_converters.DateConverter
 import com.dasbikash.book_keeper_repo.db.room_converters.ExpenseItemListConverter
 import com.dasbikash.book_keeper_repo.db.room_converters.RequestApprovalStatusConverter
 import com.dasbikash.book_keeper_repo.db.room_converters.StringListConverter
+import com.dasbikash.book_keeper_repo.db.room_converters.SupportedLanguageConverter
 import com.dasbikash.book_keeper_repo.model.*
 
 @Database(entities = [ExpenseEntry::class,User::class,ShoppingList::class,
@@ -30,7 +32,8 @@ import com.dasbikash.book_keeper_repo.model.*
                         SlReminderGenLog::class,OnlineSlShareReq::class,ConnectionRequest::class],
             version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
-                StringListConverter::class, RequestApprovalStatusConverter::class)
+                StringListConverter::class, RequestApprovalStatusConverter::class,
+                SupportedLanguageConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
 
     abstract val userDao:UserDao

@@ -317,4 +317,6 @@
     <string name="sl_copy_saved">Shopping list copied.</string>
     <string name="sl_copy_save_failure">Failed to copy shopping list!! Please retry.</string>
     <string name="sl_copy">Create Copy</string>
+    <string name="language_prompt">Language</string>
+    <string name="change_language_prompt">Change language to \"%1$s\"</string>
 </resources>
