@@ -227,12 +227,12 @@ object ShoppingListRepo : BookKeeperRepo() {
         saveCopiedShoppingList(context, shoppingList)
     }
 
-    suspend fun saveCopiedShoppingList(context: Context, shoppingListId: String,name:String):Boolean{
-        if (name.isBlank()){return false}
+    suspend fun saveCopiedShoppingList(context: Context, shoppingListId: String,name:String):ShoppingList?{
+        if (name.isBlank()){return null}
         getShoppingListDao(context)
             .findByUserAndTitle(
                 AuthRepo.getUserId(),name.trim())?.let {
-                return false
+                return null
             }
         val shoppingList = findById(context, shoppingListId)!!
         debugLog("saveCopiedShoppingList: $shoppingList")
@@ -242,11 +242,10 @@ object ShoppingListRepo : BookKeeperRepo() {
         shoppingList.setReminderInterval(null)
         shoppingList.shoppingListItems = getShoppingListItems(context, shoppingList)
         debugLog("saveCopiedShoppingList: $shoppingList")
-        saveCopiedShoppingList(context, shoppingList)
-        return true
+        return saveCopiedShoppingList(context, shoppingList)
     }
 
-    private suspend fun saveCopiedShoppingList(context: Context, shoppingList: ShoppingList){
+    private suspend fun saveCopiedShoppingList(context: Context, shoppingList: ShoppingList):ShoppingList{
         UUID.randomUUID().toString().apply {
             shoppingList.id = this
             shoppingList.shoppingListItems?.forEach {
@@ -257,6 +256,8 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
         shoppingList.partnerIds = null
         shoppingList.userId = AuthRepo.getUserId()
+        shoppingList.created=Date()
+        shoppingList.modified=Date()
         shoppingList.shoppingListItemIds =
             shoppingList.shoppingListItems?.map { it.id }
         debugLog("saveCopiedShoppingList 2: $shoppingList")
@@ -266,6 +267,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
         debugLog("saveCopiedShoppingList 2: $shoppingList")
         save(context, shoppingList)
+        return shoppingList
     }
 
     suspend fun postOnlineSlShareRequest(context: Context, onlineDocShareParams: OnlineDocShareParams) {

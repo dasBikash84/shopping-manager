@@ -91,13 +91,26 @@ class ShoppingListUtils {
                 view = editText,
                 doOnPositivePress = {
                     GlobalScope.launch {
-                        if (ShoppingListRepo
+                        ShoppingListRepo
                             .saveCopiedShoppingList(
-                                context,shoppingList.id,editText.text.toString())){
-                            ToastUtils.showShortToast(context,R.string.sl_copy_saved)
-                        }else{
-                            ToastUtils.showShortToast(context,R.string.sl_copy_save_failure)
-                        }
+                                context, shoppingList.id, editText.text.toString()
+                            ).let {
+                                if (it != null) {
+                                    ToastUtils.showShortToast(context, R.string.sl_copy_saved)
+                                    runOnMainThread({
+                                        context.startActivity(
+                                            ActivityShoppingList.getViewIntent(
+                                                context,it.id
+                                            )
+                                        )
+                                    })
+                                } else {
+                                    ToastUtils.showShortToast(
+                                        context,
+                                        R.string.sl_copy_save_failure
+                                    )
+                                }
+                            }
                     }
                 }
             ))
