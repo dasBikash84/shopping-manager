@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper_repo.firebase
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
 import kotlin.coroutines.resume
@@ -19,6 +20,7 @@ internal object FirebaseUserService {
     fun saveUser(user: User): User?{
         if (user.validateData()) {
             user.updateModified()
+            user.phone = user.phone?.let { ValidationUtils.sanitizeNumber(it) }
             FireStoreRefUtils.getUserCollectionRef().document(user.id).set(user)
             return user
         }

@@ -22,10 +22,10 @@ class ValidationUtils {
 
 
         fun sanitizeNumber(phoneNumber: String): String {
-            if (!validateBdMobileNumber(
-                    phoneNumber
-                )
-            ){return phoneNumber}
+            if (!validateBdMobileNumber(phoneNumber)
+            ){
+                return phoneNumber
+            }
             return "+88${phoneNumber.substring(phoneNumber.length-11,phoneNumber.length)}"
         }
 

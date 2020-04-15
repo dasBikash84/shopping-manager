@@ -20,6 +20,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.exceptions.SignUpException
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -68,7 +69,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
         mExitPrompt = getString(R.string.quit_sign_up_prompt)
     }
 
-    private suspend fun signUpClickAction(context: Context) {
+    private fun signUpClickAction(context: Context) {
 
         if (et_password.text.isNullOrEmpty()){
             et_password.setError(getString(R.string.invalid_password_error))
@@ -90,31 +91,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             showShortSnack(R.string.invalid_first_name)
             return
         }
-        showWaitScreen()
-        et_mobile.text!!.trim().toString().let {
-            if (it.isNotBlank()){
-                AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
-                    if (it.isNotEmpty()){
-                        et_mobile.setError(getString(R.string.mobile_number_taken_error))
-                        hideWaitScreen()
-                    }else{
-                        showSignUpPrompt(context)
-                    }
-                }
-            }else{
-                showSignUpPrompt(context)
-            }
-        }/*
-            AuthRepo.findUsersByPhoneNFlow(et_mobile.text!!.trim().toString()).let {
-                runOnMainThread({
-                    if (it.isNotEmpty()){
-                        et_mobile.setError(getString(R.string.mobile_number_taken_error))
-                        hideWaitScreen()
-                    }else{
-                        showSignUpPrompt(context)
-                    }
-                })
-            }*/
+        showSignUpPrompt(context)
     }
 
     private fun showSignUpPrompt(context: Context): AlertDialog {
@@ -122,7 +99,8 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             title = getString(R.string.launch_sign_up_prompt),
             doOnPositivePress = {
                 signUpTask(
-                    et_email.text!!.trim().toString(), et_password.text.toString(),
+                    et_email.text!!.trim().toString(),
+                    et_password.text.toString(),
                     et_first_name.text!!.trim().toString(),
                     et_last_name.text?.trim().toString(),
                     et_mobile.text?.trim().toString()
@@ -137,15 +115,26 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             lifecycleScope.launch {
                 showWaitScreen()
                 try {
-                    AuthRepo
-                        .createUserWithEmailAndPassword(it,email, password,firstName, lastName, mobile,BookKeeperApp.getLanguageSetting(it))
-                    showLongSnack(R.string.sign_up_success_mesage)
-                    delay(2000)
-                    mExitPrompt = null
-                    runWithActivity {
-                        it.startActivity(ActivityHome::class.java)
-                        it.finish()
+                    if (mobile.isNotBlank()) {
+                        AuthRepo.findUsersByPhoneNFlow(mobile).let {
+                            if (it.isNotEmpty()) {
+                                et_mobile.setError(getString(R.string.mobile_number_taken_error))
+                                hideWaitScreen()
+                                return@launch
+                            }
+                        }
                     }
+                    AuthRepo
+                        .createUserWithEmailAndPassword(
+                            it,email, password,firstName,
+                            lastName,mobile,BookKeeperApp.getLanguageSetting(it)
+                        ).apply {
+                            showLongSnack(R.string.sign_up_success_mesage)
+                            delay(2000)
+                            runWithActivity {
+                                ActivityLogin.processLogin(it,this)
+                            }
+                        }
                 }catch (ex:SignUpException){
                     AuthRepo.resolveSignUpException(ex).let {
                         showIndefiniteSnack(it)

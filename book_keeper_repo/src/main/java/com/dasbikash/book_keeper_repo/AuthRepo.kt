@@ -64,7 +64,7 @@ object AuthRepo : BookKeeperRepo() {
         context: Context,email: String, password: String,
         firstName: String, lastName: String, mobile: String,
         language: SupportedLanguage?=null
-    ) {
+    ):User {
         FirebaseAuthService
             .createUserWithEmailAndPassword(
                 context,email.trim().toLowerCase(Locale.ENGLISH),password
@@ -72,6 +72,7 @@ object AuthRepo : BookKeeperRepo() {
                 createUser(it,email,firstName, lastName, mobile,language)
                     .let {
                         saveLogin(context,it)
+                        return it
                     }
             }
     }
@@ -287,71 +288,34 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun findEmailLoginUsersByPhoneNFlow(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
-            .findEmailLoginUsersByPhone(phone).let {
+            .findEmailLoginUsersByPhone(ValidationUtils.sanitizeNumber(phone)).let {
                 debugLog(it)
                 if (it.isNotEmpty()){
                     return it
                 }
             }
-        getSecondPhoneSearchString(phone)?.let {
-            debugLog(it)
-            FirebaseUserService.findEmailLoginUsersByPhone(it).let {
-                debugLog(it)
-                if (it.isNotEmpty()){
-                    return it
-                }
-            }
-        }
         return emptyList()
     }
 
     suspend fun findUsersByPhoneNFlow(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
-            .findUsersByPhone(phone).let {
+            .findUsersByPhone(ValidationUtils.sanitizeNumber(phone)).let {
                 debugLog(it)
                 if (it.isNotEmpty()){
                     return it
                 }
             }
-        getSecondPhoneSearchString(phone)?.let {
-            debugLog(it)
-            FirebaseUserService.findUsersByPhone(it).let {
-                debugLog(it)
-                if (it.isNotEmpty()){
-                    return it
-                }
-            }
-        }
         return emptyList()
     }
 
     suspend fun findUserByPhone(phone: String): Flow<User> {
         return flow<User> {
-            FirebaseUserService.findUsersByPhone(phone).asSequence().forEach {
+            FirebaseUserService.findUsersByPhone(ValidationUtils.sanitizeNumber(phone)).asSequence().forEach {
                 emit(it)
                 delay(10)
             }
-            getSecondPhoneSearchString(phone)?.let {
-                FirebaseUserService.findUsersByPhone(it).asSequence().forEach {
-                    emit(it)
-                    delay(10)
-                }
-            }
         }
-    }
-
-    private fun getSecondPhoneSearchString(phone: String):String?{
-        if (ValidationUtils.validateBdMobileNumber(phone)) {
-            return if (phone.matches(Regex(PHONE_NUM_PATTERN_FIRST_PLUS))) {
-                phone.substring(3)
-            } else if (phone.matches(Regex(PHONE_NUM_PATTERN_LEADING_ZEROS))) {
-                phone.substring(4)
-            } else {
-                "+88$phone"
-            }
-        }
-        return null
     }
 
     suspend fun syncUserData(context: Context) {
