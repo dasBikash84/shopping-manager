@@ -13,8 +13,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import java.io.Serializable
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
@@ -84,8 +82,6 @@ internal class FirebaseAuthService {
             "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.AUTH_CREDENTIALS_SP_KEY"
         private const val CODE_SEND_TIME_SP_KEY =
             "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.CODE_SEND_TIME_SP_KEY"
-        private const val MOBILE_NUMBER_SP_KEY =
-            "com.dasbikash.exp_man_repo.firebase.FirebaseAuthService.MOBILE_NUMBER_SP_KEY"
 
         private fun validateEmailAddress(emailAddress: CharSequence) =
             emailAddress.trim().toString().toLowerCase(Locale.getDefault()).matches(
@@ -94,7 +90,7 @@ internal class FirebaseAuthService {
 
         suspend fun createUserWithEmailAndPassword(
             context: Context,email: String, password: String
-        ): String {
+        ) {
 
             if (!validateEmailAddress(email)) {
                 throw SignUpException("Invalid email address format!!")
@@ -111,7 +107,6 @@ internal class FirebaseAuthService {
                         ex.printStackTrace()
                     }
                 }
-                it.uid
             }
         }
 
@@ -191,14 +186,14 @@ internal class FirebaseAuthService {
             }
         }
 
-        suspend fun logInUserWithEmailAndPassword(email: String, password: String): FirebaseUser {
+        suspend fun logInUserWithEmailAndPassword(email: String, password: String) {
 
             return suspendCoroutine {
                 val continuation = it
                 FirebaseAuth.getInstance().signInWithEmailAndPassword(email.trim(), password)
                     .addOnCompleteListener {
                         if (it.isSuccessful && it.result != null && it.result!!.user != null) {
-                            continuation.resume(it.result!!.user!!)
+                            continuation.resume(Unit)
                         } else {
                             continuation.resumeWithException(
                                 SignInException(
@@ -210,12 +205,31 @@ internal class FirebaseAuthService {
             }
         }
 
-        fun getFireBaseUser(): FirebaseUser? {
+        suspend fun refreshLogin(): Boolean {
+            return suspendCoroutine<Boolean> {
+                val continuation = it
+                getFireBaseUser()
+                    ?.reload()
+                    ?.addOnSuccessListener {
+                        continuation.resume(true)
+                    }
+                    ?.addOnFailureListener {
+                        it.printStackTrace()
+                        continuation.resume(false)
+                    }
+            }
+        }
+
+        private fun getFireBaseUser(): FirebaseUser? {
             return FirebaseAuth.getInstance().currentUser
         }
 
+        fun getUserId(): String? {
+            return FirebaseAuth.getInstance().currentUser?.uid
+        }
+
         fun isUserVerified(): Boolean {
-            return getFireBaseUser()?.isEmailVerified ?: false
+            return getFireBaseUser()?.isEmailVerified==true || !getFireBaseUser()?.phoneNumber.isNullOrBlank()
         }
 
         fun signOut() {
@@ -246,10 +260,6 @@ internal class FirebaseAuthService {
             }
         }
 
-        suspend fun getCurrentMobileNumber(context: Context) =
-            SharedPreferenceUtils.getDefaultInstance()
-                .getDataSuspended(context, MOBILE_NUMBER_SP_KEY, String::class.java)
-
         private const val CODE_RESEND_INTERVAL_SEC = 60L
 
         suspend fun sendLoginCodeToMobile(phoneNumber: String, activity: Activity) {
@@ -271,12 +281,10 @@ internal class FirebaseAuthService {
             if (data is String) {
                 spu.saveDataSuspended(activity, data, VERIFICATION_ID_SP_KEY)
                 spu.saveDataSuspended(activity, Date(), CODE_SEND_TIME_SP_KEY)
-                spu.saveDataSuspended(activity, phoneNumber, MOBILE_NUMBER_SP_KEY)
                 return
             } else if (data is Parcelable) {
                 spu.saveDataSuspended(activity, Date(), CODE_SEND_TIME_SP_KEY)
                 spu.saveParcelable(activity, data, AUTH_CREDENTIALS_SP_KEY)
-                spu.saveDataSuspended(activity, phoneNumber, MOBILE_NUMBER_SP_KEY)
                 return
             }
 
@@ -290,7 +298,6 @@ internal class FirebaseAuthService {
             spu.removeKey(context, VERIFICATION_ID_SP_KEY)
             spu.removeKey(context, AUTH_CREDENTIALS_SP_KEY)
             spu.removeKey(context, CODE_SEND_TIME_SP_KEY)
-            spu.removeKey(context, MOBILE_NUMBER_SP_KEY)
         }
 
         val channel = Channel<Any>()
@@ -319,24 +326,23 @@ internal class FirebaseAuthService {
                 }
             }
 
-        suspend fun logInUserWithVerificationCode(context: Context, code: String): FirebaseUser {
+        suspend fun logInUserWithVerificationCode(context: Context, code: String) {
             return logInUserWithPhoneAuthCredential(getPhoneAuthCredential(context, code)!!)
         }
 
-        suspend fun logInUserWithPhoneAuthCredential(context: Context): FirebaseUser? {
+        suspend fun logInUserWithPhoneAuthCredential(context: Context) {
             getPhoneAuthCredential(context)?.let {
-                return logInUserWithPhoneAuthCredential(it)
+                logInUserWithPhoneAuthCredential(it)
             }
-            return null
         }
 
-        private suspend fun logInUserWithPhoneAuthCredential(credential: PhoneAuthCredential): FirebaseUser {
+        private suspend fun logInUserWithPhoneAuthCredential(credential: PhoneAuthCredential) {
             return suspendCoroutine {
                 val continuation = it
                 FirebaseAuth.getInstance().signInWithCredential(credential)
                     .addOnCompleteListener {
                         if (it.isSuccessful && it.result != null && it.result!!.user != null) {
-                            continuation.resume(it.result!!.user!!)
+                            continuation.resume(Unit)
                         } else {
                             continuation.resumeWithException(
                                 SignInException(

@@ -65,13 +65,10 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
                 lifecycleScope.launch {
                     showWaitScreen()
                     try {
-                        AuthRepo.getCurrentMobileNumber(it)?.apply {
-                            println(this)
-                            AuthRepo.sendLoginCodeToMobile(this, it)
-                            showShortSnack(R.string.login_code_resend)
-                            hideWaitScreen()
-                            refreshResendStatus()
-                        }
+                        AuthRepo.sendLoginCodeToMobile(null, it)
+                        showShortSnack(R.string.login_code_resend)
+                        hideWaitScreen()
+                        refreshResendStatus()
                     }catch (ex:Throwable){
                         ex.printStackTrace()
                         hideWaitScreen()
@@ -116,13 +113,15 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
     override fun onResume() {
         super.onResume()
         runWithContext {
-            lifecycleScope.launch {
-                showWaitScreen()
-                AuthRepo.checkIfAlreadyVerified(it)?.apply {
-                    processLogin(this)
+            NetworkMonitor.runWithNetwork(it) {
+                lifecycleScope.launch {
+                    showWaitScreen()
+                    AuthRepo.checkIfAlreadyVerified(it)?.apply {
+                        processLogin(this)
+                    }
+                    hideWaitScreen()
+                    refreshResendStatus()
                 }
-                hideWaitScreen()
-                refreshResendStatus()
             }
         }
     }

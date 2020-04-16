@@ -27,14 +27,33 @@ internal object FirebaseUserService {
         return null
     }
 
-    suspend fun getUser(firebaseUser: FirebaseUser): User?{
-        return FireStoreUtils.readDocument(FireStoreRefUtils.getUserCollectionRef().document(firebaseUser.uid).path,User::class.java)
+    suspend fun getUser(userId: String): User?{
+        return suspendCoroutine {
+            val continuation = it
+            FireStoreRefUtils
+                .getUserCollectionRef()
+                .document(userId)
+                .get()
+                .addOnCompleteListener {
+                    it.result.let {
+                        if (it!=null){
+                            continuation.resume(it.toObject(User::class.java))
+                        }else{
+                            continuation.resume(null)
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    it.printStackTrace()
+                    continuation.resume(null)
+                }
+        }
     }
 
-    fun createUserForPhoneLogin(firebaseUser: FirebaseUser): User {
+    fun createUserForPhoneLogin(phone: String): User {
         val user = User(
-            id = firebaseUser.uid,
-            phone = firebaseUser.phoneNumber!!,
+            id = FirebaseAuthService.getUserId()!!,
+            phone = phone,
             mobileLogin = true
         )
         return saveUser(user)!!

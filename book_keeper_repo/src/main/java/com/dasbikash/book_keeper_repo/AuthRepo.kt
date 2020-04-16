@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.exceptions.SignUpException
 import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
@@ -13,7 +12,6 @@ import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -30,30 +28,27 @@ object AuthRepo : BookKeeperRepo() {
     private val PHONE_NUM_PATTERN_FIRST_PLUS = "[+]\\d+"
     private val PHONE_NUM_PATTERN_LEADING_ZEROS = "(00)\\d+"
 
+    private const val MOBILE_NUMBER_SP_KEY =
+        "com.dasbikash.exp_man_repo.AuthRepo.MOBILE_NUMBER_SP_KEY"
+
     fun checkLogIn(): Boolean {
-        return FirebaseAuthService.getFireBaseUser() != null
+        return getUserId().isNotBlank()
     }
 
     fun getUserId(): String {
-        return FirebaseAuthService.getFireBaseUser()?.uid ?: ""
+        return FirebaseAuthService.getUserId() ?: ""
     }
 
     suspend fun getUser(context: Context): User? {
-        FirebaseAuthService.getFireBaseUser()?.let {
-            return getUserDao(context).findById(it.uid)
+        return if (checkLogIn()) {
+            getUserDao(context).findById(getUserId())
+        }else{
+            null
         }
-        return null
     }
 
-    fun isPhoneLogin(): Boolean {
-        FirebaseAuthService
-            .getFireBaseUser()
-            ?.providerData
-            ?.map { it.providerId.toLowerCase() }
-            ?.let {
-                return it.contains(PHONE_LOG_IN_PROVIDER_ID)
-            }
-        return false
+    suspend fun isPhoneLogin(context: Context): Boolean {
+        return getUser(context)?.mobileLogin == true
     }
 
     private suspend fun saveLogin(context: Context, user: User) {
@@ -69,7 +64,7 @@ object AuthRepo : BookKeeperRepo() {
             .createUserWithEmailAndPassword(
                 context,email.trim().toLowerCase(Locale.ENGLISH),password
             ).let {
-                createUser(it,email,firstName, lastName, mobile,language)
+                createUser(getUserId(),email,firstName, lastName, mobile,language)
                     .let {
                         saveLogin(context,it)
                         return it
@@ -104,7 +99,7 @@ object AuthRepo : BookKeeperRepo() {
     ): User {
         FirebaseAuthService.logInUserWithEmailAndPassword(email, password).let {
             try {
-                FirebaseUserService.getUser(it)!!.let {
+                FirebaseUserService.getUser(getUserId())!!.let {
                     saveLogin(context, it)
                     return it
                 }
@@ -117,8 +112,8 @@ object AuthRepo : BookKeeperRepo() {
 
     suspend fun checkIfAlreadyVerified(context: Context): User? {
         try {
-            FirebaseAuthService.logInUserWithPhoneAuthCredential(context)?.let {
-                return processPhoneLogin(context, it)
+            FirebaseAuthService.logInUserWithPhoneAuthCredential(context).let {
+                return processPhoneLogin(context)
             }
         } catch (ex: Throwable) {
             ex.printStackTrace()
@@ -127,23 +122,24 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     suspend fun logInUserWithVerificationCode(context: Context, code: String): User {
-        return processPhoneLogin(
-            context,
-            FirebaseAuthService.logInUserWithVerificationCode(context, code)
-        )
+        return FirebaseAuthService.logInUserWithVerificationCode(context, code).let {
+            processPhoneLogin(context)
+        }
     }
 
-    private suspend fun processPhoneLogin(context: Context, firebaseUser: FirebaseUser): User {
+    private suspend fun processPhoneLogin(context: Context): User {
         try {
-            FirebaseUserService.getUser(firebaseUser).let {
-                if (it == null) {
-                    FirebaseUserService.createUserForPhoneLogin(firebaseUser).let {
+            FirebaseUserService.getUser(getUserId()).let {
+                return if (it == null) {
+                    FirebaseUserService.createUserForPhoneLogin(getCurrentMobileNumber(context)!!).let {
                         saveLogin(context, it)
-                        return it
+                        it
                     }
                 } else {
                     saveLogin(context, it)
-                    return it
+                    it
+                }.apply {
+                    clearCurrentMobileNumber(context)
                 }
             }
         } catch (ex: Throwable) {
@@ -162,14 +158,29 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun sendPasswordResetEmail(email: String): Boolean =
         FirebaseAuthService.sendPasswordResetEmail(email)
 
-    suspend fun sendLoginCodeToMobile(phoneNumber: String, activity: Activity) =
-        FirebaseAuthService.sendLoginCodeToMobile(phoneNumber, activity)
+    suspend fun sendLoginCodeToMobile(phoneNumber: String?, activity: Activity) {
+        (phoneNumber ?: getCurrentMobileNumber(activity))?.let {
+            debugLog("phoneNumber: $phoneNumber")
+            FirebaseAuthService.sendLoginCodeToMobile(it, activity)
+            saveCurrentMobileNumber(activity,it)
+        }
+    }
 
     suspend fun codeResendWaitMs(context: Context): Long =
         FirebaseAuthService.codeResendWaitMs(context)
 
-    suspend fun getCurrentMobileNumber(context: Context) =
-        FirebaseAuthService.getCurrentMobileNumber(context)
+    private suspend fun getCurrentMobileNumber(context: Context):String? {
+        return SharedPreferenceUtils.getDefaultInstance()
+                .getDataSuspended(context, MOBILE_NUMBER_SP_KEY, String::class.java)
+    }
+    private fun clearCurrentMobileNumber(context: Context) {
+        return SharedPreferenceUtils.getDefaultInstance().removeKey(context, MOBILE_NUMBER_SP_KEY)
+    }
+
+    private suspend fun saveCurrentMobileNumber(context: Context,phone: String){
+        return SharedPreferenceUtils.getDefaultInstance()
+                .saveDataSuspended(context, phone,MOBILE_NUMBER_SP_KEY)
+    }
 
     suspend fun findUserById(context: Context, userId: String): User? {
         debugLog("findUserById: ${userId}")
@@ -251,7 +262,7 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     fun isVerified(): Boolean {
-        return (FirebaseAuthService.getFireBaseUser() == null) || isPhoneLogin() || FirebaseAuthService.isUserVerified()
+        return FirebaseAuthService.isUserVerified()
     }
 
     fun getEmailVerificationLinkGenDelay(context:Context):Long = FirebaseAuthService.getEmailVerificationLinkGenDelay(context)
@@ -261,19 +272,7 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     suspend fun refreshLogin(): Boolean {
-        return suspendCoroutine<Boolean> {
-            val continuation = it
-            FirebaseAuthService
-                .getFireBaseUser()
-                ?.reload()
-                ?.addOnSuccessListener {
-                    continuation.resume(true)
-                }
-                ?.addOnFailureListener {
-                    it.printStackTrace()
-                    continuation.resume(false)
-                }
-        }
+        return FirebaseAuthService.refreshLogin()
     }
 
     suspend fun findUserByEmail(email: String): List<User> {

@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.home
 
+import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_network_monitor.NetworkMonitor
@@ -58,7 +59,8 @@ class ActivityHome : ActivityTemplate() {
         }
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
 
-        syncAppData()
+
+        lifecycleScope.launch { syncAppData()}
         btn_add_exp_entry.setOnClickListener {
             startActivity(ActivityExpenseEntry.getAddIntent(this))
         }

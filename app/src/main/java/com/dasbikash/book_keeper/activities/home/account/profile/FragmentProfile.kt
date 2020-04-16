@@ -296,8 +296,8 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
     }
 
-    private fun refreshView(context: Context,user: User) {
-        when(AuthRepo.isPhoneLogin()){
+    private suspend fun refreshView(context: Context,user: User) {
+        when(AuthRepo.isPhoneLogin(context)){
             true -> {
                 iv_edit_email.show()
                 iv_edit_phone_num.hide()
