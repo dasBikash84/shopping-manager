@@ -106,6 +106,7 @@
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
+                        android:layout_marginStart="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/iv_edit_email"
@@ -150,6 +151,7 @@
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
+                        android:layout_marginStart="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/iv_edit_phone_num"
                         app:layout_constraintStart_toEndOf="@id/phone_num_prompt"
@@ -194,6 +196,7 @@
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
+                        android:layout_marginStart="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/iv_edit_first_name"
                         app:layout_constraintStart_toEndOf="@id/first_name_prompt"
@@ -237,6 +240,7 @@
                         android:gravity="center_vertical"
                         android:textColor="@android:color/black"
                         android:textSize="16sp"
+                        android:layout_marginStart="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/iv_edit_last_name"
                         app:layout_constraintStart_toEndOf="@id/last_name_prompt"
@@ -274,6 +278,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:layout_marginStart="8dp"
                         android:id="@+id/spinner_language_selector"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
