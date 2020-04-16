@@ -113,7 +113,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
 
         iv_user_image.setOnClickListener {
-            runWithContext {importImageTask(it)}
+            userImageClickAction()
         }
 
         spinner_language_selector.setItems(SupportedLanguage.values().map { it.displayName }.toList())
@@ -147,14 +147,55 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
 
         sr_page_holder.setOnRefreshListener {syncUserData()}
+        btn_close_profile_pic_full.setOnClickListener { profile_pic_full_holder.hide() }
     }
 
-    private fun importImageTask(context: Context) {
-        val menuView = MenuView()
-        menuView.add(getCaptureImageTask())
-        menuView.add(getImportFromGalleryTask())
-        menuView.add(getImportFromLinkTask())
-        menuView.show(context)
+    private fun userImageClickAction() {
+        viewModel.getUserLiveData().value?.let {
+            if (it.photoUrl == null){
+                importImageTask()
+            }else{
+                runWithContext { getUserImageClickMenu(it).show(it) }
+            }
+        }
+    }
+
+    private fun getUserImageClickMenu(context: Context):MenuView{
+        return MenuView().apply {
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.show_full_profile_pic_prompt),
+                    task = {showFullImageTask(context)}
+                )
+            )
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.change_image_prompt),
+                    task = {importImageTask()}
+                )
+            )
+        }
+    }
+
+    private fun showFullImageTask(context: Context) {
+        viewModel.getUserLiveData().value?.photoUrl?.let {
+            ImageRepo
+                .downloadImageFile(context,it,doOnDownload = {
+                    iv_profile_pic_full.displayImageFile(it)
+                    profile_pic_full_holder.bringToFront()
+                    profile_pic_full_holder.show()
+                })
+        }
+    }
+
+    private fun importImageTask() {
+        runWithContext {
+            val menuView = MenuView()
+            menuView.add(getCaptureImageTask())
+            menuView.add(getImportFromGalleryTask())
+            menuView.add(getImportFromLinkTask())
+            menuView.show(it)
+        }
     }
 
     private fun getCaptureImageTask(): MenuViewItem {

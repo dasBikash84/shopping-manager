@@ -10,12 +10,42 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_pic_full_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_90_white"
+        android:visibility="gone">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_close_profile_pic_full"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/trans_oval"
+            android:foregroundGravity="center"
+            android:gravity="center"
+            android:text="X"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/iv_profile_pic_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@drawable/ic_account" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/sr_page_holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/default_page_bg"
-        android:padding="4dp">
+        android:padding="4dp"
+        android:visibility="visible">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/user_details_block"
