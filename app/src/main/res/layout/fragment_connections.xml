@@ -76,6 +76,7 @@
                             android:id="@+id/btn_close_user_search_result"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:layout_margin="4dp"
                             android:background="@drawable/trans_oval"
                             android:foregroundGravity="center"
                             android:gravity="center"
@@ -88,6 +89,7 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
+                            android:layout_marginTop="4dp"
                             android:id="@+id/rv_user_search_result"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
