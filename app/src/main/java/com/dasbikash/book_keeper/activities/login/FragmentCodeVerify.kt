@@ -119,11 +119,14 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch {
                     showWaitScreen()
-                    AuthRepo.checkIfAlreadyVerified(it,BookKeeperApp.getLanguageSetting(it))?.apply {
-                        processLogin(this)
+                    AuthRepo.checkIfAlreadyVerified(it,BookKeeperApp.getLanguageSetting(it)).apply {
+                        if (this!=null) {
+                            processLogin(this)
+                        }else{
+                            hideWaitScreen()
+                            refreshResendStatus()
+                        }
                     }
-                    hideWaitScreen()
-                    refreshResendStatus()
                 }
             }
         }
