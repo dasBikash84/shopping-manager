@@ -93,17 +93,6 @@ internal object FireStoreOnlineSlShareService {
                     it.printStackTrace()
                     continuation.resume(emptyList())
                 }
-                /*.addOnCompleteListener(OnCompleteListener {
-                    if (it.isSuccessful) {
-                        try {
-                            continuation.resume(it.result!!.toObjects(OnlineSlShareReq::class.java))
-                        } catch (ex: Throwable) {
-                            continuation.resumeWithException(FbDocumentReadException(ex))
-                        }
-                    } else {
-                        continuation.resumeWithException(it.exception ?: FbDocumentReadException())
-                    }
-                })*/
         }
     }
 }

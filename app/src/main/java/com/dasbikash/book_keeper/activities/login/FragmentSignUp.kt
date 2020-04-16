@@ -17,7 +17,6 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.exceptions.SignUpException
 import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack

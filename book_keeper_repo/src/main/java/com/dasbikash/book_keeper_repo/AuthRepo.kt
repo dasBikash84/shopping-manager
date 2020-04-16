@@ -24,10 +24,6 @@ import kotlin.coroutines.suspendCoroutine
 
 object AuthRepo : BookKeeperRepo() {
 
-    private val PHONE_LOG_IN_PROVIDER_ID = "phone"
-    private val PHONE_NUM_PATTERN_FIRST_PLUS = "[+]\\d+"
-    private val PHONE_NUM_PATTERN_LEADING_ZEROS = "(00)\\d+"
-
     private const val MOBILE_NUMBER_SP_KEY =
         "com.dasbikash.exp_man_repo.AuthRepo.MOBILE_NUMBER_SP_KEY"
 
@@ -90,7 +86,7 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     fun resolveSignUpException(ex: Throwable): String =
-        FirebaseAuthService.resolveSignUpException(ex as SignUpException)
+        if (ex is SignUpException) {FirebaseAuthService.resolveSignUpException(ex)} else {ex.message ?: ex.cause?.message ?: ex.javaClass.simpleName}
 
     suspend fun logInUserWithEmailAndPassword(
         context: Context,
@@ -331,9 +327,3 @@ object AuthRepo : BookKeeperRepo() {
     }
 
 }
-
-@Keep
-data class EmailVerificationRequestLog(
-    var email: String? = null,
-    var sentTime: Date? = null
-) : Serializable
