@@ -11,16 +11,13 @@ import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.exceptions.SignUpException
-import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -135,7 +132,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
                                 ActivityLogin.processLogin(it,this)
                             }
                         }
-                }catch (ex:SignUpException){
+                }catch (ex:Throwable){
                     AuthRepo.resolveSignUpException(ex).let {
                         showIndefiniteSnack(it)
                     }

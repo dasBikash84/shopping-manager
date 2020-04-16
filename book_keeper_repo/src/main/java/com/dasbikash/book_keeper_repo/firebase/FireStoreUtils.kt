@@ -21,11 +21,6 @@ internal class FireStoreUtils {
                             } else {
                                 println("Fb document read failed.")
                                 continuation.resume(null)
-//                                continuation.resumeWithException(
-//                                    FbDocumentReadException(
-//                                        it.exception
-//                                    )
-//                                )
                             }
                         }
                 } else {

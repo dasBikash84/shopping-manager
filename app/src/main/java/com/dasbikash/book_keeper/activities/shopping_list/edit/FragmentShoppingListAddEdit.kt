@@ -170,7 +170,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             }
         })
 
-        cb_disable_deadline.setOnCheckedChangeListener({ buttonView, isChecked ->
+        cb_disable_deadline.setOnCheckedChangeListener({ _, isChecked ->
             if (isChecked){
                 runWithContext {
                     DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(

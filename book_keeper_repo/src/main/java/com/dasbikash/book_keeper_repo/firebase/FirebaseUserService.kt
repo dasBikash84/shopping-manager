@@ -2,9 +2,9 @@ package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.Query
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -50,11 +50,14 @@ internal object FirebaseUserService {
         }
     }
 
-    fun createUserForPhoneLogin(phone: String): User {
+    fun createUserForPhoneLogin(phone: String,
+                                language: SupportedLanguage
+    ): User {
         val user = User(
-            id = FirebaseAuthService.getUserId()!!,
+            id = com.dasbikash.firebase_auth.FirebaseAuthService.getUserId()!!,
             phone = phone,
-            mobileLogin = true
+            mobileLogin = true,
+            language = language
         )
         return saveUser(user)!!
     }

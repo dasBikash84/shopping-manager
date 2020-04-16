@@ -240,7 +240,7 @@ class ShoppingListUtils {
                         if (onlineShareSuggestionEnabled(context)){
                             val view = LayoutInflater.from(context).inflate(R.layout.view_online_share_suggestion,null,false)
                             val cb = view.findViewById<CheckBox>(R.id.cb_disable_online_share_suggestion)
-                            cb.setOnCheckedChangeListener { buttonView, isChecked ->
+                            cb.setOnCheckedChangeListener { _, isChecked ->
                                 if (isChecked){
                                     disableOnlineShareSuggestion(context)
                                 }else{
@@ -269,7 +269,7 @@ class ShoppingListUtils {
                 text = context.getString(R.string.online_share_text),
                 task = {
                         GlobalScope.launch {
-                            val shoppingList = ShoppingListRepo.findById(context, shoppingListId)?.let {
+                            ShoppingListRepo.findById(context, shoppingListId)?.let {
                                 runOnMainThread({
                                     if (it.userId == AuthRepo.getUserId()) {
                                         context.startActivity(

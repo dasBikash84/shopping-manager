@@ -227,7 +227,6 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                         SortMode.ascDeadline -> it.sortedBy { it.deadLine }
                         SortMode.dscTitle -> it.sortedByDescending { it.title }
                         SortMode.ascTitle -> it.sortedBy { it.title }
-                        else -> it
                     }
                 }.let {
                     shoppingListAdapter.submitList(it)

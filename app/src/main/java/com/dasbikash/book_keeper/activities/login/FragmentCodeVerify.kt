@@ -93,7 +93,7 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
         lifecycleScope.launch {
             showWaitScreen()
             try {
-                AuthRepo.logInUserWithVerificationCode(context,code).let {
+                AuthRepo.logInUserWithVerificationCode(context,code,BookKeeperApp.getLanguageSetting(context)).let {
                     processLogin(it)
                 }
             }catch (ex:Throwable){
@@ -116,7 +116,7 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch {
                     showWaitScreen()
-                    AuthRepo.checkIfAlreadyVerified(it)?.apply {
+                    AuthRepo.checkIfAlreadyVerified(it,BookKeeperApp.getLanguageSetting(it))?.apply {
                         processLogin(this)
                     }
                     hideWaitScreen()

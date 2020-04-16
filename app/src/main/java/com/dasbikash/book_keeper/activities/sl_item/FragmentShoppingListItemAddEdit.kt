@@ -319,7 +319,7 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
         }
     }
 
-    private fun getCurrentUomIndex(): Int =  shoppingListItem.uom ?: 0
+    private fun getCurrentUomIndex(): Int =  shoppingListItem.uom
 
     private fun getCurrentCategoryIndex(): Int {
         return shoppingListItem.categoryId

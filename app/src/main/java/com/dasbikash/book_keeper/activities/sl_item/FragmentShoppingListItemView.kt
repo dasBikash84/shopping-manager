@@ -108,7 +108,7 @@ class FragmentShoppingListItemView:FragmentTemplate() {
             shoppingListItem.name?.let {
                 (activity as ActivityShoppingListItem?)?.setTitle(it)
             }
-            shoppingListItem.categoryId?.let {
+            shoppingListItem.categoryId.let {
                 tv_sli_category.text = resources.getStringArray(R.array.expense_categories).get(it)
             }
 
@@ -120,7 +120,7 @@ class FragmentShoppingListItemView:FragmentTemplate() {
                                             if (shoppingListItem.maxUnitPrice!=null) {shoppingListItem.maxUnitPrice!!.toString()} else {""})
             tv_sli_qty.text = getString(
                                         R.string.sli_qty_text,
-                                        shoppingListItem.qty.toString(), resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!))
+                                        shoppingListItem.qty.toString(), resources.getStringArray(R.array.uoms).get(shoppingListItem.uom))
 
             (shoppingListItem.images ?: emptyList()).let {
                 imageListAdapter.submitList(it)

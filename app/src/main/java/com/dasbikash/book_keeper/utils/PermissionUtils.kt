@@ -17,7 +17,7 @@ object PermissionUtils {
     fun runWithReadStoragePermission(
                                 activity: Activity,task:()->Unit,
                                 @StringRes permissionRationalId:Int) {
-        Dexter.withActivity(activity)
+        Dexter.withContext(activity)
             .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(response: PermissionGrantedResponse?) {
@@ -59,7 +59,7 @@ object PermissionUtils {
                                 onPermissionGranted:()->Unit,
                                 onPermissionDenied:(()->Unit)?=null) {
         activity.let {
-            Dexter.withActivity(it)
+            Dexter.withContext(it)
                 .withPermission(Manifest.permission.CAMERA)
                 .withListener(object : PermissionListener {
 

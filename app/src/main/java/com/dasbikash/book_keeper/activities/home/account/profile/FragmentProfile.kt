@@ -119,7 +119,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
         spinner_language_selector.setItems(SupportedLanguage.values().map { it.displayName }.toList())
 
-        spinner_language_selector.setOnItemSelectedListener { view, position, id, item ->
+        spinner_language_selector.setOnItemSelectedListener { _, position, _, item ->
             debugLog(position)
             debugLog(item)
             viewModel.getUserLiveData().value?.let {

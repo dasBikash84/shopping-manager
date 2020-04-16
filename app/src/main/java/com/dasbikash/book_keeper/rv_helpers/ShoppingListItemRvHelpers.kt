@@ -90,7 +90,7 @@ class ShoppingListItemHolder(itemView: View,
         iv_sli_options.hide()
         sli_details_holder.hide()
         sli_price_range_holder.hide()
-        getExpenseCategory(itemView.context,shoppingListItem.categoryId!!).let {
+        getExpenseCategory(itemView.context,shoppingListItem.categoryId).let {
             tv_sli_category.text = it
         }
         tv_sli_name.text = shoppingListItem.name
@@ -116,7 +116,7 @@ class ShoppingListItemHolder(itemView: View,
         }
 
         tv_sli_qty.text = shoppingListItem.qty.toString()
-        tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom!!)
+        tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom)
         if (shoppingListItem.expenseEntryId==null){
             iv_sli_options.show()
             iv_tick_mark.hide()

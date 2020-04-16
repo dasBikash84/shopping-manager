@@ -87,9 +87,7 @@ data class ShoppingList(
             var maxExp = 0.0
             shoppingList.shoppingListItemIds?.let {
                 it.map {
-                    ShoppingListRepo.findShoppingListItemById(context, it)?.let {
-                        return@let it.calculatePriceRange()
-                    }
+                    ShoppingListRepo.findShoppingListItemById(context, it)?.calculatePriceRange()
                 }.asSequence().forEach {
                     it?.first?.let {
                         minExp += it

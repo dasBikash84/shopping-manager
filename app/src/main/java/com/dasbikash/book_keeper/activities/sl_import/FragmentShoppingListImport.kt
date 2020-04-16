@@ -107,7 +107,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
     private fun processOnLineSlQrScanResult(slToQr: SlToQr) {
         SlToQr.decodeOnlineRequestPayload(slToQr).let {
             if (it!=null){
-                val onlineDocShareParams = it!!
+                val onlineDocShareParams = it
                 runWithContext {
                     DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                         message = it.getString(R.string.online_shopping_list_import_prompt),
@@ -129,7 +129,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
             if (it==null){
                 showResultErrorScreen()
             }else{
-                val offlineShoppingList = it!!
+                val offlineShoppingList = it
                 offlineShoppingList.partnerIds=null
                 runWithContext {
                     DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(

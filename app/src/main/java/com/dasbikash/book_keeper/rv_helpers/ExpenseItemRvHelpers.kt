@@ -52,7 +52,7 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:((ExpenseItem)->Un
             tv_exp_item_unit_price_text.text = unitPrice.getCurrencyString()
             tv_exp_item_qty_text.text = qty.getCurrencyString()
             tv_exp_item_total_price_text.text = (unitPrice*qty).getCurrencyString()
-            tv_exp_item_uom_text.text = uom?.let { itemView.context.resources.getStringArray(R.array.uoms).get(it) }
+            tv_exp_item_uom_text.text = uom.let { itemView.context.resources.getStringArray(R.array.uoms).get(it) }
             if (!brandName.isNullOrBlank()) {
                 tv_exp_item_brand_name_text.text = brandName
                 exp_item_brand_name_holder.show()

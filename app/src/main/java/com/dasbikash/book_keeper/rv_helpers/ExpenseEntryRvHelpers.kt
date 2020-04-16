@@ -105,7 +105,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
                                         }
             tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyString()
             tv_exp_desc_text.text = details
-            tv_exp_cat_text.text = categoryId?.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
+            tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
         itemView.setOnClickListener { debugLog(expenseEntry) }
     }

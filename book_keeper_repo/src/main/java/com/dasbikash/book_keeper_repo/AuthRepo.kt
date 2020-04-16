@@ -5,8 +5,8 @@ import android.content.Context
 import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.exceptions.SignUpException
-import com.dasbikash.book_keeper_repo.firebase.FirebaseAuthService
+import com.dasbikash.firebase_auth.exceptions.SignUpException
+import com.dasbikash.firebase_auth.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
@@ -58,7 +58,7 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun createUserWithEmailAndPassword(
         context: Context,email: String, password: String,
         firstName: String, lastName: String, mobile: String,
-        language: SupportedLanguage?=null
+        language: SupportedLanguage
     ):User {
         FirebaseAuthService
             .createUserWithEmailAndPassword(
@@ -75,7 +75,7 @@ object AuthRepo : BookKeeperRepo() {
     private fun createUser(
         userId: String,email: String,
         firstName: String, lastName: String, mobile: String,
-        language: SupportedLanguage?
+        language: SupportedLanguage
     ):User {
         return User().apply {
             id = userId
@@ -84,13 +84,13 @@ object AuthRepo : BookKeeperRepo() {
             this.lastName = lastName.trim()
             phone = mobile.trim()
             mobileLogin = false
-            language?.let { this.language=it }
+            this.language=language
             FirebaseUserService.saveUser(this)
         }
     }
 
-    fun resolveSignUpException(ex: SignUpException): String =
-        FirebaseAuthService.resolveSignUpException(ex)
+    fun resolveSignUpException(ex: Throwable): String =
+        FirebaseAuthService.resolveSignUpException(ex as SignUpException)
 
     suspend fun logInUserWithEmailAndPassword(
         context: Context,
@@ -110,10 +110,11 @@ object AuthRepo : BookKeeperRepo() {
         }
     }
 
-    suspend fun checkIfAlreadyVerified(context: Context): User? {
+    suspend fun checkIfAlreadyVerified(context: Context,
+                                       language: SupportedLanguage): User? {
         try {
             FirebaseAuthService.logInUserWithPhoneAuthCredential(context).let {
-                return processPhoneLogin(context)
+                return processPhoneLogin(context,language)
             }
         } catch (ex: Throwable) {
             ex.printStackTrace()
@@ -121,17 +122,19 @@ object AuthRepo : BookKeeperRepo() {
         return null
     }
 
-    suspend fun logInUserWithVerificationCode(context: Context, code: String): User {
+    suspend fun logInUserWithVerificationCode(context: Context, code: String,
+                                              language: SupportedLanguage): User {
         return FirebaseAuthService.logInUserWithVerificationCode(context, code).let {
-            processPhoneLogin(context)
+            processPhoneLogin(context,language)
         }
     }
 
-    private suspend fun processPhoneLogin(context: Context): User {
+    private suspend fun processPhoneLogin(context: Context,
+                                          language: SupportedLanguage): User {
         try {
             FirebaseUserService.getUser(getUserId()).let {
                 return if (it == null) {
-                    FirebaseUserService.createUserForPhoneLogin(getCurrentMobileNumber(context)!!).let {
+                    FirebaseUserService.createUserForPhoneLogin(getCurrentMobileNumber(context)!!,language).let {
                         saveLogin(context, it)
                         it
                     }
