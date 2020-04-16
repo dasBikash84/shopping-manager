@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Keep
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -23,14 +22,12 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 import com.dasbikash.book_keeper_repo.model.User
-import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.snackbar_ext.showLongSnack
 import kotlinx.android.synthetic.main.fragment_connections.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class FragmentConnections : Fragment(),WaitScreenOwner {
@@ -310,69 +307,25 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         user_search_result_holder.hide()
         userSearchReasultAdapter.submitList(emptyList())
 
-        getUserSearchMethod(searchString).let{
-            if (it!=null){
-                when (it){
-                    UserSearchMethod.EMAIL -> {
-                        runWithContext {
-                            lifecycleScope.launch {
-                                AuthRepo.findUserByEmail(searchString.toLowerCase()).let {
-                                    debugLog(it)
-                                    if (it.isNotEmpty()) {
-                                        val users = mutableSetOf<User>()
-                                        users.addAll(it.filter { !ConnectionRequestRepo.checkIfOnList(context!!,it) })
-                                        userSearchReasultAdapter.submitList(users.toList())
-                                        if (users.isNotEmpty()) {
-                                            user_search_result_holder.show()
-                                            user_search_result_holder.bringToFront()
-                                        }
-                                    }
-                                }
-                            }
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it) {
+                lifecycleScope.launch {
+                    showWaitScreen()
+                    AuthRepo.searchUser(searchString).let {
+                        debugLog(it)
+                        val users = mutableSetOf<User>()
+                        users.addAll(it.filter { !ConnectionRequestRepo.checkIfOnList(context!!,it) })
+                        userSearchReasultAdapter.submitList(users.toList())
+                        if (users.isNotEmpty()) {
+                            user_search_result_holder.show()
+                            user_search_result_holder.bringToFront()
+                        }else{
+                            showLongSnack(R.string.no_new_user_found)
                         }
-                    }
-                    UserSearchMethod.PHONE -> {
-                        lifecycleScope.launch {
-                            AuthRepo.findUserByPhone(getSanitizedMobileNumber(searchString)).collect{
-                                debugLog(it)
-                                val users = mutableSetOf<User>()
-                                users.addAll(userSearchReasultAdapter.currentList)
-                                if (!ConnectionRequestRepo.checkIfOnList(context!!,it)) {
-                                    users.add(it)
-                                }
-                                userSearchReasultAdapter.submitList(users.toList())
-                                if (users.isNotEmpty()) {
-                                    user_search_result_holder.show()
-                                    user_search_result_holder.bringToFront()
-                                }
-                            }
-                        }
+                        hideWaitScreen()
                     }
                 }
-            }else{
-                showShortSnack(getString(R.string.invalid_user_search_string))
             }
         }
     }
-
-    private fun getSanitizedMobileNumber(mobileNumber:String):String{
-        if (ValidationUtils.validateBdMobileNumber(mobileNumber)){
-            return ValidationUtils.sanitizeNumber(mobileNumber)
-        }
-        return mobileNumber
-    }
-
-    private fun getUserSearchMethod(searchString: String): UserSearchMethod? {
-        return if (ValidationUtils.validateEmailAddress(searchString)){
-            UserSearchMethod.EMAIL
-        }else if (ValidationUtils.validateMobileNumber(searchString)){
-            UserSearchMethod.PHONE
-        }else{
-            null
-        }
-    }
-
-    @Keep
-    private enum class UserSearchMethod{EMAIL,PHONE}
-
 }

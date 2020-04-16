@@ -2,7 +2,6 @@ package com.dasbikash.book_keeper_repo
 
 import android.app.Activity
 import android.content.Context
-import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.firebase_auth.exceptions.SignUpException
@@ -13,14 +12,8 @@ import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import java.io.Serializable
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 object AuthRepo : BookKeeperRepo() {
 
@@ -274,6 +267,20 @@ object AuthRepo : BookKeeperRepo() {
         return FirebaseAuthService.refreshLogin()
     }
 
+    suspend fun searchUser(searchString: String):List<User>{
+        val sanitizedString = searchString.trim().toLowerCase(Locale.ENGLISH)
+        if (sanitizedString.isBlank()){return emptyList()}
+        return when{
+            ValidationUtils.validateEmailAddress(sanitizedString) -> {
+                findUserByEmail(sanitizedString)
+            }
+            ValidationUtils.validateMobileNumber(sanitizedString) -> {
+                findUsersByPhone(sanitizedString)
+            }
+            else -> emptyList()
+        }.filter{ it.id != getUserId() }
+    }
+
     suspend fun findUserByEmail(email: String): List<User> {
         try {
             return FirebaseUserService.findUsersByEmail(email)
@@ -283,7 +290,7 @@ object AuthRepo : BookKeeperRepo() {
         }
     }
 
-    suspend fun findEmailLoginUsersByPhoneNFlow(phone: String): List<User> {
+    suspend fun findEmailLoginUsersByPhone(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
             .findEmailLoginUsersByPhone(phone).let {
@@ -295,25 +302,12 @@ object AuthRepo : BookKeeperRepo() {
         return emptyList()
     }
 
-    suspend fun findUsersByPhoneNFlow(phone: String): List<User> {
+    suspend fun findUsersByPhone(phone: String): List<User> {
         debugLog("phone: $phone")
-        FirebaseUserService
-            .findUsersByPhone(phone).let {
-                debugLog(it)
-                if (it.isNotEmpty()){
-                    return it
-                }
+        return FirebaseUserService
+            .findUsersByPhone(phone).apply {
+                debugLog(this)
             }
-        return emptyList()
-    }
-
-    suspend fun findUserByPhone(phone: String): Flow<User> {
-        return flow<User> {
-            FirebaseUserService.findUsersByPhone(phone).asSequence().forEach {
-                emit(it)
-                delay(10)
-            }
-        }
     }
 
     suspend fun syncUserData(context: Context) {

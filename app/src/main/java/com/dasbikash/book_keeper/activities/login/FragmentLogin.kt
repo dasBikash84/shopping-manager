@@ -255,7 +255,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                         debugLog("existingUsers: $existingUsers")
                         return@launch sendCodeTask(phone)
                     }
-                    AuthRepo.findEmailLoginUsersByPhoneNFlow(phone).let {
+                    AuthRepo.findEmailLoginUsersByPhone(phone).let {
                         debugLog(it)
                         if (it.isEmpty()){
                             sendCodeTask(phone)

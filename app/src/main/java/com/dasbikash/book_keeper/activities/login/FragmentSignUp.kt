@@ -112,7 +112,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
                 showWaitScreen()
                 try {
                     if (mobile.isNotBlank()) {
-                        AuthRepo.findUsersByPhoneNFlow(mobile).let {
+                        AuthRepo.findUsersByPhone(mobile).let {
                             if (it.isNotEmpty()) {
                                 et_mobile.setError(getString(R.string.mobile_number_taken_error))
                                 hideWaitScreen()

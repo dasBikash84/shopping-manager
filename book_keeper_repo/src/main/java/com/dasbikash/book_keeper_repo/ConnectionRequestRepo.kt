@@ -45,7 +45,7 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
     }
 
     suspend fun checkIfOnList(context: Context, user: User): Boolean {
-        return getDao(context).findPendingRequest(user.id) > 0
+        return getDao(context).findActiveRequests(user.id) > 0
     }
 
     suspend fun approveRequest(context: Context,user: User){

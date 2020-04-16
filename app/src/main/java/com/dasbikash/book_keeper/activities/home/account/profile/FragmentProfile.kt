@@ -39,7 +39,6 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -386,7 +385,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
     private suspend fun phoneEditTask(inputPhone:String){
         context?.let {
-            AuthRepo.findUsersByPhoneNFlow(inputPhone).let {
+            AuthRepo.findUsersByPhone(inputPhone).let {
                 if (it.isNotEmpty()) {
                     showShortSnack(R.string.mobile_number_taken_error)
                     return

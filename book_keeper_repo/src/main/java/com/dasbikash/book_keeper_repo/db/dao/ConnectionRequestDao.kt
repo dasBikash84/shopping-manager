@@ -35,7 +35,7 @@ internal interface ConnectionRequestDao {
     suspend fun addAll(list: List<ConnectionRequest>)
 
     @Query("SELECT count(*) FROM ConnectionRequest WHERE (requesterUserId=:partnerUserId OR partnerUserId=:partnerUserId) AND approvalStatus !=:statusToNeg  AND active")
-    suspend fun findPendingRequest(partnerUserId:String,statusToNeg: RequestApprovalStatus=RequestApprovalStatus.DENIED):Int
+    suspend fun findActiveRequests(partnerUserId:String, statusToNeg: RequestApprovalStatus=RequestApprovalStatus.DENIED):Int
 
     @Delete
     suspend fun delete(connectionRequest: ConnectionRequest)
