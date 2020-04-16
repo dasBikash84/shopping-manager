@@ -25,7 +25,6 @@ import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.BookKeeperRepo
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.dasbikash.snackbar_ext.showLongSnack
@@ -250,6 +249,12 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it, {
                 lifecycleScope.launch {
                     showWaitScreen()
+                    //Check if already used for login. If yes the just send code
+                    val existingUsers = AuthRepo.findUsersForPhoneLogin(phone)
+                    if (existingUsers.isNotEmpty()){
+                        debugLog("existingUsers: $existingUsers")
+                        return@launch sendCodeTask(phone)
+                    }
                     AuthRepo.findEmailLoginUsersByPhoneNFlow(phone).let {
                         debugLog(it)
                         if (it.isEmpty()){
@@ -265,9 +270,8 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                                 doOnNegetivePress = {
                                     sendCodeTask(phone)
                                 },
-                                negetiveButtonText = context!!.getString(R.string.continue_with_mobile),
-                                positiveButtonText= context!!.getString(R.string.log_in_with_email),
-                                isCancelable = false
+                                negetiveButtonText = context!!.getString(R.string.sign_up_with_mobile),
+                                positiveButtonText= context!!.getString(R.string.log_in_with_email)
                             ))
                         }
                     }

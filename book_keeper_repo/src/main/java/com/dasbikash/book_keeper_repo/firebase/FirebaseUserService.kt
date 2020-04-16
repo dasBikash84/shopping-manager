@@ -108,16 +108,26 @@ internal object FirebaseUserService {
         debugLog("findUsersByPhone: $phone")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,phone)
+                            .whereEqualTo(PHONE_FIELD,ValidationUtils.sanitizeNumber(phone))
 
         return processUserListQuery(query).filter { it.id != AuthRepo.getUserId() }
+    }
+
+    suspend fun findUsersForPhoneLogin(phone: String):List<User>{
+        debugLog("findUsersForPhoneLogin: $phone")
+        val query = FireStoreRefUtils
+                            .getUserCollectionRef()
+                            .whereEqualTo(PHONE_FIELD,ValidationUtils.sanitizeNumber(phone))
+                            .whereEqualTo(PHONE_LOGIN_FIELD,true)
+
+        return processUserListQuery(query)
     }
 
     suspend fun findEmailLoginUsersByPhone(phone: String):List<User>{
         debugLog("findUsersByPhone: $phone")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,phone)
+                            .whereEqualTo(PHONE_FIELD,ValidationUtils.sanitizeNumber(phone))
                             .whereEqualTo(PHONE_LOGIN_FIELD,false)
 
         return processUserListQuery(query)

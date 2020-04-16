@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.startActivity
@@ -40,10 +41,12 @@ class FragmentCodeVerify : FragmentTemplate(),WaitScreenOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btn_verify_code.setOnClickListener {
+            hideKeyboard()
             verifyCodeAction()
         }
 
         btn_resend_code.setOnClickListener {
+            hideKeyboard()
             resendCodeAction()
         }
     }

@@ -286,7 +286,7 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun findEmailLoginUsersByPhoneNFlow(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
-            .findEmailLoginUsersByPhone(ValidationUtils.sanitizeNumber(phone)).let {
+            .findEmailLoginUsersByPhone(phone).let {
                 debugLog(it)
                 if (it.isNotEmpty()){
                     return it
@@ -298,7 +298,7 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun findUsersByPhoneNFlow(phone: String): List<User> {
         debugLog("phone: $phone")
         FirebaseUserService
-            .findUsersByPhone(ValidationUtils.sanitizeNumber(phone)).let {
+            .findUsersByPhone(phone).let {
                 debugLog(it)
                 if (it.isNotEmpty()){
                     return it
@@ -309,7 +309,7 @@ object AuthRepo : BookKeeperRepo() {
 
     suspend fun findUserByPhone(phone: String): Flow<User> {
         return flow<User> {
-            FirebaseUserService.findUsersByPhone(ValidationUtils.sanitizeNumber(phone)).asSequence().forEach {
+            FirebaseUserService.findUsersByPhone(phone).asSequence().forEach {
                 emit(it)
                 delay(10)
             }
@@ -324,6 +324,10 @@ object AuthRepo : BookKeeperRepo() {
                     it?.let { getUserDao(context).add(it) }
                 }
             }
+    }
+
+    suspend fun findUsersForPhoneLogin(phone: String):List<User>{
+        return FirebaseUserService.findUsersForPhoneLogin(phone)
     }
 
 }
