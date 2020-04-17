@@ -323,4 +323,9 @@
     <string name="no_new_user_found">No new user found!!</string>
     <string name="show_full_profile_pic_prompt">Show full image</string>
     <string name="change_image_prompt">Change image</string>
+    <string name="color_code">Background Color code</string>
+    <string name="sl_all_bought">No pending item on shopping list.</string>
+    <string name="sl_dl_today">Shopping list with pending items where deadline is today and has not expired yet.</string>
+    <string name="sl_dl_active">Shopping list with pending items where deadline is after today.</string>
+    <string name="sl_dl_expired">Shopping list with pending items where deadline has expired.</string>
 </resources>

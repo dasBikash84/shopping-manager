@@ -1,10 +1,12 @@
 package com.dasbikash.book_keeper.rv_helpers
 
 import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -101,21 +103,23 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private suspend fun setBgColor(shoppingList: ShoppingList) {
         when{
-            ShoppingListRepo.checkIfAllBought(itemView.context,shoppingList) -> setBgColor(ALL_BOUGHT_BG)
-            shoppingList.deadLine !=null && shoppingList.deadLine!!.time < System.currentTimeMillis() -> setBgColor(DEADLINE_EXPIRED_BG)
-            shoppingList.deadLine !=null && shoppingList.deadLine!!.getDayCount() == Date().getDayCount() -> setBgColor(DEADLINE_DAY_BG)
-            else -> setBgColor(PENDING_BG)
+            ShoppingListRepo.checkIfAllBought(itemView.context,shoppingList) -> setBgColor(R.color.bg_sl_all_bought)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.time < System.currentTimeMillis() -> setBgColor(R.color.bg_sl_dl_expired)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.getDayCount() == Date().getDayCount() -> setBgColor(R.color.bg_sl_dl_today)
+            else -> setBgColor(R.color.bg_sl_dl_active)
         }
     }
 
-    private fun setBgColor(color: Int) {
-        runOnMainThread({ content_holder.setBackgroundColor(color) })
-    }
-
-    companion object{
-        private const val DEADLINE_EXPIRED_BG = Color.RED
-        private const val ALL_BOUGHT_BG = Color.GREEN
-        private const val DEADLINE_DAY_BG = Color.MAGENTA
-        private const val PENDING_BG = Color.WHITE
+    private fun setBgColor(@ColorRes colorResId: Int) {
+        runOnMainThread({
+            content_holder.setBackgroundColor(
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    itemView.context.resources.getColor(colorResId,null)
+                }else{
+                    @Suppress("DEPRECATION")
+                    itemView.context.resources.getColor(colorResId)
+                }
+            )
+        })
     }
 }

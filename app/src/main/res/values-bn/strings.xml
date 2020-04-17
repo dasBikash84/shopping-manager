@@ -278,4 +278,9 @@
     <string name="change_image_prompt">ছবি পরিবর্তন</string>
     <string name="no_new_user_found">কোন নতুন ইউজার খুঁজে পাওয়া যায়নি!!</string>
     <string name="show_full_profile_pic_prompt">ছবি বড় করে দেখুন</string>
+    <string name="color_code">পটভূমির কালার কোড</string>
+    <string name="sl_all_bought">ফর্দের অন্তর্গত সকল পণ্য কেনা হয়েছে।</string>
+    <string name="sl_dl_today">কিছু পণ্য কেনা বাকি আছে, যেখানে সময়সীমা আজ এবং এখনও মেয়াদোত্তীর্ণ হয়নি।</string>
+    <string name="sl_dl_active">কিছু পণ্য কেনা বাকি আছে এবং সময়সীমা এখনও উত্তীর্ণ হয়নি।</string>
+    <string name="sl_dl_expired">কিছু পণ্য কেনা বাকি আছে এবং সময়সীমা উত্তীর্ণ হয়েছে।</string>
 </resources>

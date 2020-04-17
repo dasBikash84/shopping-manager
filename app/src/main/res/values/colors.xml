@@ -19,4 +19,12 @@
     <color name="bg_50_white">#80ffffff</color>
     <color name="bg_80_white">#CCffffff</color>
     <color name="bg_90_white">#E6ffffff</color>
+    <color name="red">#FFFF0000</color>
+    <color name="magenta">#FFFF00FF</color>
+    <color name="green">#FF00FF00</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="bg_sl_dl_expired">#FFFF0000</color>
+    <color name="bg_sl_dl_today">#FFFF00FF</color>
+    <color name="bg_sl_all_bought">#FF00FF00</color>
+    <color name="bg_sl_dl_active">#FFFFFFFF</color>
 </resources>

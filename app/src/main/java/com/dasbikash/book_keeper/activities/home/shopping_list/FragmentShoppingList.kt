@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.runWithActivity
@@ -317,25 +318,56 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     override fun getPageTitle(context: Context):String? = context.getString(R.string.shopping_list_title)
 
     override fun getOptionsMenu(context: Context): MenuView? {
-        val menuView = MenuView()
-        menuView.add(
-            MenuViewItem(
-                text = context.getString(R.string.shopping_list_import_title),
-                task = {activity?.let { (it as Activity).startActivity(ActivityShoppingListImport::class.java) }}
+        return MenuView().apply {
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.shopping_list_import_title),
+                    task = {
+                        activity?.let {
+                            (it as Activity).startActivity(
+                                ActivityShoppingListImport::class.java
+                            )
+                        }
+                    }
+                )
             )
-        )
-        menuView.add(
-            MenuViewItem(
-                text = context.getString(R.string.add_shopping_list),
-                task = {showListAddDialog()}
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.add_shopping_list),
+                    task = { showListAddDialog() }
+                )
             )
-        )
-        menuView.add(
-            MenuViewItem(
-                text = context.getString(R.string.pending_sl_share_requests),
-                task = { runWithActivity { NetworkMonitor.runWithNetwork(it){it.startActivity(ActivityShoppingListShareRequests::class.java) }}}
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.pending_sl_share_requests),
+                    task = {
+                        runWithActivity {
+                            NetworkMonitor.runWithNetwork(it) {
+                                it.startActivity(
+                                    ActivityShoppingListShareRequests::class.java
+                                )
+                            }
+                        }
+                    }
+                )
             )
-        )
-        return menuView
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.color_code),
+                    task = {showBgColorCodeScreen()}
+                )
+            )
+        }
+    }
+
+    private fun showBgColorCodeScreen() {
+        runWithContext {
+            val view = LayoutInflater.from(it).inflate(R.layout.view_sl_bg_color_code,null,false)
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                view = view,
+                positiveButtonText = "",
+                negetiveButtonText = ""
+            ))
+        }
     }
 }
