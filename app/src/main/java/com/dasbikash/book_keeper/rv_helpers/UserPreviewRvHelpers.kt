@@ -27,7 +27,8 @@ object UserDiffCallback: DiffUtil.ItemCallback<User>(){
     }
 }
 
-class SearchedUserAdapter(private val addUserAction:((User)->Unit)?=null):ListAdapter<User, SearchedUserPreviewHolder>(UserDiffCallback) {
+class SearchedUserAdapter(private val addUserAction:(User)->Unit,
+                          private val showFullProfileImage:(User)->Unit):ListAdapter<User, SearchedUserPreviewHolder>(UserDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchedUserPreviewHolder {
         return SearchedUserPreviewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -39,21 +40,27 @@ class SearchedUserAdapter(private val addUserAction:((User)->Unit)?=null):ListAd
     override fun onBindViewHolder(holder: SearchedUserPreviewHolder, position: Int) {
         val user = getItem(position)!!
         holder.bind(user)
-        addUserAction?.apply {
+        addUserAction.apply {
             holder
                 .iv_add_user
                 .setOnClickListener {
                     runOnMainThread({this.invoke(user)})
                 }
         }
+        holder
+            .iv_user_image
+            .setOnClickListener {
+                showFullProfileImage(user)
+            }
     }
 }
 
 abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val iv_user_image:ImageView = itemView.findViewById(R.id.iv_user_image)
+    val iv_user_image:ImageView = itemView.findViewById(R.id.iv_user_image)
     private val tv_user_display_name: TextView = itemView.findViewById(R.id.tv_user_display_name)
     private val tv_user_email:TextView = itemView.findViewById(R.id.tv_user_email)
     private val tv_user_phone:TextView = itemView.findViewById(R.id.tv_user_phone)
+    val user_details_holder:ViewGroup = itemView.findViewById(R.id.user_details_holder)
 
     @CallSuper
     open fun bind(user: User) {
@@ -84,7 +91,7 @@ abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemV
                     ImageRepo
                         .downloadImageFile(
                             itemView.context, it,doOnDownload = {
-                                ImageUtils.displayImageFile(iv_user_image, it)
+                                iv_user_image?.apply { ImageUtils.displayImageFile(this, it)}
                             }
                         )
                 }else{
@@ -99,7 +106,8 @@ class SearchedUserPreviewHolder(itemView: View) : UserPreviewHolder(itemView) {
     val iv_add_user:ImageView = itemView.findViewById(R.id.iv_add_user)
 }
 
-class ConnectionUserAdapter(private val getOptionsMenu:(Context,User)->MenuView):ListAdapter<User, ConnectionUserPreviewHolder>(UserDiffCallback) {
+class ConnectionUserAdapter(private val getOptionsMenu:(Context,User)->MenuView,
+                            private val showFullProfileImage:(User)->Unit):ListAdapter<User, ConnectionUserPreviewHolder>(UserDiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConnectionUserPreviewHolder {
         return ConnectionUserPreviewHolder(
@@ -113,9 +121,14 @@ class ConnectionUserAdapter(private val getOptionsMenu:(Context,User)->MenuView)
         val user = getItem(position)!!
         holder.bind(user)
         holder
-            .itemView
+            .user_details_holder
             .setOnClickListener {
                 holder.getOptionsMenu(holder.itemView.context,user).show(holder.itemView.context)
+            }
+        holder
+            .iv_user_image
+            .setOnClickListener {
+                showFullProfileImage(user)
             }
     }
 }

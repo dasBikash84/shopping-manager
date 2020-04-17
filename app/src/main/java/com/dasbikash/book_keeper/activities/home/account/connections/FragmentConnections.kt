@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
+import com.dasbikash.android_image_utils.displayImageFile
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
@@ -20,6 +21,7 @@ import com.dasbikash.book_keeper.rv_helpers.SearchedUserAdapter
 import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
+import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.menu_view.MenuView
@@ -34,10 +36,10 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
-    private val userSearchReasultAdapter = SearchedUserAdapter({addUserAction(it)})
-    private val connectedUserAdapter = ConnectionUserAdapter({context, user ->  getMenuViewForConnectedUsers(context, user)})
-    private val connectionPendingFromMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingFromMeUsers(context, user)})
-    private val connectionPendingToMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingToMeUsers(context, user)})
+    private val userSearchReasultAdapter = SearchedUserAdapter({addUserAction(it)},{displayProfilePicFull(it)})
+    private val connectedUserAdapter = ConnectionUserAdapter({context, user ->  getMenuViewForConnectedUsers(context, user)},{displayProfilePicFull(it)})
+    private val connectionPendingFromMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingFromMeUsers(context, user)},{displayProfilePicFull(it)})
+    private val connectionPendingToMeUserAdapter = ConnectionUserAdapter({ context, user ->  getMenuViewForConnectionPendingToMeUsers(context, user)},{displayProfilePicFull(it)})
     private lateinit var viewModel: ViewModelConnections
 
     private fun addUserAction(user: User) {
@@ -221,10 +223,14 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                         runWithContext {
                             lifecycleScope.launch {
                                 connectionRequests.map {
-                                    AuthRepo.findUserById(context!!,it.requesterUserId!!)!!
+                                    AuthRepo.findUserById(context!!,it.requesterUserId!!)
                                 }.let {
-                                    connectionPendingToMeUserAdapter.submitList(it)
-                                    request_pending_to_me_user_list_holder.show()
+                                    it.filter { it!=null }.map { it!! }.let {
+                                        if (it.isNotEmpty()) {
+                                            connectionPendingToMeUserAdapter.submitList(it)
+                                            request_pending_to_me_user_list_holder.show()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -244,10 +250,14 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                         runWithContext {
                             lifecycleScope.launch {
                                 connectionRequests.map {
-                                    AuthRepo.findUserById(context!!,it.partnerUserId!!)!!
+                                    AuthRepo.findUserById(context!!,it.partnerUserId!!)
                                 }.let {
-                                    connectionPendingFromMeUserAdapter.submitList(it)
-                                    request_pending_from_me_user_list_holder.show()
+                                    it.filter { it!=null }.map { it!! }.let {
+                                        if (it.isNotEmpty()) {
+                                            connectionPendingFromMeUserAdapter.submitList(it)
+                                            request_pending_from_me_user_list_holder.show()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -267,10 +277,14 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                         runWithContext {
                             lifecycleScope.launch {
                                 connectionRequests.map {
-                                    AuthRepo.findUserById(context!!,if (it.requesterUserId==AuthRepo.getUserId()) {it.partnerUserId!!} else {it.requesterUserId!!})!!
+                                    AuthRepo.findUserById(context!!,if (it.requesterUserId==AuthRepo.getUserId()) {it.partnerUserId!!} else {it.requesterUserId!!})
                                 }.let {
-                                    connectedUserAdapter.submitList(it)
-                                    connected_user_list_holder.show()
+                                    it.filter { it!=null }.map { it!! }.let {
+                                        if (it.isNotEmpty()) {
+                                            connectedUserAdapter.submitList(it)
+                                            connected_user_list_holder.show()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -280,6 +294,26 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                 }
             }
         })
+
+        btn_close_profile_pic_full.setOnClickListener { profile_pic_full_holder.hide() }
+        profile_pic_full_holder.setOnClickListener {  }
+    }
+
+    private fun displayProfilePicFull(user: User){
+        runWithContext {
+            NetworkMonitor.runWithNetwork(it) {
+                user.photoUrl?.apply {
+                    showWaitScreen()
+                    ImageRepo
+                        .downloadImageFile(it, this, doOnDownload = {
+                            iv_profile_pic_full?.displayImageFile(it)
+                            profile_pic_full_holder?.bringToFront()
+                            profile_pic_full_holder?.show()
+                            wait_screen?.hide()
+                        }, doOnError = { wait_screen?.hide() })
+                }
+            }
+        }
     }
 
     override fun onResume() {
