@@ -33,13 +33,15 @@ class StringListAdapter(private val bindTask:(View,String)->Unit,
     }
 
     override fun onBindViewHolder(holder: StringHolder, position: Int) {
-        val item = getItem(position)
-        textClickAction?.apply {
-            holder.itemView.setOnClickListener {
-                this.invoke(item)
+        getItem(position)?.let {
+            val item = it
+            textClickAction?.apply {
+                holder.itemView.setOnClickListener {
+                    this.invoke(item)
+                }
             }
+            bindTask(holder.itemView, item)
         }
-        bindTask(holder.itemView,item)
     }
 }
 

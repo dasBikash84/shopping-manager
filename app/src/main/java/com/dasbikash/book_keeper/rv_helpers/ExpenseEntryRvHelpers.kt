@@ -42,12 +42,13 @@ class ExpenseEntryAdapter(val launchDetailView:(ExpenseEntry)->Unit,
     }
 
     override fun onBindViewHolder(holder: ExpenseEntryHolder, position: Int) {
-        val expenseEntry = getItem(position)!!
-        holder.bind(expenseEntry)
-        if (position == itemCount+LOAD_REQUEST_POSITION){
-            doOnBottomBind()
+        getItem(position)?.apply {
+            holder.bind(this)
+            if (position == itemCount + LOAD_REQUEST_POSITION) {
+                doOnBottomBind()
+            }
+            holder.itemView.setOnClickListener { launchDetailView(this) }
         }
-        holder.itemView.setOnClickListener { launchDetailView(expenseEntry) }
     }
 
     companion object{

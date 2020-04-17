@@ -375,13 +375,15 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     }
 
     private fun addToProductImages(file: File) {
-        showWaitScreen()
-        lifecycleScope.launch(Dispatchers.IO) {
-            ImageRepo.uploadProductImage(context!!,file).let {
-                runOnMainThread({
-                    viewModel.addProductImage(it)
-                    hideWaitScreen()
-                })
+        runWithContext {
+            showWaitScreen()
+            lifecycleScope.launch(Dispatchers.IO) {
+                ImageRepo.uploadProductImage(it, file)?.let {
+                    runOnMainThread({
+                        viewModel.addProductImage(it)
+                        wait_screen?.hide()
+                    })
+                }
             }
         }
     }

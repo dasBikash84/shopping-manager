@@ -32,7 +32,7 @@ class ExpenseItemAdapter(val optionsClickAction:((ExpenseItem)->Unit)?=null) :
     }
 
     override fun onBindViewHolder(holder: ExpenseItemHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        getItem(position)?.let { holder.bind(it)}
     }
 }
 

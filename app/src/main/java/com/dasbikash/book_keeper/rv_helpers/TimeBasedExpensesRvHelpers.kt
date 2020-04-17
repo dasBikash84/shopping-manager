@@ -49,7 +49,7 @@ class TimeBasedExpenseEntryGroupAdapter(
     }
 
     override fun onBindViewHolder(holder: TimeBasedExpenseEntryGroupHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        getItem(position)?.apply { holder.bind(this)}
     }
 }
 

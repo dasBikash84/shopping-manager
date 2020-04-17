@@ -34,18 +34,20 @@ object ImageRepo:BookKeeperRepo() {
         }
     }
 
-    suspend fun uploadProductImage(context: Context,image: File):String {
-        ImageUtils.getBitmapFromFileSuspended(image)!!.let {
+    suspend fun uploadProductImage(context: Context,image: File):String? {
+        ImageUtils.getBitmapFromFileSuspended(image)?.let {
             return uploadImage(context,it.scaled())
         }
+        return null
     }
 
-    suspend fun uploadProfilePicture(context: Context,image: File):Pair<String,String> {
-        ImageUtils.getBitmapFromFileSuspended(image)!!.let {
+    suspend fun uploadProfilePicture(context: Context,image: File):Pair<String,String>? {
+        ImageUtils.getBitmapFromFileSuspended(image)?.let {
             val mainUrl = uploadImage(context,it.scaled(384.00f),false)
             val thumbUrl = uploadImage(context,it.scaled(96.00f),false)
             return Pair(mainUrl,thumbUrl)
         }
+        return null
     }
 
     private suspend fun uploadImage(context: Context, imageBitmap: Bitmap,

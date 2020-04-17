@@ -279,7 +279,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
     private fun setUserImages(file: File) {
         runWithContext {
             lifecycleScope.launch(Dispatchers.IO) {
-                ImageRepo.uploadProfilePicture(it,file).let {
+                ImageRepo.uploadProfilePicture(it,file)?.let {
                     profilePictureEditTask(it)
                 }
             }

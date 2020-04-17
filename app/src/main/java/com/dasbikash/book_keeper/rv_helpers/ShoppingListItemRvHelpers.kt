@@ -40,9 +40,10 @@ class ShoppingListItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ShoppingListItemHolder, position: Int) {
-        val shoppingList = getItem(position)!!
-        holder.bind(shoppingList)
-        holder.itemView.setOnClickListener { launchDetailView(shoppingList) }
+        getItem(position)?.apply {
+            holder.bind(this)
+            holder.itemView.setOnClickListener { launchDetailView(this) }
+        }
     }
 }
 

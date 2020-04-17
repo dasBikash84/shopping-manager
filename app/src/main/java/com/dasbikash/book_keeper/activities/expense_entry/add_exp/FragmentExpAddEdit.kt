@@ -353,7 +353,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 getExpenseEntry()?.let {
                     expenseEntry = it
                     debugLog(it)
-                    setTime(it.time!!)
+                    it.time?.let { setTime(it)}
                     et_description.setText(it.details)
                     et_vat_ait.setText(it.taxVat.toString())
                     if (!it.expenseItems.isNullOrEmpty()) {

@@ -38,20 +38,19 @@ class SearchedUserAdapter(private val addUserAction:(User)->Unit,
     }
 
     override fun onBindViewHolder(holder: SearchedUserPreviewHolder, position: Int) {
-        val user = getItem(position)!!
-        holder.bind(user)
-        addUserAction.apply {
+        getItem(position).apply {
+            holder.bind(this)
             holder
                 .iv_add_user
                 .setOnClickListener {
-                    runOnMainThread({this.invoke(user)})
+                    runOnMainThread({ addUserAction.invoke(this) })
+                }
+            holder
+                .iv_user_image
+                .setOnClickListener {
+                    showFullProfileImage(this)
                 }
         }
-        holder
-            .iv_user_image
-            .setOnClickListener {
-                showFullProfileImage(user)
-            }
     }
 }
 
@@ -118,18 +117,20 @@ class ConnectionUserAdapter(private val getOptionsMenu:(Context,User)->MenuView,
     }
 
     override fun onBindViewHolder(holder: ConnectionUserPreviewHolder, position: Int) {
-        val user = getItem(position)!!
-        holder.bind(user)
-        holder
-            .user_details_holder
-            .setOnClickListener {
-                holder.getOptionsMenu(holder.itemView.context,user).show(holder.itemView.context)
-            }
-        holder
-            .iv_user_image
-            .setOnClickListener {
-                showFullProfileImage(user)
-            }
+        getItem(position)?.apply {
+            holder.bind(this)
+            holder
+                .user_details_holder
+                .setOnClickListener {
+                    holder.getOptionsMenu(holder.itemView.context, this)
+                        .show(holder.itemView.context)
+                }
+            holder
+                .iv_user_image
+                .setOnClickListener {
+                    showFullProfileImage(this)
+                }
+        }
     }
 }
 
@@ -157,13 +158,14 @@ class ConnectionUserPreviewForSlSendAdapter(private val sendSlTask:(User)->Unit)
     }
 
     override fun onBindViewHolder(holder: ConnectionUserPreviewForSlSendHolder, position: Int) {
-        val user = getItem(position)!!
-        holder.bind(user)
-        holder
-            .itemView
-            .setOnClickListener {
-                sendSlTask(user)
-            }
+        getItem(position)?.apply {
+            holder.bind(this)
+            holder
+                .itemView
+                .setOnClickListener {
+                    sendSlTask(this)
+                }
+        }
     }
 }
 class ConnectionUserPreviewForSlSendHolder(itemView: View) : UserPreviewHolder(itemView) {
@@ -194,7 +196,6 @@ class ConnectionUserPreviewForDisplayAdapter()
     }
 
     override fun onBindViewHolder(holder: ConnectionUserPreviewForDisplay, position: Int) {
-        val user = getItem(position)!!
-        holder.bind(user)
+        getItem(position)?.let { holder.bind(it)}
     }
 }

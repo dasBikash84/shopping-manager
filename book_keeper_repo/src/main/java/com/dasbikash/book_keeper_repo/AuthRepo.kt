@@ -200,53 +200,50 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     suspend fun updateUserEmail(context: Context, inputEmail: String) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.email = inputEmail
             updateUser(it, context)
         }
     }
 
     suspend fun updateUserLanguage(context: Context, language: SupportedLanguage) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.language = language
             updateUser(it, context)
         }
     }
 
     suspend fun updatePhone(context: Context, inputPhone: String) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.phone = inputPhone
             updateUser(it, context)
         }
     }
 
     suspend fun updateFirstName(context: Context, inputFirstName: String) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.firstName = inputFirstName
             updateUser(it, context)
         }
     }
 
     suspend fun updateLastName(context: Context, inputLastName: String) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.lastName = inputLastName
             updateUser(it, context)
         }
     }
 
     suspend fun refreshUserData(context: Context) {
-        FirebaseUserService.getUpdatedUserInfo(getUser(context)!!).let {
-            if (it != null) {
-                getUserDao(context).add(it)
-                debugLog("Updated: $it")
-            } else {
-                debugLog("No user data update.")
+        getUser(context)?.let {
+            FirebaseUserService.getUpdatedUserInfo(it)?.let {
+                    getUserDao(context).add(it)
             }
         }
     }
 
     suspend fun profilePictureEditTask(context: Context, imageUrls: Pair<String, String>) {
-        getUser(context)!!.let {
+        getUser(context)?.let {
             it.photoUrl = imageUrls.first
             it.thumbPhotoUrl = imageUrls.second
             updateUser(it, context)

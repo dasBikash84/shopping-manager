@@ -24,16 +24,19 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     suspend fun save(context: Context, shoppingListItem: ShoppingListItem) {
-        val shoppingList = getShoppingListDao(context).findById(shoppingListItem.shoppingListId!!)!!
-        val itemIds = mutableListOf<String>()
-        shoppingList.shoppingListItemIds?.let { itemIds.addAll(it) }
-        if (!itemIds.contains(shoppingListItem.id)) {
-            itemIds.add(shoppingListItem.id)
+        shoppingListItem.shoppingListId?.let {
+            getShoppingListDao(context).findById(it)?.let {
+                val itemIds = mutableListOf<String>()
+                it.shoppingListItemIds?.let { itemIds.addAll(it) }
+                if (!itemIds.contains(shoppingListItem.id)) {
+                    itemIds.add(shoppingListItem.id)
+                }
+                it.shoppingListItemIds = itemIds.toList()
+                shoppingListItem.updateModified()
+                saveLocal(context, shoppingListItem)
+                save(context, it)
+            }
         }
-        shoppingList.shoppingListItemIds = itemIds.toList()
-        shoppingListItem.updateModified()
-        saveLocal(context, shoppingListItem)
-        save(context, shoppingList)
     }
 
     suspend fun saveLocal(context: Context, shoppingList: ShoppingList) {

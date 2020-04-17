@@ -33,7 +33,7 @@ class CalculatorHistoryAdapter() :
     }
 
     override fun onBindViewHolder(holder: CalculatorHistoryHolder, position: Int) {
-        holder.bind(getItem(position)!!)
+        getItem(position)?.let { holder.bind(it)}
     }
 }
 
