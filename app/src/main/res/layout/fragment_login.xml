@@ -187,7 +187,7 @@
         android:layout_margin="8dp"
         android:text="@string/sign_up_button"
         android:visibility="visible"
-        app:layout_constraintTop_toBottomOf="@id/btn_send_code" />
+        app:layout_constraintTop_toBottomOf="@id/btn_guest_login" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_guest_login"
@@ -198,7 +198,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/guest_login_button"
-        app:layout_constraintTop_toBottomOf="@id/btn_sign_up"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_send_code"
+        android:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

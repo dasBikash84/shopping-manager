@@ -19,8 +19,8 @@ object ExpenseRepo:BookKeeperRepo() {
     private fun getExpenseEntryDao(context: Context) = getDatabase(context).expenseEntryDao
 
     suspend fun saveExpenseEntry(context: Context,expenseEntry: ExpenseEntry):Boolean{
-        AuthRepo.getUser(context)?.let {
-            expenseEntry.userId = it.id
+        if (AuthRepo.checkLogIn()){
+            expenseEntry.userId = AuthRepo.getUserId()
             FireStoreExpenseEntryService.saveExpenseEntry(expenseEntry)
         }
         getExpenseEntryDao(context).add(expenseEntry)
@@ -88,7 +88,7 @@ object ExpenseRepo:BookKeeperRepo() {
 
     private suspend fun getExpenseDates(context: Context): List<Date> {
         return if (AuthRepo.checkLogIn()) {
-            getExpenseEntryDao(context).getDates(AuthRepo.getUser(context)!!.id)
+            getExpenseEntryDao(context).getDates(AuthRepo.getUserId())
         } else {
             getExpenseEntryDao(context).getDates()
         }
@@ -103,21 +103,21 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     private suspend fun getTotalExpense(context: Context,startTime: Date, endTime: Date): Double {
-        return AuthRepo.getUser(context).let {
-            if (it==null){
+        return AuthRepo.getUserId().let {
+            if (it.isBlank()){
                 getExpenseEntryDao(context).getTotalExpense(startTime.time,endTime.time)
             }else{
-                getExpenseEntryDao(context).getTotalExpense(it.id,startTime.time,endTime.time)
+                getExpenseEntryDao(context).getTotalExpense(it.trim(),startTime.time,endTime.time)
             }
         }
     }
 
     private suspend fun getExpenseEntryIds(context: Context,startTime: Date, endTime: Date): List<String> {
-        return AuthRepo.getUser(context).let {
-            if (it==null){
+        return AuthRepo.getUserId().let {
+            if (it.isBlank()){
                 getExpenseEntryDao(context).getExpenseEntryIds(startTime.time,endTime.time)
             }else{
-                getExpenseEntryDao(context).getExpenseEntryIds(it.id,startTime.time,endTime.time)
+                getExpenseEntryDao(context).getExpenseEntryIds(it.trim(),startTime.time,endTime.time)
             }
         }
     }

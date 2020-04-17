@@ -51,7 +51,7 @@ class ActivityHome : ActivityTemplate() {
                     true
                 }
                 R.id.bmi_account -> {
-                    loadFragmentIfNotLoadedAlready(FragmentAccount::class.java)
+                    loadFragmentIfLoggedIn(FragmentAccount::class.java)
                     true
                 }
                 else -> false
@@ -64,8 +64,6 @@ class ActivityHome : ActivityTemplate() {
         btn_add_exp_entry.setOnClickListener {
             startActivity(ActivityExpenseEntry.getAddIntent(this))
         }
-
-        bottom_Navigation_View.menu.findItem(R.id.bmi_account).isVisible = AuthRepo.checkLogIn()
     }
 
     private fun dataSyncTask(){
@@ -139,7 +137,7 @@ class ActivityHome : ActivityTemplate() {
     }
 
     private fun getWaitForVerificationFragment():FragmentWaitForVerification?{
-        if (!AuthRepo.isVerified()){
+        if (AuthRepo.checkLogIn() && !AuthRepo.isVerified()){
             return FragmentWaitForVerification()
         }
         return null
