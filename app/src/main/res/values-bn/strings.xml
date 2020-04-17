@@ -200,7 +200,7 @@
     <string name="deadline_first_message">অনুগ্রহ করে প্রথমে সর্বশেষ সময়সীমা সেট করুন।</string>
     <string name="disable_deadline">সর্বশেষ সময়সীমা তুলে দিন</string>
     <string name="disable_deadline_prompt">সর্বশেষ সময়সীমা তুলে দেবেন?</string>
-    <string name="shopping_list_items_title">বাজারের ফর্দের পণ্যসমুহঃ</string>
+    <string name="shopping_list_items_title">বাজারের ফর্দের পণ্যসমূহঃ</string>
     <string name="shopping_reminder">বাজারের রিমাইন্ডার!!</string>
     <string name="shopping_reminder_content">%1$s বাজারের ফর্দের জন্য</string>
     <string name="offline_share_text">QR কোড দিয়ে অফ-লাইনে শেয়ার করুন</string>
@@ -241,9 +241,9 @@
     <string name="no_pending_list_message">কোন অপেক্ষামান কানেকশানের অনুরোধ পাওয়া যায়নি</string>
     <string name="connections_text">সংযোগ-সমূহ</string>
     <string name="connection_requests_text">সংযোগের অনুরোধসমূহ</string>
-    <string name="connected_users_title">সংযুক্ত ইউজারসমুহঃ</string>
-    <string name="request_pending_from_me_title">আমার পাঠানো অপেক্ষামান অনুরোধসমুহঃ</string>
-    <string name="request_pending_to_me_title">আমাকে পাঠানো অপেক্ষামান অনুরোধসমুহঃ</string>
+    <string name="connected_users_title">সংযুক্ত ইউজারসমূহঃ</string>
+    <string name="request_pending_from_me_title">আমার পাঠানো অপেক্ষামান অনুরোধসমূহঃ</string>
+    <string name="request_pending_to_me_title">আমাকে পাঠানো অপেক্ষামান অনুরোধসমূহঃ</string>
     <string name="delete_con_request">অনুরোধটি মুছুন</string>
     <string name="delete_user">সংযোগটি মুছুন</string>
     <string name="send_shopping_list">সংযুক্ত ইউজারকে পাঠান</string>
@@ -275,4 +275,7 @@
     <string name="save_copied_sl">বাজারের ফর্দ অনুলিপির জন্য নাম প্রদান করুনঃ</string>
     <string name="language_prompt">ভাষা</string>
     <string name="change_language_prompt">ভাষা পরিবর্তন করে \"%1$s\" করবেন?</string>
+    <string name="change_image_prompt">ছবি পরিবর্তন</string>
+    <string name="no_new_user_found">কোন নতুন ইউজার খুঁজে পাওয়া যায়নি!!</string>
+    <string name="show_full_profile_pic_prompt">ছবি বড় করে দেখুন</string>
 </resources>
