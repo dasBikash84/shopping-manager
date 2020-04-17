@@ -14,7 +14,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.*
+import com.dasbikash.android_extensions.hide
+import com.dasbikash.android_extensions.runWithActivity
+import com.dasbikash.android_extensions.runWithContext
+import com.dasbikash.android_extensions.show
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
@@ -221,10 +224,6 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         setCategorySpinnerItems()
         all_exp_scroller.show()
         rv_time_wise_exp_holder.hide()
-
-        sr_page_holder.setOnRefreshListener {
-            syncExpData()
-        }
     }
 
     override fun onResume() {
@@ -237,13 +236,6 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     ExpenseRepo.syncData(it)
-                    runOnMainThread({
-                        sr_page_holder?.isRefreshing = false
-                    })
-                }
-            }.let {
-                if (!it) {
-                    sr_page_holder?.isRefreshing = false
                 }
             }
         }
