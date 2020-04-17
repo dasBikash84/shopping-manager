@@ -331,10 +331,16 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                     }
                 )
             )
-            add(
+            /*add(
                 MenuViewItem(
                     text = context.getString(R.string.add_shopping_list),
                     task = { showListAddDialog() }
+                )
+            )*/
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.color_code),
+                    task = {showBgColorCodeScreen()}
                 )
             )
             add(
@@ -349,12 +355,6 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                             }
                         }
                     }
-                )
-            )
-            add(
-                MenuViewItem(
-                    text = context.getString(R.string.color_code),
-                    task = {showBgColorCodeScreen()}
                 )
             )
         }

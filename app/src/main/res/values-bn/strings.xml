@@ -207,7 +207,7 @@
     <string name="online_share_text">QR কোড দিয়ে অনলাইনে শেয়ার করুন</string>
     <string name="offline_share_page_title">বাজারের ফর্দটি অফ-লাইনে শেয়ার করুন</string>
     <string name="online_share_page_title">বাজারের ফর্দটি অনলাইনে শেয়ার করুন</string>
-    <string name="share_online_instead_offline">%1$s বাজারের ফর্দটি খুব লম্বা হওয়ায় অফ-লাইনে শেয়ার করা  সম্ভব নয়। তার পরিবর্তে অনলাইনে শেয়ার করবেন?</string>
+    <string name="share_online_instead_offline">\"%1$s\" বাজারের ফর্দটি খুব বড় হওয়ায় অফ-লাইনে শেয়ার করা  সম্ভব নয়। তার পরিবর্তে অনলাইনে শেয়ার করবেন?</string>
     <string name="done">করা হয়েছে</string>
     <string name="done_prompt">করা হয়েছে?</string>
     <string name="shopping_list_import_title">QR কোড স্ক্যান করে বাজারের ফর্দ আমদানি করুন</string>
@@ -238,7 +238,7 @@
     <string name="email_prompt">ইমেইল করুন</string>
     <string name="email_sub">\"হিসাবরক্ষক\" সম্পর্কে</string>
     <string name="invalid_user_search_string">" দয়া করে সঠিক ইমেইল/ফোন নম্বর দিন"</string>
-    <string name="no_pending_list_message">কোন অপেক্ষামান কানেকশানের অনুরোধ পাওয়া যায়নি</string>
+    <string name="no_pending_list_message">কোন অপেক্ষামান অনুরোধ পাওয়া যায়নি</string>
     <string name="connections_text">সংযোগ-সমূহ</string>
     <string name="connection_requests_text">সংযোগের অনুরোধসমূহ</string>
     <string name="connected_users_title">সংযুক্ত ইউজারসমূহঃ</string>
