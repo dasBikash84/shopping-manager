@@ -41,7 +41,7 @@ data class ShoppingListItem(
     fun updateModified(){this.modified = Date()}
 
     fun toExpenseEntry(user: User):ExpenseEntry{
-        val expenseEntry = ExpenseEntry(userId = user.id,categoryId = categoryId,details = details,time = Date())
+        val expenseEntry = ExpenseEntry(userId = user.id,categoryId = categoryId,details = details ?: name,time = Date())
         val expenseItem = ExpenseItem(name=name,unitPrice = minUnitPrice ?: maxUnitPrice ?: 0.0,qty = qty,uom = uom)
         expenseEntry.expenseItems = listOf(expenseItem)
         return expenseEntry

@@ -395,15 +395,18 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     }
 
     private suspend fun getExpenseEntry():ExpenseEntry?{
+        if (context==null){return null}
         arguments?.getString(ARG_EXP_ENTRY_ID)?.let {
             val id = it
             return ExpenseRepo.getExpenseEntryById(context!!,id)
         }
         arguments?.getString(ARG_SHOPPING_LIST_ITEM_ID)?.let {
-            shoppingListItem = ShoppingListRepo.findShoppingListItemById(context!!,it)!!
-            return shoppingListItem!!.toExpenseEntry(
-                        AuthRepo.getUser(context!!)!!
-                    )
+            return ShoppingListRepo.findShoppingListItemById(context!!,it)?.let {
+                shoppingListItem = it
+                AuthRepo.getUser(context!!)?.let {
+                    shoppingListItem?.toExpenseEntry(it)
+                }
+            }
         }
         return null
     }
