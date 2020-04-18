@@ -37,7 +37,7 @@ internal interface ExpenseEntryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addAll(expenseEntries: List<ExpenseEntry>)
 
-    @Query("DELETE FROM ExpenseEntry")
+    @Query("DELETE FROM ExpenseEntry where userId IS NOT NULL")
     suspend fun nukeTable()
 
     @Delete

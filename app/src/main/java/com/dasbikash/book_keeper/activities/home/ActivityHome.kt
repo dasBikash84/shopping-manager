@@ -3,7 +3,6 @@ package com.dasbikash.book_keeper.activities.home
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
@@ -99,8 +98,8 @@ class ActivityHome : ActivityTemplate() {
 
                         val dialogView = LayoutInflater.from(this@ActivityHome).inflate(R.layout.view_guest_entry_import_dialog,null,false)
                         val checkBox = dialogView.findViewById<CheckBox>(R.id.cb_never_show)
-                        val btn_delete_guest_exp_entry = dialogView.findViewById<Button>(R.id.btn_delete_guest_exp_entry)
-                        val btn_launch_import_window = dialogView.findViewById<Button>(R.id.btn_launch_import_window)
+                        val btnCancel = dialogView.findViewById<Button>(R.id.btn_launch_import_cancel)
+                        val btnLaunchImportWindow = dialogView.findViewById<Button>(R.id.btn_launch_import_window)
 
                         checkBox.setOnCheckedChangeListener({ buttonView, isChecked ->
                             if (isChecked) {
@@ -119,16 +118,11 @@ class ActivityHome : ActivityTemplate() {
                             )
                         )
 
-                        btn_delete_guest_exp_entry.setOnClickListener {
+                        btnCancel.setOnClickListener {
                             dialog.dismiss()
-                            guestEntries.asSequence().forEach {
-                                lifecycleScope.launch {
-                                    ExpenseRepo.delete(this@ActivityHome, it)
-                                }
-                            }
                         }
 
-                        btn_launch_import_window.setOnClickListener {
+                        btnLaunchImportWindow.setOnClickListener {
                             dialog.dismiss()
                             addFragment(FragmentHandleGuestData())
                         }

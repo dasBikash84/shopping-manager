@@ -14,6 +14,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.GuestExpEntryRemoveCallback
 import com.dasbikash.book_keeper.rv_helpers.GuestExpenseEntryAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.BookKeeperRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import kotlinx.android.synthetic.main.fragment_handle_guest_data.*
@@ -72,17 +73,13 @@ class FragmentHandleGuestData : FragmentTemplate() {
     private fun saveAndExitTask() {
         runWithContext {
             lifecycleScope.launch {
-                val entriesForSave = guestExpenseEntryAdapter.currentList
-                guestEntries
-                    .filter { !entriesForSave.contains(it) }
+                guestExpenseEntryAdapter.currentList
                     .asSequence()
                     .forEach {
-                        ExpenseRepo.delete(context!!, it)
-                    }
-                entriesForSave.asSequence().forEach {
-                    it.userId = AuthRepo.getUserId()
-                    ExpenseRepo.saveExpenseEntry(context!!,it)
+                        it.userId = AuthRepo.getUserId()
+                        ExpenseRepo.saveExpenseEntry(context!!,it)
                 }
+                BookKeeperRepo.disableGuestDataImport(it)
                 exitPromptText = null
                 activity?.onBackPressed()
             }

@@ -25,11 +25,11 @@
         android:layout_height="wrap_content"
         android:gravity="center">
         <Button
-            android:id="@+id/btn_delete_guest_exp_entry"
+            android:id="@+id/btn_launch_import_cancel"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_guest_exp_entry"
+            android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/color_navy_blue"
             android:textStyle="normal"

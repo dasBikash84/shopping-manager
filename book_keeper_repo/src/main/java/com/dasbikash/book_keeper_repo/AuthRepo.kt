@@ -142,7 +142,7 @@ object AuthRepo : BookKeeperRepo() {
 
     fun signOut(context: Context) {
         GlobalScope.launch {
-            getDatabase(context).clearAllTables()
+            getDatabase(context).clearData()
             enableGuestDataImport(context)
         }
         FirebaseAuthService.signOut()

@@ -30,4 +30,7 @@ internal interface ShoppingListItemDao {
 
     @Delete
     suspend fun delete(shoppingListItem: ShoppingListItem)
+
+    @Query("DELETE FROM ShoppingListItem")
+    suspend fun nukeTable()
 }

@@ -30,4 +30,7 @@ internal interface RemoteImageInfoDao {
 
     @Query("SELECT * FROM RemoteImageInfo WHERE remotePath is NULL AND (~uploadRunning OR modified< :minModified)")
     suspend fun getAllPendingUploadInfo(minModified:Long):List<RemoteImageInfo>
+
+    @Query("DELETE FROM RemoteImageInfo")
+    suspend fun nukeTable()
 }

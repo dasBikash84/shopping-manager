@@ -49,4 +49,7 @@ internal interface ShoppingListDao {
 
     @Query("SELECT * FROM ShoppingList where deadLine is NOT NULL and countDownTime is NOT NULL AND active")
     suspend fun findAllWithReminder(): List<ShoppingList>
+
+    @Query("DELETE FROM ShoppingList")
+    suspend fun nukeTable()
 }

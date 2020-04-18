@@ -45,6 +45,17 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val onlineSlShareReqDao:OnlineSlShareReqDao
     abstract val connectionRequestDao:ConnectionRequestDao
 
+    //Clear all data keeping guest entries if any
+    suspend fun clearData(){
+        connectionRequestDao.nukeTable()
+        onlineSlShareReqDao.nukeTable()
+        slReminderGenLogDao.nukeTable()
+        shoppingListItemDao.nukeTable()
+        shoppingListDao.nukeTable()
+        expenseEntryDao.nukeTable()
+        userDao.nukeTable()
+    }
+
     companion object {
         private val DATABASE_NAME = "book_keeper_db"
         @Volatile

@@ -42,4 +42,7 @@ internal interface OnlineSlShareReqDao {
     @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
     fun getApprovalPendingEntries(ownerId:String = AuthRepo.getUserId(),
                                   approvalStatus:RequestApprovalStatus = RequestApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>
+
+    @Query("DELETE FROM OnlineSlShareReq")
+    suspend fun nukeTable()
 }

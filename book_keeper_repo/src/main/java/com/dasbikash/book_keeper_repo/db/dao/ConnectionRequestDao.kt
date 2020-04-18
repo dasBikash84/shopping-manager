@@ -40,6 +40,9 @@ internal interface ConnectionRequestDao {
     @Delete
     suspend fun delete(connectionRequest: ConnectionRequest)
 
+    @Query("DELETE FROM ConnectionRequest")
+    suspend fun nukeTable()
+
     @Query("SELECT * FROM ConnectionRequest WHERE id=:id  AND active")
     suspend fun findById(id: String): ConnectionRequest?
 

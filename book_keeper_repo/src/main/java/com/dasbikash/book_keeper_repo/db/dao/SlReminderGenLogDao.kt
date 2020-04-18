@@ -17,4 +17,7 @@ interface SlReminderGenLogDao {
 
     @Query("DELETE FROM SlReminderGenLog where shoppingListId=:shoppingListId")
     suspend fun deleteByShoppingListId(shoppingListId:String)
+
+    @Query("DELETE FROM SlReminderGenLog")
+    suspend fun nukeTable()
 }
