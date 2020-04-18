@@ -283,4 +283,13 @@
     <string name="sl_dl_today">কিছু পণ্য কেনা বাকি আছে, যেখানে সময়সীমা আজ এবং এখনও মেয়াদোত্তীর্ণ হয়নি।</string>
     <string name="sl_dl_active">কিছু পণ্য কেনা বাকি আছে এবং সময়সীমা এখনও উত্তীর্ণ হয়নি।</string>
     <string name="sl_dl_expired">কিছু পণ্য কেনা বাকি আছে এবং সময়সীমা উত্তীর্ণ হয়েছে।</string>
+    <string name="import_guest_data">গেস্ট ইউজারের ডাটা আমদানি</string>
+    <string name="price_hint">মূল্য*</string>
+    <string name="total_price_hint">মোট মূল্য*</string>
+    <string name="delete_guest_exp_entry">ডাটা মুছুন</string>
+    <string name="guest_data_import_prompt">গেস্ট ইউজারের সেভ করা খরচের তথ্য পাওয়া গেছে। আপনি কি তা নিজের নামে স্থানান্তর করতে চান?</string>
+    <string name="btn_reset">রিসেট করুন</string>
+    <string name="guest_data_save_exit_message">গেস্ট ইউজারের ডাটা আমদানি করতে এবং অতঃপর ফেরত যেতে চান?</string>
+    <string name="import_guest_data_exit_prompt">আপনি কি ফেরত যেতে চান? গেস্ট ইউজারের ডাটা পরবর্তীতে আমদানি করা যাবে।</string>
+    <string name="sync_later">পরবর্তীতে আমদানি করবেন</string>
 </resources>
