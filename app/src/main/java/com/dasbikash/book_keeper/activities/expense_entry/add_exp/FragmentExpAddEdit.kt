@@ -62,7 +62,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
 
     private fun updateTime() {
         tv_entry_add.text =
-            DateUtils.getTimeString(mEntryTime.time, getString(R.string.exp_entry_time_format))
+            DateUtils.getTimeString(mEntryTime.time, getString(R.string.exp_entry_time_format2))
                 .let {
                     return@let when (checkIfEnglishLanguageSelected()) {
                         true -> it
@@ -134,6 +134,31 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 item: String?
             ) {
                 viewModel?.setExpenseCategory(position)
+                hideKeyboard()
+            }
+        })
+
+        uom_selector.setOnItemSelectedListener(object :
+            MaterialSpinner.OnItemSelectedListener<String> {
+            override fun onItemSelected(
+                view: MaterialSpinner?,
+                position: Int,
+                id: Long,
+                item: String?
+            ) {
+                hideKeyboard()
+            }
+        })
+
+        price_input_process_selector.setOnItemSelectedListener(object :
+            MaterialSpinner.OnItemSelectedListener<String> {
+            override fun onItemSelected(
+                view: MaterialSpinner?,
+                position: Int,
+                id: Long,
+                item: String?
+            ) {
+                hideKeyboard()
             }
         })
 
@@ -210,34 +235,57 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         updateTime()
     }
 
+    private fun readUnitPrice():Double{
+        try {
+            return when {
+                price_input_process_selector.selectedIndex==0 -> et_product_price.text!!.toString().toDouble().get2DecPoints()
+                else -> (et_product_price.text!!.toString().toDouble()/readQuantity()).get2DecPoints()
+            }
+        }catch (ex:Throwable){
+            ex.printStackTrace()
+            return 0.0
+        }
+    }
+
+    private fun readQuantity():Double{
+        try {
+            return when{
+                et_quantity.text!!.isBlank() == true -> 0.0
+                else -> et_quantity.text!!.toString().toDouble().get2DecPoints()
+            }
+        }catch (ex:Throwable){
+            ex.printStackTrace()
+            return 0.0
+        }
+    }
+
     private fun addExpItem() {
         if (et_product_name.text.isNullOrBlank()) {
             et_product_name.error = getString(R.string.product_name_empty_error)
             return
         }
-        if (et_unit_price.text.isNullOrBlank() || et_unit_price.text.toString().toDouble() <= 0.0) {
-            et_unit_price.error = getString(R.string.unit_price_empty_error)
+        if (readQuantity() == 0.0) {
+            et_quantity.error = getString(R.string.quantity_empty_error)
             return
         }
-        if (et_quantity.text.isNullOrBlank() ||
-            et_quantity.text.toString().toDouble() <= 0.0
-        ) {
-            et_quantity.error = getString(R.string.quantity_empty_error)
+        if (readUnitPrice() == 0.0) {
+            et_product_price.error = getString(R.string.unit_price_empty_error)
             return
         }
         viewModel?.addExpenseItem(
             ExpenseItem(
                 name = et_product_name.text?.trim()?.toString(),
-                qty = et_quantity.text?.toString()?.toDouble()!!,
-                unitPrice = et_unit_price.text?.toString()?.toDouble()!!,
+                qty = readQuantity(),
+                unitPrice = readUnitPrice(),
                 brandName = et_brand_name.text?.toString(),
                 uom = getSelectedUom()
             )
         )
         et_product_name.setText("")
         et_brand_name.setText("")
-        et_unit_price.setText(getString(R.string.default_unit_price))
+        et_product_price.setText(getString(R.string.default_unit_price))
         et_quantity.setText(getString(R.string.default_qty))
+        price_input_process_selector.selectedIndex = 0
     }
 
     private fun calculateTotalExpense(vatTax:Double,expenseItems:List<ExpenseItem>){
@@ -259,9 +307,10 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         expenseItem.apply {
             et_product_name.setText(name ?: "")
             et_brand_name.setText(brandName ?: "")
-            et_unit_price.setText(unitPrice.toString())
+            et_product_price.setText(unitPrice.toString())
             et_quantity.setText(qty.toString())
             uom_selector.selectedIndex = uom
+            price_input_process_selector.selectedIndex = 0
         }
         removeExpenseItem(expenseItem)
     }
@@ -349,6 +398,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 spinner_category_selector.setItems(expenseCategories)
                 uoms.addAll(resources.getStringArray(R.array.uoms))
                 uom_selector.setItems(uoms)
+                price_input_process_selector.setItems(resources.getStringArray(R.array.price_input_process).toList())
 
                 getExpenseEntry()?.let {
                     expenseEntry = it
@@ -462,3 +512,5 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         }
     }
 }
+
+fun Double.get2DecPoints():Double = ((this*100).toInt()).toDouble()/100.00

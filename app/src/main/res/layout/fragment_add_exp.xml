@@ -176,114 +176,117 @@
                     android:text="@string/set_expense_manually" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.card.MaterialCardView
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/off_white"
-                android:padding="4dp">
+                android:layout_margin="4dp"
+                android:background="@drawable/exp_product_entry_bg"
+                android:orientation="vertical">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
                     android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/product_name_hint">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_product_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:lines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/brand_name_hint">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/et_brand_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="text"
+                            android:lines="1" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="vertical">
+                        android:gravity="start|center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
+                        android:weightSum="2">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
+                            android:id="@+id/et_unit_price_holder"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:hint="@string/product_name_hint">
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:hint="@string/price_hint">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_product_name"
+                                android:id="@+id/et_product_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:lines="1" />
+                                android:inputType="numberDecimal"
+                                android:maxLines="1"
+                                android:text="@string/default_unit_price" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="match_parent"
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/price_input_process_selector"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:hint="@string/brand_name_hint">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/et_brand_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="text"
-                                android:lines="1" />
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/et_unit_price_holder"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="8dp"
-                                android:hint="@string/unit_price_hint"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/et_unit_price"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@string/default_unit_price" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.google.android.material.textfield.TextInputLayout
-                                android:id="@+id/et_quantity_holder"
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:hint="@string/quantity_hint"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/et_unit_price_holder"
-                                app:layout_constraintTop_toTopOf="parent">
-
-                                <com.google.android.material.textfield.TextInputEditText
-                                    android:id="@+id/et_quantity"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:inputType="numberDecimal"
-                                    android:maxLines="1"
-                                    android:text="@string/default_qty" />
-                            </com.google.android.material.textfield.TextInputLayout>
-
-                            <com.jaredrummler.materialspinner.MaterialSpinner
-                                android:id="@+id/uom_selector"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toEndOf="@+id/et_quantity_holder"
-                                app:layout_constraintTop_toTopOf="parent" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            style="@style/secondary_button"
-                            android:id="@+id/btn_add_exp_item"
-                            android:layout_width="160dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            android:text="@string/add_exp_item"
-                            android:textAllCaps="false"
-                            android:layout_margin="6dp"/>
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </com.google.android.material.card.MaterialCardView>
 
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start|center_vertical"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/et_quantity_holder"
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/quantity_hint">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/et_quantity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:maxLines="1"
+                                android:text="@string/default_qty" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.jaredrummler.materialspinner.MaterialSpinner
+                            android:id="@+id/uom_selector"
+                            android:layout_width="160dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_add_exp_item"
+                        style="@style/secondary_button"
+                        android:layout_width="160dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="6dp"
+                        android:text="@string/add_exp_item"
+                        android:textAllCaps="false" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -295,25 +298,25 @@
                 android:weightSum="2">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/primary_button"
                     android:id="@+id/btn_save_exp_entry"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
                     android:layout_gravity="center"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:text="@string/save_text"
-                    android:textAllCaps="false"
-                    android:layout_margin="4dp" />
+                    android:textAllCaps="false" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    style="@style/primary_button"
                     android:id="@+id/btn_cancel"
+                    style="@style/primary_button"
                     android:layout_width="0dp"
                     android:layout_gravity="center"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:text="@string/cancel"
                     android:textAllCaps="false"
-                    android:visibility="gone"
-                    android:layout_margin="4dp" />
+                    android:visibility="gone" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

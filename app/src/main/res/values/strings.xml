@@ -107,6 +107,7 @@
     <string name="default_qty">1.0</string>
     <string name="default_unit_price">0.0</string>
     <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
+    <string name="exp_entry_time_format2">dd MMM yyyy hh:mm:ss a</string>
     <string name="default_tax_vat">0.0</string>
     <string name="date_title_format">EEE dd MMM yyyy</string>
     <string name="reminder_hint">0</string>
@@ -335,4 +336,6 @@
     <string name="btn_reset">Reset</string>
     <string name="guest_data_import_prompt">Expense entry(s) found saved by guest user. Do you want to import those into your accout?</string>
     <string name="delete_guest_exp_entry">Delete Entries</string>
+    <string name="total_price_hint">Total price*</string>
+    <string name="price_hint">Price*</string>
 </resources>

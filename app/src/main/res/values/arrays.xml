@@ -48,4 +48,8 @@
         <item>Minutes</item>
         <item>Hours</item>
     </string-array>
+    <string-array name="price_input_process">
+        <item>Unit Price</item>
+        <item>Total Price</item>
+    </string-array>
 </resources>
