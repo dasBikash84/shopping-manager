@@ -62,7 +62,7 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     suspend fun delete(context: Context,expenseEntry: ExpenseEntry){
-        if (AuthRepo.checkLogIn()){
+        if (expenseEntry.userId!=null && AuthRepo.checkLogIn()){
             FireStoreExpenseEntryService.deleteExpenseEntry(expenseEntry)
         }
         getExpenseEntryDao(context).delete(expenseEntry)
@@ -147,5 +147,9 @@ object ExpenseRepo:BookKeeperRepo() {
 
     private suspend fun getMaxExpenseModifiedTime(context: Context):Date?{
         return getExpenseEntryDao(context).getLatestModifiedTimeForUser(AuthRepo.getUserId())
+    }
+
+    suspend fun getGuestData(context: Context):List<ExpenseEntry> {
+        return getExpenseEntryDao(context).getGuestData()
     }
 }

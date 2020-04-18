@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DateUtils
@@ -110,4 +111,74 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
         }
         itemView.setOnClickListener { debugLog(expenseEntry) }
     }
+}
+
+class GuestExpenseEntryAdapter() :
+    ListAdapter<ExpenseEntry, GuestExpenseEntryHolder>( ExpenseEntryDiffCallback) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuestExpenseEntryHolder {
+        return GuestExpenseEntryHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.view_guest_exp_entry, parent, false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: GuestExpenseEntryHolder, position: Int) {
+        getItem(position)?.apply {
+            holder.bind(this)
+        }
+    }
+}
+
+class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val tv_entry_time_text: TextView = itemView.findViewById(
+        R.id.tv_entry_time_text
+    )
+    private val tv_exp_amount_text: TextView = itemView.findViewById(
+        R.id.tv_exp_amount_text
+    )
+    private val tv_exp_desc_text: TextView = itemView.findViewById(
+        R.id.tv_exp_desc_text
+    )
+    private val tv_exp_cat_text: TextView = itemView.findViewById(
+        R.id.tv_exp_cat_text
+    )
+
+    private lateinit var expenseEntry: ExpenseEntry
+
+    fun getEntry():ExpenseEntry = this.expenseEntry
+
+    fun bind(expenseEntry: ExpenseEntry) {
+        debugLog(expenseEntry)
+        this.expenseEntry = expenseEntry
+        expenseEntry.apply {
+            tv_entry_time_text.text = DateUtils
+                                        .getTimeString(time!!, itemView.context.getString(R.string.exp_entry_time_format))
+                                        .let {
+                                            if (checkIfEnglishLanguageSelected()) {
+                                                it
+                                            } else {
+                                                TranslatorUtils.englishToBanglaDateString(it)
+                                            }
+                                        }
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyString()
+            tv_exp_desc_text.text = details
+            tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
+        }
+        itemView.setOnClickListener { debugLog(expenseEntry) }
+    }
+}
+
+class GuestExpEntryRemoveCallback(val dragSwipeAction: (ExpenseEntry)->Unit) :
+    ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        override fun onMove(
+            recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            dragSwipeAction((viewHolder as GuestExpenseEntryHolder).getEntry())
+        }
 }

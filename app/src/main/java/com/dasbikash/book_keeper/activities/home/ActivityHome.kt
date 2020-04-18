@@ -1,6 +1,11 @@
 package com.dasbikash.book_keeper.activities.home
 
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_network_monitor.NetworkMonitor
@@ -14,10 +19,7 @@ import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingL
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
-import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
-import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.ShoppingListRepo
+import com.dasbikash.book_keeper_repo.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -71,6 +73,7 @@ class ActivityHome : ActivityTemplate() {
             dataSynced.set()
             GlobalScope.launch(Dispatchers.IO) {
                 try {
+                    runGuestDataImporter()
                     ExpenseRepo.syncData(this@ActivityHome)
                     ShoppingListRepo.syncShoppingListData(this@ActivityHome)
                     ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
@@ -82,6 +85,54 @@ class ActivityHome : ActivityTemplate() {
                     dataSynced = OnceSettableBoolean()
                     ex.printStackTrace()
                     debugLog("Data sync failure!!")
+                }
+            }
+        }
+    }
+
+    private fun runGuestDataImporter() {
+        if (BookKeeperRepo.isGuestDataImportEnabled(this)) {
+            lifecycleScope.launch {
+                ExpenseRepo.getGuestData(this@ActivityHome).let {
+                    val guestEntries= it
+                    if (it.isNotEmpty()) {
+
+                        val dialogView = LayoutInflater.from(this@ActivityHome).inflate(R.layout.view_guest_entry_import_dialog,null,false)
+                        val checkBox = dialogView.findViewById<CheckBox>(R.id.cb_never_show)
+                        val btn_delete_guest_exp_entry = dialogView.findViewById<Button>(R.id.btn_delete_guest_exp_entry)
+                        val btn_launch_import_window = dialogView.findViewById<Button>(R.id.btn_launch_import_window)
+
+                        checkBox.setOnCheckedChangeListener({ buttonView, isChecked ->
+                            if (isChecked) {
+                                BookKeeperRepo.disableGuestDataImport(this@ActivityHome)
+                            } else {
+                                BookKeeperRepo.enableGuestDataImport(this@ActivityHome)
+                            }
+                        })
+
+                        val dialog= DialogUtils.showAlertDialog(
+                            this@ActivityHome, DialogUtils.AlertDialogDetails(
+                                positiveButtonText = "",
+                                neutralButtonText = "",
+                                negetiveButtonText = "",
+                                view = dialogView
+                            )
+                        )
+
+                        btn_delete_guest_exp_entry.setOnClickListener {
+                            dialog.dismiss()
+                            guestEntries.asSequence().forEach {
+                                lifecycleScope.launch {
+                                    ExpenseRepo.delete(this@ActivityHome, it)
+                                }
+                            }
+                        }
+
+                        btn_launch_import_window.setOnClickListener {
+                            dialog.dismiss()
+                            addFragment(FragmentHandleGuestData())
+                        }
+                    }
                 }
             }
         }

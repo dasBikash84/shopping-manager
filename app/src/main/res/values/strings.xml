@@ -328,4 +328,11 @@
     <string name="sl_dl_today">Shopping list with pending items where deadline is today and has not expired yet.</string>
     <string name="sl_dl_active">Shopping list with pending items where deadline is after today.</string>
     <string name="sl_dl_expired">Shopping list with pending items where deadline has expired.</string>
+    <string name="sync_later">Save Later</string>
+    <string name="import_guest_data">Import Guest User Data</string>
+    <string name="import_guest_data_exit_prompt">Do you want to exit and handle guest data later?</string>
+    <string name="guest_data_save_exit_message">Import guest data and exit?</string>
+    <string name="btn_reset">Reset</string>
+    <string name="guest_data_import_prompt">Expense entry(s) found saved by guest user. Do you want to import those into your accout?</string>
+    <string name="delete_guest_exp_entry">Delete Entries</string>
 </resources>

@@ -63,4 +63,7 @@ internal interface ExpenseEntryDao {
 
     @Query("SELECT max(modified) FROM ExpenseEntry where userId=:userId")
     suspend fun getLatestModifiedTimeForUser(userId:String): Date?
+
+    @Query("SELECT * FROM ExpenseEntry where userId is NULL AND active")
+    suspend fun getGuestData(): List<ExpenseEntry>
 }
