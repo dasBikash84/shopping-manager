@@ -2,36 +2,42 @@ package com.dasbikash.book_keeper.activities.home.exp_summary
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.hide
-import com.dasbikash.android_extensions.runWithActivity
-import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.show
+import com.dasbikash.android_extensions.*
 import com.dasbikash.android_network_monitor.NetworkMonitor
+import com.dasbikash.android_toast_utils.ToastUtils
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
+import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
-import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
-import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
+import com.dasbikash.book_keeper.utils.*
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
+import com.dasbikash.book_keeper_repo.utils.getEnd
+import com.dasbikash.book_keeper_repo.utils.getStart
+import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -40,6 +46,9 @@ import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.File
+import java.util.*
+
 
 class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
 
@@ -301,18 +310,124 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
     override fun getPageTitle(context: Context):String? = context.getString(R.string.exp_browse_page_title)
     override fun getOptionsMenu(context: Context): MenuView? {
-        val menuView = MenuView()
-        menuView.add(GetCalculatorMenuItem(context))
-        menuView.add(
-            MenuViewItem(
-                text = context.getString(R.string.share_app_text),
-                task = {
-                    runWithActivity {
-                        startActivity(OptionsIntentBuilderUtility.getShareAppIntent(it))
+        return MenuView().apply {
+            add(GetCalculatorMenuItem(context))
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.share_app_text),
+                    task = {
+                        runWithActivity {
+                            startActivity(OptionsIntentBuilderUtility.getShareAppIntent(it))
+                        }
+                    }
+                )
+            )
+            add(
+                MenuViewItem(
+                    text = context.getString(R.string.export_exp_summary),
+                    task = {exportExpSummary()}
+                )
+            )
+        }
+    }
+
+    private fun exportExpSummary() {
+        runWithContext {
+            if (AuthRepo.checkLogIn()){
+                lifecycleScope.launch {
+                    ExpenseRepo.getExpenseDates(it).sorted().let {
+                        if (it.isNotEmpty()) {
+                            runWithWriteStoragePermission {
+                                exportSummaryTask(context!!, it.first(), it.last())
+                            }
+                        }else{
+                            showLongSnack(getString(R.string.no_exp_entry_found))
+                        }
                     }
                 }
+            }else{
+                showLongSnack(
+                    R.string.login_launcher_text,
+                    it.getString(R.string.login_button),
+                    {
+                        activity?.finish()
+                        activity?.startActivity(ActivityLogin::class.java)
+                    }
+                )
+            }
+        }
+    }
+
+    private fun exportSummaryTask(context: Context,startTime:Date,endTime:Date) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.view_exp_sum_export_dialog,null,false)
+        val tv_start_time:TextView = dialogView.findViewById(R.id.tv_start_time)
+        val tv_end_time:TextView = dialogView.findViewById(R.id.tv_end_time)
+
+        var selectedStartTime = startTime.getStart()
+        tv_start_time.text = selectedStartTime.getTimeString(getString(R.string.exp_entry_time_format))
+
+        var selectedEndTime = endTime.getEnd()
+        tv_end_time.text = selectedEndTime.getTimeString(getString(R.string.exp_entry_time_format))
+
+        tv_start_time.setOnClickListener {
+                val dateTimePicker = DateTimePicker(
+                    date = selectedStartTime,
+                    minDate = selectedStartTime,
+                    maxDate = selectedEndTime,
+                    doOnDateTimeSet = {
+                        selectedStartTime = it.getStart()
+                        tv_start_time.text = selectedStartTime.getTimeString(getString(R.string.exp_entry_time_format))
+                    }
+                )
+                dateTimePicker.display(context)
+        }
+
+        tv_end_time.setOnClickListener {
+                val dateTimePicker = DateTimePicker(
+                    date = selectedStartTime,
+                    minDate = selectedStartTime,
+                    maxDate = selectedEndTime,
+                    doOnDateTimeSet = {
+                        selectedEndTime = it.getEnd()
+                        tv_end_time.text = selectedEndTime.getTimeString(getString(R.string.exp_entry_time_format))
+                    }
+                )
+                dateTimePicker.display(context)
+        }
+
+        DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+            view = dialogView,
+            positiveButtonText = getString(R.string.export_exp_summary),
+            doOnPositivePress = {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    try {
+                        SummaryUtils.getExpenseSummaryText(context,selectedStartTime,selectedEndTime).apply {
+                            val dir: File = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
+                            val fileName = context.getString(R.string.exp_sum_file_name, "${AuthRepo.getUser(context)!!.displayText()}_${UUID.randomUUID().toString().substring(0,4)}")
+                            val file = File(dir,fileName)
+                            file.writeText(this)
+                            debugLog(file.absolutePath)
+                            debugLog(this)
+                            ToastUtils.showLongToast(context,getString(R.string.export_exp_path,file.absolutePath))
+                        }
+                    }catch (ex:Throwable){
+                        runOnMainThread({
+                            showLongSnack(R.string.unknown_error_message)
+                        })
+                    }
+                }
+            },
+            negetiveButtonText = getString(R.string.cancel)
+        ))
+
+
+    }
+
+    private fun runWithWriteStoragePermission(task:()->Unit) {
+        runWithActivity {
+            PermissionUtils.runWithWriteStoragePermission(
+                it,task,R.string.external_storage_write_permission_rational
             )
-        )
-        return menuView
+        }
     }
 }

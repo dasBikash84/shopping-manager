@@ -106,4 +106,45 @@ object PermissionUtils {
                 }).check()
         }
     }
+
+    fun runWithWriteStoragePermission(
+        activity: Activity,task:()->Unit,
+        @StringRes permissionRationalId:Int) {
+        Dexter.withContext(activity)
+            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object : PermissionListener {
+                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                    task()
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permission: PermissionRequest?,
+                    token: PermissionToken?
+                ) {
+                    DialogUtils.showAlertDialog(activity, DialogUtils.AlertDialogDetails(
+                        message = activity.getString(permissionRationalId),
+                        doOnPositivePress = {
+                            token?.continuePermissionRequest()
+                        },
+                        doOnNegetivePress = {
+                            token?.cancelPermissionRequest()
+                        },
+                        positiveButtonText = activity.getString(R.string.yes),
+                        negetiveButtonText = activity.getString(R.string.no)
+                    ))
+
+                }
+
+                override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                    if (response?.isPermanentlyDenied == true){
+                        DialogUtils.showAlertDialog(activity, DialogUtils.AlertDialogDetails(
+                            message = activity.getString(R.string.open_settings_prompt_for_eswp),
+                            doOnPositivePress = {activity.openAppSettings()},
+                            positiveButtonText = activity.getString(R.string.yes),
+                            negetiveButtonText = activity.getString(R.string.no)
+                        ))
+                    }
+                }
+            }).check()
+    }
 }

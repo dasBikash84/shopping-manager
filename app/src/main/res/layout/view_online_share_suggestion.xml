@@ -5,17 +5,20 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="start"
-    android:padding="8dp">
+    android:padding="16dp">
     <androidx.appcompat.widget.AppCompatTextView
         android:text="@string/share_online_suggestion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        android:textSize="16sp"/>
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/cb_disable_online_share_suggestion"
         android:layout_marginTop="8dp"
         android:text="@string/never_show_cb_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:checked="false"/>
+        android:checked="false"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -100,7 +100,7 @@
     <string name="delete">ডিলিট করুন</string>
     <string name="entry_time_title_text">সময়ঃ</string>
     <string name="total_price_title">মোট মূল্য</string>
-    <string name="vat_ait_hint">ট্যাক্স/ ভ্যাট(%)</string>
+    <string name="vat_ait_hint">ট্যাক্স/ভ্যাট(%)</string>
     <string name="tax_vat_error">ট্যাক্স/ ভ্যাট ঋণাত্মক হতে পারবে না!</string>
     <string name="search_text_hint">খরচের বিস্তারিত তথ্যের অংশবিশেষ দিয়ে খুঁজুন</string>
     <string name="confirm_delete_prompt">ডিলিটের বিষয়ে নিশ্চিত?</string>
@@ -292,4 +292,18 @@
     <string name="guest_data_save_exit_message">গেস্ট ইউজারের ডাটা আমদানি করতে এবং অতঃপর ফেরত যেতে চান?</string>
     <string name="import_guest_data_exit_prompt">আপনি কি ফেরত যেতে চান? গেস্ট ইউজারের ডাটা পরবর্তীতে আমদানি করা যাবে।</string>
     <string name="sync_later">পরবর্তীতে আমদানি করবেন</string>
+    <string name="external_storage_write_permission_rational">ফাইল সেভ জন্য আপনার অনুমতি প্রয়োজন। আপনি কি অনুমতি দিতে চান?</string>
+    <string name="open_settings_prompt_for_eswp">ফাইল সেভ করার জন্য আপনার অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিংস ওপেন করতে চান?</string>
+    <string name="resend_email_with_delay">%1$s সেকেন্ড পরে ভেরিফিকেশান ইমেইল পুনরায় পাঠানো যাবে</string>
+    <string name="exp_sum_page_title">\"হিসাবরক্ষক অ্যাপ দ্বারা তৈরিকৃত খরচের সারাংশ:\"\n\n</string>
+    <string name="no_exp_entry_found">কোন ডাটা পাওয়া যায়নি!!</string>
+    <string name="start_time_text">শুরুর তারিখঃ</string>
+    <string name="end_time_text">শেষের তারিখঃ</string>
+    <string name="export_exp_path">" ফাইলের লোকেশান: %1$s"</string>
+    <string name="export_exp_summary">খরচের সারাংশ ফোনে সেভ করুন</string>
+    <string name="exp_sum_table_title">\"ক্রমিক নং\",\"খরচের ধরণ\",\"খরচের সময়\",\"খরচের বিবরণ\",\"মোট খরচ\",\"ট্যাক্স/ভ্যাট(%)\",\"পণ্যের নাম\",\"কোম্পানির নাম\",\"একক মূল্য\",\"সংখ্যা\",\"পণ্যের দাম\",\"পরিমাপের একক\"\n</string>
+    <string name="exp_sum_user_name">\"নামঃ\",\"%1$s\"\n</string>
+    <string name="exp_sum_period">\"সময়কালঃ\",\"%1$s - %2$s\"\n</string>
+    <string name="exp_sum_amount">\"মোট খরচের পরিমাণ:\",\"%1$.2f\"\n</string>
+    <string name="exp_sum_exp_count">\"খরচের সংখ্যা:\",\"%1$d\"\n\n</string>
 </resources>

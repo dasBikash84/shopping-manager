@@ -16,6 +16,7 @@ package com.dasbikash.book_keeper_repo.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import java.util.*
 
@@ -25,10 +26,10 @@ internal interface ExpenseEntryDao {
     @Query("SELECT * FROM ExpenseEntry where id=:id")
     suspend fun findById(id:String): ExpenseEntry?
 
-    @Query("SELECT time FROM ExpenseEntry where userId=:userId ORDER BY timeTs DESC")
+    @Query("SELECT time FROM ExpenseEntry where userId=:userId AND active ORDER BY timeTs DESC")
     suspend fun getDates(userId:String): List<Date>
 
-    @Query("SELECT time FROM ExpenseEntry where userId is NULL ORDER BY timeTs DESC")
+    @Query("SELECT time FROM ExpenseEntry where userId is NULL AND active ORDER BY timeTs DESC")
     suspend fun getDates(): List<Date>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -66,4 +67,7 @@ internal interface ExpenseEntryDao {
 
     @Query("SELECT * FROM ExpenseEntry where userId is NULL AND active")
     suspend fun getGuestData(): List<ExpenseEntry>
+
+    @Query("SELECT * FROM ExpenseEntry where userId=:userId AND timeTs>=:periodStart AND timeTs <= :periodEnd AND active ORDER BY timeTs DESC")
+    suspend fun findByPeriod(userId:String=AuthRepo.getUserId(),periodStart:Long,periodEnd:Long): List<ExpenseEntry>
 }

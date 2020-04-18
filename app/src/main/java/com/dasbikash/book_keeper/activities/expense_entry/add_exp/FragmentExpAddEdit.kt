@@ -62,7 +62,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
 
     private fun updateTime() {
         tv_entry_add.text =
-            DateUtils.getTimeString(mEntryTime.time, getString(R.string.exp_entry_time_format2))
+            DateUtils.getTimeString(mEntryTime.time, getString(R.string.exp_entry_time_format_secs))
                 .let {
                     return@let when (checkIfEnglishLanguageSelected()) {
                         true -> it

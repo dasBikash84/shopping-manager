@@ -86,7 +86,7 @@ object ExpenseRepo:BookKeeperRepo() {
                 .map { getTimeBasedExpenseEntryGroup(context,it,TimeDuration.MONTH) }
     }
 
-    private suspend fun getExpenseDates(context: Context): List<Date> {
+    suspend fun getExpenseDates(context: Context): List<Date> {
         return if (AuthRepo.checkLogIn()) {
             getExpenseEntryDao(context).getDates(AuthRepo.getUserId())
         } else {
@@ -151,5 +151,10 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun getGuestData(context: Context):List<ExpenseEntry> {
         return getExpenseEntryDao(context).getGuestData()
+    }
+
+    suspend fun findByPeriod(context: Context,periodStart:Date,periodEnd:Date): List<ExpenseEntry>{
+        if (!AuthRepo.checkLogIn()) {return emptyList()}
+        return getExpenseEntryDao(context).findByPeriod(periodStart = periodStart.time,periodEnd = periodEnd.time)
     }
 }
