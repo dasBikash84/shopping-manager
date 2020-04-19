@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.firebase.Timestamp
 import java.util.*
 
 @Keep
@@ -18,7 +19,6 @@ import java.util.*
     ],
     indices = arrayOf(
         Index(value = ["shoppingListId"], unique = false),
-//        Index(value = ["expenseEntryId"], unique = false),
         Index(value = ["categoryId"], unique = false)
     )
 )
@@ -36,12 +36,12 @@ data class ShoppingListItem(
     var uom:Int=0,
     var brandNameSuggestions:List<String>?=null,
     var images:List<String>?=null,
-    var modified: Date = Date()
+    var modified: Timestamp = Timestamp.now()
 ){
-    fun updateModified(){this.modified = Date()}
+    fun updateModified(){this.modified = Timestamp.now()}
 
     fun toExpenseEntry(user: User):ExpenseEntry{
-        val expenseEntry = ExpenseEntry(userId = user.id,categoryId = categoryId,details = details ?: name,time = Date())
+        val expenseEntry = ExpenseEntry(userId = user.id,categoryId = categoryId,details = details ?: name,time = Timestamp.now())
         val expenseItem = ExpenseItem(name=name,unitPrice = minUnitPrice ?: maxUnitPrice ?: 0.0,qty = qty,uom = uom)
         expenseEntry.expenseItems = listOf(expenseItem)
         return expenseEntry

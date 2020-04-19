@@ -78,7 +78,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tv_sl_title_text.text = shoppingList.title
         tv_sl_item_count_text.text = shoppingList.shoppingListItemIds?.size?.toString() ?: "0"
         if (shoppingList.deadLine !=null){
-            tv_sl_deadline_text.text = DateUtils.getTimeString(shoppingList.deadLine!!,itemView.context.getString(R.string.exp_entry_time_format))
+            tv_sl_deadline_text.text = DateUtils.getTimeString(shoppingList.deadLine!!.toDate(),itemView.context.getString(R.string.exp_entry_time_format))
                                             .let {
                                                 return@let when (checkIfEnglishLanguageSelected()) {
                                                     true -> it
@@ -104,8 +104,8 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private suspend fun setBgColor(shoppingList: ShoppingList) {
         when{
             ShoppingListRepo.checkIfAllBought(itemView.context,shoppingList) -> setBgColor(R.color.bg_sl_all_bought)
-            shoppingList.deadLine !=null && shoppingList.deadLine!!.time < System.currentTimeMillis() -> setBgColor(R.color.bg_sl_dl_expired)
-            shoppingList.deadLine !=null && shoppingList.deadLine!!.getDayCount() == Date().getDayCount() -> setBgColor(R.color.bg_sl_dl_today)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.toDate().time < System.currentTimeMillis() -> setBgColor(R.color.bg_sl_dl_expired)
+            shoppingList.deadLine !=null && shoppingList.deadLine!!.toDate().getDayCount() == Date().getDayCount() -> setBgColor(R.color.bg_sl_dl_today)
             else -> setBgColor(R.color.bg_sl_dl_active)
         }
     }

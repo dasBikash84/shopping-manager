@@ -156,7 +156,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                 }
                 if (deadLine != null) {
                     tv_sl_deadline.text = DateUtils.getTimeString(
-                        shoppingList.deadLine!!,
+                        shoppingList.deadLine!!.toDate(),
                         it.getString(R.string.exp_entry_time_format)
                     ).let {
                             return@let when (checkIfEnglishLanguageSelected()) {

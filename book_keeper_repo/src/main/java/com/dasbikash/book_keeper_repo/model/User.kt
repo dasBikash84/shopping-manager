@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper_repo.model
 import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.firebase.Timestamp
 import java.io.Serializable
 import java.util.*
 
@@ -18,7 +19,7 @@ data class User(
     var photoUrl:String?=null,
     var thumbPhotoUrl:String?=null,
     var language: SupportedLanguage = SupportedLanguage.ENGLISH,
-    var modified:Date = Date(),
+    var modified:Timestamp = Timestamp.now(),
     var mobileLogin:Boolean = true
 ):Serializable{
     fun validateData():Boolean{
@@ -35,6 +36,6 @@ data class User(
     }
 
     fun updateModified(){
-        modified = Date()
+        modified = Timestamp.now()
     }
 }

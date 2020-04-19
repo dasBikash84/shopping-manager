@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 import java.util.*
 
@@ -28,7 +29,7 @@ import java.util.*
 data class ExpenseEntry(
     @PrimaryKey
     var id:String=UUID.randomUUID().toString(),
-    var time: Date?=null,
+    var time: Timestamp?=null,
     var userId: String?=null,
     var categoryId: Int=0,
     var categoryProposal:String?=null,
@@ -37,20 +38,20 @@ data class ExpenseEntry(
     var totalExpense:Double?=null,
     var taxVat:Double = 0.0,
     var active:Boolean = true,
-    var modified:Date=Date(),
-    var created:Date=Date()
+    var modified:Timestamp=Timestamp.now(),
+    var created:Timestamp= Timestamp.now()
 ){
     @Exclude
     private var timeTs: Long?=null
 
     @Exclude
-    fun getTimeTs():Long? = time?.time
+    fun getTimeTs():Long? = time?.toDate()?.time
     @Exclude
     fun setTimeTs(timeTs:Long?){
         this.timeTs = timeTs
     }
 
     fun updateModified(){
-        modified=Date()
+        modified=Timestamp.now()
     }
 }

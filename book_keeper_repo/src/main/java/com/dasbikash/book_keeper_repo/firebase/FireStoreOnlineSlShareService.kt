@@ -6,6 +6,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import java.util.*
@@ -47,14 +48,7 @@ internal object FireStoreOnlineSlShareService {
         PendingOnlineDocShareRequestListener(lifecycleOwner, onlineSlShareReq, doOnDocumentChange)
     }
 
-//    suspend fun getLatestRequests(lastUpdated: Date?=null):List<OnlineSlShareReq>{
-//        val allRequests = mutableListOf<OnlineSlShareReq>()
-//        getLatestRequestsToMe(lastUpdated)?.let { allRequests.addAll(it) }
-//        getLatestRequestsFromMe(lastUpdated)?.let { allRequests.addAll(it) }
-//        return allRequests.toList()
-//    }
-
-    suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<OnlineSlShareReq>{
+    suspend fun getLatestRequestsToMe(lastUpdated: Timestamp?):List<OnlineSlShareReq>{
 
         debugLog("lastUpdated:$lastUpdated")
 
@@ -69,7 +63,7 @@ internal object FireStoreOnlineSlShareService {
         return executeQuery(query)
     }
 
-    suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<OnlineSlShareReq>{
+    suspend fun getLatestRequestsFromMe(lastUpdated: Timestamp?):List<OnlineSlShareReq>{
 
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils

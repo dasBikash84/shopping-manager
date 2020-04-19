@@ -18,6 +18,7 @@ import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
+import com.google.firebase.Timestamp
 import java.util.*
 
 @Dao
@@ -27,10 +28,10 @@ internal interface ExpenseEntryDao {
     suspend fun findById(id:String): ExpenseEntry?
 
     @Query("SELECT time FROM ExpenseEntry where userId=:userId AND active ORDER BY timeTs DESC")
-    suspend fun getDates(userId:String): List<Date>
+    suspend fun getDates(userId:String): List<Timestamp>
 
     @Query("SELECT time FROM ExpenseEntry where userId is NULL AND active ORDER BY timeTs DESC")
-    suspend fun getDates(): List<Date>
+    suspend fun getDates(): List<Timestamp>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(expenseEntry: ExpenseEntry)
@@ -63,7 +64,7 @@ internal interface ExpenseEntryDao {
     fun getExpenseEntryLiveDataByInRawQuery(simpleSQLiteQuery: SupportSQLiteQuery):LiveData<List<ExpenseEntry>>
 
     @Query("SELECT max(modified) FROM ExpenseEntry where userId=:userId")
-    suspend fun getLatestModifiedTimeForUser(userId:String): Date?
+    suspend fun getLatestModifiedTimeForUser(userId:String): Timestamp?
 
     @Query("SELECT * FROM ExpenseEntry where userId is NULL AND active")
     suspend fun getGuestData(): List<ExpenseEntry>

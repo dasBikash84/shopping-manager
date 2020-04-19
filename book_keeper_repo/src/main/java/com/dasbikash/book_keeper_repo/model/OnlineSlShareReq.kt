@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.firebase.FireStoreRefUtils
+import com.google.firebase.Timestamp
 import java.util.*
 
 @Keep
@@ -16,7 +17,7 @@ data class OnlineSlShareReq(
     override var partnerUserId: String? = null,
     override var documentPath: String? = null,
     override var approvalStatus: RequestApprovalStatus = RequestApprovalStatus.PENDING,
-    override var modified: Date = Date()
+    override var modified: Timestamp = Timestamp.now()
 ):OnlineDocShareReq() {
 
     companion object{

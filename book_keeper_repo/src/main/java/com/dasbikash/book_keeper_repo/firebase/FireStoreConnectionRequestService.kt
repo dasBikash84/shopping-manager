@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper_repo.firebase
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,14 +37,14 @@ internal object FireStoreConnectionRequestService {
 
     }
 
-    suspend fun getLatestRequests(lastUpdated: Date?=null):List<ConnectionRequest>{
+    suspend fun getLatestRequests(lastUpdated: Timestamp?=null):List<ConnectionRequest>{
         val allRequests = mutableListOf<ConnectionRequest>()
         getLatestRequestsToMe(lastUpdated).let { allRequests.addAll(it) }
         getLatestRequestsFromMe(lastUpdated).let { allRequests.addAll(it) }
         return allRequests.toList()
     }
 
-    suspend fun getLatestRequestsToMe(lastUpdated: Date?):List<ConnectionRequest>{
+    suspend fun getLatestRequestsToMe(lastUpdated: Timestamp?):List<ConnectionRequest>{
 
         debugLog("lastUpdated:$lastUpdated")
 
@@ -58,7 +59,7 @@ internal object FireStoreConnectionRequestService {
         return executeQuery(query)
     }
 
-    suspend fun getLatestRequestsFromMe(lastUpdated: Date?):List<ConnectionRequest>{
+    suspend fun getLatestRequestsFromMe(lastUpdated: Timestamp?):List<ConnectionRequest>{
 
         debugLog("lastUpdated:$lastUpdated")
 

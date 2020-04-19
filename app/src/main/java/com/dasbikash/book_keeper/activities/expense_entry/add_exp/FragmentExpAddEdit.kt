@@ -30,6 +30,7 @@ import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
+import com.google.firebase.Timestamp
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -333,7 +334,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                                     expenseEntry = ExpenseEntry()
                                 }
                                 expenseEntry!!.apply {
-                                    time = mEntryTime.time
+                                    time = Timestamp(mEntryTime.time)
                                     categoryId = getSelectedExpenseCategory()//.id
 //                                    expenseCategory = getSelectedExpenseCategory()
                                     categoryProposal = et_category_proposal.text?.toString()
@@ -403,7 +404,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 getExpenseEntry()?.let {
                     expenseEntry = it
                     debugLog(it)
-                    it.time?.let { setTime(it)}
+                    it.time?.let { setTime(it.toDate())}
                     et_description.setText(it.details)
                     et_vat_ait.setText(it.taxVat.toString())
                     if (!it.expenseItems.isNullOrEmpty()) {

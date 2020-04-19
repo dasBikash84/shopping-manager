@@ -97,7 +97,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = DateUtils
-                                        .getTimeString(time!!, itemView.context.getString(R.string.exp_entry_time_format))
+                                        .getTimeString(time!!.toDate(), itemView.context.getString(R.string.exp_entry_time_format))
                                         .let {
                                             if (checkIfEnglishLanguageSelected()) {
                                                 it
@@ -153,7 +153,7 @@ class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = DateUtils
-                                        .getTimeString(time!!, itemView.context.getString(R.string.exp_entry_time_format))
+                                        .getTimeString(time!!.toDate(), itemView.context.getString(R.string.exp_entry_time_format))
                                         .let {
                                             if (checkIfEnglishLanguageSelected()) {
                                                 it

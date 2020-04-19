@@ -89,7 +89,7 @@ class TbaSlShareReqListHolder(
         tv_sl_title_text.text = tbaSlShareReq.shoppingList.title
         tv_partner_details_text.text = getUserDetails(tbaSlShareReq.partner)
         tv_req_time.text = DateUtils
-                                .getTimeString(tbaSlShareReq.onlineSlShareReq.modified,itemView.context.getString(R.string.exp_entry_time_format))
+                                .getTimeString(tbaSlShareReq.onlineSlShareReq.modified.toDate(),itemView.context.getString(R.string.exp_entry_time_format))
                                 .let {
                                     if (checkIfEnglishLanguageSelected()){
                                         it

@@ -30,6 +30,7 @@ import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.snackbar_ext.showShortSnack
+import com.google.firebase.Timestamp
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_edit.*
 import kotlinx.coroutines.launch
@@ -86,7 +87,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             runWithContext {
                 hideKeyboard()
                 val dateTimePicker = DateTimePicker(
-                    date = shoppingList.deadLine,
+                    date = shoppingList.deadLine?.toDate(),
                     minDate = Date(),
                     doOnDateTimeSet = {
                         setDeadLine(it)
@@ -282,7 +283,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     private fun setDeadLine(deadLine: Date) {
         if (ShoppingList.validateDeadLine(deadLine)) {
-            shoppingList.deadLine = deadLine
+            shoppingList.deadLine = Timestamp(deadLine)
             refreshView()
         } else {
             showShortSnack(getString(R.string.invalid_deadline_message))
@@ -331,7 +332,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             cb_disable_deadline.show()
             cb_set_sl_remainder.show()
 
-            DateUtils.getTimeString(shoppingList.deadLine!!, getString(R.string.exp_entry_time_format)).let {
+            DateUtils.getTimeString(shoppingList.deadLine!!.toDate(), getString(R.string.exp_entry_time_format)).let {
                 tv_sl_deadline.text = if (checkIfEnglishLanguageSelected()) {
                     it
                 } else {

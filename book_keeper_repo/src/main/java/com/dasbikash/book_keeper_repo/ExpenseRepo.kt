@@ -88,9 +88,9 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun getExpenseDates(context: Context): List<Date> {
         return if (AuthRepo.checkLogIn()) {
-            getExpenseEntryDao(context).getDates(AuthRepo.getUserId())
+            getExpenseEntryDao(context).getDates(AuthRepo.getUserId()).map { it.toDate() }
         } else {
-            getExpenseEntryDao(context).getDates()
+            getExpenseEntryDao(context).getDates().map { it.toDate() }
         }
     }
 
@@ -146,7 +146,7 @@ object ExpenseRepo:BookKeeperRepo() {
     }
 
     private suspend fun getMaxExpenseModifiedTime(context: Context):Date?{
-        return getExpenseEntryDao(context).getLatestModifiedTimeForUser(AuthRepo.getUserId())
+        return getExpenseEntryDao(context).getLatestModifiedTimeForUser(AuthRepo.getUserId())?.toDate()
     }
 
     suspend fun getGuestData(context: Context):List<ExpenseEntry> {

@@ -8,6 +8,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineSlShareService
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
 import com.dasbikash.book_keeper_repo.model.*
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
@@ -200,16 +201,16 @@ object ShoppingListRepo : BookKeeperRepo() {
     suspend fun calculateNextReminderTime(context: Context, shoppingList: ShoppingList): Date? {
         if (shoppingList.deadLine != null &&
             shoppingList.getCountDownTime() != null &&
-            System.currentTimeMillis() < shoppingList.deadLine!!.time &&
+            System.currentTimeMillis() < shoppingList.deadLine!!.toDate().time &&
             (getShoppingListItems(context, shoppingList)?.filter { it.expenseEntryId==null }?.count() ?: 0 > 0)) {
-            val firstReminderTime = shoppingList.deadLine!!.time - shoppingList.getCountDownTime()!!
+            val firstReminderTime = shoppingList.deadLine!!.toDate().time - shoppingList.getCountDownTime()!!
             val reminderLogs = getSlReminderGenLogDao(context).findByShoppingListId(shoppingList.id)
                 .sortedBy { it.created }
             if (reminderLogs.isNotEmpty()) {
                 if (shoppingList.getReminderInterval() != null) {//single reminder check
                     val nextReminderTime =
-                        reminderLogs.last().created.time + shoppingList.getReminderInterval()!!
-                    if (nextReminderTime < shoppingList.deadLine!!.time) {
+                        reminderLogs.last().created.toDate().time + shoppingList.getReminderInterval()!!
+                    if (nextReminderTime < shoppingList.deadLine!!.toDate().time) {
                         return Date(nextReminderTime)
                     }
                 }
@@ -260,8 +261,8 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
         shoppingList.partnerIds = null
         shoppingList.userId = AuthRepo.getUserId()
-        shoppingList.created=Date()
-        shoppingList.modified=Date()
+        shoppingList.created= Timestamp.now()
+        shoppingList.modified= Timestamp.now()
         shoppingList.shoppingListItemIds =
             shoppingList.shoppingListItems?.map { it.id }
         debugLog("saveCopiedShoppingList 2: $shoppingList")
@@ -292,7 +293,7 @@ object ShoppingListRepo : BookKeeperRepo() {
     }
 
     internal suspend fun save(context:Context, onlineSlShareReq:OnlineSlShareReq){
-        onlineSlShareReq.modified = Date()
+        onlineSlShareReq.modified = Timestamp(Date())
         getOnlineDocShareReqDao(context).add(onlineSlShareReq)
     }
 

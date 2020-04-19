@@ -219,8 +219,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                         FilterMode.IMPORTED -> shoppingLists.filter { it.userId !=AuthRepo.getUserId() }
                         FilterMode.SHARED -> shoppingLists.filter { it.userId == AuthRepo.getUserId() && !it.partnerIds.isNullOrEmpty() }
                         FilterMode.PENDING -> shoppingLists.filter {!ShoppingListRepo.checkIfAllBought(context!!,it)}
-                        FilterMode.EXPIRED -> shoppingLists.filter {it.deadLine !=null && !ShoppingListRepo.checkIfAllBought (context!!,it) && it.deadLine!!.time < System.currentTimeMillis()}
-                        FilterMode.DEADLINE_TODAY -> shoppingLists.filter {it.deadLine !=null /*&& !ShoppingListRepo.checkIfAllBought (context!!,it)*/ && it.deadLine!!.getDayCount() == Date().getDayCount()}
+                        FilterMode.EXPIRED -> shoppingLists.filter {it.deadLine !=null && !ShoppingListRepo.checkIfAllBought (context!!,it) && it.deadLine!!.toDate().time < System.currentTimeMillis()}
+                        FilterMode.DEADLINE_TODAY -> shoppingLists.filter {it.deadLine !=null /*&& !ShoppingListRepo.checkIfAllBought (context!!,it)*/ && it.deadLine!!.toDate().getDayCount() == Date().getDayCount()}
                     }
                 }.let {
                     when(sortMode){

@@ -33,7 +33,7 @@ object SummaryUtils {
                         R.string.exp_sum_table_row_no_product,
                         serial,
                         getDoubleQuotedString(context.resources.getStringArray(R.array.expense_categories).get(expenseEntry.categoryId)),
-                        getDoubleQuotedString(expenseEntry.time?.getTimeString(context.getString(R.string.exp_entry_time_format))),
+                        getDoubleQuotedString(expenseEntry.time?.toDate()?.getTimeString(context.getString(R.string.exp_entry_time_format))),
                         getDoubleQuotedString(expenseEntry.details),
                         expenseEntry.totalExpense ?: 0.0,
                         expenseEntry.taxVat
@@ -49,7 +49,7 @@ object SummaryUtils {
                                 R.string.exp_sum_table_row_with_product,
                                 serial,
                                 getDoubleQuotedString(context.resources.getStringArray(R.array.expense_categories).get(expenseEntry.categoryId)),
-                                getDoubleQuotedString(expenseEntry.time?.getTimeString(context.getString(R.string.exp_entry_time_format))),
+                                getDoubleQuotedString(expenseEntry.time?.toDate()?.getTimeString(context.getString(R.string.exp_entry_time_format))),
                                 getDoubleQuotedString(expenseEntry.details),
                                 expenseEntry.totalExpense ?: 0.0,
                                 expenseEntry.taxVat,

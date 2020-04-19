@@ -8,6 +8,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 import java.util.*
 
@@ -26,10 +27,10 @@ data class ShoppingList(
     var active:Boolean = true,
     var title:String?=null,
     var note:String?=null,
-    var deadLine: Date?=null,
+    var deadLine: Timestamp?=null,
     var partnerIds:List<String>?=null,
-    var modified: Date = Date(),
-    var created: Date = Date()
+    var modified: Timestamp = Timestamp.now(),
+    var created: Timestamp = Timestamp.now()
 ){
     private var reminderInterval:Long?=null
     private var countDownTime:Long?=null
@@ -50,7 +51,7 @@ data class ShoppingList(
         countDownTime = ms
     }
 
-    fun updateModified(){this.modified = Date()}
+    fun updateModified(){this.modified = Timestamp.now()}
 
     fun validateCountDownTime():Boolean{
         return if (countDownTime!=null){
