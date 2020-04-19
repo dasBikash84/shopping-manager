@@ -27,12 +27,12 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
     fun getTimeBasedExpenseEntryGroupLiveData():LiveData<Pair<TimeBasedExpenseEntryGroup,List<ExpenseEntry>>> = groupExpenseEntryListMediatorLiveData
 
     fun setTimeBasedExpenseEntryGroup(timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup){
-        debugLog("${timeBasedExpenseEntryGroup.startTime}")
+//        debugLog("${timeBasedExpenseEntryGroup.startTime}")
         this.timeBasedExpenseEntryGroup = timeBasedExpenseEntryGroup
         groupExpenseEntryListLiveData?.let { groupExpenseEntryListMediatorLiveData.removeSource(it) }
         groupExpenseEntryListLiveData = ExpenseRepo.getExpenseEntryLiveDataByIds(mApplication.applicationContext,timeBasedExpenseEntryGroup.expenseEntryIds)
         groupExpenseEntryListMediatorLiveData.addSource(groupExpenseEntryListLiveData!!,{
-            debugLog("addSource: ${it.map { it.id }}")
+//            debugLog("addSource: ${it.map { it.id }}")
             groupExpenseEntryListMediatorLiveData.postValue(Pair(timeBasedExpenseEntryGroup,it))
         })
     }
@@ -40,7 +40,7 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
     init {
         viewModelScope.launch {
             AuthRepo.getUser(mApplication).let {
-                debugLog(it ?: "No user")
+//                debugLog(it ?: "No user")
                 expenseEntryFetchParam =
                     ExpenseEntryFetchParam(
                         user = it
@@ -61,14 +61,14 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
     fun setSearchText(searchText:String) {
         expenseEntryFetchParam.searchText = searchText
         resetExpenseFetchLimit()
-        debugLog(expenseEntryFetchParam)
+//        debugLog(expenseEntryFetchParam)
         refreshExpenseEntries()
     }
 
     fun setExpenseCategory(expenseCategory: Int?=null) {
         expenseEntryFetchParam.expenseCategory = expenseCategory
         resetExpenseFetchLimit()
-        debugLog(expenseEntryFetchParam)
+//        debugLog(expenseEntryFetchParam)
         refreshExpenseEntries()
     }
 
@@ -81,7 +81,7 @@ class ViewModelExpBrowser(private val mApplication: Application) : AndroidViewMo
                 expenseEntryListLiveData?.apply { expenseEntryListMediatorLiveData.removeSource(this) }
                 expenseEntryListLiveData = it
                 expenseEntryListMediatorLiveData.addSource(expenseEntryListLiveData!!,{
-                    it.forEach { debugLog("${it.id} ${it.details} ${it.active} ${it.modified}")}
+//                    it.forEach { debugLog("${it.id} ${it.details} ${it.active} ${it.modified}")}
                     expenseEntryListMediatorLiveData.postValue(it)
                 })
         }

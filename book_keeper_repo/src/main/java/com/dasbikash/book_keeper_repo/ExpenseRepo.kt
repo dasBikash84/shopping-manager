@@ -20,8 +20,15 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun saveExpenseEntry(context: Context,expenseEntry: ExpenseEntry):Boolean{
         if (AuthRepo.checkLogIn()){
+            val doOnError:suspend ()->Unit = getExpenseEntryById(context,expenseEntry.id).let {
+                if (it==null){
+                    { getExpenseEntryDao(context).delete(expenseEntry)}
+                }else{
+                    { getExpenseEntryDao(context).add(it.copy())}
+                }
+            }
             expenseEntry.userId = AuthRepo.getUserId()
-            FireStoreExpenseEntryService.saveExpenseEntry(expenseEntry)
+            FireStoreExpenseEntryService.saveExpenseEntry(expenseEntry,doOnError)
         }
         getExpenseEntryDao(context).add(expenseEntry)
         return true
@@ -63,7 +70,11 @@ object ExpenseRepo:BookKeeperRepo() {
 
     suspend fun delete(context: Context,expenseEntry: ExpenseEntry){
         if (expenseEntry.userId!=null && AuthRepo.checkLogIn()){
-            FireStoreExpenseEntryService.deleteExpenseEntry(expenseEntry)
+            val originalEntry = expenseEntry.copy()
+            FireStoreExpenseEntryService.deleteExpenseEntry(expenseEntry,{
+                debugLog("Adding: $originalEntry")
+                getExpenseEntryDao(context).add(originalEntry)
+            })
         }
         getExpenseEntryDao(context).delete(expenseEntry)
     }

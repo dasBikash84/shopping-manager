@@ -223,7 +223,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         viewModel.getAllExpenseEntryLiveData().observe(this,object : Observer<List<ExpenseEntry>>{
             override fun onChanged(list: List<ExpenseEntry>?) {
                 list?.let {
-                    debugLog(it)
+                    debugLog(it.map { it.details+"\n" })
                     expenseEntryAdapter.submitList(it)
                 }
             }
@@ -403,8 +403,8 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                         SummaryUtils.getExpenseSummaryText(context,selectedStartTime,selectedEndTime).apply {
                             val file = FileExportUtils.getExpenseDataExportFile(context)
                             file.writeText(this)
-                            debugLog(file.absolutePath)
-                            debugLog(this)
+//                            debugLog(file.absolutePath)
+//                            debugLog(this)
                             runOnMainThread({showIndefiniteSnack(getString(R.string.export_exp_path, FileExportUtils.getFilePath(file) ?: file.absolutePath))})
                         }
                     }catch (ex:Throwable){

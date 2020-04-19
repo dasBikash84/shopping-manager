@@ -3,6 +3,8 @@ package com.dasbikash.book_keeper_repo.firebase
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -13,15 +15,25 @@ internal object FireStoreExpenseEntryService {
     private const val EXPENSE_ENTRY_USER_ID_FIELD = "userId"
     private const val EXPENSE_ENTRY_ACTIVE_FIELD = "active"
 
-    fun saveExpenseEntry(expenseEntry: ExpenseEntry) {
+    fun saveExpenseEntry(expenseEntry: ExpenseEntry,doOnError:suspend ()->Unit) {
         expenseEntry.updateModified()
-        FireStoreRefUtils.getExpenseEntryCollectionRef().document(expenseEntry.id).set(expenseEntry)
+        debugLog(expenseEntry)
+        FireStoreRefUtils
+            .getExpenseEntryCollectionRef()
+            .document(expenseEntry.id)
+            .set(expenseEntry)
+            .addOnSuccessListener { debugLog("ExpenseEntry saved") }
+            .addOnFailureListener {
+                debugLog("ExpenseEntry save failure")
+                GlobalScope.launch { doOnError()}
+                it.printStackTrace()
+            }
     }
 
-    fun deleteExpenseEntry(expenseEntry: ExpenseEntry) {
+    fun deleteExpenseEntry(expenseEntry: ExpenseEntry,doOnError:suspend ()->Unit) {
         expenseEntry.active = false
         expenseEntry.updateModified()
-        saveExpenseEntry(expenseEntry)
+        saveExpenseEntry(expenseEntry,doOnError)
     }
 
     suspend fun getLatestExpenseEntries(lastUpdated: Date?=null):List<ExpenseEntry>{
