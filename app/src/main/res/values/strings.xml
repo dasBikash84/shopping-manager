@@ -339,9 +339,9 @@
     <string name="delete_guest_exp_entry">Delete Entries</string>
     <string name="total_price_hint">Total price*</string>
     <string name="price_hint">Price*</string>
-    <string name="exp_sum_file_name">bk_exp_sum_%1$s.csv</string>
-    <string name="exp_sum_page_title">\"Expense summary from BookKeeper:\"\n\n</string>
-    <string name="exp_sum_user_name">\"Name:\",\"%1$s\"\n</string>
+    <string name="exp_sum_file_name">bk_exp_%1$s.csv</string>
+    <string name="exp_sum_page_title">\"Expense data from BookKeeper App:\"\n\n</string>
+    <string name="exp_sum_user_name">\"User:\",\"%1$s\"\n</string>
     <string name="exp_sum_period">\"Period:\",\"%1$s - %2$s\"\n</string>
     <string name="exp_sum_amount">\"Total expense amount:\",\"%1$.2f\"\n</string>
     <string name="exp_sum_exp_count">\"Number of entries:\",\"%1$d\"\n\n</string>
@@ -349,8 +349,8 @@
     <string name="exp_sum_table_row_with_product">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f,%7$s,%8$s,%9$.2f,%10$.2f,%11$.2f,%12$s\n</string>
     <string name="exp_sum_table_row_no_product">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f\n</string>
     <string name="exp_sum_table_row_only_product">,,,,,,%1$s,%2$s,%3$.2f,%4$.2f,%5$.2f,%6$s\n</string>
-    <string name="export_exp_summary">Export Expense Summary</string>
-    <string name="export_exp_path">File Location: %1$s</string>
+    <string name="export_exp_summary">Export Expense Data</string>
+    <string name="export_exp_path">Saved as: %1$s</string>
     <string name="start_time_text">Start Date:</string>
     <string name="end_time_text">End Date:</string>
     <string name="no_exp_entry_found">No data to export!!</string>

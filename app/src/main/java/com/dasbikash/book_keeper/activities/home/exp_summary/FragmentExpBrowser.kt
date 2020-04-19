@@ -2,7 +2,6 @@ package com.dasbikash.book_keeper.activities.home.exp_summary
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
@@ -37,6 +35,7 @@ import com.dasbikash.book_keeper_repo.utils.getStart
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
@@ -402,13 +401,11 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                 lifecycleScope.launch(Dispatchers.IO) {
                     try {
                         SummaryUtils.getExpenseSummaryText(context,selectedStartTime,selectedEndTime).apply {
-                            val dir: File = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)!!
-                            val fileName = context.getString(R.string.exp_sum_file_name, "${AuthRepo.getUser(context)!!.displayText()}_${UUID.randomUUID().toString().substring(0,4)}")
-                            val file = File(dir,fileName)
+                            val file = FileExportUtils.getExpenseDataExportFile(context)
                             file.writeText(this)
                             debugLog(file.absolutePath)
                             debugLog(this)
-                            ToastUtils.showLongToast(context,getString(R.string.export_exp_path,file.absolutePath))
+                            runOnMainThread({showIndefiniteSnack(getString(R.string.export_exp_path, FileExportUtils.getFilePath(file) ?: file.absolutePath))})
                         }
                     }catch (ex:Throwable){
                         runOnMainThread({
@@ -419,8 +416,6 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
             },
             negetiveButtonText = getString(R.string.cancel)
         ))
-
-
     }
 
     private fun runWithWriteStoragePermission(task:()->Unit) {
