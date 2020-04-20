@@ -32,7 +32,6 @@ internal object FireStoreExpenseEntryService {
 
     fun deleteExpenseEntry(expenseEntry: ExpenseEntry,doOnError:suspend ()->Unit) {
         expenseEntry.active = false
-        expenseEntry.updateModified()
         saveExpenseEntry(expenseEntry,doOnError)
     }
 

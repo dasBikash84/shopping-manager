@@ -55,6 +55,7 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
 
     private var exitPrompt: String? = null
     private lateinit var shoppingListItem: ShoppingListItem
+    private var initHashcode:Int=0
 
     private val expenseCategories = mutableListOf<String>()
     private val uoms = mutableListOf<String>()
@@ -254,7 +255,11 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
     }
 
     override fun getExitPrompt(): String? {
-        return exitPrompt
+        if (initHashcode!=shoppingListItem.hashCode()) {
+            return exitPrompt
+        }else{
+            return null
+        }
     }
 
     private fun initShoppingListItem() {
@@ -284,6 +289,7 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
                     }
                 }
                 viewModel.setShoppingListItem(shoppingListItem)
+                initHashcode = shoppingListItem.hashCode()
                 hideWaitScreen()
             }
         }

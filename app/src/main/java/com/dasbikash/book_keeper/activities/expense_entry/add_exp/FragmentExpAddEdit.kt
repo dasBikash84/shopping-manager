@@ -44,7 +44,8 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     private val mEntryTime = Calendar.getInstance()
     private var timeAutoUpdateOn = true
 
-    private var expenseEntry:ExpenseEntry?=null
+    private lateinit var expenseEntry:ExpenseEntry
+    private var initHashcode:Int=0
 
     private var viewModel: ViewModelAddExp? = null
 
@@ -330,23 +331,11 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                         message = it.getString(R.string.save_exp_entry_prompt),
                         doOnPositivePress = {
                             lifecycleScope.launch {
-                                if (expenseEntry == null){
-                                    expenseEntry = ExpenseEntry()
-                                }
-                                expenseEntry!!.apply {
-                                    time = Timestamp(mEntryTime.time)
-                                    categoryId = getSelectedExpenseCategory()//.id
-//                                    expenseCategory = getSelectedExpenseCategory()
-                                    categoryProposal = et_category_proposal.text?.toString()
-                                    details = et_description.text?.toString()
-                                    expenseItems = expenseItemAdapter.currentList
-                                    totalExpense = et_total_expense.text?.toString()?.toDouble()
-                                    taxVat = viewModel?.getVatTax()?.value ?: 0.0
-                                    updateModified()
-                                    ExpenseRepo.saveExpenseEntry(it, this)
-                                }
+                                accumulateData()
+                                ExpenseRepo.saveExpenseEntry(it, expenseEntry)
+                                debugLog("Final hashcode: ${expenseEntry.hashCode()}")
                                 if (shoppingListItem!=null){
-                                    shoppingListItem!!.expenseEntryId = expenseEntry!!.id
+                                    shoppingListItem!!.expenseEntryId = expenseEntry.id
                                     ShoppingListRepo.save(it,shoppingListItem!!)
                                 }
                                 resetView()
@@ -355,6 +344,24 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 )
             }
         }
+    }
+
+    private fun accumulateData(){
+        expenseEntry.apply {
+            time = Timestamp(mEntryTime.time)
+            categoryId = getSelectedExpenseCategory()
+            categoryProposal = et_category_proposal.text?.toString()
+            details = et_description.text?.toString()
+            expenseItems = expenseItemAdapter.currentList
+            totalExpense = et_total_expense.text?.toString()?.toDouble()
+            taxVat = viewModel?.getVatTax()?.value ?: 0.0
+        }
+    }
+
+    private fun getCurrentHashcode():Int{
+        accumulateData()
+        debugLog("Current hashcode: ${expenseEntry.hashCode()}")
+        return expenseEntry.hashCode()
     }
 
     private fun getSelectedExpenseCategory(): Int {
@@ -373,7 +380,11 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     }
 
     override fun getExitPrompt(): String? {
-        return getString(R.string.discard_and_exit_prompt)
+        if (getCurrentHashcode() != initHashcode) {
+            return getString(R.string.discard_and_exit_prompt)
+        }else{
+            return null
+        }
     }
 
     private fun checkDataCorrectness(): Boolean {
@@ -401,33 +412,46 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
                 uom_selector.setItems(uoms)
                 price_input_process_selector.setItems(resources.getStringArray(R.array.price_input_process).toList())
 
-                getExpenseEntry()?.let {
-                    expenseEntry = it
-                    debugLog(it)
-                    it.time?.let { setTime(it.toDate())}
-                    et_description.setText(it.details)
-                    et_vat_ait.setText(it.taxVat.toString())
-                    if (!it.expenseItems.isNullOrEmpty()) {
-                        it.expenseItems?.let {
-                            debugLog("$it")
-                            viewModel?.addExpenseItems(it)
-                            expense_item_list_holder.show()
+                getExpenseEntry().let {
+                    if (it!=null) {
+                        expenseEntry = it
+                        debugLog(it)
+                        it.time?.let { setTime(it.toDate()) }
+                        et_description.setText(it.details)
+                        et_vat_ait.setText(it.taxVat.toString())
+                        if (!it.expenseItems.isNullOrEmpty()) {
+                            it.expenseItems?.let {
+                                debugLog("$it")
+                                viewModel?.addExpenseItems(it)
+                                expense_item_list_holder.show()
+                            }
+                        } else {
+                            cb_set_expense_manually.isChecked = true
+                            runOnMainThread({
+                                et_total_expense.setText(
+                                    it.totalExpense?.optimizedString(
+                                        2
+                                    )
+                                )
+                            }, 100L)
                         }
-                    }else {
-                        cb_set_expense_manually.isChecked = true
-                        runOnMainThread({et_total_expense.setText(it.totalExpense?.optimizedString(2))},100L)
+                        it.categoryId.let {
+                            spinner_category_selector.selectedIndex = it
+                            viewModel?.setExpenseCategory(it)
+                        }
+                        btn_cancel.show()
+                        btn_cancel.setOnClickListener {
+                            activity?.onBackPressed()
+                        }
+                    }else{
+                        expenseEntry = ExpenseEntry()
                     }
-                    it.categoryId.let {
-                        spinner_category_selector.selectedIndex = it
-                        viewModel?.setExpenseCategory(it)
-                    }
-                    btn_cancel.show()
-                    btn_cancel.setOnClickListener {
-                        activity?.onBackPressed()
-                    }
+                    initHashcode = expenseEntry.hashCode()
+                    debugLog("Init hashcode: ${initHashcode}")
                 }
 
                 hideWaitScreen()
+
             }
         }
     }

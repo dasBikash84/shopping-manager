@@ -39,6 +39,7 @@ import java.util.*
 class FragmentShoppingListAddEdit : FragmentTemplate() {
 
     private lateinit var shoppingList: ShoppingList
+    private var initHashcode:Int=0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -201,16 +202,16 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         btn_cancel.setOnClickListener {
             runWithContext {
                 hideKeyboard()
-                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
-                    message = it.getString(R.string.discard_and_exit_prompt),
-                    doOnPositivePress = {
-                        if (isEditMode()){
-                            exit()
-                        }else {
-                            activity?.finish()
+                if (initHashcode!=shoppingList.hashCode()) {
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.discard_and_exit_prompt),
+                        doOnPositivePress = {
+                            cancelTask()
                         }
-                    }
-                ))
+                    ))
+                }else{
+                    cancelTask()
+                }
             }
         }
 
@@ -230,6 +231,45 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
         cb_set_sl_remainder.isChecked = false
         sl_remainder_set_block.hide()
+
+        initShoppingList()
+    }
+
+    private fun initShoppingList() {
+        runWithContext {
+            lifecycleScope.launch {
+                if (!::shoppingList.isInitialized) {
+                    if (isEditMode()) {
+                        shoppingList = ShoppingListRepo.findInLocalById(it, getShoppingListId())!!
+                        (activity as ActivityShoppingList?)?.apply {
+                            setTitle(
+                                getString(
+                                    R.string.edit_title,
+                                    shoppingList.title
+                                )
+                            )
+                        }
+                    } else {
+                        shoppingList = ShoppingList(userId = AuthRepo.getUser(it)?.id)
+                        (activity as ActivityShoppingList?)?.apply {
+                            setTitle(
+                                getString(R.string.add_shopping_list)
+                            )
+                        }
+                    }
+                }
+                initHashcode = shoppingList.hashCode()
+                refreshView()
+            }
+        }
+    }
+
+    private fun cancelTask() {
+        if (isEditMode()) {
+            exit()
+        } else {
+            activity?.finish()
+        }
     }
 
     private fun updateReminderInterval(timeText: String,position: Int?=null) {
@@ -290,35 +330,6 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        runWithContext {
-            lifecycleScope.launch {
-                if (!::shoppingList.isInitialized) {
-                    if (isEditMode()) {
-                        shoppingList = ShoppingListRepo.findInLocalById(it, getShoppingListId())!!
-                        (activity as ActivityShoppingList?)?.apply {
-                            setTitle(
-                                getString(
-                                    R.string.edit_title,
-                                    shoppingList.title
-                                )
-                            )
-                        }
-                    }else{
-                        shoppingList = ShoppingList(userId = AuthRepo.getUser(it)?.id)
-                        (activity as ActivityShoppingList?)?.apply {
-                            setTitle(
-                                getString(R.string.add_shopping_list)
-                            )
-                        }
-                    }
-                }
-                refreshView()
-            }
-        }
-    }
-
     private fun refreshView() {
         debugLog(shoppingList)
         et_shopping_list_name.setText(shoppingList.title)
@@ -366,7 +377,11 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
     private fun isEditMode():Boolean = arguments?.containsKey(ARG_SHOPPING_LIST_ID) ?: false
 
     override fun getExitPrompt(): String? {
-        return getString(R.string.discard_and_exit_prompt)
+        if (shoppingList.hashCode() !=initHashcode) {
+            return getString(R.string.discard_and_exit_prompt)
+        }else{
+            return null
+        }
     }
 
     override fun getOptionsMenu(context: Context): MenuView? {
