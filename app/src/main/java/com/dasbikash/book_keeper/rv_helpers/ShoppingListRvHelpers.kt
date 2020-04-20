@@ -1,10 +1,10 @@
 package com.dasbikash.book_keeper.rv_helpers
 
-import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.recyclerview.widget.DiffUtil
@@ -67,7 +67,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val tv_sl_deadline_text: TextView = itemView.findViewById(
         R.id.tv_sl_deadline_text
     )
-    private val iv_options: ViewGroup = itemView.findViewById(
+    private val iv_options: ImageView = itemView.findViewById(
         R.id.iv_options
     )
     private val content_holder: ViewGroup = itemView.findViewById(

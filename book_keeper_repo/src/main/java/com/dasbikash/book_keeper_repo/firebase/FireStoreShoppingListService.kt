@@ -16,6 +16,7 @@ internal object FireStoreShoppingListService {
 
     fun saveShoppingList(shoppingList: ShoppingList) {
         shoppingList.updateModified()
+        debugLog("saveShoppingList: $shoppingList")
         FireStoreRefUtils.getShoppingListCollectionRef().document(shoppingList.id).set(shoppingList)
     }
 

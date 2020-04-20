@@ -199,6 +199,7 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         rv_request_pending_to_me_user_list.adapter = connectionPendingToMeUserAdapter
         viewModel = ViewModelProviders.of(this).get(ViewModelConnections::class.java)
         btn_search_user.setOnClickListener {
+            hideKeyboard()
             et_search_user.text.toString().trim().let {
                 if (it.isNotBlank()){
                     runUserSearch(it)

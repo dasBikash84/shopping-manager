@@ -306,4 +306,5 @@
     <string name="exp_sum_period">\"সময়কালঃ\",\"%1$s - %2$s\"\n</string>
     <string name="exp_sum_amount">\"মোট খরচের পরিমাণ:\",\"%1$.2f\"\n</string>
     <string name="exp_sum_exp_count">\"খরচের সংখ্যা:\",\"%1$d\"\n\n</string>
+    <string name="sl_send_confirmation_prompt">বাজারের ফর্দ \"%1$s\"-কে পাঠাবেন?</string>
 </resources>

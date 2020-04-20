@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="2dp"
-    android:layout_marginBottom="4dp">
+    android:layout_marginBottom="2dp">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
@@ -17,19 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="2dp">
-            <com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout
-                android:id="@+id/iv_options"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:orientation="vertical"
-                android:gravity="top|end">
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:src="@drawable/ic_options"/>
-            </com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/sl_title_holder"
                 app:layout_constraintTop_toTopOf="parent"
@@ -52,10 +39,18 @@
                     android:layout_height="wrap_content"
                     style="@style/exp_entry_view_details_text"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_options"
                     app:layout_constraintStart_toEndOf="@id/tv_sl_title_prompt_text"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="@string/sl_title_prompt_text"/>
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:layout_marginStart="2dp"
+                    android:id="@+id/iv_options"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_options"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

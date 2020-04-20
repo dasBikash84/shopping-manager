@@ -226,17 +226,24 @@ class ShoppingListUtils {
             val onlineSlShareReq = OnlineSlShareReq.getInstanceForSend(
                 shoppingList,user
             )
-            NetworkMonitor.runWithNetwork(context) {
-                GlobalScope.launch {
-                    ShoppingListRepo.approveOnlineShareRequest(
-                        context, shoppingList, onlineSlShareReq
-                    )
-                    ToastUtils.showShortToast(
-                        context,
-                        context.getString(R.string.shopping_list_send_message, user.displayText())
-                    )
+            DialogUtils.showAlertDialog(context, DialogUtils.AlertDialogDetails(
+                message = context.getString(R.string.sl_send_confirmation_prompt,user.displayText()),
+                positiveButtonText = context.getString(R.string.yes),
+                negetiveButtonText = context.getString(R.string.cancel),
+                doOnPositivePress = {
+                    NetworkMonitor.runWithNetwork(context) {
+                        GlobalScope.launch {
+                            ShoppingListRepo.approveOnlineShareRequest(
+                                context, shoppingList, onlineSlShareReq
+                            )
+                            ToastUtils.showShortToast(
+                                context,
+                                context.getString(R.string.shopping_list_send_message, user.displayText())
+                            )
+                        }
+                    }
                 }
-            }
+            ))
         }
 
         private fun getOffLineShareOptionsMenuItem(context: Context, shoppingListId: String): MenuViewItem {
@@ -277,19 +284,12 @@ class ShoppingListUtils {
                         GlobalScope.launch {
                             ShoppingListRepo.findById(context, shoppingListId)?.let {
                                 runOnMainThread({
-//                                    if (it.userId == AuthRepo.getUserId()) {
-                                        context.startActivity(
-                                            ActivityShoppingListShare.getOnlineShareInstance(
-                                                context,
-                                                shoppingListId
-                                            )
+                                    context.startActivity(
+                                        ActivityShoppingListShare.getOnlineShareInstance(
+                                            context,
+                                            shoppingListId
                                         )
-//                                    } else {
-//                                        ToastUtils.showShortToast(
-//                                            context,
-//                                            R.string.owner_sl_online_share_message
-//                                        )
-//                                    }
+                                    )
                                 })
                             }
                         }
