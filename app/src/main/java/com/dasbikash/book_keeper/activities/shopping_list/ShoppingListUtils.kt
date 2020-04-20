@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runOnMainThread
+import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_toast_utils.ToastUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
@@ -225,11 +226,16 @@ class ShoppingListUtils {
             val onlineSlShareReq = OnlineSlShareReq.getInstanceForSend(
                 shoppingList,user
             )
-            GlobalScope.launch {
-                ShoppingListRepo.approveOnlineShareRequest(
-                    context, shoppingList, onlineSlShareReq
-                )
-                ToastUtils.showShortToast(context,context.getString(R.string.shopping_list_send_message,user.displayText()))
+            NetworkMonitor.runWithNetwork(context) {
+                GlobalScope.launch {
+                    ShoppingListRepo.approveOnlineShareRequest(
+                        context, shoppingList, onlineSlShareReq
+                    )
+                    ToastUtils.showShortToast(
+                        context,
+                        context.getString(R.string.shopping_list_send_message, user.displayText())
+                    )
+                }
             }
         }
 

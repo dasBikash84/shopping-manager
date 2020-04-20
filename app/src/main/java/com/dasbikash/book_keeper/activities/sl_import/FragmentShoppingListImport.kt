@@ -95,7 +95,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
                         delay(2000L)
                         exit()
                     }else{
-                        showShortSnack(getString(R.string.duplicate_shopping_list_or_share_req_message))
+                        showShortSnack(getString(R.string.unknown_error_message))
                         hideWaitScreen()
                         showScannerPreview()
                     }
