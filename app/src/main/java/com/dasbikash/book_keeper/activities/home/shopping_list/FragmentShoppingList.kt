@@ -317,7 +317,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     }
     override fun getPageTitle(context: Context):String? = context.getString(R.string.shopping_list_title)
 
-    override fun getOptionsMenu(context: Context): MenuView? {
+    override suspend fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
             add(
                 MenuViewItem(

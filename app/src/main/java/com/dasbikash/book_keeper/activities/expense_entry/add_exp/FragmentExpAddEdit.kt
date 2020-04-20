@@ -486,7 +486,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         return null
     }
 
-    override fun getOptionsMenu(context: Context): MenuView? {
+    override suspend fun getOptionsMenu(context: Context): MenuView? {
         val menuView = MenuView()
         menuView.add(GetCalculatorMenuItem(context))
         menuView.add(

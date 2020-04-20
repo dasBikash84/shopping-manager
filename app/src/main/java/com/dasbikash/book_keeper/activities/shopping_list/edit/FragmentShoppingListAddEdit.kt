@@ -384,7 +384,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
         }
     }
 
-    override fun getOptionsMenu(context: Context): MenuView? {
+    override suspend fun getOptionsMenu(context: Context): MenuView? {
         val menuView = MenuView(menuItemFontSize = 20.00f)
         menuView.add(GetCalculatorMenuItem(context))
         return menuView

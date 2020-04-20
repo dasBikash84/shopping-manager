@@ -26,6 +26,7 @@ import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
@@ -219,23 +220,15 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
 
     private fun getShoppingListId():String = arguments!!.getString(ARG_SHOPPING_LIST_ID)!!
 
-    override fun getOptionsMenu(context: Context): MenuView? {
+    override suspend fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
             add(getEditOptionsMenuItem(context))
-            add(getDeleteOptionsMenuItem(context))
+            getDeleteOptionsMenuItem(context)?.let { add(it)}
             ShoppingListUtils.getShareOptionsMenu(context,getShoppingListId()).let {
                 this.addAll(it)
             }
-            add(getAddShoppingListItemAddMenuItem(context))
             add(GetCalculatorMenuItem(context))
         }
-    }
-
-    private fun getAddShoppingListItemAddMenuItem(context: Context): MenuViewItem {
-        return MenuViewItem(
-            text = context.getString(R.string.shopping_list_item_create_title),
-            task = { launchAddItemScreen() }
-        )
     }
 
     private fun getEditOptionsMenuItem(context: Context): MenuViewItem {
@@ -251,11 +244,17 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
         )
     }
 
-    private fun getDeleteOptionsMenuItem(context: Context): MenuViewItem {
-        return MenuViewItem(
-            text = context.getString(R.string.delete),
-            task = { deleteTask() }
-        )
+    private suspend fun getDeleteOptionsMenuItem(context: Context): MenuViewItem? {
+        return ShoppingListRepo.findById(context,getShoppingListId())!!.let {
+            if (it.userId == AuthRepo.getUserId()){
+                return@let MenuViewItem(
+                    text = context.getString(R.string.delete),
+                    task = { deleteTask() }
+                )
+            }else{
+                return@let null
+            }
+        }
     }
 
     private fun deleteTask(){

@@ -308,7 +308,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
     }
     override fun registerWaitScreen(): ViewGroup = wait_screen
     override fun getPageTitle(context: Context):String? = context.getString(R.string.exp_browse_page_title)
-    override fun getOptionsMenu(context: Context): MenuView? {
+    override suspend fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
             add(GetCalculatorMenuItem(context))
             add(

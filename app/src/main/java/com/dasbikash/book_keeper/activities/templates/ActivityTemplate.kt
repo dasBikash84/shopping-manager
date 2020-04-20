@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.activities.templates
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
@@ -12,6 +13,7 @@ import com.dasbikash.menu_view.attachMenuViewForClick
 import com.dasbikash.super_activity.SingleFragmentSuperActivity
 import kotlinx.android.synthetic.main.activity_template.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
+import kotlinx.coroutines.launch
 
 abstract class ActivityTemplate: SingleFragmentSuperActivity(),WaitScreenOwner {
 
@@ -34,12 +36,14 @@ abstract class ActivityTemplate: SingleFragmentSuperActivity(),WaitScreenOwner {
             )
             title_holder.show()
         }
-        fragmentTemplate.getOptionsMenu(this).let {
-            if (it != null) {
-                btn_options.attachMenuViewForClick(it)
-                btn_options.show()
-            } else {
-                btn_options.hide()
+        lifecycleScope.launch {
+            fragmentTemplate.getOptionsMenu(this@ActivityTemplate).let {
+                if (it != null) {
+                    btn_options.attachMenuViewForClick(it)
+                    btn_options.show()
+                } else {
+                    btn_options.hide()
+                }
             }
         }
         hideWaitScreen()

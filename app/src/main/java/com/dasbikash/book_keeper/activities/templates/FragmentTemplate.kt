@@ -6,7 +6,7 @@ import com.dasbikash.menu_view.MenuView
 
 abstract class FragmentTemplate:Fragment() {
 
-    open fun getOptionsMenu(context: Context):MenuView?{
+    open suspend fun getOptionsMenu(context: Context):MenuView?{
         return null
     }
 

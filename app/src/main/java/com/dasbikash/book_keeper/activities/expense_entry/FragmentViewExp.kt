@@ -83,7 +83,7 @@ class FragmentViewExp : FragmentTemplate() {
         }
     }
 
-    override fun getOptionsMenu(context: Context):MenuView?{
+    override suspend fun getOptionsMenu(context: Context):MenuView?{
 
         val menuViewItems = listOf<MenuViewItem>(
             MenuViewItem(
