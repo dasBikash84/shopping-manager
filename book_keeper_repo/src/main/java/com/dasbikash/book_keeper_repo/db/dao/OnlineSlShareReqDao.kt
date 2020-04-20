@@ -29,17 +29,17 @@ internal interface OnlineSlShareReqDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(onlineSlShareReq: OnlineSlShareReq)
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId OR partnerUserId=:partnerUserId ORDER BY modified ASC")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE partnerId=:ownerId OR requesterId=:partnerUserId ORDER BY modified ASC")
     suspend fun findAll(ownerId:String = AuthRepo.getUserId(), partnerUserId:String=AuthRepo.getUserId()):List<OnlineSlShareReq>
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND partnerUserId=:partnerUserId")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE documentPath=:documentPath AND requesterId=:partnerUserId")
     suspend fun findByDocumentPathAndPartnerId(documentPath:String, partnerUserId:String=AuthRepo.getUserId()):OnlineSlShareReq?
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE modified >= :leastModifiedTime AND partnerUserId=:partnerUserId")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE modified >= :leastModifiedTime AND requesterId=:partnerUserId")
     fun getRecentModifiedEntries(leastModifiedTime: Date=Date(),
                                  partnerUserId: String=AuthRepo.getUserId()):LiveData<List<OnlineSlShareReq>>
 
-    @Query("SELECT * FROM OnlineSlShareReq WHERE ownerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
+    @Query("SELECT * FROM OnlineSlShareReq WHERE partnerId=:ownerId AND approvalStatus=:approvalStatus ORDER BY modified DESC")
     fun getApprovalPendingEntries(ownerId:String = AuthRepo.getUserId(),
                                   approvalStatus:RequestApprovalStatus = RequestApprovalStatus.PENDING):LiveData<List<OnlineSlShareReq>>
 

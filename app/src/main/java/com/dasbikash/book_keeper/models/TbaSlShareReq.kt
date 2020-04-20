@@ -9,5 +9,5 @@ import com.dasbikash.book_keeper_repo.model.User
 data class TbaSlShareReq(
     val shoppingList:ShoppingList,
     val onlineSlShareReq: OnlineSlShareReq,
-    val partner:User
+    val requester:User
 )

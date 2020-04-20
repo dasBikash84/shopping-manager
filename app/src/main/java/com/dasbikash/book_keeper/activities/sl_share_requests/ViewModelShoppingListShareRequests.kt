@@ -35,8 +35,8 @@ class ViewModelShoppingListShareRequests(private val mApplication: Application) 
 
     private suspend fun getTbaSlShareReq(onlineSlShareReq: OnlineSlShareReq):TbaSlShareReq{
         val shoppingList = ShoppingListRepo.findInLocalById(mApplication,onlineSlShareReq.sharedDocumentId()!!)!!
-        val partner = AuthRepo.findUserById(mApplication,onlineSlShareReq.partnerUserId!!)!!
-        return TbaSlShareReq(shoppingList, onlineSlShareReq, partner)
+        val requester = AuthRepo.findUserById(mApplication,onlineSlShareReq.requesterId!!)!!
+        return TbaSlShareReq(shoppingList, onlineSlShareReq, requester)
     }
 
 }

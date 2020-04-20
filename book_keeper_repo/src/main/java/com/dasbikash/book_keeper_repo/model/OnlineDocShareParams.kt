@@ -8,11 +8,11 @@ import java.util.*
 @Keep
 data class OnlineDocShareParams(
     var shareReqDocId:String = UUID.randomUUID().toString(),
-    var ownerId:String?=null,
+    var partnerId:String?=null,
     var documentPath:String?=null
 ){
     fun validateData(){
-        if (ownerId.isNullOrBlank() ||
+        if (partnerId.isNullOrBlank() ||
             documentPath.isNullOrBlank()){
             throw IllegalArgumentException()
         }
@@ -23,7 +23,7 @@ data class OnlineDocShareParams(
             : OnlineDocShareParams {
             val shoppingListShareParams =
                 OnlineDocShareParams(
-                    ownerId = AuthRepo.getUserId(),
+                    partnerId = AuthRepo.getUserId(),
                     documentPath = ShoppingListRepo.getFbPath(shoppingList)
                 )
             return shoppingListShareParams

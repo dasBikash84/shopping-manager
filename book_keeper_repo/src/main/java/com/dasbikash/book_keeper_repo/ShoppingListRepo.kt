@@ -358,7 +358,7 @@ object ShoppingListRepo : BookKeeperRepo() {
     ) {
         val partnerIds = mutableSetOf<String>()
         shoppingList.partnerIds?.let { partnerIds.addAll(it) }
-        partnerIds.add(onlineSlShareReq.partnerUserId!!)
+        partnerIds.add(onlineSlShareReq.requesterId!!)
         shoppingList.partnerIds = partnerIds.toList()
         saveToFireBase(context, shoppingList)
         saveLocal(context, shoppingList)

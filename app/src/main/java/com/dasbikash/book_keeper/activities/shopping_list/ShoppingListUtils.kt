@@ -271,19 +271,19 @@ class ShoppingListUtils {
                         GlobalScope.launch {
                             ShoppingListRepo.findById(context, shoppingListId)?.let {
                                 runOnMainThread({
-                                    if (it.userId == AuthRepo.getUserId()) {
+//                                    if (it.userId == AuthRepo.getUserId()) {
                                         context.startActivity(
                                             ActivityShoppingListShare.getOnlineShareInstance(
                                                 context,
                                                 shoppingListId
                                             )
                                         )
-                                    } else {
-                                        ToastUtils.showShortToast(
-                                            context,
-                                            R.string.owner_sl_online_share_message
-                                        )
-                                    }
+//                                    } else {
+//                                        ToastUtils.showShortToast(
+//                                            context,
+//                                            R.string.owner_sl_online_share_message
+//                                        )
+//                                    }
                                 })
                             }
                         }

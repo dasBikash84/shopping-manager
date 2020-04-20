@@ -9,15 +9,14 @@ import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 internal object FireStoreOnlineSlShareService {
 
     private const val MODIFIED_FIELD = "modified"
-    private const val OWNER_USER_ID_FIELD = "ownerId"
-    private const val PARTNER_USER_ID_FIELD = "partnerUserId"
+    private const val PARTNER_USER_ID_FIELD = "partnerId"
+    private const val REQUESTER_USER_ID_FIELD = "requesterId"
 
     fun postRequest(onlineSlShareReq: OnlineSlShareReq) {
         debugLog(onlineSlShareReq)
@@ -54,7 +53,7 @@ internal object FireStoreOnlineSlShareService {
 
         var query = FireStoreRefUtils
                     .getOnlineSlShareRequestCollectionRef()
-                    .whereEqualTo(OWNER_USER_ID_FIELD,AuthRepo.getUserId())
+                    .whereEqualTo(PARTNER_USER_ID_FIELD,AuthRepo.getUserId())
 
         if (lastUpdated!=null){
             query = query.whereGreaterThan(MODIFIED_FIELD,lastUpdated)
@@ -68,7 +67,7 @@ internal object FireStoreOnlineSlShareService {
         debugLog("lastUpdated:$lastUpdated")
         var query = FireStoreRefUtils
                             .getOnlineSlShareRequestCollectionRef()
-                            .whereEqualTo(PARTNER_USER_ID_FIELD,AuthRepo.getUserId())
+                            .whereEqualTo(REQUESTER_USER_ID_FIELD,AuthRepo.getUserId())
 
         if (lastUpdated!=null){
             query = query.whereGreaterThan(MODIFIED_FIELD,lastUpdated)

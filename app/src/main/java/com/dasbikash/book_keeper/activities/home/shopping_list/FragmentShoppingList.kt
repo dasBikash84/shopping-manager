@@ -280,7 +280,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                     runWithContext {
                         lifecycleScope.launch {
                             val shoppingList:ShoppingList = ShoppingListRepo.findById(it,onlineSlShareReq.sharedDocumentId()!!)!!
-                            AuthRepo.findUserById(it,onlineSlShareReq.ownerId!!)?.let {
+                            AuthRepo.findUserById(it,onlineSlShareReq.partnerId!!)?.let {
                                 showLongSnack(
                                     getString(R.string.shopping_list_share_req_approved,it.displayText()),
                                     getString(R.string.show_list_action_text),
@@ -293,7 +293,7 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                 RequestApprovalStatus.DENIED -> {
                     runWithContext {
                         lifecycleScope.launch {
-                            AuthRepo.findUserById(it,onlineSlShareReq.ownerId!!)?.let {
+                            AuthRepo.findUserById(it,onlineSlShareReq.partnerId!!)?.let {
                                 showLongSnack(getString(R.string.shopping_list_share_req_denied,it.displayText()))
                             }
                         }
