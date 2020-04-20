@@ -43,7 +43,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private lateinit var viewModel: ViewModelShoppingListView
-    private val shoppingListItemAdapter = ShoppingListItemAdapter({launchShoppingListItemDetailView(it)},{editTask(it)},{deleteTask(it)},{closeTask(it)})
+    private  lateinit var shoppingListItemAdapter : ShoppingListItemAdapter//({launchShoppingListItemDetailView(it)},{closeTask(it)},{editTask(it)},{deleteTask(it)})
 
     private fun editTask(shoppingListItem: ShoppingListItem) {
         runWithActivity {
@@ -100,18 +100,29 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ViewModelShoppingListView::class.java)
-        rv_shopping_list_items.adapter = shoppingListItemAdapter
+
+        viewModel.setShoppingListId(getShoppingListId())
 
         viewModel.getShoppingList().observe(this,object : Observer<ShoppingList>{
             override fun onChanged(shoppingList: ShoppingList?) {
                 shoppingList?.let {
                     debugLog(it)
+                    if (!::shoppingListItemAdapter.isInitialized) {
+                        shoppingListItemAdapter = if (it.userId == AuthRepo.getUserId()) {
+                            ShoppingListItemAdapter({ launchShoppingListItemDetailView(it) },
+                                { closeTask(it) },
+                                { editTask(it) },
+                                { deleteTask(it) })
+                        } else {
+                            ShoppingListItemAdapter({ launchShoppingListItemDetailView(it) },
+                                { closeTask(it) })
+                        }
+                        rv_shopping_list_items.adapter = shoppingListItemAdapter
+                    }
                     refreshView(it)
                 }
             }
         })
-
-        viewModel.setShoppingListId(getShoppingListId())
 
         btn_add_shopping_item.setOnClickListener {
             launchAddItemScreen()
@@ -222,7 +233,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
 
     override suspend fun getOptionsMenu(context: Context): MenuView? {
         return MenuView().apply {
-            add(getEditOptionsMenuItem(context))
+            getEditOptionsMenuItem(context)?.let { add(it) }
             getDeleteOptionsMenuItem(context)?.let { add(it)}
             ShoppingListUtils.getShareOptionsMenu(context,getShoppingListId()).let {
                 this.addAll(it)
@@ -231,17 +242,23 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    private fun getEditOptionsMenuItem(context: Context): MenuViewItem {
-        return MenuViewItem(
-            text = context.getString(R.string.edit),
-            task = {
-                (activity as ActivityShoppingList).addFragmentClearingBackStack(
-                    FragmentShoppingListAddEdit.getEditInstance(
-                        getShoppingListId()
-                    )
+    private suspend fun getEditOptionsMenuItem(context: Context): MenuViewItem? {
+        return ShoppingListRepo.findById(context,getShoppingListId())!!.let {
+            if (it.userId == AuthRepo.getUserId()){
+                return@let MenuViewItem(
+                    text = context.getString(R.string.edit),
+                    task = {
+                        (activity as ActivityShoppingList).addFragmentClearingBackStack(
+                            FragmentShoppingListAddEdit.getEditInstance(
+                                getShoppingListId()
+                            )
+                        )
+                    }
                 )
+            }else{
+                return@let null
             }
-        )
+        }
     }
 
     private suspend fun getDeleteOptionsMenuItem(context: Context): MenuViewItem? {

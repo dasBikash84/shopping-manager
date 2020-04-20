@@ -27,15 +27,15 @@ object ShoppingListItemDiffCallback: DiffUtil.ItemCallback<ShoppingListItem>(){
 
 class ShoppingListItemAdapter(
                         val launchDetailView:(ShoppingListItem)->Unit,
-                        val editTask:(ShoppingListItem)->Unit,
-                        val deleteTask:(ShoppingListItem)->Unit,
-                        val closeTask:(ShoppingListItem)->Unit)
+                        val closeTask:(ShoppingListItem)->Unit,
+                        val editTask:((ShoppingListItem)->Unit)?=null,
+                        val deleteTask:((ShoppingListItem)->Unit)?=null)
     :ListAdapter<ShoppingListItem, ShoppingListItemHolder>(ShoppingListItemDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListItemHolder {
         return ShoppingListItemHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.view_shopping_list_item_preview, parent, false
-            ),editTask, deleteTask, closeTask
+            ),closeTask,editTask, deleteTask
         )
     }
 
@@ -48,9 +48,9 @@ class ShoppingListItemAdapter(
 }
 
 class ShoppingListItemHolder(itemView: View,
-                             val editTask:(ShoppingListItem)->Unit,
-                             val deleteTask:(ShoppingListItem)->Unit,
-                             val closeTask:(ShoppingListItem)->Unit) : RecyclerView.ViewHolder(itemView) {
+                             val closeTask:(ShoppingListItem)->Unit,
+                             val editTask:((ShoppingListItem)->Unit)?=null,
+                             val deleteTask:((ShoppingListItem)->Unit)?=null) : RecyclerView.ViewHolder(itemView) {
 
     private val iv_tick_mark: ImageView = itemView.findViewById(R.id.iv_tick_mark)
     private val iv_sli_options: ImageView = itemView.findViewById(R.id.iv_sli_options)
@@ -67,7 +67,33 @@ class ShoppingListItemHolder(itemView: View,
     private lateinit var mShoppingListItem: ShoppingListItem
 
     init {
-        val menuViewItems = listOf<MenuViewItem>(
+        iv_sli_options.attachMenuViewForClick(
+            MenuView().apply {
+                editTask?.let {
+                    add(
+                        MenuViewItem(
+                            text = itemView.context.getString(R.string.edit),
+                            task = { it(mShoppingListItem) }
+                        )
+                    )
+                }
+                deleteTask?.let {
+                    add(
+                        MenuViewItem(
+                            text = itemView.context.getString(R.string.delete),
+                            task = { it(mShoppingListItem) }
+                        )
+                    )
+                }
+                add(
+                    MenuViewItem(
+                        text = itemView.context.getString(R.string.mark_as_close),
+                        task = { closeTask(mShoppingListItem) }
+                    )
+                )
+            }
+        )
+        /*val menuViewItems = listOf<MenuViewItem>(
             MenuViewItem(
                 text = itemView.context.getString(R.string.edit),
                 task = { editTask(mShoppingListItem) }
@@ -82,8 +108,8 @@ class ShoppingListItemHolder(itemView: View,
             )
         )
         val menuView = MenuView()
-        menuView.addAll(menuViewItems)
-        iv_sli_options.attachMenuViewForClick(menuView)
+        menuView.addAll(menuViewItems)*/
+//        iv_sli_options.attachMenuViewForClick(menuView)
     }
 
     fun bind(shoppingListItem: ShoppingListItem) {
