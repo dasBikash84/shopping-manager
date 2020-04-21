@@ -7,6 +7,7 @@ import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
+import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
@@ -36,6 +37,7 @@ class ActivityLogin : ActivityTemplate() {
 
         fun processLogin(activity: Activity,user: User){
             saveUserId(activity,if (user.mobileLogin) {user.phone!!} else {user.email!!})
+            BookKeeperMessagingService.subscribeOnLogin(activity)
             BookKeeperApp.changeLanguageSettings(activity,ActivityHome.getProfileIntent(activity),user.language)
         }
 

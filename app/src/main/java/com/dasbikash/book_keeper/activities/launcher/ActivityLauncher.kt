@@ -35,7 +35,7 @@ class ActivityLauncher : AppCompatActivity() {
         debugLog("initApp")
         initNetworkMonitor()
         AsyncTaskManager.init()
-        BookKeeperMessagingService.init()
+        BookKeeperMessagingService.init(this)
 //        LoggerUtils.init(BuildConfig.DEBUG)
     }
 

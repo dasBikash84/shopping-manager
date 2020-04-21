@@ -28,6 +28,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.application.BookKeeperApp
+import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ImageRepo
@@ -380,6 +381,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
 
     private fun signOutTask() {
         runWithActivity {
+            BookKeeperMessagingService.unSubscribeOnSignOut(it)
             AuthRepo.signOut(it)
             it.finish()
             it.startActivity(ActivityLogin::class.java)
