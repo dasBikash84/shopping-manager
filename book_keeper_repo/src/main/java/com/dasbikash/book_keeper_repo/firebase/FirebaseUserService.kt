@@ -5,6 +5,8 @@ import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
+import com.dasbikash.firebase_auth.FirebaseAuthService
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import java.util.*
 import kotlin.coroutines.resume
@@ -22,7 +24,17 @@ internal object FirebaseUserService {
         if (user.validateData()) {
             user.updateModified()
             user.phone = user.phone?.let { ValidationUtils.sanitizeNumber(it) }
-            FireStoreRefUtils.getUserCollectionRef().document(user.id).set(user)
+            FireStoreRefUtils
+                .getUserCollectionRef()
+                .document(user.id)
+                .set(user)
+                .addOnSuccessListener {
+                    debugLog("User data saved")
+                }
+                .addOnFailureListener {
+                    debugLog("User data save failure")
+                    it.printStackTrace()
+                }
             return user
         }
         return null
@@ -157,6 +169,30 @@ internal object FirebaseUserService {
                     it.printStackTrace()
                     continuation.resume(emptyList())
                 }
+        }
+    }
+
+    suspend fun loginAnonymous():Boolean{
+        debugLog("loginAnonymous")
+        if (FirebaseAuth.getInstance().currentUser == null){
+            return suspendCoroutine {
+                val continuation = it
+                FirebaseAuth
+                    .getInstance()
+                    .signInAnonymously()
+                    .addOnSuccessListener {
+                        debugLog("loginAnonymous success")
+                        continuation.resume(true)
+                    }
+                    .addOnFailureListener {
+                        debugLog("loginAnonymous failure")
+                        it.printStackTrace()
+                        continuation.resume(false)
+                    }
+            }
+        }else{
+            debugLog("loginAnonymous success")
+            return true
         }
     }
 }

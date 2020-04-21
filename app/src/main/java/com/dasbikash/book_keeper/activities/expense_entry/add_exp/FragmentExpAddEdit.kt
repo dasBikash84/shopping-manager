@@ -373,7 +373,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         runWithActivity {
             if (it is ActivityHome){
                 showShortSnack(R.string.expense_saved_message)
-                it.loadHomeFragment()
+                it.loadExpAddFragment()
             }else {
                 activity?.finish()
             }

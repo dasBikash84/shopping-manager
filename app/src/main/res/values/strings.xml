@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">BookKeeper</string>
-    <string name="email_hint">Email</string>
-    <string name="password_hint">Password</string>
+    <string name="email_hint">Email*</string>
+    <string name="password_hint">Password*</string>
     <string name="login_button">Log In</string>
     <string name="guest_login_button">Continue as Guest</string>
     <string name="sign_up_button">Sign Up</string>
     <string name="mobile_hint">Mobile Number</string>
     <string name="signup_textview">Sign Up</string>
-    <string name="confirm_password_hint">Confirm Password</string>
+    <string name="confirm_password_hint">Confirm Password*</string>
     <string name="first_name_hint">First Name</string>
-    <string name="last_name_hint">Last Name(Optional)</string>
-    <string name="phone_no_hint">Mobile Number(Optional)</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="phone_no_hint">Mobile Number</string>
     <string name="bmi_add">Add</string>
     <string name="bmi_exp_browse">Browse</string>
     <string name="bmi_budget">Budget</string>

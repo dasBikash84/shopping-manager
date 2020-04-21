@@ -168,8 +168,8 @@ class ActivityHome : ActivityTemplate() {
         return null
     }
 
-    fun loadHomeFragment(){
-        addFragmentClearingBackStack(getDefaultFragment())
+    fun loadExpAddFragment(){
+        addFragmentClearingBackStack(FragmentExpAddEdit())
     }
 
     private fun isProfileIntent() = intent.hasExtra(EXTRA_PROFILE_MODE)

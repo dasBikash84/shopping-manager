@@ -27,6 +27,7 @@ import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
@@ -249,31 +250,41 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it, {
                 lifecycleScope.launch {
                     showWaitScreen()
-                    //Check if already used for login. If yes the just send code
-                    val existingUsers = AuthRepo.findUsersForPhoneLogin(phone)
-                    if (existingUsers.isNotEmpty()){
-                        debugLog("existingUsers: $existingUsers")
-                        return@launch sendCodeTask(phone)
-                    }
-                    AuthRepo.findEmailLoginUsersByPhone(phone).let {
-                        debugLog(it)
-                        if (it.isEmpty()){
-                            sendCodeTask(phone)
-                        }else{
-                            DialogUtils.showAlertDialog(context!!, DialogUtils.AlertDialogDetails(
-                                message = context!!.getString(R.string.existing_email_login_prompt,getMaskedEmail(it.get(0).email)),
-                                doOnPositivePress = {
-                                    hideWaitScreen()
-                                    log_in_option_selector.selectedIndex = 1
-                                    enableEmailLoginViewItems()
-                                },
-                                doOnNegetivePress = {
-                                    sendCodeTask(phone)
-                                },
-                                negetiveButtonText = context!!.getString(R.string.sign_up_with_mobile),
-                                positiveButtonText= context!!.getString(R.string.log_in_with_email)
-                            ))
+                    if (AuthRepo.loginAnonymous()) {
+                        //Check if already used for login. If yes the just send code
+                        val existingUsers = AuthRepo.findUsersForPhoneLogin(phone)
+                        if (existingUsers.isNotEmpty()) {
+                            debugLog("existingUsers: $existingUsers")
+                            return@launch sendCodeTask(phone)
                         }
+                        AuthRepo.findEmailLoginUsersByPhone(phone).let {
+                            debugLog(it)
+                            if (it.isEmpty()) {
+                                sendCodeTask(phone)
+                            } else {
+                                DialogUtils.showAlertDialog(
+                                    context!!, DialogUtils.AlertDialogDetails(
+                                        message = context!!.getString(
+                                            R.string.existing_email_login_prompt,
+                                            getMaskedEmail(it.get(0).email)
+                                        ),
+                                        doOnPositivePress = {
+                                            hideWaitScreen()
+                                            log_in_option_selector.selectedIndex = 1
+                                            enableEmailLoginViewItems()
+                                        },
+                                        doOnNegetivePress = {
+                                            sendCodeTask(phone)
+                                        },
+                                        negetiveButtonText = context!!.getString(R.string.sign_up_with_mobile),
+                                        positiveButtonText = context!!.getString(R.string.log_in_with_email)
+                                    )
+                                )
+                            }
+                        }
+                    }else{
+                        hideWaitScreen()
+                        showIndefiniteSnack(R.string.unknown_error_message)
                     }
                 }
             })

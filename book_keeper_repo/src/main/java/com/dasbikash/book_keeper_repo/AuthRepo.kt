@@ -322,4 +322,7 @@ object AuthRepo : BookKeeperRepo() {
         return FirebaseUserService.findUsersForPhoneLogin(phone)
     }
 
+    suspend fun loginAnonymous():Boolean{
+        return FirebaseUserService.loginAnonymous()
+    }
 }

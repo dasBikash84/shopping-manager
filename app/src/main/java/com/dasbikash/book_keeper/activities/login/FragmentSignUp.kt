@@ -82,11 +82,6 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             showShortSnack(R.string.password_mismatch_error)
             return
         }
-        if (et_first_name.text.isNullOrBlank()){
-            et_first_name.setError(getString(R.string.invalid_first_name))
-            showShortSnack(R.string.invalid_first_name)
-            return
-        }
         showSignUpPrompt(context)
     }
 
@@ -110,32 +105,37 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
         runWithContext {
             lifecycleScope.launch {
                 showWaitScreen()
-                try {
-                    if (mobile.isNotBlank()) {
-                        AuthRepo.findUsersByPhone(mobile).let {
-                            if (it.isNotEmpty()) {
-                                et_mobile.setError(getString(R.string.mobile_number_taken_error))
-                                hideWaitScreen()
-                                return@launch
+                if (AuthRepo.loginAnonymous()) {
+                    try {
+                        if (mobile.isNotBlank()) {
+                            AuthRepo.findUsersByPhone(mobile).let {
+                                if (it.isNotEmpty()) {
+                                    et_mobile.setError(getString(R.string.mobile_number_taken_error))
+                                    hideWaitScreen()
+                                    return@launch
+                                }
                             }
                         }
-                    }
-                    AuthRepo
-                        .createUserWithEmailAndPassword(
-                            it,email, password,firstName,
-                            lastName,mobile,BookKeeperApp.getLanguageSetting(it)
-                        ).apply {
-                            showLongSnack(R.string.sign_up_success_mesage)
-                            delay(2000)
-                            runWithActivity {
-                                ActivityLogin.processLogin(it,this)
+                        AuthRepo
+                            .createUserWithEmailAndPassword(
+                                it,email, password,firstName,
+                                lastName,mobile,BookKeeperApp.getLanguageSetting(it)
+                            ).apply {
+                                showLongSnack(R.string.sign_up_success_mesage)
+                                delay(2000)
+                                runWithActivity {
+                                    ActivityLogin.processLogin(it,this)
+                                }
                             }
+                    }catch (ex:Throwable){
+                        AuthRepo.resolveSignUpException(ex).let {
+                            showIndefiniteSnack(it)
                         }
-                }catch (ex:Throwable){
-                    AuthRepo.resolveSignUpException(ex).let {
-                        showIndefiniteSnack(it)
+                        hideWaitScreen()
                     }
+                }else{
                     hideWaitScreen()
+                    showIndefiniteSnack(R.string.unknown_error_message)
                 }
             }
         }

@@ -23,7 +23,7 @@ data class User(
     var mobileLogin:Boolean = true
 ):Serializable{
     fun validateData():Boolean{
-        return !id.isBlank() && (!phone.isNullOrBlank() || (!email.isNullOrBlank() && !firstName.isNullOrBlank()))
+        return !id.isBlank() && ((mobileLogin && !phone.isNullOrBlank()) || (!mobileLogin && !email.isNullOrBlank()))
     }
 
     fun displayText(): CharSequence {
