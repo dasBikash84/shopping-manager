@@ -14,6 +14,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
+import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
@@ -34,6 +35,7 @@ class ActivityLauncher : AppCompatActivity() {
         debugLog("initApp")
         initNetworkMonitor()
         AsyncTaskManager.init()
+        BookKeeperMessagingService.init()
 //        LoggerUtils.init(BuildConfig.DEBUG)
     }
 

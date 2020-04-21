@@ -59,6 +59,7 @@ dependencies {
 
     implementation project(':book_keeper_repo')
     implementation 'com.google.firebase:firebase-firestore:21.4.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.5'
 
     implementation 'com.github.dasBikash84:android-extensions:1.8.0'
     implementation 'com.github.dasBikash84:android-async-manager:1.7.0'
