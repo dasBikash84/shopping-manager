@@ -294,7 +294,7 @@
     <string name="sync_later">পরবর্তীতে আমদানি করবেন</string>
     <string name="external_storage_write_permission_rational">ফাইল সেভ জন্য আপনার অনুমতি প্রয়োজন। আপনি কি অনুমতি দিতে চান?</string>
     <string name="open_settings_prompt_for_eswp">ফাইল সেভ করার জন্য আপনার অনুমতি প্রয়োজন। কিন্তু ইতিপূর্বে আপনি তা বাতিল করেছেন। এখন অনুমতি প্রদান করতে হলে সেটিং-এ  গিয়ে করতে হবে। আপনি কি সেটিংস ওপেন করতে চান?</string>
-    <string name="resend_email_with_delay">%1$s সেকেন্ড পরে ভেরিফিকেশান ইমেইল পুনরায় পাঠানো যাবে</string>
+    <string name="resend_email_with_delay">%1$d সেকেন্ড পরে ভেরিফিকেশান ইমেইল পুনরায় পাঠানো যাবে</string>
     <string name="exp_sum_page_title">\"হিসাবরক্ষক অ্যাপ দ্বারা তৈরিকৃত খরচের তথ্য:\"\n\n</string>
     <string name="no_exp_entry_found">কোন ডাটা পাওয়া যায়নি!!</string>
     <string name="start_time_text">শুরুর তারিখঃ</string>
@@ -307,4 +307,7 @@
     <string name="exp_sum_amount">\"মোট খরচের পরিমাণ:\",\"%1$.2f\"\n</string>
     <string name="exp_sum_exp_count">\"খরচের সংখ্যা:\",\"%1$d\"\n\n</string>
     <string name="sl_send_confirmation_prompt">বাজারের ফর্দ \"%1$s\"-কে পাঠাবেন?</string>
+    <string name="re_login_message">আপনার ইমেইল ভেরিফাই করা হয়েছে। দয়া করে পুনরায় লগইন করুন।</string>
+    <string name="sign_up_email_hint">ইমেইল*</string>
+    <string name="sign_up_password_hint">পাসওয়ার্ড*</string>
 </resources>

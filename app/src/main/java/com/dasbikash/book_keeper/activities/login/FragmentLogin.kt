@@ -164,7 +164,11 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             }
         })
 
-        enableSmsLoginViewItems()
+        if (isEmailLoginInstance()){
+            enableEmailLoginViewItems()
+        }else {
+            enableSmsLoginViewItems()
+        }
     }
 
     private fun setEnLangAction() {
@@ -411,12 +415,17 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
 
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
+    private fun isEmailLoginInstance() = arguments?.containsKey(ARG_EMAIL_LOGIN_MODE) == true
+
     companion object{
 
         private val emailMatcher = Regex("(.{3})(.+)(@.+)")
 
         private const val LOGIN_BENEFITS_SHOW_FLAG_SP_KEY =
             "com.dasbikash.exp_man.activities.login.FragmentLogin.LOGIN_BENEFITS_SHOW_FLAG_SP_KEY"
+
+        private const val ARG_EMAIL_LOGIN_MODE =
+            "com.dasbikash.book_keeper.activities.login.FragmentLogin.ARG_EMAIL_LOGIN_MODE"
 
         private fun hideLoginBenefits(context: Context) =
             SharedPreferenceUtils
@@ -435,6 +444,14 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                     }
                     return it
                 }
+        }
+
+        fun getEmailLoginInstance():FragmentLogin{
+            val arg = Bundle()
+            arg.putSerializable(ARG_EMAIL_LOGIN_MODE,ARG_EMAIL_LOGIN_MODE)
+            val fragment = FragmentLogin()
+            fragment.arguments = arg
+            return fragment
         }
     }
 }

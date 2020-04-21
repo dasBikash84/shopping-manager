@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BookKeeper</string>
-    <string name="email_hint">Email*</string>
-    <string name="password_hint">Password*</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
     <string name="guest_login_button">Continue as Guest</string>
     <string name="sign_up_button">Sign Up</string>
@@ -355,4 +355,7 @@
     <string name="end_time_text">End Date:</string>
     <string name="no_exp_entry_found">No data to export!!</string>
     <string name="sl_send_confirmation_prompt">Send shopping list to \"%1$s\"?</string>
+    <string name="re_login_message">Your email has been verified. Now you may login.</string>
+    <string name="sign_up_email_hint">Email*</string>
+    <string name="sign_up_password_hint">Password*</string>
 </resources>

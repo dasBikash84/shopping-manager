@@ -11,9 +11,14 @@ import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 object AuthRepo : BookKeeperRepo() {
 
@@ -55,6 +60,7 @@ object AuthRepo : BookKeeperRepo() {
             ).let {
                 createUser(getUserId(),email,firstName, lastName, mobile,language)
                     .let {
+                        savePass(password,context)
                         saveLogin(context,it)
                         return it
                     }
@@ -89,6 +95,7 @@ object AuthRepo : BookKeeperRepo() {
         FirebaseAuthService.logInUserWithEmailAndPassword(email, password).let {
             try {
                 FirebaseUserService.getUser(getUserId())!!.let {
+                    savePass(password,context)
                     saveLogin(context, it)
                     return it
                 }
@@ -325,4 +332,34 @@ object AuthRepo : BookKeeperRepo() {
     suspend fun loginAnonymous():Boolean{
         return FirebaseUserService.loginAnonymous()
     }
+
+    suspend fun reAuthenticate(context: Context):Boolean{
+        getPass(context)?.let {
+            val password = it
+            debugLog("Pass: $password")
+            FirebaseAuth.getInstance().currentUser?.let {
+                debugLog("email: ${it.email!!}")
+                val firebaseUser = it
+                return suspendCoroutine {
+                    val continuation = it
+                    firebaseUser.reauthenticate(EmailAuthProvider.getCredential(firebaseUser.email!!,password))
+                        .addOnSuccessListener {
+                            debugLog("reauthenticate success")
+                            continuation.resume(true)
+                        }
+                        .addOnFailureListener {
+                            debugLog("reauthenticate failure")
+                            it.printStackTrace()
+                            continuation.resume(false)
+                        }
+                }
+
+            }
+        }
+        return false
+    }
+
+    private const val SP_PASS = "com.dasbikash.book_keeper_repo.AuthRepo.SP_PASS"
+    private fun savePass(pass:String,context: Context) = SharedPreferenceUtils.getDefaultInstance().saveDataSync(context,pass,SP_PASS)
+    private fun getPass(context: Context):String? = SharedPreferenceUtils.getDefaultInstance().getData(context,SP_PASS,String::class.java)
 }

@@ -2,6 +2,7 @@ package com.dasbikash.book_keeper.activities.login
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
@@ -10,11 +11,16 @@ import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 
 class ActivityLogin : ActivityTemplate() {
-    override fun registerDefaultFragment(): FragmentTemplate = FragmentLogin()
+    override fun registerDefaultFragment(): FragmentTemplate = if (isEmailLoginIntent()) {FragmentLogin.getEmailLoginInstance()} else {FragmentLogin()}
+
+    private fun isEmailLoginIntent() = intent.hasExtra(EXTRA_EMAIL_LOGIN)
 
     companion object{
         private const val USER_IDS_SP_KEY =
             "com.dasbikash.exp_man.activities.login.ActivityLogin.USER_IDS_SP_KEY"
+
+        private const val EXTRA_EMAIL_LOGIN =
+            "com.dasbikash.exp_man.activities.login.ActivityLogin.EXTRA_EMAIL_LOGIN"
 
         fun getStoredUserIds(context: Context):List<String>{
             return SharedPreferenceUtils.getDefaultInstance().getSerializableCollection(context,String::class.java,USER_IDS_SP_KEY)?.toList() ?: emptyList()
@@ -31,6 +37,12 @@ class ActivityLogin : ActivityTemplate() {
         fun processLogin(activity: Activity,user: User){
             saveUserId(activity,if (user.mobileLogin) {user.phone!!} else {user.email!!})
             BookKeeperApp.changeLanguageSettings(activity,ActivityHome.getProfileIntent(activity),user.language)
+        }
+
+        fun getEmailLoginIntent(context: Context):Intent{
+            val intent = Intent(context.applicationContext,ActivityLogin::class.java)
+            intent.putExtra(EXTRA_EMAIL_LOGIN,EXTRA_EMAIL_LOGIN)
+            return intent
         }
     }
 }

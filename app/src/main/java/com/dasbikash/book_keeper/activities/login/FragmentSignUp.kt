@@ -105,15 +105,20 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
         runWithContext {
             lifecycleScope.launch {
                 showWaitScreen()
-                if (AuthRepo.loginAnonymous()) {
                     try {
                         if (mobile.isNotBlank()) {
-                            AuthRepo.findUsersByPhone(mobile).let {
-                                if (it.isNotEmpty()) {
-                                    et_mobile.setError(getString(R.string.mobile_number_taken_error))
-                                    hideWaitScreen()
-                                    return@launch
+                            if (AuthRepo.loginAnonymous()) {
+                                AuthRepo.findUsersByPhone(mobile).let {
+                                    if (it.isNotEmpty()) {
+                                        et_mobile.setError(getString(R.string.mobile_number_taken_error))
+                                        hideWaitScreen()
+                                        return@launch
+                                    }
                                 }
+                            }else{
+                                hideWaitScreen()
+                                showIndefiniteSnack(R.string.unknown_error_message)
+                                return@launch
                             }
                         }
                         AuthRepo
@@ -133,10 +138,6 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
                         }
                         hideWaitScreen()
                     }
-                }else{
-                    hideWaitScreen()
-                    showIndefiniteSnack(R.string.unknown_error_message)
-                }
             }
         }
     }

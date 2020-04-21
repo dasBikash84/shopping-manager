@@ -18,6 +18,7 @@ import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.snackbar_ext.showIndefiniteSnack
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_wait_for_vefification.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -82,7 +83,7 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                 do {
                     AuthRepo.getEmailVerificationLinkGenDelay(it).let {
                         if (it > 0) {
-                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it.toInt()/1000)
+                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it/1000)
                             btn_resend_verification_email.isEnabled = false
                         } else {
                             btn_resend_verification_email.text = getString(R.string.resend_email)
@@ -99,23 +100,37 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
+    private var refreshRunning = false
     private fun refreshAction() {
-        runWithActivity {
-            NetworkMonitor.runWithNetwork(it) {
-                lifecycleScope.launch {
-                    showWaitScreen()
-                    if (AuthRepo.refreshLogin()){
-                        if (AuthRepo.isVerified()){
-                            it.finish()
-                            it.startActivity(ActivityHome.getProfileIntent(it.applicationContext))
+        if (!refreshRunning) {
+            refreshRunning = true
+            runWithActivity {
+                NetworkMonitor.runWithNetwork(it) {
+                    lifecycleScope.launch {
+                        showWaitScreen()
+                        if (AuthRepo.refreshLogin()) {
+                            if (AuthRepo.isVerified()) {
+                                if (AuthRepo.reAuthenticate(it)) {
+                                    it.finish()
+                                    it.startActivity(ActivityHome.getProfileIntent(it.applicationContext))
+                                } else {
+                                    AuthRepo.signOut(it)
+                                    showLongSnack(R.string.re_login_message)
+                                    delay(3000)
+                                    it.finish()
+                                    it.startActivity(ActivityLogin.getEmailLoginIntent(it))
+                                }
+                            }
                         }
+                        hideWaitScreen()
+                        refreshRunning=false
+                        sr_page_holder?.isRefreshing = false
                     }
-                    hideWaitScreen()
-                    sr_page_holder?.isRefreshing = false
-                }
-            }.let {
-                if (!it){
-                    sr_page_holder?.isRefreshing = false
+                }.let {
+                    if (!it) {
+                        refreshRunning = false
+                        sr_page_holder?.isRefreshing = false
+                    }
                 }
             }
         }
