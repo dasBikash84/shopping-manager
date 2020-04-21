@@ -370,4 +370,20 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             ))
         }
     }
+
+    private fun isShoppingListRequestModeInstance() = arguments?.containsKey(ARG_SHOPPING_LIST_REQUEST_MODE) == true
+
+    companion object{
+
+        private const val ARG_SHOPPING_LIST_REQUEST_MODE =
+            "com.dasbikash.book_keeper.activities.home.account.FragmentShoppingList.ARG_SHOPPING_LIST_REQUEST_MODE"
+
+        fun getShoppingListRequestModeInstance():FragmentShoppingList{
+            val arg = Bundle()
+            arg.putSerializable(ARG_SHOPPING_LIST_REQUEST_MODE,ARG_SHOPPING_LIST_REQUEST_MODE)
+            val fragment = FragmentShoppingList()
+            fragment.arguments = arg
+            return fragment
+        }
+    }
 }

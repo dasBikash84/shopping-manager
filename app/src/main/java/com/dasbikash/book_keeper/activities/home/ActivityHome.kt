@@ -1,14 +1,12 @@
 package com.dasbikash.book_keeper.activities.home
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
-import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_network_monitor.NetworkMonitor
-import com.dasbikash.android_network_monitor.NetworkStateListener
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
@@ -17,16 +15,13 @@ import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
-import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper_repo.*
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ActivityHome : ActivityTemplate() {
 
-    private var dataSynced = OnceSettableBoolean()
+//    private var dataSynced = OnceSettableBoolean()
 
     override fun getLayoutID(): Int = R.layout.activity_home
     override fun getLoneFrameId(): Int = R.id.home_frame
@@ -39,7 +34,7 @@ class ActivityHome : ActivityTemplate() {
                     loadFragmentIfNotLoadedAlready(FragmentExpAddEdit::class.java)
                     true
                 }
-                R.id.bmi_home -> {
+                R.id.bmi_exp_browse -> {
                     loadFragmentIfNotLoadedAlready(FragmentExpBrowser::class.java)
                     true
                 }
@@ -60,40 +55,17 @@ class ActivityHome : ActivityTemplate() {
         }
         bottom_Navigation_View.setOnNavigationItemReselectedListener { }
 
-
-        lifecycleScope.launch { syncAppData()}
         btn_add_exp_entry.setOnClickListener {
             startActivity(ActivityExpenseEntry.getAddIntent(this))
         }
-    }
 
-    private fun dataSyncTask(){
-        if (!dataSynced.get()) {
-            dataSynced.set()
-            GlobalScope.launch(Dispatchers.IO) {
-                try {
-                    runGuestDataImporter()
-                    ExpenseRepo.syncData(this@ActivityHome)
-                    ShoppingListRepo.syncShoppingListData(this@ActivityHome)
-                    ShoppingListRepo.syncSlShareRequestData(this@ActivityHome)
-                    ConnectionRequestRepo.syncData(this@ActivityHome)
-                    AuthRepo.syncUserData(this@ActivityHome)
-                    ShoppingListReminderScheduler.runReminderScheduler(this@ActivityHome)
-                    debugLog("Data sync done!!")
-                } catch (ex: Throwable) {
-                    dataSynced = OnceSettableBoolean()
-                    ex.printStackTrace()
-                    debugLog("Data sync failure!!")
-                }
-            }
-        }
+        runGuestDataImporter()
     }
 
     private fun runGuestDataImporter() {
-        if (BookKeeperRepo.isGuestDataImportEnabled(this)) {
+        if (BookKeeperRepo.isGuestDataImportEnabled(this) && AuthRepo.isVerified()) {
             lifecycleScope.launch {
                 ExpenseRepo.getGuestData(this@ActivityHome).let {
-                    val guestEntries= it
                     if (it.isNotEmpty()) {
 
                         val dialogView = LayoutInflater.from(this@ActivityHome).inflate(R.layout.view_guest_entry_import_dialog,null,false)
@@ -132,25 +104,6 @@ class ActivityHome : ActivityTemplate() {
         }
     }
 
-    private fun syncAppData() {
-        if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
-            NetworkMonitor
-                .runWithNetwork(this@ActivityHome, { dataSyncTask() })
-                .let {
-                    if (!it) {
-                        NetworkMonitor.addNetworkStateListener(
-                            NetworkStateListener.getInstance(
-                                doOnConnected = { dataSyncTask() },
-                                lifecycleOwner = this@ActivityHome
-                            )
-                        )
-                    } else {
-                        debugLog("Settings sync routine ran.")
-                    }
-                }
-        }
-    }
-
     private fun <T:FragmentTemplate> loadFragmentIfLoggedIn(type:Class<T>){
         getWaitForVerificationFragment()?.let {
             addFragmentClearingBackStack(it)
@@ -174,11 +127,38 @@ class ActivityHome : ActivityTemplate() {
     }
 
     override fun registerDefaultFragment(): FragmentTemplate {
-        bottom_Navigation_View.selectedItemId = R.id.bmi_add
+        val fragment = when{
+            isProfileIntent() -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_account
+                FragmentAccount()
+            }
+            isConnectionIntent() -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_account
+                FragmentAccount.getConnectionModeInstance()
+            }
+            isShoppingListIntent() -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_shopping_list
+                FragmentShoppingList()
+            }
+            isShoppingListRequestIntent() -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_shopping_list
+                FragmentShoppingList.getShoppingListRequestModeInstance()
+            }
+            isExpenseBrowseIntent() -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_exp_browse
+                FragmentExpBrowser()
+            }
+            else -> {
+                bottom_Navigation_View.selectedItemId = R.id.bmi_add
+                FragmentExpAddEdit()
+            }
+        }
+
         getWaitForVerificationFragment()?.let {
             return it
         }
-        return FragmentExpAddEdit()
+
+        return fragment
     }
 
     private fun getWaitForVerificationFragment():FragmentWaitForVerification?{
@@ -190,5 +170,52 @@ class ActivityHome : ActivityTemplate() {
 
     fun loadHomeFragment(){
         addFragmentClearingBackStack(getDefaultFragment())
+    }
+
+    private fun isProfileIntent() = intent.hasExtra(EXTRA_PROFILE_MODE)
+    private fun isConnectionIntent() = intent.hasExtra(EXTRA_CONNECTION_MODE)
+    private fun isShoppingListIntent() = intent.hasExtra(EXTRA_SHOPPING_LIST_MODE)
+    private fun isShoppingListRequestIntent() = intent.hasExtra(EXTRA_SHOPPING_LIST_REQUEST_MODE)
+    private fun isExpenseBrowseIntent() = intent.hasExtra(EXTRA_EXP_BROWSE_MODE)
+
+    companion object{
+
+        private const val EXTRA_EXP_BROWSE_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_EXP_BROWSE_MODE"
+        private const val EXTRA_PROFILE_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_PROFILE_MODE"
+        private const val EXTRA_CONNECTION_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_CONNECTION_MODE"
+        private const val EXTRA_SHOPPING_LIST_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_SHOPPING_LIST_MODE"
+        private const val EXTRA_SHOPPING_LIST_REQUEST_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_SHOPPING_LIST_REQUEST_MODE"
+
+        private fun getIntent(context: Context): Intent = Intent(context.applicationContext,ActivityHome::class.java)
+
+        fun getProfileIntent(context: Context): Intent {
+            val intent = getIntent(context)
+            intent.putExtra(EXTRA_PROFILE_MODE,EXTRA_PROFILE_MODE)
+            return intent
+        }
+
+        fun getConnectionIntent(context: Context): Intent {
+            val intent = getIntent(context)
+            intent.putExtra(EXTRA_CONNECTION_MODE,EXTRA_CONNECTION_MODE)
+            return intent
+        }
+
+        fun getShoppingListIntent(context: Context): Intent {
+            val intent = getIntent(context)
+            intent.putExtra(EXTRA_SHOPPING_LIST_MODE,EXTRA_SHOPPING_LIST_MODE)
+            return intent
+        }
+
+        fun getShoppingListRequestIntent(context: Context): Intent {
+            val intent = getIntent(context)
+            intent.putExtra(EXTRA_SHOPPING_LIST_REQUEST_MODE,EXTRA_SHOPPING_LIST_REQUEST_MODE)
+            return intent
+        }
+
+        fun getExpenseBrowseIntent(context: Context): Intent {
+            val intent = getIntent(context)
+            intent.putExtra(EXTRA_EXP_BROWSE_MODE,EXTRA_EXP_BROWSE_MODE)
+            return intent
+        }
     }
 }

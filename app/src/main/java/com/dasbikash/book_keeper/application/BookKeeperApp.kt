@@ -3,6 +3,7 @@ package com.dasbikash.book_keeper.application
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
@@ -61,11 +62,25 @@ class BookKeeperApp:Application() {
         }
 
         fun changeLanguageSettings(activity: Activity,supportedLanguage: SupportedLanguage){
-            debugLog("going to change into: ${supportedLanguage.language}")
-            saveLanguageSetting(activity,supportedLanguage)
-            Lingver.getInstance().setLocale(activity, supportedLanguage.language,supportedLanguage.country)
+            saveLanguage(activity, supportedLanguage)
             activity.finish()
             activity.startActivity(ActivityLauncher::class.java)
+        }
+
+        fun changeLanguageSettings(activity: Activity,intent: Intent,supportedLanguage: SupportedLanguage){
+            saveLanguage(activity, supportedLanguage)
+            activity.finish()
+            activity.startActivity(intent)
+        }
+
+        private fun saveLanguage(
+            context: Context,
+            supportedLanguage: SupportedLanguage
+        ) {
+            debugLog("going to change into: ${supportedLanguage.language}")
+            saveLanguageSetting(context, supportedLanguage)
+            Lingver.getInstance()
+                .setLocale(context, supportedLanguage.language, supportedLanguage.country)
         }
     }
 }

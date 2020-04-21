@@ -82,7 +82,7 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                 do {
                     AuthRepo.getEmailVerificationLinkGenDelay(it).let {
                         if (it > 0) {
-                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it/1000)
+                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it.toInt()/1000)
                             btn_resend_verification_email.isEnabled = false
                         } else {
                             btn_resend_verification_email.text = getString(R.string.resend_email)
@@ -107,7 +107,7 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                     if (AuthRepo.refreshLogin()){
                         if (AuthRepo.isVerified()){
                             it.finish()
-                            it.startActivity(ActivityLauncher::class.java)
+                            it.startActivity(ActivityHome.getProfileIntent(it.applicationContext))
                         }
                     }
                     hideWaitScreen()

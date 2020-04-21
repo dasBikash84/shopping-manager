@@ -20,9 +20,9 @@
         android:title="@string/bmi_add"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/bmi_home"
+        android:id="@+id/bmi_exp_browse"
         android:icon="@drawable/ic_browse"
-        android:title="@string/bmi_home"
+        android:title="@string/bmi_exp_browse"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bmi_shopping_list"

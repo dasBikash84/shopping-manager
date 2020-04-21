@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -62,9 +63,9 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         return inflater.inflate(R.layout.fragment_add_exp, container, false)
     }
 
-    private fun updateTime() {
+    private fun updateTime(@StringRes timeFormatStringId:Int=R.string.exp_entry_time_format_secs) {
         tv_entry_add.text =
-            DateUtils.getTimeString(mEntryTime.time, getString(R.string.exp_entry_time_format_secs))
+            DateUtils.getTimeString(mEntryTime.time, getString(timeFormatStringId))
                 .let {
                     return@let when (checkIfEnglishLanguageSelected()) {
                         true -> it
@@ -234,7 +235,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     private fun setTime(it: Date) {
         timeAutoUpdateOn = false
         mEntryTime.time = it
-        updateTime()
+        updateTime(R.string.exp_entry_time_format)
     }
 
     private fun readUnitPrice():Double{

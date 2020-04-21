@@ -2,6 +2,7 @@ package com.dasbikash.book_keeper.activities.login
 
 import android.app.Activity
 import android.content.Context
+import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
@@ -29,7 +30,7 @@ class ActivityLogin : ActivityTemplate() {
 
         fun processLogin(activity: Activity,user: User){
             saveUserId(activity,if (user.mobileLogin) {user.phone!!} else {user.email!!})
-            BookKeeperApp.changeLanguageSettings(activity,user.language)
+            BookKeeperApp.changeLanguageSettings(activity,ActivityHome.getProfileIntent(activity),user.language)
         }
     }
 }

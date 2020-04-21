@@ -25,6 +25,7 @@ import com.dasbikash.android_image_utils.displayImageFile
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.utils.PermissionUtils
@@ -136,7 +137,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                                 runWithActivity {
                                     lifecycleScope.launch {
                                         AuthRepo.updateUserLanguage(it,language)
-                                        BookKeeperApp.changeLanguageSettings(it,language)
+                                        BookKeeperApp.changeLanguageSettings(it,ActivityHome.getProfileIntent(it),language)
                                     }
                                 }
                             },

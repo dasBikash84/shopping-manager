@@ -28,7 +28,10 @@ class FragmentAccount : FragmentTemplate() {
         tv_profile.setOnClickListener { loadProfileFragment() }
         tv_connections.setOnClickListener { loadConnectionsFragment() }
 
-        loadProfileFragmentAnyWay()
+        when(isConnectionModeInstance()) {
+            true -> loadConnectionsFragment()
+            else -> loadProfileFragmentAnyWay()
+        }
     }
 
     private fun loadProfileFragment(){
@@ -76,5 +79,18 @@ class FragmentAccount : FragmentTemplate() {
     }
 
     override fun getPageTitle(context: Context):String? = context.getString(R.string.bmi_account)
+
+    private fun isConnectionModeInstance() = arguments?.containsKey(ARG_CONNECTION_MODE) == true
+
+    companion object{
+        private const val ARG_CONNECTION_MODE = "com.dasbikash.book_keeper.activities.home.account.FragmentAccount.ARG_CONNECTION_MODE"
+        fun getConnectionModeInstance():FragmentAccount{
+            val arg = Bundle()
+            arg.putSerializable(ARG_CONNECTION_MODE,ARG_CONNECTION_MODE)
+            val fragment = FragmentAccount()
+            fragment.arguments = arg
+            return fragment
+        }
+    }
 
 }
