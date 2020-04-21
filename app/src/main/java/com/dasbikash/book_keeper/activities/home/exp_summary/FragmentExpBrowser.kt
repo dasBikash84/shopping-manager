@@ -27,6 +27,7 @@ import com.dasbikash.book_keeper.rv_helpers.ExpenseEntryAdapter
 import com.dasbikash.book_keeper.rv_helpers.TimeBasedExpenseEntryGroupAdapter
 import com.dasbikash.book_keeper.utils.*
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
@@ -243,7 +244,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    ExpenseRepo.syncData(it)
+                    DataSyncService.syncExpenseData(it)
                 }
             }
         }

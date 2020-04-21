@@ -10,7 +10,7 @@ object ConnectionRequestRepo: BookKeeperRepo()  {
 
     private fun getDao(context: Context) = getDatabase(context).connectionRequestDao
 
-    suspend fun syncData(context: Context){
+    internal suspend fun syncData(context: Context){
         val lastUpdated = getDao(context).findAll().let {
             if (it.isEmpty()){
                 return@let null

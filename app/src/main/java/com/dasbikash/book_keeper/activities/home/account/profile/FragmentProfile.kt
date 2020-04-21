@@ -31,6 +31,7 @@ import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
@@ -333,7 +334,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    AuthRepo.syncUserData(it)
+                    DataSyncService.syncUserData(it)
                     runOnMainThread({sr_page_holder?.isRefreshing = false})
                 }
             }.let {

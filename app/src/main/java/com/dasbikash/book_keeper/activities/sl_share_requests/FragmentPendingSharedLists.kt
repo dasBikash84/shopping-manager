@@ -15,6 +15,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.models.TbaSlShareReq
 import com.dasbikash.book_keeper.rv_helpers.TbaSlShareReqListAdapter
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
@@ -111,7 +112,7 @@ class FragmentPendingSharedLists : FragmentTemplate() {
             NetworkMonitor.runWithNetwork(it){
                 lifecycleScope.launch(Dispatchers.IO) {
                     try {
-                        ShoppingListRepo.syncSlShareRequestData(it)
+                        DataSyncService.syncSlShareRequestData(it)
                     } catch (ex: Throwable) {
                         ex.printStackTrace()
                     }

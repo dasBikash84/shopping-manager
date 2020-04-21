@@ -127,7 +127,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         getShoppingListDao(context).delete(shoppingList)
     }
 
-    suspend fun syncShoppingListData(context: Context) {
+    internal suspend fun syncShoppingListData(context: Context) {
         getShoppingListDao(context).findAll(AuthRepo.getUserId()).sortedBy { it.modified }.let {
             if (it.isEmpty()) {
                 return@let null
@@ -144,7 +144,7 @@ object ShoppingListRepo : BookKeeperRepo() {
         }
     }
 
-    suspend fun syncSlShareRequestData(context: Context){
+    internal suspend fun syncSlShareRequestData(context: Context){
         getOnlineDocShareReqDao(context).findAll().let {
             debugLog("getOnlineDocShareReqDao: ${it}")
             if (it.isEmpty()){

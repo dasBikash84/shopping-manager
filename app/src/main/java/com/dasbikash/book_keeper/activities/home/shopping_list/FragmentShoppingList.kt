@@ -26,6 +26,7 @@ import com.dasbikash.book_keeper.activities.sl_share_requests.ActivityShoppingLi
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListAdapter
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineSlShareReq
 import com.dasbikash.book_keeper_repo.model.RequestApprovalStatus
@@ -255,8 +256,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             NetworkMonitor.runWithNetwork(it){
                 lifecycleScope.launch(Dispatchers.IO) {
                     try {
-                        ShoppingListRepo.syncShoppingListData(it)
-                        ShoppingListRepo.syncSlShareRequestData(it)
+                        DataSyncService.syncShoppingListData(it)
+                        DataSyncService.syncSlShareRequestData(it)
                     } catch (ex: Throwable) {
                         ex.printStackTrace()
                     }

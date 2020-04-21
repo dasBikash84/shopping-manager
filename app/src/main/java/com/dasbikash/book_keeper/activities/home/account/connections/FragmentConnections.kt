@@ -21,6 +21,7 @@ import com.dasbikash.book_keeper.rv_helpers.SearchedUserAdapter
 import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 import com.dasbikash.book_keeper_repo.model.User
@@ -326,7 +327,7 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    ConnectionRequestRepo.syncData(it)
+                    DataSyncService.syncConnectionRequestData(it)
                     runOnMainThread({sr_page_holder?.isRefreshing = false})
                 }
             }.let {

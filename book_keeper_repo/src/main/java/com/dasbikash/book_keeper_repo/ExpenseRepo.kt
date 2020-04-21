@@ -150,7 +150,7 @@ object ExpenseRepo:BookKeeperRepo() {
         return getExpenseEntryDao(context).findById(id)
     }
 
-    suspend fun syncData(context: Context) {
+    internal suspend fun syncData(context: Context) {
         FireStoreExpenseEntryService
             .getLatestExpenseEntries(getMaxExpenseModifiedTime(context))
             .let { getExpenseEntryDao(context).addAll(it)}

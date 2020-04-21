@@ -315,7 +315,7 @@ object AuthRepo : BookKeeperRepo() {
             }
     }
 
-    suspend fun syncUserData(context: Context) {
+    internal suspend fun syncUserData(context: Context) {
         getUserDao(context)
             .findUsers()
             .map {FirebaseUserService.getUpdatedUserInfo(it)}.let {

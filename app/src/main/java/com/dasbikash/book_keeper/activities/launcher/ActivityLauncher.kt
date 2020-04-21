@@ -16,10 +16,7 @@ import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
-import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
-import com.dasbikash.book_keeper_repo.ExpenseRepo
-import com.dasbikash.book_keeper_repo.ShoppingListRepo
+import com.dasbikash.book_keeper_repo.*
 import kotlinx.coroutines.*
 
 class ActivityLauncher : AppCompatActivity() {
@@ -115,11 +112,7 @@ class ActivityLauncher : AppCompatActivity() {
             if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
                 try {
                     debugLog("starting Data sync!!")
-                    ExpenseRepo.syncData(this@ActivityLauncher)
-                    ShoppingListRepo.syncShoppingListData(this@ActivityLauncher)
-                    ShoppingListRepo.syncSlShareRequestData(this@ActivityLauncher)
-                    ConnectionRequestRepo.syncData(this@ActivityLauncher)
-                    AuthRepo.syncUserData(this@ActivityLauncher)
+                    DataSyncService.syncAppData(this@ActivityLauncher)
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityLauncher)
                     debugLog("Data sync done!!")
                 } catch (ex: Throwable) {
