@@ -30,6 +30,10 @@ class ActivityLauncher : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
         initApp()
+
+        lifecycleScope.launchWhenCreated {
+            processIntent()
+        }
     }
 
     private fun initApp() {
@@ -40,8 +44,7 @@ class ActivityLauncher : AppCompatActivity() {
 //        LoggerUtils.init(BuildConfig.DEBUG)
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun processIntent() {
 
         val fcmSubject = getFcmSubject()?.apply {
             debugLog("FCM subject: $this")
@@ -55,7 +58,7 @@ class ActivityLauncher : AppCompatActivity() {
             BookKeeperMessagingService.resolveIntent(this,it,fcmKey)
         }
 
-        if (!dataSyncRunning.get()) {
+//        if (!dataSyncRunning.get()) {
             lifecycleScope.launch {
                 do {
                     try {
@@ -69,7 +72,7 @@ class ActivityLauncher : AppCompatActivity() {
                     }
                 }while (true)
             }
-        }
+//        }
     }
 
     private fun loadRequiredActivity(intent: Intent?,delay: Long=0L) {

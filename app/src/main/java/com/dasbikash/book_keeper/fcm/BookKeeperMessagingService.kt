@@ -46,8 +46,8 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         private const val USER_SUB_SP_KEY =
             "com.dasbikash.book_keeper.fcm.BookKeeperMessagingService.USER_SUB_SP_KEY"
 
-        const val KEY_FCM_SUBJECT = "fcm_subject"
-        const val KEY_FCM_KEY = "fcm_key"
+        const val KEY_FCM_SUBJECT = "bk_subject"
+        const val KEY_FCM_KEY = "bk_key"
 
         fun init(context: Context) {
             val appContext = context.applicationContext

@@ -207,6 +207,20 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                 }
             }
         })
+
+        runWithContext {
+            lifecycleScope.launchWhenCreated {
+                if (isShoppingListRequestModeInstance()) {
+                    checkPendingSlRequests()
+                } else if (isNewShoppingListInstance()) {
+                    getNewShoppingListId()?.let {
+                        ShoppingListRepo.findById(context!!,it)?.let {
+                            launchDetailView(it)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun updateDisplay(){
@@ -346,17 +360,19 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
             add(
                 MenuViewItem(
                     text = context.getString(R.string.pending_sl_share_requests),
-                    task = {
-                        runWithActivity {
-                            NetworkMonitor.runWithNetwork(it) {
-                                it.startActivity(
-                                    ActivityShoppingListShareRequests::class.java
-                                )
-                            }
-                        }
-                    }
+                    task = {checkPendingSlRequests()}
                 )
             )
+        }
+    }
+
+    private fun checkPendingSlRequests() {
+        runWithActivity {
+            NetworkMonitor.runWithNetwork(it) {
+                it.startActivity(
+                    ActivityShoppingListShareRequests::class.java
+                )
+            }
         }
     }
 
@@ -372,6 +388,8 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     }
 
     private fun isShoppingListRequestModeInstance() = arguments?.containsKey(ARG_SHOPPING_LIST_REQUEST_MODE) == true
+    private fun isNewShoppingListInstance() = arguments?.containsKey(ARG_NEW_SHOPPING_LIST_MODE) == true
+    private fun getNewShoppingListId() = arguments?.getString(ARG_NEW_SHOPPING_LIST_ID)
 
     companion object{
 
