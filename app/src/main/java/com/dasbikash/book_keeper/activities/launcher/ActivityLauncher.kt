@@ -111,10 +111,8 @@ class ActivityLauncher : AppCompatActivity() {
         GlobalScope.launch(Dispatchers.IO) {
             if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
                 try {
-                    debugLog("starting Data sync!!")
                     DataSyncService.syncAppData(this@ActivityLauncher)
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityLauncher)
-                    debugLog("Data sync done!!")
                 } catch (ex: Throwable) {
                     ex.printStackTrace()
                     debugLog("Data sync failure!!")
