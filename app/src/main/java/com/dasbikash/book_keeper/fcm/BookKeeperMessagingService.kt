@@ -46,8 +46,8 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         private const val USER_SUB_SP_KEY =
             "com.dasbikash.book_keeper.fcm.BookKeeperMessagingService.USER_SUB_SP_KEY"
 
-        const val KEY_FCM_SUBJECT = "bk_subject"
-        const val KEY_FCM_KEY = "bk_key"
+        private const val KEY_FCM_SUBJECT = "bk_subject"
+        private const val KEY_FCM_KEY = "bk_key"
 
         fun init(context: Context) {
             val appContext = context.applicationContext
@@ -148,6 +148,24 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
             CONNECTION("bk_connection"),
             NEW_SHOPPING_LIST("bk_shopping_list"),
             NEW_SHOPPING_LIST_SHARE_REQ("bk_shopping_list_share_req"),
+        }
+
+        private fun getFcmSubject(intent: Intent?):String? = intent?.getStringExtra(KEY_FCM_SUBJECT)
+        private fun getFcmKey(intent: Intent?):String? = intent?.getStringExtra(KEY_FCM_KEY)
+
+        fun checkForFcmIntent(context: Context,intent: Intent?):Intent?{
+
+            val fcmSubject = getFcmSubject(intent)?.apply {
+                debugLog("FCM subject: $this")
+            }
+
+            val fcmKey = getFcmKey(intent)?.apply {
+                debugLog("FCM key: $this")
+            }
+
+            return fcmSubject?.let {
+                resolveIntent(context,it,fcmKey)
+            }
         }
     }
 

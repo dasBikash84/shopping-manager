@@ -16,8 +16,12 @@ import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
-import com.dasbikash.book_keeper_repo.*
-import kotlinx.coroutines.*
+import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ActivityLauncher : AppCompatActivity() {
 
@@ -41,57 +45,21 @@ class ActivityLauncher : AppCompatActivity() {
 //        LoggerUtils.init(BuildConfig.DEBUG)
     }
 
-    fun processIntent() {
-
-        val fcmSubject = getFcmSubject()?.apply {
-            debugLog("FCM subject: $this")
-        }
-
-        val fcmKey = getFcmKey()?.apply {
-            debugLog("FCM key: $this")
-        }
-
-        val intent: Intent? = fcmSubject?.let {
-            BookKeeperMessagingService.resolveIntent(this,it,fcmKey)
-        }
-
-//        if (!dataSyncRunning.get()) {
-            lifecycleScope.launch {
-                do {
-                    try {
-                        NetworkMonitor.isConnected() //to check if net monitor has initialized.
-                        delay(100L) // delay for network status read
-                        syncAppDataAndForward(intent)
-                        break
-                    }catch (ex:Throwable){
-                        ex.printStackTrace()
-                        delay(50L)
-                    }
-                }while (true)
+    suspend fun processIntent() {
+        do {
+            try {
+                NetworkMonitor.isConnected() //to check if net monitor has initialized.
+                delay(100L) // delay for network status read
+                syncAppDataAndForward(checkForFcmIntent())
+                break
+            }catch (ex:Throwable){
+                ex.printStackTrace()
+                delay(50L)
             }
-//        }
+        }while (true)
     }
 
-    private fun loadRequiredActivity(intent: Intent?,delay: Long=0L) {
-        runOnMainThread({
-            isLoggedIn().let {
-                if (it) {
-                    if (intent!=null){
-                        startActivity(intent)
-                    }else {
-                        startActivity(ActivityHome::class.java)
-                    }
-                } else {
-                    startActivity(ActivityLogin::class.java)
-                }
-                finish()
-            }
-        },delay)
-    }
-
-    private fun isLoggedIn(): Boolean {
-        return AuthRepo.checkLogIn()
-    }
+    private fun checkForFcmIntent() = BookKeeperMessagingService.checkForFcmIntent(this,intent)
 
     private fun syncAppDataAndForward(intent: Intent?) {
         NetworkMonitor
@@ -127,6 +95,20 @@ class ActivityLauncher : AppCompatActivity() {
         }
     }
 
-    private fun getFcmSubject():String? = intent?.getStringExtra(BookKeeperMessagingService.KEY_FCM_SUBJECT)
-    private fun getFcmKey():String? = intent?.getStringExtra(BookKeeperMessagingService.KEY_FCM_KEY)
+    private fun loadRequiredActivity(intent: Intent?,delay: Long=0L) {
+        runOnMainThread({
+            AuthRepo.checkLogIn().let {
+                if (it) {
+                    if (intent!=null){
+                        startActivity(intent)
+                    }else {
+                        startActivity(ActivityHome::class.java)
+                    }
+                } else {
+                    startActivity(ActivityLogin::class.java)
+                }
+                finish()
+            }
+        },delay)
+    }
 }
