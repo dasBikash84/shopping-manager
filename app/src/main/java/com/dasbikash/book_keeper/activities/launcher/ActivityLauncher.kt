@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.launcher
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -41,13 +42,26 @@ class ActivityLauncher : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        val fcmSubject = getFcmSubject()?.apply {
+            debugLog("FCM subject: $this")
+        }
+
+        val fcmKey = getFcmKey()?.apply {
+            debugLog("FCM key: $this")
+        }
+
+        val intent: Intent? = fcmSubject?.let {
+            BookKeeperMessagingService.resolveIntent(this,it,fcmKey)
+        }
+
         if (!dataSyncRunning.get()) {
             lifecycleScope.launch {
                 do {
                     try {
                         NetworkMonitor.isConnected() //to check if net monitor has initialized.
                         delay(100L) // delay for network status read
-                        syncAppDataAndForward()
+                        syncAppDataAndForward(intent)
                         break
                     }catch (ex:Throwable){
                         ex.printStackTrace()
@@ -58,11 +72,15 @@ class ActivityLauncher : AppCompatActivity() {
         }
     }
 
-    private fun loadRequiredActivity(delay: Long=0L) {
+    private fun loadRequiredActivity(intent: Intent?,delay: Long=0L) {
         runOnMainThread({
             isLoggedIn().let {
                 if (it) {
-                    startActivity(ActivityHome::class.java)
+                    if (intent!=null){
+                        startActivity(intent)
+                    }else {
+                        startActivity(ActivityHome::class.java)
+                    }
                 } else {
                     startActivity(ActivityLogin::class.java)
                 }
@@ -75,20 +93,20 @@ class ActivityLauncher : AppCompatActivity() {
         return AuthRepo.checkLogIn()
     }
 
-    private fun syncAppDataAndForward() {
-        var waitForSync:Boolean = false
+    private fun syncAppDataAndForward(intent: Intent?) {
         NetworkMonitor
-            .runWithNetwork(this@ActivityLauncher, { dataSyncTask(waitForSync) })
+            .runWithNetwork(this@ActivityLauncher, { dataSyncTask(intent) })
             .let {
                 if (!it) {
                     lifecycleScope.launch {
-                        loadRequiredActivity(500L)
+                        loadRequiredActivity(intent,500L)
                     }
                 }
             }
     }
 
-    private fun dataSyncTask(waitForSync:Boolean){
+    private fun dataSyncTask(intent: Intent?){
+        val waitForSync:Boolean = intent!=null
         dataSyncRunning.set()
         GlobalScope.launch(Dispatchers.IO) {
             if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
@@ -107,11 +125,14 @@ class ActivityLauncher : AppCompatActivity() {
                 }
             }
             if (waitForSync) {
-                loadRequiredActivity()
+                loadRequiredActivity(intent)
             }
         }
         if (!waitForSync) {
-            loadRequiredActivity(500L)
+            loadRequiredActivity(null,500L)
         }
     }
+
+    private fun getFcmSubject():String? = intent?.getStringExtra(BookKeeperMessagingService.KEY_FCM_SUBJECT)
+    private fun getFcmKey():String? = intent?.getStringExtra(BookKeeperMessagingService.KEY_FCM_KEY)
 }

@@ -378,9 +378,24 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         private const val ARG_SHOPPING_LIST_REQUEST_MODE =
             "com.dasbikash.book_keeper.activities.home.account.FragmentShoppingList.ARG_SHOPPING_LIST_REQUEST_MODE"
 
+        private const val ARG_NEW_SHOPPING_LIST_MODE =
+            "com.dasbikash.book_keeper.activities.home.account.FragmentShoppingList.ARG_NEW_SHOPPING_LIST_MODE"
+
+        private const val ARG_NEW_SHOPPING_LIST_ID =
+            "com.dasbikash.book_keeper.activities.home.account.FragmentShoppingList.ARG_NEW_SHOPPING_LIST_ID"
+
         fun getShoppingListRequestModeInstance():FragmentShoppingList{
             val arg = Bundle()
             arg.putSerializable(ARG_SHOPPING_LIST_REQUEST_MODE,ARG_SHOPPING_LIST_REQUEST_MODE)
+            val fragment = FragmentShoppingList()
+            fragment.arguments = arg
+            return fragment
+        }
+
+        fun getNewShoppingListInstance(shoppingListId:String?=null):FragmentShoppingList{
+            val arg = Bundle()
+            arg.putSerializable(ARG_NEW_SHOPPING_LIST_MODE,ARG_NEW_SHOPPING_LIST_MODE)
+            arg.putSerializable(ARG_NEW_SHOPPING_LIST_ID,shoppingListId)
             val fragment = FragmentShoppingList()
             fragment.arguments = arg
             return fragment

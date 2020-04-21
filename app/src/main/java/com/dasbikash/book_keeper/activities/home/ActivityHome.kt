@@ -138,7 +138,7 @@ class ActivityHome : ActivityTemplate() {
             }
             isShoppingListIntent() -> {
                 bottom_Navigation_View.selectedItemId = R.id.bmi_shopping_list
-                FragmentShoppingList()
+                FragmentShoppingList.getNewShoppingListInstance(getShoppingListIdExtra())
             }
             isShoppingListRequestIntent() -> {
                 bottom_Navigation_View.selectedItemId = R.id.bmi_shopping_list
@@ -177,6 +177,7 @@ class ActivityHome : ActivityTemplate() {
     private fun isShoppingListIntent() = intent.hasExtra(EXTRA_SHOPPING_LIST_MODE)
     private fun isShoppingListRequestIntent() = intent.hasExtra(EXTRA_SHOPPING_LIST_REQUEST_MODE)
     private fun isExpenseBrowseIntent() = intent.hasExtra(EXTRA_EXP_BROWSE_MODE)
+    private fun getShoppingListIdExtra() = intent.getSerializableExtra(EXTRA_SHOPPING_LIST_ID) as String?
 
     companion object{
 
@@ -184,6 +185,7 @@ class ActivityHome : ActivityTemplate() {
         private const val EXTRA_PROFILE_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_PROFILE_MODE"
         private const val EXTRA_CONNECTION_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_CONNECTION_MODE"
         private const val EXTRA_SHOPPING_LIST_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_SHOPPING_LIST_MODE"
+        private const val EXTRA_SHOPPING_LIST_ID = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_SHOPPING_LIST_ID"
         private const val EXTRA_SHOPPING_LIST_REQUEST_MODE = "com.dasbikash.book_keeper.activities.home.ActivityHome.EXTRA_SHOPPING_LIST_REQUEST_MODE"
 
         private fun getIntent(context: Context): Intent = Intent(context.applicationContext,ActivityHome::class.java)
@@ -200,9 +202,10 @@ class ActivityHome : ActivityTemplate() {
             return intent
         }
 
-        fun getShoppingListIntent(context: Context): Intent {
+        fun getShoppingListIntent(context: Context,shoppingListId:String?): Intent {
             val intent = getIntent(context)
             intent.putExtra(EXTRA_SHOPPING_LIST_MODE,EXTRA_SHOPPING_LIST_MODE)
+            intent.putExtra(EXTRA_SHOPPING_LIST_ID,shoppingListId)
             return intent
         }
 

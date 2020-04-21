@@ -14,8 +14,11 @@
 package com.dasbikash.book_keeper.fcm
 
 import android.content.Context
+import android.content.Intent
+import androidx.annotation.Keep
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_toast_utils.ToastUtils
+import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.android.gms.tasks.Task
@@ -42,6 +45,9 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
 
         private const val USER_SUB_SP_KEY =
             "com.dasbikash.book_keeper.fcm.BookKeeperMessagingService.USER_SUB_SP_KEY"
+
+        const val KEY_FCM_SUBJECT = "fcm_subject"
+        const val KEY_FCM_KEY = "fcm_key"
 
         fun init(context: Context) {
             val appContext = context.applicationContext
@@ -115,6 +121,33 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         private fun unSubscribeFromTopic(topicName: String): Task<Void> {
             debugLog("unSubscribeFromTopic: $topicName")
             return FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName)
+        }
+
+        fun resolveIntent(context: Context,fcmSubject: String, fcmKey: String?):Intent? {
+            return when{
+
+                fcmSubject== FcmSubjects.CONNECTION.subject ->{
+                    ActivityHome.getConnectionIntent(context.applicationContext)
+                }
+
+                fcmSubject== FcmSubjects.NEW_SHOPPING_LIST.subject ->{
+                    ActivityHome.getShoppingListIntent(context.applicationContext,fcmKey)
+                }
+
+                fcmSubject== FcmSubjects.NEW_SHOPPING_LIST_SHARE_REQ.subject ->{
+                    ActivityHome.getShoppingListRequestIntent(context.applicationContext)
+                }
+
+                else ->{
+                    null
+                }
+            }
+        }
+        @Keep
+        private enum class FcmSubjects(val subject:String){
+            CONNECTION("bk_connection"),
+            NEW_SHOPPING_LIST("bk_shopping_list"),
+            NEW_SHOPPING_LIST_SHARE_REQ("bk_shopping_list_share_req"),
         }
     }
 
