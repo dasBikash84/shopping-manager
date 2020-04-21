@@ -43,7 +43,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
     override fun registerWaitScreen(): ViewGroup = wait_screen
 
     private lateinit var viewModel: ViewModelShoppingListView
-    private  lateinit var shoppingListItemAdapter : ShoppingListItemAdapter//({launchShoppingListItemDetailView(it)},{closeTask(it)},{editTask(it)},{deleteTask(it)})
+    private  lateinit var shoppingListItemAdapter : ShoppingListItemAdapter
 
     private fun editTask(shoppingListItem: ShoppingListItem) {
         runWithActivity {
@@ -105,21 +105,20 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
 
         viewModel.getShoppingList().observe(this,object : Observer<ShoppingList>{
             override fun onChanged(shoppingList: ShoppingList?) {
-                shoppingList?.let {
-                    debugLog(it)
+                shoppingList?.apply {
+                    debugLog(this)
                     if (!::shoppingListItemAdapter.isInitialized) {
-                        shoppingListItemAdapter = if (it.userId == AuthRepo.getUserId()) {
-                            ShoppingListItemAdapter({ launchShoppingListItemDetailView(it) },
+                        shoppingListItemAdapter =
+                            ShoppingListItemAdapter(
+                                this,
+                                { launchShoppingListItemDetailView(it) },
                                 { closeTask(it) },
                                 { editTask(it) },
-                                { deleteTask(it) })
-                        } else {
-                            ShoppingListItemAdapter({ launchShoppingListItemDetailView(it) },
-                                { closeTask(it) })
-                        }
+                                { deleteTask(it) }
+                            )
                         rv_shopping_list_items.adapter = shoppingListItemAdapter
                     }
-                    refreshView(it)
+                    refreshView(this)
                 }
             }
         })
@@ -206,7 +205,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                 }
                 lifecycleScope.launch {
                     (ShoppingListRepo.getShoppingListItems(it, this@apply) ?: emptyList()).let {
-                        shoppingListItemAdapter.submitList(it)
+                        shoppingListItemAdapter.submitList(it.toMutableList().sortedByDescending { it.modified }.sortedBy { !it.expenseEntryId.isNullOrBlank() })
                         if (it.isEmpty()){
                             holder_rv_shopping_list_items.hide()
                         }else{

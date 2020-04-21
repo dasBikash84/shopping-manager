@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -26,16 +28,17 @@ object ShoppingListItemDiffCallback: DiffUtil.ItemCallback<ShoppingListItem>(){
 }
 
 class ShoppingListItemAdapter(
-                        val launchDetailView:(ShoppingListItem)->Unit,
-                        val closeTask:(ShoppingListItem)->Unit,
-                        val editTask:((ShoppingListItem)->Unit)?=null,
-                        val deleteTask:((ShoppingListItem)->Unit)?=null)
+                        private val shoppingList: ShoppingList,
+                        private val launchDetailView:(ShoppingListItem)->Unit,
+                        private val closeTask:(ShoppingListItem)->Unit,
+                        private val editTask:(ShoppingListItem)->Unit,
+                        private val deleteTask:(ShoppingListItem)->Unit)
     :ListAdapter<ShoppingListItem, ShoppingListItemHolder>(ShoppingListItemDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListItemHolder {
         return ShoppingListItemHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.view_shopping_list_item_preview, parent, false
-            ),closeTask,editTask, deleteTask
+            ),shoppingList,closeTask,editTask, deleteTask
         )
     }
 
@@ -48,9 +51,10 @@ class ShoppingListItemAdapter(
 }
 
 class ShoppingListItemHolder(itemView: View,
-                             val closeTask:(ShoppingListItem)->Unit,
-                             val editTask:((ShoppingListItem)->Unit)?=null,
-                             val deleteTask:((ShoppingListItem)->Unit)?=null) : RecyclerView.ViewHolder(itemView) {
+                             val shoppingList: ShoppingList,
+                             private val closeTask:(ShoppingListItem)->Unit,
+                             private val editTask:(ShoppingListItem)->Unit,
+                             private val deleteTask:(ShoppingListItem)->Unit) : RecyclerView.ViewHolder(itemView) {
 
     private val iv_tick_mark: ImageView = itemView.findViewById(R.id.iv_tick_mark)
     private val iv_sli_options: ImageView = itemView.findViewById(R.id.iv_sli_options)
@@ -66,22 +70,22 @@ class ShoppingListItemHolder(itemView: View,
 
     private lateinit var mShoppingListItem: ShoppingListItem
 
-    init {
+    fun attachMenuTask(){
         iv_sli_options.attachMenuViewForClick(
             MenuView().apply {
-                editTask?.let {
+                if (shoppingList.userId == AuthRepo.getUserId() ||
+                    mShoppingListItem.creatorId == AuthRepo.getUserId()){
                     add(
                         MenuViewItem(
                             text = itemView.context.getString(R.string.edit),
-                            task = { it(mShoppingListItem) }
+                            task = { editTask(mShoppingListItem) }
                         )
                     )
-                }
-                deleteTask?.let {
+
                     add(
                         MenuViewItem(
                             text = itemView.context.getString(R.string.delete),
-                            task = { it(mShoppingListItem) }
+                            task = { deleteTask(mShoppingListItem) }
                         )
                     )
                 }
@@ -93,23 +97,6 @@ class ShoppingListItemHolder(itemView: View,
                 )
             }
         )
-        /*val menuViewItems = listOf<MenuViewItem>(
-            MenuViewItem(
-                text = itemView.context.getString(R.string.edit),
-                task = { editTask(mShoppingListItem) }
-            ),
-            MenuViewItem(
-                text = itemView.context.getString(R.string.delete),
-                task = { deleteTask(mShoppingListItem) }
-            ),
-            MenuViewItem(
-                text = itemView.context.getString(R.string.mark_as_close),
-                task = { closeTask(mShoppingListItem) }
-            )
-        )
-        val menuView = MenuView()
-        menuView.addAll(menuViewItems)*/
-//        iv_sli_options.attachMenuViewForClick(menuView)
     }
 
     fun bind(shoppingListItem: ShoppingListItem) {
@@ -146,6 +133,7 @@ class ShoppingListItemHolder(itemView: View,
         tv_sli_uom.text = itemView.resources.getStringArray(R.array.uoms).get(shoppingListItem.uom)
         if (shoppingListItem.expenseEntryId==null){
             iv_sli_options.show()
+            attachMenuTask()
             iv_tick_mark.hide()
         }else{
             iv_sli_options.hide()

@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.google.firebase.Timestamp
 import java.util.*
 
@@ -26,6 +27,7 @@ data class ShoppingListItem(
     @PrimaryKey
     var id:String= UUID.randomUUID().toString(),
     var name:String?=null,
+    var creatorId:String? = AuthRepo.getUserId(),
     var shoppingListId:String?=null,
     var expenseEntryId:String?=null,
     var categoryId: Int=0,
