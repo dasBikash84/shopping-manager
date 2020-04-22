@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.account.connections.FragmentConnections
+import com.dasbikash.book_keeper.activities.home.account.events.FragmentEventNotification
 import com.dasbikash.book_keeper.activities.home.account.profile.FragmentProfile
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -27,6 +28,7 @@ class FragmentAccount : FragmentTemplate() {
 
         tv_profile.setOnClickListener { loadProfileFragment() }
         tv_connections.setOnClickListener { loadConnectionsFragment() }
+        tv_events.setOnClickListener { loadEventNotificationFragment() }
 
         when(isConnectionModeInstance()) {
             true -> loadConnectionsFragment()
@@ -56,6 +58,7 @@ class FragmentAccount : FragmentTemplate() {
                 .commit()
             tv_profile.setBackgroundColor(Color.WHITE)
             tv_connections.setBackgroundColor(Color.LTGRAY)
+            tv_events.setBackgroundColor(Color.LTGRAY)
         }
     }
 
@@ -74,6 +77,27 @@ class FragmentAccount : FragmentTemplate() {
                 )
                 .commit()
             tv_connections.setBackgroundColor(Color.WHITE)
+            tv_profile.setBackgroundColor(Color.LTGRAY)
+            tv_events.setBackgroundColor(Color.LTGRAY)
+        }
+    }
+
+    private fun loadEventNotificationFragment(){
+        (activity as AppCompatActivity).apply {
+            supportFragmentManager
+                .findFragmentById(R.id.frame_account)?.let {
+                    if (it is FragmentEventNotification){
+                        return
+                    }
+                }
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_account,
+                    FragmentEventNotification()
+                )
+                .commit()
+            tv_events.setBackgroundColor(Color.WHITE)
+            tv_connections.setBackgroundColor(Color.LTGRAY)
             tv_profile.setBackgroundColor(Color.LTGRAY)
         }
     }

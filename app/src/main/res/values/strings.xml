@@ -358,4 +358,8 @@
     <string name="re_login_message">Your email has been verified. Now you may login.</string>
     <string name="sign_up_email_hint">Email*</string>
     <string name="sign_up_password_hint">Password*</string>
+    <string name="events_text">Event Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

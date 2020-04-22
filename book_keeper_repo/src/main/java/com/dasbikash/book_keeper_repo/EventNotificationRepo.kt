@@ -1,6 +1,8 @@
 package com.dasbikash.book_keeper_repo
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FireStoreEventNotificationService
 import com.dasbikash.book_keeper_repo.model.EventNotification
 
@@ -19,6 +21,7 @@ object EventNotificationRepo:BookKeeperRepo() {
             .getLatestEventNotifications(latestUpdateTime)
             .asSequence()
             .forEach {
+                debugLog(it)
                 getDao(context).add(it)
             }
     }
@@ -32,4 +35,7 @@ object EventNotificationRepo:BookKeeperRepo() {
             )
         getDao(context).delete(eventNotification)
     }
+
+    fun findAllLd(context: Context): LiveData<List<EventNotification>> =
+        getDao(context).findAllLd()
 }

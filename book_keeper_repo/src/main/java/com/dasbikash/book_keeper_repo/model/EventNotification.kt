@@ -1,10 +1,12 @@
 package com.dasbikash.book_keeper_repo.model
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 
 @Entity
+@Keep
 data class EventNotification(
     @PrimaryKey
     var id:String = "",
