@@ -54,6 +54,7 @@ object AuthRepo : BookKeeperRepo() {
         firstName: String, lastName: String, mobile: String,
         language: SupportedLanguage
     ):User {
+        deleteAnonymousUser()
         FirebaseAuthService
             .createUserWithEmailAndPassword(
                 context,email.trim().toLowerCase(Locale.ENGLISH),password
@@ -65,6 +66,10 @@ object AuthRepo : BookKeeperRepo() {
                         return it
                     }
             }
+    }
+
+    private suspend fun deleteAnonymousUser() {
+        FirebaseUserService.deleteAnonymousUser()
     }
 
     private fun createUser(
@@ -159,6 +164,7 @@ object AuthRepo : BookKeeperRepo() {
         FirebaseAuthService.sendPasswordResetEmail(email)
 
     suspend fun sendLoginCodeToMobile(phoneNumber: String?, activity: Activity) {
+        deleteAnonymousUser()
         (phoneNumber ?: getCurrentMobileNumber(activity))?.let {
             debugLog("phoneNumber: $phoneNumber")
             FirebaseAuthService.sendLoginCodeToMobile(it, activity)

@@ -195,4 +195,24 @@ internal object FirebaseUserService {
             return true
         }
     }
+
+    suspend fun deleteAnonymousUser() {
+        FirebaseAuth.getInstance().currentUser?.let {
+            if (it.isAnonymous){
+                val anonymousUser = it
+                return suspendCoroutine {
+                    val continuation = it
+                    anonymousUser
+                        .delete()
+                        .addOnSuccessListener {
+                            continuation.resume(Unit)
+                        }
+                        .addOnFailureListener {
+                            it.printStackTrace()
+                            continuation.resume(Unit)
+                        }
+                }
+            }
+        }
+    }
 }
