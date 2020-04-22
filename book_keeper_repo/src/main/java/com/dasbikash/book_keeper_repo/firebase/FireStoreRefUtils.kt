@@ -6,6 +6,7 @@ internal object FireStoreRefUtils {
     const val SHOPPING_LIST_COLLECTION_NAME = "shopping_lists"
     private const val ONLINE_DOC_SHARE_REQ_COLLECTION_NAME = "online_sl_share_request"
     private const val CONNECTION_REQUEST_COLLECTION_NAME = "connection_request"
+    private const val EVENT_NOTIFICATION_COLLECTION_NAME = "event_notification"
 
     fun getUserCollectionRef() = FireStoreConUtils.getDbConnection().collection(USER_COLLECTION_NAME)
 
@@ -16,5 +17,7 @@ internal object FireStoreRefUtils {
     fun getOnlineSlShareRequestCollectionRef() = FireStoreConUtils.getDbConnection().collection(ONLINE_DOC_SHARE_REQ_COLLECTION_NAME)
 
     fun getConnectionRequestCollectionRef() = FireStoreConUtils.getDbConnection().collection(CONNECTION_REQUEST_COLLECTION_NAME)
+
+    fun getEventNotificationCollectionRef() = FireStoreConUtils.getDbConnection().collection(EVENT_NOTIFICATION_COLLECTION_NAME)
 
 }

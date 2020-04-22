@@ -35,6 +35,12 @@ object DataSyncService {
         debugLog("syncUserData done.")
     }
 
+    suspend fun syncEventNotifications(context: Context){
+        debugLog("starting syncEventNotifications.")
+        EventNotificationRepo.syncData(context)
+        debugLog("syncEventNotifications done.")
+    }
+
     suspend fun syncAppData(context: Context){
         debugLog("starting Data sync!!")
         syncExpenseData(context)
@@ -42,6 +48,7 @@ object DataSyncService {
         syncSlShareRequestData(context)
         syncConnectionRequestData(context)
         syncUserData(context)
+        syncEventNotifications(context)
         debugLog("Data sync done!!")
     }
 }
