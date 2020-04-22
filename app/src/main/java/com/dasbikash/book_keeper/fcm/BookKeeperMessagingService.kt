@@ -18,14 +18,20 @@ import android.content.Intent
 import androidx.annotation.Keep
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_toast_utils.ToastUtils
+import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
+import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.model.EventNotification
+import com.dasbikash.notification_utils.NotificationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 open class BookKeeperMessagingService : FirebaseMessagingService() {
 
@@ -34,8 +40,35 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        debugLog("From: ${remoteMessage.from} data: ${remoteMessage.data} message: ${remoteMessage.toString()}")
-        ToastUtils.showLongToast(applicationContext,"FCM notification: ${remoteMessage.from}")
+        debugLog("From: ${remoteMessage.from} data: ${remoteMessage.data}")
+        if (remoteMessage.from?.contains(AuthRepo.getUserId())==true){
+            GlobalScope.launch {
+                DataSyncService.syncEventNotifications(applicationContext)
+                val fcmkey:String? = remoteMessage.data.get(KEY_FCM_KEY)
+                remoteMessage.data.get(KEY_FCM_SUBJECT)?.let {
+                    val intent = getNotificationIntent(applicationContext,it,fcmkey)
+                    val title = remoteMessage.notification?.title ?: getDefaultNotificationTitle(it)
+                    val content = remoteMessage.notification?.body ?: getDefaultNotificationTitle(it)
+                    NotificationUtils.generateNotification(applicationContext,title,content,intent,R.mipmap.ic_launcher)
+                }
+            }
+        }
+    }
+
+    private fun getDefaultNotificationTitle(fcmSubject: String):String{
+        return when(fcmSubject){
+            FcmSubjects.CONNECTION.subject -> applicationContext.getString(R.string.new_con_req)
+            FcmSubjects.NEW_SHOPPING_LIST.subject -> applicationContext.getString(R.string.new_sl_received)
+            FcmSubjects.NEW_SHOPPING_LIST_SHARE_REQ.subject -> applicationContext.getString(R.string.new_sl_sh_req)
+            else -> applicationContext.getString(R.string.new_event)
+        }
+    }
+
+    private fun getNotificationIntent(context: Context,fcmSubject: String,fcmKey: String?):Intent{
+        val intent = Intent(context,ActivityLauncher::class.java)
+        intent.putExtra(KEY_FCM_SUBJECT,fcmSubject)
+        fcmKey?.let { intent.putExtra(KEY_FCM_KEY,it) }
+        return intent
     }
 
     companion object {
