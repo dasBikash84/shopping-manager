@@ -44,18 +44,16 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         if (remoteMessage.from?.contains(AuthRepo.getUserId())==true){
             GlobalScope.launch {
                 DataSyncService.syncEventNotifications(applicationContext)
-                val fcmkey:String? = remoteMessage.data.get(KEY_FCM_KEY)
-                remoteMessage.data.get(KEY_FCM_SUBJECT)?.let {
-                    val intent = getNotificationIntent(applicationContext,it,fcmkey)
-                    val title = remoteMessage.notification?.title ?: getDefaultNotificationTitle(it)
-                    val content = remoteMessage.notification?.body ?: getDefaultNotificationTitle(it)
-                    NotificationUtils.generateNotification(applicationContext,title,content,intent,R.mipmap.ic_launcher)
-                }
+                val intent = getNotificationIntent(applicationContext,remoteMessage.data)
+                val fcmSubject = remoteMessage.data.get(KEY_FCM_SUBJECT)
+                val title = remoteMessage.notification?.title ?: getDefaultNotificationTitle(fcmSubject)
+                val content = remoteMessage.notification?.body ?: ""
+                NotificationUtils.generateNotification(applicationContext,title,content,intent,R.mipmap.ic_launcher)
             }
         }
     }
 
-    private fun getDefaultNotificationTitle(fcmSubject: String):String{
+    private fun getDefaultNotificationTitle(fcmSubject: String?):String{
         return when(fcmSubject){
             FcmSubjects.CONNECTION.subject -> applicationContext.getString(R.string.new_con_req)
             FcmSubjects.NEW_SHOPPING_LIST.subject -> applicationContext.getString(R.string.new_sl_received)
@@ -64,10 +62,11 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun getNotificationIntent(context: Context,fcmSubject: String,fcmKey: String?):Intent{
+    private fun getNotificationIntent(context: Context,payload:Map<String,String>):Intent{
         val intent = Intent(context,ActivityLauncher::class.java)
-        intent.putExtra(KEY_FCM_SUBJECT,fcmSubject)
-        fcmKey?.let { intent.putExtra(KEY_FCM_KEY,it) }
+        payload.keys.asSequence().forEach {
+            intent.putExtra(it,payload.get(it))
+        }
         return intent
     }
 
