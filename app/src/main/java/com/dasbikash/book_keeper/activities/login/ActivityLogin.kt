@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.dasbikash.book_keeper.activities.home.ActivityHome
+import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
@@ -38,7 +39,7 @@ class ActivityLogin : ActivityTemplate() {
         fun processLogin(activity: Activity,user: User){
             saveUserId(activity,if (user.mobileLogin) {user.phone!!} else {user.email!!})
             BookKeeperMessagingService.subscribeOnLogin(activity)
-            BookKeeperApp.changeLanguageSettings(activity,ActivityHome.getProfileIntent(activity),user.language)
+            BookKeeperApp.changeLanguageSettings(activity,ActivityLauncher.getLoggedInIntent(activity),user.language)
         }
 
         fun getEmailLoginIntent(context: Context):Intent{

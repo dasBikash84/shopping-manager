@@ -112,7 +112,7 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
                             if (AuthRepo.isVerified()) {
                                 if (AuthRepo.reAuthenticate(it)) {
                                     it.finish()
-                                    it.startActivity(ActivityHome.getProfileIntent(it.applicationContext))
+                                    it.startActivity(ActivityLauncher.getLoggedInIntent(it.applicationContext))
                                 } else {
                                     AuthRepo.signOut(it)
                                     showLongSnack(R.string.re_login_message)

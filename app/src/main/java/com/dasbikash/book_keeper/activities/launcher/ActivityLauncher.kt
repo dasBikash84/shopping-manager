@@ -1,5 +1,6 @@
 package com.dasbikash.book_keeper.activities.launcher
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -50,13 +51,23 @@ class ActivityLauncher : AppCompatActivity() {
             try {
                 NetworkMonitor.isConnected() //to check if net monitor has initialized.
                 delay(100L) // delay for network status read
-                syncAppDataAndForward(checkForFcmIntent())
+                syncAppDataAndForward(checkForIntent())
                 break
             }catch (ex:Throwable){
                 ex.printStackTrace()
                 delay(50L)
             }
         }while (true)
+    }
+
+    private fun checkForIntent():Intent?{
+        checkForFcmIntent()?.let {
+            return it
+        }
+        if (isLoggedInIntent()){
+            ActivityHome.getProfileIntent(this)
+        }
+        return null
     }
 
     private fun checkForFcmIntent() = BookKeeperMessagingService.checkForFcmIntent(this,intent)
@@ -110,5 +121,19 @@ class ActivityLauncher : AppCompatActivity() {
                 finish()
             }
         },delay)
+    }
+
+    private fun isLoggedInIntent() = intent.hasExtra(EXTRA_LOGGED_IN_MODE)
+
+    companion object {
+
+        private const val EXTRA_LOGGED_IN_MODE =
+            "com.dasbikash.book_keeper.activities.launcher.ActivityHome.ActivityLauncher"
+
+        fun getLoggedInIntent(context: Context): Intent {
+            val intent = Intent(context.applicationContext, ActivityLauncher::class.java)
+            intent.putExtra(EXTRA_LOGGED_IN_MODE, EXTRA_LOGGED_IN_MODE)
+            return intent
+        }
     }
 }
