@@ -65,7 +65,7 @@ class ActivityLauncher : AppCompatActivity() {
             return it
         }
         if (isLoggedInIntent()){
-            ActivityHome.getProfileIntent(this)
+            return ActivityHome.getProfileIntent(this)
         }
         return null
     }

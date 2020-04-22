@@ -12,7 +12,7 @@ import kotlin.coroutines.suspendCoroutine
 
 internal object FireStoreEventNotificationService {
 
-    private const val MODIFIED_FIELD = "modified"
+    private const val CREATED_FIELD = "created"
     private const val USER_ID_FIELD = "userId"
 
     fun deleteEventNotification(eventNotification: EventNotification,
@@ -43,7 +43,7 @@ internal object FireStoreEventNotificationService {
                                 .whereEqualTo(USER_ID_FIELD, AuthRepo.getUserId())
 
         if (lastUpdated!=null){
-            query = query.whereGreaterThan(MODIFIED_FIELD,lastUpdated)
+            query = query.whereGreaterThan(CREATED_FIELD,lastUpdated)
         }
 
         return executeQuery(query)
