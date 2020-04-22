@@ -10,8 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper.rv_helpers.EventNotificationAdapter
 import com.dasbikash.book_keeper.rv_helpers.EventNotificationRemoveCallback
 import com.dasbikash.book_keeper_repo.EventNotificationRepo
@@ -25,6 +27,13 @@ class FragmentEventNotification : Fragment() {
 
     private fun doOnClick(eventNotification: EventNotification) {
         debugLog(eventNotification)
+        runWithActivity {
+            BookKeeperMessagingService.checkForFcmIntent(it,eventNotification)?.apply {
+                debugLog("Intent found")
+                it.startActivity(this)
+                it.finish()
+            }
+        }
     }
 
     override fun onCreateView(

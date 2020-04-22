@@ -20,6 +20,7 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_toast_utils.ToastUtils
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.model.EventNotification
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
@@ -123,7 +124,7 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
             return FirebaseMessaging.getInstance().unsubscribeFromTopic(topicName)
         }
 
-        fun resolveIntent(context: Context,fcmSubject: String, fcmKey: String?):Intent? {
+        private fun resolveIntent(context: Context,fcmSubject: String, fcmKey: String?):Intent? {
             return when{
 
                 fcmSubject== FcmSubjects.CONNECTION.subject ->{
@@ -165,6 +166,12 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
 
             return fcmSubject?.let {
                 resolveIntent(context,it,fcmKey)
+            }
+        }
+
+        fun checkForFcmIntent(context: Context, eventNotification: EventNotification):Intent?{
+            return eventNotification.subject?.let {
+                resolveIntent(context,it,eventNotification.key)
             }
         }
     }
