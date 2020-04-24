@@ -81,13 +81,3 @@ internal fun CharArray.byteArray():ByteArray{
     }
     return bytes
 }
-
-fun Date.getTimeString(format:String):String{
-    return DateUtils.getTimeString(this,format)
-                .let {
-                    when (checkIfEnglishLanguageSelected()) {
-                        true -> it
-                        false -> TranslatorUtils.englishToBanglaDateString(it)
-                    }
-                }
-}

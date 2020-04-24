@@ -5,5 +5,6 @@ import androidx.annotation.Keep
 @Keep
 enum class SupportedLanguage(val language:String,val country:String,val displayName:String){
     BANGLA("bn","","বাংলা"),
-    ENGLISH("en","US","English")
+    ENGLISH("en","US","English"),
+    HINDI("hi","India","हिन्दी")
 }

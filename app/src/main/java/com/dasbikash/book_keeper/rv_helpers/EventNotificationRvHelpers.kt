@@ -12,6 +12,7 @@ import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.model.EventNotification
 
 object EventNotificationDiffCallback: DiffUtil.ItemCallback<EventNotification>(){
@@ -59,13 +60,13 @@ class EventNotificationEntryHolder(itemView: View) : RecyclerView.ViewHolder(ite
         this.eventNotification = eventNotification
         tv_event_title_text.text = eventNotification.title
         tv_event_desc_text.text = eventNotification.description
-        tv_event_time_text.text = DateUtils.getTimeString(eventNotification.created!!.toDate(),itemView.context.getString(R.string.exp_entry_time_format)).let {
+        tv_event_time_text.text = eventNotification.created!!.toDate().toTranslatedString(itemView.context)/* DateUtils.getTimeString(eventNotification.created!!.toDate(),itemView.context.getString(R.string.exp_entry_time_format)).let {
             if (!checkIfEnglishLanguageSelected()){
                 TranslatorUtils.englishToBanglaDateString(it)
             }else{
                 it
             }
-        }
+        }*/
     }
 
     fun getEntry():EventNotification = eventNotification

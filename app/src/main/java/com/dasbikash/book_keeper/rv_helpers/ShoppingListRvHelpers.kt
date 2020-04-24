@@ -19,6 +19,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.utils.getDayCount
@@ -78,13 +79,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tv_sl_title_text.text = shoppingList.title
         tv_sl_item_count_text.text = shoppingList.shoppingListItemIds?.size?.toString() ?: "0"
         if (shoppingList.deadLine !=null){
-            tv_sl_deadline_text.text = DateUtils.getTimeString(shoppingList.deadLine!!.toDate(),itemView.context.getString(R.string.exp_entry_time_format))
-                                            .let {
-                                                return@let when (checkIfEnglishLanguageSelected()) {
-                                                    true -> it
-                                                    false -> TranslatorUtils.englishToBanglaDateString(it)
-                                                }
-                                            }
+            tv_sl_deadline_text.text = shoppingList.deadLine!!.toDate().toTranslatedString(itemView.context)
             tv_sl_deadline_text.show()
         }else{
             tv_sl_deadline_text.hide()

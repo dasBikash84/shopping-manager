@@ -197,7 +197,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
 
     override fun onResume() {
         super.onResume()
-        displayLanguageOpButtons()
+//        displayLanguageOpButtons()
     }
 
     private fun displayLanguageOpButtons() {

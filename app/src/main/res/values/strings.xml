@@ -32,7 +32,7 @@
     <string name="invalid_credentials_message">Invalid email or password!</string>
     <string name="log_out_prompt">Log out?</string>
     <string name="log_out">Log-Out</string>
-    <string name="reset_password_text">Reset\nPassword</string>
+    <string name="reset_password_text">Reset Password</string>
     <string name="reset_password_hint">Reset Password?</string>
     <string name="password_reset_email_sent">Password reset link emailed. Please check.</string>
     <string name="login_benefits_text_title">Features unlocked on login:</string>
@@ -72,51 +72,51 @@
     <string name="quantity_error_message">Quantity can\'t be empty or zero!</string>
     <string name="description_error_message">Description can\'t be blank</string>
     <string name="expense_saved_message">Expense entry saved.</string>
-    <string name="cal_sign_text">+/-</string>
-    <string name="cal_zero_text">0</string>
-    <string name="cal_dot_text">.</string>
-    <string name="cal_equal_text">=</string>
-    <string name="cal_one_text">1</string>
-    <string name="cal_two_text">2</string>
-    <string name="cal_three_text">3</string>
-    <string name="cal_plus_text">+</string>
-    <string name="cal_four_text">4</string>
-    <string name="cal_five_text">5</string>
-    <string name="cal_six_text">6</string>
-    <string name="cal_minus_text">-</string>
-    <string name="cal_seven_text">7</string>
-    <string name="cal_eight_text">8</string>
-    <string name="cal_nine_text">9</string>
-    <string name="cal_mul_text">x</string>
-    <string name="cal_inv_text">1/x</string>
-    <string name="cal_square_text">x*x</string>
-    <string name="cal_div_text">÷</string>
-    <string name="cal_percent_text">%</string>
-    <string name="cal_ce_text">CE</string>
-    <string name="cal_c_text">C</string>
-    <string name="cal_mem_minus_text">M-</string>
-    <string name="cal_mem_plus_text">M+</string>
-    <string name="cal_mem_recall_text">MR</string>
-    <string name="cal_mem_clear_text">MC</string>
+    <string name="cal_sign_text" translatable="false">+/-</string>
+    <string name="cal_zero_text" translatable="false">0</string>
+    <string name="cal_dot_text" translatable="false">.</string>
+    <string name="cal_equal_text" translatable="false">=</string>
+    <string name="cal_one_text" translatable="false">1</string>
+    <string name="cal_two_text" translatable="false">2</string>
+    <string name="cal_three_text" translatable="false">3</string>
+    <string name="cal_plus_text" translatable="false">+</string>
+    <string name="cal_four_text" translatable="false">4</string>
+    <string name="cal_five_text" translatable="false">5</string>
+    <string name="cal_six_text" translatable="false">6</string>
+    <string name="cal_minus_text" translatable="false">-</string>
+    <string name="cal_seven_text" translatable="false">7</string>
+    <string name="cal_eight_text" translatable="false">8</string>
+    <string name="cal_nine_text" translatable="false">9</string>
+    <string name="cal_mul_text" translatable="false">x</string>
+    <string name="cal_inv_text" translatable="false">1/x</string>
+    <string name="cal_square_text" translatable="false">x*x</string>
+    <string name="cal_div_text" translatable="false">÷</string>
+    <string name="cal_percent_text" translatable="false">%</string>
+    <string name="cal_ce_text" translatable="false">CE</string>
+    <string name="cal_c_text" translatable="false">C</string>
+    <string name="cal_mem_minus_text" translatable="false">M-</string>
+    <string name="cal_mem_plus_text" translatable="false">M+</string>
+    <string name="cal_mem_recall_text" translatable="false">MR</string>
+    <string name="cal_mem_clear_text" translatable="false">MC</string>
     <string name="calculator_title">Calculator</string>
-    <string name="calc_history_string">%1$s %2$s %3$s</string>
-    <string name="calc_history_result">%1$s</string>
-    <string name="double_2_dec_point">%1$.2f</string>
-    <string name="exp_qty_text">%1$d %2$s</string>
-    <string name="month_title_format">MMM yyyy</string>
-    <string name="default_qty">1.0</string>
-    <string name="default_unit_price">0.0</string>
-    <string name="exp_entry_time_format">dd MMM yyyy hh:mm a</string>
-    <string name="exp_entry_time_format_secs">dd MMM yyyy hh:mm:ss a</string>
-    <string name="default_tax_vat">0.0</string>
-    <string name="date_title_format">EEE dd MMM yyyy</string>
-    <string name="reminder_hint">0</string>
-    <string name="sl_count_down_text">%1$d %2$s</string>
-    <string name="sl_remind_interval_text">%1$s</string>
-    <string name="sli_price_range">%1$s %2$s</string>
-    <string name="sl_price_range">%1$.2f - %2$.2f</string>
-    <string name="sli_qty_text">%1$s %2$s</string>
-    <string name="email_share_app_subject">Sharing BookKeeper android app</string>
+    <string name="calc_history_string" translatable="false">%1$s %2$s %3$s</string>
+    <string name="calc_history_result" translatable="false">%1$s</string>
+    <string name="double_2_dec_point" translatable="false">%1$.2f</string>
+    <string name="exp_qty_text" translatable="false">%1$d %2$s</string>
+    <string name="month_title_format" translatable="false">MMM yyyy</string>
+    <string name="default_qty" translatable="false">1.0</string>
+    <string name="default_unit_price" translatable="false">0.0</string>
+    <string name="exp_entry_time_format" translatable="false">dd MMM yyyy hh:mm a</string>
+    <string name="exp_entry_time_format_secs" translatable="false">dd MMM yyyy hh:mm:ss a</string>
+    <string name="default_tax_vat" translatable="false">0.0</string>
+    <string name="date_title_format" translatable="false">EEE dd MMM yyyy</string>
+    <string name="reminder_hint" translatable="false">0</string>
+    <string name="sl_count_down_text" translatable="false">%1$d %2$s</string>
+    <string name="sl_remind_interval_text" translatable="false">%1$s</string>
+    <string name="sli_price_range" translatable="false">%1$s %2$s</string>
+    <string name="sl_price_range" translatable="false">%1$.2f - %2$.2f</string>
+    <string name="sli_qty_text" translatable="false">%1$s %2$s</string>
+    <string name="email_share_app_subject" translatable="false">Sharing BookKeeper android app</string>
     <string name="delete_calc_history_prompt">Clear calculator history?</string>
     <string name="delete_calc_history_message">Calculator history cleared!</string>
     <string name="all_text">All</string>
@@ -174,7 +174,7 @@
     <string name="retry">Retry</string>
     <string name="shopping_list_name_hint">Shopping list name</string>
     <string name="sl_deadline">Deadline:</string>
-    <string name="enable_shopping_remainder">Enable reminder.</string>
+    <string name="enable_shopping_remainder">Enable reminder</string>
     <string name="sl_count_down_prompt">"Remind before: "</string>
     <string name="sl_reminder_interval_prompt">Remind every:</string>
     <string name="click_to_set_prompt">Click to set</string>
@@ -256,8 +256,8 @@
     <string name="exp_partner_details_text">Partner details:</string>
     <string name="approve">Approve</string>
     <string name="decline">Decline</string>
-    <string name="sl_share_request_approved_message">Shopping request share request approved.</string>
-    <string name="sl_share_request_declined_message">Shopping request share request declined.</string>
+    <string name="sl_share_request_approved_message">Shopping list share request has been approved.</string>
+    <string name="sl_share_request_declined_message">Shopping list share request has been declined.</string>
     <string name="phone_hint">Phone</string>
     <string name="shared_sl_message">It\'s a shared shopping list.</string>
     <string name="owner_sl_online_share_message">Only owner can share shopping list online!!</string>
@@ -272,8 +272,8 @@
     <string name="switch_to_bn_prompt">ভাষা পরিবর্তন করে \"বাংলা\" করতে চান?</string>
     <string name="switch_to_en_prompt">Change language to \"English\"?</string>
     <string name="email_verification_prompt">Confirm your email address…</string>
-    <string name="email_verification_instruction">Please verify you email address using link given on sent email.</string>
-    <string name="email_verification_instruction_with_email">Please verify you email address \"%1$s\" using link given on sent email.</string>
+    <string name="email_verification_instruction">Please verify your email address using link given on sent email.</string>
+    <string name="email_verification_instruction_with_email">Please verify your email address \"%1$s\" using link given on sent email.</string>
     <string name="resend_email">Resend Verification Email</string>
     <string name="resend_email_with_delay">Resend Verification Email in %1$d seconds.</string>
     <string name="email_verification_link_sent">Email sent.</string>
@@ -286,7 +286,7 @@
     <string name="request_pending_from_me_title">Pending requests from me:</string>
     <string name="request_pending_to_me_title">Pending requests to me:</string>
     <string name="invalid_user_search_string">Please provide valid email or phone number</string>
-    <string name="display_name">%1$s %2$s</string>
+    <string name="display_name" translatable="false">%1$s %2$s</string>
     <string name="email_sub">Regarding \"BookKeeper\"</string>
     <string name="call_prompt">Call user</string>
     <string name="email_prompt">Email User</string>
@@ -327,28 +327,28 @@
     <string name="change_image_prompt">Change image</string>
     <string name="color_code">Background Color code</string>
     <string name="sl_all_bought">No pending item on shopping list.</string>
-    <string name="sl_dl_today">Shopping list with pending items where deadline is today and has not expired yet.</string>
-    <string name="sl_dl_active">Shopping list with pending items where deadline is after today.</string>
-    <string name="sl_dl_expired">Shopping list with pending items where deadline has expired.</string>
+    <string name="sl_dl_today">Shopping list that have pending items where deadline is today and has not expired yet.</string>
+    <string name="sl_dl_active">Shopping list that have pending items where deadline is today and has not expired yet.</string>
+    <string name="sl_dl_expired">Shopping list that have pending items where deadline has expired.</string>
     <string name="sync_later">Save Later</string>
     <string name="import_guest_data">Import Guest User Data</string>
-    <string name="import_guest_data_exit_prompt">Do you want to exit and handle guest data later?</string>
-    <string name="guest_data_save_exit_message">Import guest data and exit?</string>
+    <string name="import_guest_data_exit_prompt">Do you want to exit now and handle guest data later?</string>
+    <string name="guest_data_save_exit_message">Import guest data and go back?</string>
     <string name="btn_reset">Reset</string>
     <string name="guest_data_import_prompt">Expense entry(s) found saved by guest user. Do you want to import those into your accout?</string>
     <string name="delete_guest_exp_entry">Delete Entries</string>
     <string name="total_price_hint">Total price*</string>
     <string name="price_hint">Price*</string>
-    <string name="exp_sum_file_name">bk_exp_%1$s.csv</string>
+    <string name="exp_sum_file_name" translatable="false">bk_exp_%1$s.csv</string>
     <string name="exp_sum_page_title">\"Expense data from BookKeeper App:\"\n\n</string>
     <string name="exp_sum_user_name">\"User:\",\"%1$s\"\n</string>
     <string name="exp_sum_period">\"Period:\",\"%1$s - %2$s\"\n</string>
     <string name="exp_sum_amount">\"Total expense amount:\",\"%1$.2f\"\n</string>
     <string name="exp_sum_exp_count">\"Number of entries:\",\"%1$d\"\n\n</string>
     <string name="exp_sum_table_title">\"Serial#\",\"Category\",\"Time\",\"Details\",\"Total expense\",\"Tax/Vat(%)\",\"Product Name\",\"Product Brand\",\"Unit Price\",\"Quantity\",\"Product Price\",\"Unit of Measure\"\n</string>
-    <string name="exp_sum_table_row_with_product">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f,%7$s,%8$s,%9$.2f,%10$.2f,%11$.2f,%12$s\n</string>
-    <string name="exp_sum_table_row_no_product">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f\n</string>
-    <string name="exp_sum_table_row_only_product">,,,,,,%1$s,%2$s,%3$.2f,%4$.2f,%5$.2f,%6$s\n</string>
+    <string name="exp_sum_table_row_with_product" translatable="false">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f,%7$s,%8$s,%9$.2f,%10$.2f,%11$.2f,%12$s\n</string>
+    <string name="exp_sum_table_row_no_product" translatable="false">%1$d,%2$s,%3$s,%4$s,%5$.2f,%6$.2f\n</string>
+    <string name="exp_sum_table_row_only_product" translatable="false">,,,,,,%1$s,%2$s,%3$.2f,%4$.2f,%5$.2f,%6$s\n</string>
     <string name="export_exp_summary">Export Expense Data</string>
     <string name="export_exp_path">Saved as: %1$s</string>
     <string name="start_time_text">Start Date:</string>
@@ -359,9 +359,6 @@
     <string name="sign_up_email_hint">Email*</string>
     <string name="sign_up_password_hint">Password*</string>
     <string name="events_text">Event Notifications</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_con_req">New connection request</string>
     <string name="new_sl_received">New shopping list received</string>
     <string name="new_sl_sh_req">New shopping list share request received</string>

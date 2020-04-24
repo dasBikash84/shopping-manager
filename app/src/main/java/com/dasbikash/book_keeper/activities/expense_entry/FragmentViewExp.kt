@@ -6,18 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runWithActivity
+import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper.utils.getCurrencyString
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
@@ -52,18 +51,12 @@ class FragmentViewExp : FragmentTemplate() {
     }
 
     private fun refreshView() {
-        checkIfEnglishLanguageSelected().apply {
+        runWithContext {
             tv_category_title.text = resources.getStringArray(R.array.expense_categories).get(expenseEntry.categoryId)
-            tv_entry_time.text = DateUtils.getTimeString(expenseEntry.time!!.toDate(), getString(R.string.exp_entry_time_format))
-                                        .let {
-                                            return@let when (this) {
-                                                true -> it
-                                                false -> TranslatorUtils.englishToBanglaDateString(it)
-                                            }
-                                        }
+            tv_entry_time.text = expenseEntry.time!!.toDate().toTranslatedString(it)
             tv_exp_details.text = expenseEntry.details
-            tv_vat_ait.text = expenseEntry.taxVat.getCurrencyString()
-            tv_total_expense.text = expenseEntry.totalExpense?.getCurrencyString()
+            tv_vat_ait.text = expenseEntry.taxVat.get2DecPoints().toString()
+            tv_total_expense.text = expenseEntry.totalExpense?.get2DecPoints().toString()
 
             (expenseEntry.expenseItems ?: emptyList()).let {
                 if (it.isEmpty()){

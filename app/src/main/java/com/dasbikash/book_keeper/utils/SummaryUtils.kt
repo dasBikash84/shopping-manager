@@ -12,8 +12,8 @@ object SummaryUtils {
         val user = AuthRepo.getUser(context)!!
         val expenseEntries = ExpenseRepo.findByPeriod(context,startTime,endTime)
 
-        val startPeriodText = startTime.getTimeString(context.getString(R.string.exp_entry_time_format))
-        val endPeriodText = endTime.getTimeString(context.getString(R.string.exp_entry_time_format))
+        val startPeriodText = startTime.toTranslatedString(context)//.getTimeString(context.getString(R.string.exp_entry_time_format))
+        val endPeriodText = endTime.toTranslatedString(context)//.getTimeString(context.getString(R.string.exp_entry_time_format))
 
         val summaryPayload = StringBuilder(context.getString(R.string.exp_sum_page_title))
         summaryPayload.append(context.getString(R.string.exp_sum_user_name,user.displayText()))
@@ -33,7 +33,7 @@ object SummaryUtils {
                         R.string.exp_sum_table_row_no_product,
                         serial,
                         getDoubleQuotedString(context.resources.getStringArray(R.array.expense_categories).get(expenseEntry.categoryId)),
-                        getDoubleQuotedString(expenseEntry.time?.toDate()?.getTimeString(context.getString(R.string.exp_entry_time_format))),
+                        getDoubleQuotedString(expenseEntry.time?.toDate()?.toTranslatedString(context)),
                         getDoubleQuotedString(expenseEntry.details),
                         expenseEntry.totalExpense ?: 0.0,
                         expenseEntry.taxVat
@@ -49,7 +49,7 @@ object SummaryUtils {
                                 R.string.exp_sum_table_row_with_product,
                                 serial,
                                 getDoubleQuotedString(context.resources.getStringArray(R.array.expense_categories).get(expenseEntry.categoryId)),
-                                getDoubleQuotedString(expenseEntry.time?.toDate()?.getTimeString(context.getString(R.string.exp_entry_time_format))),
+                                getDoubleQuotedString(expenseEntry.time?.toDate()?.toTranslatedString(context)),
                                 getDoubleQuotedString(expenseEntry.details),
                                 expenseEntry.totalExpense ?: 0.0,
                                 expenseEntry.taxVat,

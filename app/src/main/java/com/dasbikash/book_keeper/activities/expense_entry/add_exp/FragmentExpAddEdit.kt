@@ -64,14 +64,7 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
     }
 
     private fun updateTime(@StringRes timeFormatStringId:Int=R.string.exp_entry_time_format_secs) {
-        tv_entry_add.text =
-            DateUtils.getTimeString(mEntryTime.time, getString(timeFormatStringId))
-                .let {
-                    return@let when (checkIfEnglishLanguageSelected()) {
-                        true -> it
-                        false -> TranslatorUtils.englishToBanglaDateString(it)
-                    }
-                }
+        tv_entry_add.text = mEntryTime.time.toTranslatedString(context!!,timeFormatStringId)
     }
 
     private fun expenseItemOptionsClickAction(expenseItem: ExpenseItem) {

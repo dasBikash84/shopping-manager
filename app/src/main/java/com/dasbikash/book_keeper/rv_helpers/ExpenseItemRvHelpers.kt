@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.utils.getCurrencyString
+import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
 import com.dasbikash.book_keeper_repo.model.ExpenseItem
 
 object ExpenseItemDiffCallback: DiffUtil.ItemCallback<ExpenseItem>(){
@@ -49,9 +49,9 @@ class ExpenseItemHolder(itemView: View,val optionsClickAction:((ExpenseItem)->Un
     fun bind(expenseItem: ExpenseItem) {
         expenseItem.apply {
             tv_exp_item_name_text.text = name
-            tv_exp_item_unit_price_text.text = unitPrice.getCurrencyString()
-            tv_exp_item_qty_text.text = qty.getCurrencyString()
-            tv_exp_item_total_price_text.text = (unitPrice*qty).getCurrencyString()
+            tv_exp_item_unit_price_text.text = unitPrice.get2DecPoints().toString()
+            tv_exp_item_qty_text.text = qty.get2DecPoints().toString()
+            tv_exp_item_total_price_text.text = (unitPrice*qty).get2DecPoints().toString()
             tv_exp_item_uom_text.text = uom.let { itemView.context.resources.getStringArray(R.array.uoms).get(it) }
             if (!brandName.isNullOrBlank()) {
                 tv_exp_item_brand_name_text.text = brandName

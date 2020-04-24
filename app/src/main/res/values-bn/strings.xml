@@ -10,8 +10,8 @@
     <string name="signup_textview">অ্যাকাউন্ট খুলুন</string>
     <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string name="first_name_hint">নামের প্রথমাংশ</string>
-    <string name="last_name_hint">পদবী (ঐচ্ছিক)</string>
-    <string name="phone_no_hint">মোবাইল নম্বর (ঐচ্ছিক)</string>
+    <string name="last_name_hint">পদবী</string>
+    <string name="phone_no_hint">মোবাইল নম্বর</string>
     <string name="bmi_add">খরচ যোগ</string>
     <string name="bmi_exp_browse">সকল খরচ</string>
     <string name="bmi_budget">বাজেট</string>
@@ -192,7 +192,7 @@
     <string name="show_list_action_text">বাজারের ফর্দটি দেখুন</string>
     <string name="shopping_list_share_req_approved">%1$s বাজারের ফর্দ শেয়ার করার অনুরোধটি মঞ্জুর করেছেন</string>
     <string name="shopping_list_share_req_denied">%1$s বাজারের ফর্দ শেয়ার করার অনুরোধটি প্রত্যাখ্যান করেছেন</string>
-    <string name="shopping_list_share_request_posted">" বাজারের ফর্দ শেয়ার করার অনুরোধ পাঠানো হয়েছে। স্বত্বাধিকারীর অনুমোদনের জন্য অপেক্ষাকরুন।"</string>
+    <string name="shopping_list_share_request_posted">" বাজারের ফর্দ শেয়ার করার অনুরোধ পাঠানো হয়েছে। অনুমোদনের জন্য অপেক্ষাকরুন।"</string>
     <string name="duplicate_shopping_list_or_share_req_message">বাজারের ফর্দ শেয়ার করার অনুরোধ পুনরাবৃত্তি করা হয়েছে!</string>
     <string name="scan_qr_code_to_import_list_prompt">QR কোড স্ক্যান করে বাজারের ফর্দ আমদানি করুনঃ</string>
     <string name="show_permission_dialog">" অনুমতি প্রদানের স্ক্রিনটি দেখান"</string>
@@ -310,4 +310,9 @@
     <string name="re_login_message">আপনার ইমেইল ভেরিফাই করা হয়েছে। দয়া করে পুনরায় লগইন করুন।</string>
     <string name="sign_up_email_hint">ইমেইল*</string>
     <string name="sign_up_password_hint">পাসওয়ার্ড*</string>
+    <string name="new_event">নতুন ঘটনা</string>
+    <string name="new_sl_sh_req">নতুন বাজারের ফর্দ শেয়ারের অনুরোধ পাওয়া গেছে</string>
+    <string name="new_sl_received">নতুন বাজারের ফর্দ পাওয়া গেছে</string>
+    <string name="new_con_req">নতুন সংযোগের অনুরোধ</string>
+    <string name="events_text">ঘটনার বিজ্ঞপ্তি</string>
 </resources>

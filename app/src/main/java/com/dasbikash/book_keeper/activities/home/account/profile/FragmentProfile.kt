@@ -130,6 +130,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             debugLog(position)
             debugLog(item)
             viewModel.getUserLiveData().value?.let {
+                val user = it
                 if (item != it.language.displayName){
                     val language = SupportedLanguage.values().find { it.displayName==item }!!
                     runWithContext {
@@ -144,7 +145,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                                 }
                             },
                             doOnNegetivePress = {
-                                spinner_language_selector.selectedIndex = if (position==1) {0} else {1}
+                                spinner_language_selector.selectedIndex = SupportedLanguage.values().indexOf(user.language)
                             },
                             positiveButtonText = it.getString(R.string.yes),
                             negetiveButtonText = it.getString(R.string.no)

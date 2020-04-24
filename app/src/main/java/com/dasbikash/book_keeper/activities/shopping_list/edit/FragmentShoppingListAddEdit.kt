@@ -20,10 +20,12 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
 import com.dasbikash.book_keeper.activities.shopping_list.view.FragmentShoppingListView
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -100,11 +102,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
 
         spinner_reminder_interval_selector.setItems(
             ShoppingList.Companion.ReminderInterval.values().map {
-                if (checkIfEnglishLanguageSelected()) {
-                    it.text
-                } else {
-                    it.textBangla
-                }
+                it.getText(BookKeeperApp.getLanguageSetting(context!!))
             }
         )
 
@@ -134,7 +132,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
                 debugLog("item: $item")
                 item?.let {
                     ShoppingList.Companion.ReminderInterval.values()
-                        .find { it.text == item || it.textBangla == item }?.let {
+                        .find { it.text == item || it.textBangla == item|| it.textHindi == item }?.let {
                             shoppingList.setReminderInterval(it.intervalMs)
                             debugLog(shoppingList)
                         }
@@ -342,14 +340,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
             cb_disable_deadline.isChecked = false
             cb_disable_deadline.show()
             cb_set_sl_remainder.show()
-
-            DateUtils.getTimeString(shoppingList.deadLine!!.toDate(), getString(R.string.exp_entry_time_format)).let {
-                tv_sl_deadline.text = if (checkIfEnglishLanguageSelected()) {
-                    it
-                } else {
-                    TranslatorUtils.englishToBanglaDateString(it)
-                }
-            }
+            tv_sl_deadline.text = shoppingList.deadLine!!.toDate().toTranslatedString(context!!)
 
             if (shoppingList.getCountDownTime() != null) {
                 shoppingList.getCountDownTime()?.let {

@@ -22,10 +22,12 @@ import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingL
 import com.dasbikash.book_keeper.activities.shopping_list.edit.FragmentShoppingListAddEdit.Companion.reminderUnitPeriods
 import com.dasbikash.book_keeper.activities.sl_item.ActivityShoppingListItem
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
+import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -166,15 +168,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                     tv_sl_price_range.text = getString(R.string.sl_price_range,minExp,maxExp)
                 }
                 if (deadLine != null) {
-                    tv_sl_deadline.text = DateUtils.getTimeString(
-                        shoppingList.deadLine!!.toDate(),
-                        it.getString(R.string.exp_entry_time_format)
-                    ).let {
-                            return@let when (checkIfEnglishLanguageSelected()) {
-                                true -> it
-                                false -> TranslatorUtils.englishToBanglaDateString(it)
-                            }
-                        }
+                    tv_sl_deadline.text = shoppingList.deadLine!!.toDate().toTranslatedString(it)
                     sl_deadline_text_holder.show()
                 } else {
                     sl_deadline_text_holder.hide()
@@ -197,7 +191,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                     ShoppingList.Companion.ReminderInterval.values().find {
                         it.intervalMs==getReminderInterval()
                     }!!.let {
-                        tv_sl_reminder_interval.text = getString(R.string.sl_remind_interval_text,if (checkIfEnglishLanguageSelected()) {it.text} else {it.textBangla})
+                        tv_sl_reminder_interval.text = getString(R.string.sl_remind_interval_text,it.getText(BookKeeperApp.getLanguageSetting(context!!)))
                     }
                     sl_remainder_block.show()
                 }else{

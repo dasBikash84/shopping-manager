@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="log_in_options">
+        <item>मोबाइल</item>
+        <item>ईमेल</item>
+    </string-array>
+    <string-array name="uoms">
+        <item>भाग</item>
+        <item>पैकेज</item>
+        <item>जोड़ा</item>
+        <item>दर्जन</item>
+        <item>ग्राम</item>
+        <item>किलोग्राम</item>
+        <item>टन</item>
+        <item>आउंस</item>
+        <item>पौंड</item>
+        <item>मिलीमीटर</item>
+        <item>सेंटीमीटर</item>
+        <item>मीटर</item>
+        <item>इंच</item>
+        <item>फीट</item>
+        <item>गज</item>
+        <item>मेले लीटर</item>
+        <item>लीटर</item>
+        <item>गैलन</item>
+    </string-array>
+    <string-array name="expense_categories">
+        <item>किराना</item>
+        <item>कपड़े</item>
+        <item>सब्जियां</item>
+        <item>ट्यूशन शुल्क</item>
+        <item>क्लिनिक / अस्पताल</item>
+        <item>पुस्तकें</item>
+        <item>फार्मेसी</item>
+        <item>बेकरी</item>
+        <item>मोबाइल फोन &amp; संबंधित सामान</item>
+        <item>कंप्यूटर &amp; संबंधित सामान</item>
+        <item>फर्नीचर</item>
+        <item>आभूषण</item>
+        <item>जूते</item>
+        <item>प्रसाधन सामग्री</item>
+        <item>विविध</item>
+        <item>बैंक जमा</item>
+    </string-array>
+    <string-array name="reminder_time_units">
+        <item>मिनट</item>
+        <item>घंटे</item>
+    </string-array>
+    <string-array name="price_input_process">
+        <item>यूनिट मूल्य</item>
+        <item>कुल कीमत</item>
+    </string-array>
+</resources>

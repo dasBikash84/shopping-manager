@@ -364,10 +364,10 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         val tv_end_time:TextView = dialogView.findViewById(R.id.tv_end_time)
 
         var selectedStartTime = startTime.getStart()
-        tv_start_time.text = selectedStartTime.getTimeString(getString(R.string.exp_entry_time_format))
+        tv_start_time.text = selectedStartTime.toTranslatedString(context)
 
         var selectedEndTime = endTime.getEnd()
-        tv_end_time.text = selectedEndTime.getTimeString(getString(R.string.exp_entry_time_format))
+        tv_end_time.text = selectedEndTime.toTranslatedString(context)//.getTimeString(getString(R.string.exp_entry_time_format))
 
         tv_start_time.setOnClickListener {
                 val dateTimePicker = DateTimePicker(
@@ -376,7 +376,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                     maxDate = selectedEndTime,
                     doOnDateTimeSet = {
                         selectedStartTime = it.getStart()
-                        tv_start_time.text = selectedStartTime.getTimeString(getString(R.string.exp_entry_time_format))
+                        tv_start_time.text = selectedStartTime.toTranslatedString(context)//.getTimeString(getString(R.string.exp_entry_time_format))
                     }
                 )
                 dateTimePicker.display(context)
@@ -389,7 +389,7 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
                     maxDate = selectedEndTime,
                     doOnDateTimeSet = {
                         selectedEndTime = it.getEnd()
-                        tv_end_time.text = selectedEndTime.getTimeString(getString(R.string.exp_entry_time_format))
+                        tv_end_time.text = selectedEndTime.toTranslatedString(context)//.getTimeString(getString(R.string.exp_entry_time_format))
                     }
                 )
                 dateTimePicker.display(context)

@@ -13,6 +13,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.models.TbaSlShareReq
 import com.dasbikash.book_keeper.utils.TranslatorUtils
 import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -88,7 +89,7 @@ class TbaSlShareReqListHolder(
         mTbaSlShareReq = tbaSlShareReq
         tv_sl_title_text.text = tbaSlShareReq.shoppingList.title
         tv_partner_details_text.text = getUserDetails(tbaSlShareReq.requester)
-        tv_req_time.text = DateUtils
+        tv_req_time.text = tbaSlShareReq.onlineSlShareReq.modified.toDate().toTranslatedString(itemView.context)/*DateUtils
                                 .getTimeString(tbaSlShareReq.onlineSlShareReq.modified.toDate(),itemView.context.getString(R.string.exp_entry_time_format))
                                 .let {
                                     if (checkIfEnglishLanguageSelected()){
@@ -96,7 +97,7 @@ class TbaSlShareReqListHolder(
                                     }else{
                                         TranslatorUtils.englishToBanglaDateString(it)
                                     }
-                                }
+                                }*/
     }
 
     private fun getUserDetails(user: User): String {

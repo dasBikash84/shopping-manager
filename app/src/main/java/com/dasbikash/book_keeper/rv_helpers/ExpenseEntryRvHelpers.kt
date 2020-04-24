@@ -9,12 +9,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper.utils.getCurrencyString
+import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -96,16 +94,8 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
         debugLog(expenseEntry)
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
-            tv_entry_time_text.text = DateUtils
-                                        .getTimeString(time!!.toDate(), itemView.context.getString(R.string.exp_entry_time_format))
-                                        .let {
-                                            if (checkIfEnglishLanguageSelected()) {
-                                                it
-                                            } else {
-                                                TranslatorUtils.englishToBanglaDateString(it)
-                                            }
-                                        }
-            tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyString()
+            tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).toDouble().get2DecPoints().toString()
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
@@ -152,16 +142,8 @@ class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         debugLog(expenseEntry)
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
-            tv_entry_time_text.text = DateUtils
-                                        .getTimeString(time!!.toDate(), itemView.context.getString(R.string.exp_entry_time_format))
-                                        .let {
-                                            if (checkIfEnglishLanguageSelected()) {
-                                                it
-                                            } else {
-                                                TranslatorUtils.englishToBanglaDateString(it)
-                                            }
-                                        }
-            tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyString()
+            tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).get2DecPoints().toString()
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }

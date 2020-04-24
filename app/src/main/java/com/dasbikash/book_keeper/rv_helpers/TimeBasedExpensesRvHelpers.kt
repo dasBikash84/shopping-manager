@@ -15,9 +15,8 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
 import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
-import com.dasbikash.book_keeper.utils.getCurrencyString
 import com.dasbikash.book_keeper.utils.getTitleString
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
@@ -80,7 +79,7 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
                 if (it.first == timeBasedExpenseEntryGroup) {
                     rv_time_wise_exp_holder.show()
                     expHolderAdapter.submitList(it.second)
-                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.getCurrencyString()
+                    tv_total_expense.text = it.second.sumByDouble { it.totalExpense ?: 0.0 }.get2DecPoints().toString()
                     tv_exp_count.text = it.second.size.toString()
                 }
             }
@@ -117,18 +116,8 @@ class TimeBasedExpenseEntryGroupHolder(itemView: View,
 
     fun bind(timeBasedExpenseEntryGroup: TimeBasedExpenseEntryGroup) {
         this.timeBasedExpenseEntryGroup = timeBasedExpenseEntryGroup
-        tv_time_period_text.text = timeBasedExpenseEntryGroup.getTitleString(itemView.context)
-                                        .let {
-                                            debugLog(it)
-                                            if (checkIfEnglishLanguageSelected()){
-                                                it
-                                            }else{
-                                                TranslatorUtils.englishToBanglaDateString(it)
-                                            }.apply {
-                                                debugLog(this)
-                                            }
-                                        }
-        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.getCurrencyString()
+        tv_time_period_text.text = TranslatorUtils.getTranslatedDateString(itemView.context,timeBasedExpenseEntryGroup.getTitleString(itemView.context))
+        tv_total_expense.text = timeBasedExpenseEntryGroup.totalExpense.get2DecPoints().toString()
         tv_exp_count.text = timeBasedExpenseEntryGroup.expenseEntryIds.size.toString()
     }
 }
