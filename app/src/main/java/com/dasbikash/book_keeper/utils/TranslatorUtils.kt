@@ -13,18 +13,18 @@ import java.util.*
 object TranslatorUtils {
 
     private val MONTH_NAME_TABLE = arrayOf(
-        arrayOf("জানুয়ারি", "Jan","जनवरी"),
-        arrayOf("ফেব্রুয়ারি", "Feb","फरवरी"),
-        arrayOf("মার্চ", "Mar","मार्च"),
-        arrayOf("এপ্রিল", "Apr","अप्रैल"),
-        arrayOf("মে", "May","मई"),
-        arrayOf("জুন", "Jun","जून"),
-        arrayOf("জুলাই", "Jul","जुलाई"),
-        arrayOf("আগষ্ট", "Aug","अगस्त"),
-        arrayOf("সেপ্টেম্বর", "Sep","सितंबर"),
-        arrayOf("অক্টোবর", "Oct","अक्टूबर"),
-        arrayOf("নভেম্বর", "Nov","नवंबर"),
-        arrayOf("ডিসেম্বর", "Dec","दिसंबर")
+        arrayOf("Jan","জানুয়ারি","जनवरी"),
+        arrayOf("Feb","ফেব্রুয়ারি","फरवरी"),
+        arrayOf("Mar","মার্চ","मार्च"),
+        arrayOf("Apr","এপ্রিল","अप्रैल"),
+        arrayOf("May","মে","मई"),
+        arrayOf("Jun","জুন","जून"),
+        arrayOf("Jul","জুলাই","जुलाई"),
+        arrayOf("Aug","আগষ্ট","अगस्त"),
+        arrayOf("Sep","সেপ্টেম্বর","सितंबर"),
+        arrayOf("Oct","অক্টোবর","अक्टूबर"),
+        arrayOf("Nov","নভেম্বর","नवंबर"),
+        arrayOf("Dec","ডিসেম্বর","दिसंबर")
     )
 
     private val AM_PM_MARKER_TABLE = arrayOf(
@@ -35,13 +35,13 @@ object TranslatorUtils {
     )
 
     private val DAY_NAME_TABLE = arrayOf(
-        arrayOf("শনিবার", "Sat","शनिवार"),
-        arrayOf("রবিবার", "Sun","रविवार"),
-        arrayOf("সোমবার", "Mon","सोमवार"),
-        arrayOf("মঙ্গলবার", "Tue","मंगलवार"),
-        arrayOf("বুধবার", "Wed","बुधवार"),
-        arrayOf("বৃহস্পতিবার", "Thu","बृहस्पतिवार"),
-        arrayOf("শুক্রবার", "Fri","शुक्रवार")
+        arrayOf("Sat","শনিবার","शनिवार"),
+        arrayOf("Sun","রবিবার","रविवार"),
+        arrayOf("Mon","সোমবার","सोमवार"),
+        arrayOf("Tue","মঙ্গলবার","मंगलवार"),
+        arrayOf("Wed","বুধবার","बुधवार"),
+        arrayOf("Thu","বৃহস্পতিবার","बृहस्पतिवार"),
+        arrayOf("Fri","শুক্রবার","शुक्रवार")
     )
 
     private val BANGLA_UNICODE_ZERO: Char = 0x09E6.toChar()
@@ -86,8 +86,8 @@ object TranslatorUtils {
         var localStr = str
         for (i in MONTH_NAME_TABLE.indices) {
             localStr = when(supportedLanguage){
-                SupportedLanguage.BANGLA -> localStr.replace(MONTH_NAME_TABLE[i][1], MONTH_NAME_TABLE[i][0])
-                SupportedLanguage.HINDI -> localStr.replace(MONTH_NAME_TABLE[i][1], MONTH_NAME_TABLE[i][2])
+                SupportedLanguage.BANGLA -> localStr.replace(MONTH_NAME_TABLE[i][0], MONTH_NAME_TABLE[i][1])
+                SupportedLanguage.HINDI -> localStr.replace(MONTH_NAME_TABLE[i][0], MONTH_NAME_TABLE[i][2])
                 else -> localStr
             }
         }
@@ -98,8 +98,8 @@ object TranslatorUtils {
         var localStr = str
         for (i in DAY_NAME_TABLE.indices) {
             localStr = when(language){
-                SupportedLanguage.BANGLA -> localStr.replace(DAY_NAME_TABLE[i][1], DAY_NAME_TABLE[i][0])
-                SupportedLanguage.HINDI -> localStr.replace(DAY_NAME_TABLE[i][1], DAY_NAME_TABLE[i][2])
+                SupportedLanguage.BANGLA -> localStr.replace(DAY_NAME_TABLE[i][0], DAY_NAME_TABLE[i][1])
+                SupportedLanguage.HINDI -> localStr.replace(DAY_NAME_TABLE[i][0], DAY_NAME_TABLE[i][2])
                 else -> localStr
             }
         }
