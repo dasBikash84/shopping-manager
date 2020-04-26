@@ -50,12 +50,12 @@ class BookKeeperApp:Application() {
         fun getLanguageSetting(context: Context) : SupportedLanguage {
             val preferenceUtils = SharedPreferenceUtils.getDefaultInstance()
             if (!preferenceUtils.checkIfExists(context, LANGUAGE_SP_KEY)){
-                debugLog("No language Found")
+//                debugLog("No language Found")
                 saveLanguageSetting(context, defaultLanguage)
             }
             val language = preferenceUtils.getData(context,LANGUAGE_SP_KEY, String::class.java)!!
             val country = preferenceUtils.getData(context,COUNTRY_SP_KEY, String::class.java)!!
-            debugLog("Found: ${language}")
+//            debugLog("Found: ${language}")
             return SupportedLanguage
                             .values()
                             .find { it.language == language && it.country==country }!!

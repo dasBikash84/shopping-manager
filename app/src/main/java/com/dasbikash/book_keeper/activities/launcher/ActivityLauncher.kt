@@ -18,11 +18,13 @@ import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.CountryRepo
 import com.dasbikash.book_keeper_repo.DataSyncService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+
 
 class ActivityLauncher : AppCompatActivity() {
 
@@ -92,6 +94,8 @@ class ActivityLauncher : AppCompatActivity() {
                 try {
                     DataSyncService.syncAppData(this@ActivityLauncher)
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityLauncher)
+                    CountryRepo.getCountryData(this@ActivityLauncher).forEach { debugLog(it) }
+                    CountryRepo.getCurrentCountry(this@ActivityLauncher)?.let { debugLog("Current; ${it}") }
                 } catch (ex: Throwable) {
                     ex.printStackTrace()
                     debugLog("Data sync failure!!")

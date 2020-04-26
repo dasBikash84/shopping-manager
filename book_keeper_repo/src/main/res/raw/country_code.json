@@ -1,0 +1,5263 @@
+{
+  "countryList": [
+    {
+      "name": "Andorra",
+      "countryCode": "AD",
+      "callingCode": "+376",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "United Arab Emirates",
+      "countryCode": "AE",
+      "callingCode": "+971",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+04"
+      ],
+      "currencies": [
+        {
+          "code": "AED",
+          "name": "United Arab Emirates dirham",
+          "symbol": "د.إ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Afghanistan",
+      "countryCode": "AF",
+      "callingCode": "+93",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+04:30"
+      ],
+      "currencies": [
+        {
+          "code": "AFN",
+          "name": "Afghan afghani",
+          "symbol": "؋"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78",
+        "79"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Antigua and Barbuda",
+      "countryCode": "AG",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Anguilla",
+      "countryCode": "AI",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Albania",
+      "countryCode": "AL",
+      "callingCode": "+355",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "ALL",
+          "name": "Albanian lek",
+          "symbol": "L"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Armenia",
+      "countryCode": "AM",
+      "callingCode": "+374",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "AMD",
+          "name": "Armenian dram",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Angola",
+      "countryCode": "AO",
+      "callingCode": "+244",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "AOA",
+          "name": "Angolan kwanza",
+          "symbol": "Kz"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Antarctica",
+      "countryCode": "AQ",
+      "callingCode": "+672",
+      "timezones": [
+        "UTC-03:00",
+        "UTC+03:00",
+        "UTC+05:00",
+        "UTC+06:00",
+        "UTC+07:00",
+        "UTC+08:00",
+        "UTC+10:00",
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Argentina",
+      "countryCode": "AR",
+      "callingCode": "+54",
+      "timezones": [
+        "UTC-03:00"
+      ],
+      "currencies": [
+        {
+          "code": "ARS",
+          "name": "Argentine peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "American Samoa",
+      "countryCode": "AS",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-11:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United State Dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Austria",
+      "countryCode": "AT",
+      "callingCode": "+43",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Australia",
+      "countryCode": "AU",
+      "callingCode": "+61",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+05:00",
+        "UTC+06:30",
+        "UTC+07:00",
+        "UTC+08:00",
+        "UTC+09:30",
+        "UTC+10:00",
+        "UTC+10:30",
+        "UTC+11:30"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Aruba",
+      "countryCode": "AW",
+      "callingCode": "+297",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "AWG",
+          "name": "Aruban florin",
+          "symbol": "ƒ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Åland Islands",
+      "countryCode": "AX",
+      "callingCode": "+358",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Azerbaijan",
+      "countryCode": "AZ",
+      "callingCode": "+994",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "AZN",
+          "name": "Azerbaijani manat",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bosnia and Herzegovina",
+      "countryCode": "BA",
+      "callingCode": "+387",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "BAM",
+          "name": "Bosnia and Herzegovina convertible mark",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Barbados",
+      "countryCode": "BB",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "BBD",
+          "name": "Barbadian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bangladesh",
+      "countryCode": "BD",
+      "callingCode": "+880",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "BDT",
+          "name": "Bangladeshi taka",
+          "symbol": "৳"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Belgium",
+      "countryCode": "BE",
+      "callingCode": "+32",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Burkina Faso",
+      "countryCode": "BF",
+      "callingCode": "+226",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bulgaria",
+      "countryCode": "BG",
+      "callingCode": "+359",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "BGN",
+          "name": "Bulgarian lev",
+          "symbol": "лв"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bahrain",
+      "countryCode": "BH",
+      "callingCode": "+973",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "BHD",
+          "name": "Bahraini dinar",
+          "symbol": ".د.ب"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Burundi",
+      "countryCode": "BI",
+      "callingCode": "+257",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "BIF",
+          "name": "Burundian franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Benin",
+      "countryCode": "BJ",
+      "callingCode": "+229",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Barthélemy",
+      "countryCode": "BL",
+      "callingCode": "+590",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bermuda",
+      "countryCode": "BM",
+      "callingCode": "+1441",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "BMD",
+          "name": "Bermudian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Brunei Darussalam",
+      "countryCode": "BN",
+      "callingCode": "+673",
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "BND",
+          "name": "Brunei dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "SGD",
+          "name": "Singapore dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bolivia",
+      "countryCode": "BO",
+      "callingCode": "+591",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "BOB",
+          "name": "Bolivian boliviano",
+          "symbol": "Bs."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Brazil",
+      "countryCode": "BR",
+      "callingCode": "+55",
+      "phoneNumberLength": 11,
+      "timezones": [
+        "UTC-05:00",
+        "UTC-04:00",
+        "UTC-03:00",
+        "UTC-02:00"
+      ],
+      "currencies": [
+        {
+          "code": "BRL",
+          "name": "Brazilian real",
+          "symbol": "R$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bahamas",
+      "countryCode": "BS",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "BSD",
+          "name": "Bahamian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Bhutan",
+      "countryCode": "BT",
+      "callingCode": "+975",
+      "timezones": [
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "BTN",
+          "name": "Bhutanese ngultrum",
+          "symbol": "Nu."
+        },
+        {
+          "code": "INR",
+          "name": "Indian rupee",
+          "symbol": "₹"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "17"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Botswana",
+      "countryCode": "BW",
+      "callingCode": "+267",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "BWP",
+          "name": "Botswana pula",
+          "symbol": "P"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Belarus",
+      "countryCode": "BY",
+      "callingCode": "+375",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "BYN",
+          "name": "New Belarusian ruble",
+          "symbol": "Br"
+        },
+        {
+          "code": "BYR",
+          "name": "Old Belarusian ruble",
+          "symbol": "Br"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Belize",
+      "countryCode": "BZ",
+      "callingCode": "+501",
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "BZD",
+          "name": "Belize dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Canada",
+      "countryCode": "CA",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-08:00",
+        "UTC-07:00",
+        "UTC-06:00",
+        "UTC-05:00",
+        "UTC-04:00",
+        "UTC-03:30"
+      ],
+      "currencies": [
+        {
+          "code": "CAD",
+          "name": "Canadian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cocos (Keeling) Islands",
+      "countryCode": "CC",
+      "callingCode": "+61",
+      "timezones": [
+        "UTC+06:30"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Congo (Democratic Republic of the)",
+      "countryCode": "CD",
+      "callingCode": "+243",
+      "timezones": [
+        "UTC+01:00",
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "CDF",
+          "name": "Congolese franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Central African Republic",
+      "countryCode": "CF",
+      "callingCode": "+236",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Congo",
+      "countryCode": "CG",
+      "callingCode": "+242",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Switzerland",
+      "countryCode": "CH",
+      "callingCode": "+41",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "CHF",
+          "name": "Swiss franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Côte d'Ivoire",
+      "countryCode": "CI",
+      "callingCode": "+225",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cook Islands",
+      "countryCode": "CK",
+      "callingCode": "+682",
+      "phoneNumberLength": 5,
+      "timezones": [
+        "UTC-10:00"
+      ],
+      "currencies": [
+        {
+          "code": "NZD",
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "CKD",
+          "name": "Cook Islands dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Chile",
+      "countryCode": "CL",
+      "callingCode": "+56",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-06:00",
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "CLP",
+          "name": "Chilean peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cameroon",
+      "countryCode": "CM",
+      "callingCode": "+237",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "China",
+      "countryCode": "CN",
+      "callingCode": "+86",
+      "phoneNumberLength": 11,
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "CNY",
+          "name": "Chinese yuan",
+          "symbol": "¥"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Colombia",
+      "countryCode": "CO",
+      "callingCode": "+57",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "COP",
+          "name": "Colombian peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Costa Rica",
+      "countryCode": "CR",
+      "callingCode": "+506",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "CRC",
+          "name": "Costa Rican colón",
+          "symbol": "₡"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cuba",
+      "countryCode": "CU",
+      "callingCode": "+53",
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "CUC",
+          "name": "Cuban convertible peso",
+          "symbol": "$"
+        },
+        {
+          "code": "CUP",
+          "name": "Cuban peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cabo Verde",
+      "countryCode": "CV",
+      "callingCode": "+238",
+      "timezones": [
+        "UTC-01:00"
+      ],
+      "currencies": [
+        {
+          "code": "CVE",
+          "name": "Cape Verdean escudo",
+          "symbol": "Esc"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Curaçao",
+      "countryCode": "CW",
+      "callingCode": "+599",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "ANG",
+          "name": "Netherlands Antillean guilder",
+          "symbol": "ƒ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Christmas Island",
+      "countryCode": "CX",
+      "callingCode": "+61",
+      "timezones": [
+        "UTC+07:00"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cyprus",
+      "countryCode": "CY",
+      "callingCode": "+357",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Czech Republic",
+      "countryCode": "CZ",
+      "callingCode": "+420",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "CZK",
+          "name": "Czech koruna",
+          "symbol": "Kč"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Germany",
+      "countryCode": "DE",
+      "callingCode": "+49",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Djibouti",
+      "countryCode": "DJ",
+      "callingCode": "+253",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "DJF",
+          "name": "Djiboutian franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Denmark",
+      "countryCode": "DK",
+      "callingCode": "+45",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC-04:00",
+        "UTC-03:00",
+        "UTC-01:00",
+        "UTC",
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "DKK",
+          "name": "Danish krone",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Dominica",
+      "countryCode": "DM",
+      "callingCode": "+1767",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Dominican Republic",
+      "countryCode": "DO",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "DOP",
+          "name": "Dominican peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Algeria",
+      "countryCode": "DZ",
+      "callingCode": "+213",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "DZD",
+          "name": "Algerian dinar",
+          "symbol": "د.ج"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Ecuador",
+      "countryCode": "EC",
+      "callingCode": "+593",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-06:00",
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Estonia",
+      "countryCode": "EE",
+      "callingCode": "+372",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Egypt",
+      "countryCode": "EG",
+      "callingCode": "+20",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EGP",
+          "name": "Egyptian pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Western Sahara",
+      "countryCode": "EH",
+      "callingCode": "+212",
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "MAD",
+          "name": "Moroccan dirham",
+          "symbol": "د.م."
+        },
+        {
+          "code": "DZD",
+          "name": "Algerian dinar",
+          "symbol": "د.ج"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Eritrea",
+      "countryCode": "ER",
+      "callingCode": "+291",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "ERN",
+          "name": "Eritrean nakfa",
+          "symbol": "Nfk"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Spain",
+      "countryCode": "ES",
+      "callingCode": "+34",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC",
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Ethiopia",
+      "countryCode": "ET",
+      "callingCode": "+251",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "ETB",
+          "name": "Ethiopian birr",
+          "symbol": "Br"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Finland",
+      "countryCode": "FI",
+      "callingCode": "+358",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Fiji",
+      "countryCode": "FJ",
+      "callingCode": "+679",
+      "timezones": [
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "FJD",
+          "name": "Fijian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Falkland Islands (Malvinas)",
+      "countryCode": "FK",
+      "callingCode": "+500",
+      "phoneNumberLength": 5,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "FKP",
+          "name": "Falkland Islands pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Micronesia (Federated States of)",
+      "countryCode": "FM",
+      "callingCode": "+691",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+10:00",
+        "UTC+11"
+      ],
+      "currencies": [
+        {
+          "code": null,
+          "name": "[D]",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Faroe Islands",
+      "countryCode": "FO",
+      "callingCode": "+298",
+      "phoneNumberLength": 5,
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "DKK",
+          "name": "Danish krone",
+          "symbol": "kr"
+        },
+        {
+          "code": "(none)",
+          "name": "Faroese króna",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "France",
+      "countryCode": "FR",
+      "callingCode": "+33",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-10:00",
+        "UTC-09:30",
+        "UTC-09:00",
+        "UTC-08:00",
+        "UTC-04:00",
+        "UTC-03:00",
+        "UTC+01:00",
+        "UTC+03:00",
+        "UTC+04:00",
+        "UTC+05:00",
+        "UTC+11:00",
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Gabon",
+      "countryCode": "GA",
+      "callingCode": "+241",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "United Kingdom",
+      "countryCode": "GB",
+      "callingCode": "+44",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-08:00",
+        "UTC-05:00",
+        "UTC-04:00",
+        "UTC-03:00",
+        "UTC-02:00",
+        "UTC",
+        "UTC+01:00",
+        "UTC+02:00",
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Grenada",
+      "countryCode": "GD",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Georgia",
+      "countryCode": "GE",
+      "callingCode": "+995",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "GEL",
+          "name": "Georgian Lari",
+          "symbol": "ლ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "French Guiana",
+      "countryCode": "GF",
+      "callingCode": "+594",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-03:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guernsey",
+      "countryCode": "GG",
+      "callingCode": "+44",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "(none)",
+          "name": "Guernsey pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Ghana",
+      "countryCode": "GH",
+      "callingCode": "+233",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "GHS",
+          "name": "Ghanaian cedi",
+          "symbol": "₵"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Gibraltar",
+      "countryCode": "GI",
+      "callingCode": "+350",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "GIP",
+          "name": "Gibraltar pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Greenland",
+      "countryCode": "GL",
+      "callingCode": "+299",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC-04:00",
+        "UTC-03:00",
+        "UTC-01:00",
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "DKK",
+          "name": "Danish krone",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Gambia",
+      "countryCode": "GM",
+      "callingCode": "+220",
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "GMD",
+          "name": "Gambian dalasi",
+          "symbol": "D"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guinea",
+      "countryCode": "GN",
+      "callingCode": "+224",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "GNF",
+          "name": "Guinean franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guadeloupe",
+      "countryCode": "GP",
+      "callingCode": "+590",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Equatorial Guinea",
+      "countryCode": "GQ",
+      "callingCode": "+240",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Greece",
+      "countryCode": "GR",
+      "callingCode": "+30",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "South Georgia and the South Sandwich Islands",
+      "countryCode": "GS",
+      "callingCode": "+500",
+      "timezones": [
+        "UTC-02:00"
+      ],
+      "currencies": [
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guatemala",
+      "countryCode": "GT",
+      "callingCode": "+502",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "GTQ",
+          "name": "Guatemalan quetzal",
+          "symbol": "Q"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guam",
+      "countryCode": "GU",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+10:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guinea-Bissau",
+      "countryCode": "GW",
+      "callingCode": "+245",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Guyana",
+      "countryCode": "GY",
+      "callingCode": "+592",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "GYD",
+          "name": "Guyanese dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Hong Kong",
+      "countryCode": "HK",
+      "callingCode": "+852",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "HKD",
+          "name": "Hong Kong dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Honduras",
+      "countryCode": "HN",
+      "callingCode": "+504",
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "HNL",
+          "name": "Honduran lempira",
+          "symbol": "L"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Croatia",
+      "countryCode": "HR",
+      "callingCode": "+385",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "HRK",
+          "name": "Croatian kuna",
+          "symbol": "kn"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Haiti",
+      "countryCode": "HT",
+      "callingCode": "+509",
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "HTG",
+          "name": "Haitian gourde",
+          "symbol": "G"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Hungary",
+      "countryCode": "HU",
+      "callingCode": "+36",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "HUF",
+          "name": "Hungarian forint",
+          "symbol": "Ft"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Indonesia",
+      "countryCode": "ID",
+      "callingCode": "+62",
+      "timezones": [
+        "UTC+07:00",
+        "UTC+08:00",
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "IDR",
+          "name": "Indonesian rupiah",
+          "symbol": "Rp"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Ireland",
+      "countryCode": "IE",
+      "callingCode": "+353",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Israel",
+      "countryCode": "IL",
+      "callingCode": "+972",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "ILS",
+          "name": "Israeli new shekel",
+          "symbol": "₪"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Isle of Man",
+      "countryCode": "IM",
+      "callingCode": "+44",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "IMP[G]",
+          "name": "Manx pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "India",
+      "countryCode": "IN",
+      "callingCode": "+91",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+05:30"
+      ],
+      "currencies": [
+        {
+          "code": "INR",
+          "name": "Indian rupee",
+          "symbol": "₹"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "7",
+        "8",
+        "90",
+        "91",
+        "92",
+        "93",
+        "94",
+        "95",
+        "96",
+        "97",
+        "98",
+        "99"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "British Indian Ocean Territory",
+      "countryCode": "IO",
+      "callingCode": "+246",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Iraq",
+      "countryCode": "IQ",
+      "callingCode": "+964",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "IQD",
+          "name": "Iraqi dinar",
+          "symbol": "ع.د"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Iran",
+      "countryCode": "IR",
+      "callingCode": "+98",
+      "timezones": [
+        "UTC+03:30"
+      ],
+      "currencies": [
+        {
+          "code": "IRR",
+          "name": "Iranian rial",
+          "symbol": "﷼"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Iceland",
+      "countryCode": "IS",
+      "callingCode": "+354",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "ISK",
+          "name": "Icelandic króna",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Italy",
+      "countryCode": "IT",
+      "callingCode": "+39",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Jersey",
+      "countryCode": "JE",
+      "callingCode": "+44",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "JEP[G]",
+          "name": "Jersey pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Jamaica",
+      "countryCode": "JM",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "JMD",
+          "name": "Jamaican dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Jordan",
+      "countryCode": "JO",
+      "callingCode": "+962",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "JOD",
+          "name": "Jordanian dinar",
+          "symbol": "د.ا"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Japan",
+      "countryCode": "JP",
+      "callingCode": "+81",
+      "phoneNumberLength": 11,
+      "timezones": [
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "JPY",
+          "name": "Japanese yen",
+          "symbol": "¥"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kenya",
+      "countryCode": "KE",
+      "callingCode": "+254",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "KES",
+          "name": "Kenyan shilling",
+          "symbol": "Sh"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kyrgyzstan",
+      "countryCode": "KG",
+      "callingCode": "+996",
+      "timezones": [
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "KGS",
+          "name": "Kyrgyzstani som",
+          "symbol": "с"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cambodia",
+      "countryCode": "KH",
+      "callingCode": "+855",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+07:00"
+      ],
+      "currencies": [
+        {
+          "code": "KHR",
+          "name": "Cambodian riel",
+          "symbol": "៛"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kiribati",
+      "countryCode": "KI",
+      "callingCode": "+686",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+12:00",
+        "UTC+13:00",
+        "UTC+14:00"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "(none)",
+          "name": "Kiribati dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Comoros",
+      "countryCode": "KM",
+      "callingCode": "+269",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "KMF",
+          "name": "Comorian franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Kitts and Nevis",
+      "countryCode": "KN",
+      "callingCode": "+1869",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "North Korea",
+      "countryCode": "KP",
+      "callingCode": "+850",
+      "timezones": [
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "KPW",
+          "name": "North Korean won",
+          "symbol": "₩"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "South Korea",
+      "countryCode": "KR",
+      "callingCode": "+82",
+      "timezones": [
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "KRW",
+          "name": "South Korean won",
+          "symbol": "₩"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kuwait",
+      "countryCode": "KW",
+      "callingCode": "+965",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "KWD",
+          "name": "Kuwaiti dinar",
+          "symbol": "د.ك"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Cayman Islands",
+      "countryCode": "KY",
+      "callingCode": "+1345",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "KYD",
+          "name": "Cayman Islands dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kazakhstan",
+      "countryCode": "KZ",
+      "callingCode": "+7",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+05:00",
+        "UTC+06:00"
+      ],
+      "currencies": [
+        {
+          "code": "KZT",
+          "name": "Kazakhstani tenge",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Laos",
+      "countryCode": "LA",
+      "callingCode": "+856",
+      "timezones": [
+        "UTC+07:00"
+      ],
+      "currencies": [
+        {
+          "code": "LAK",
+          "name": "Lao kip",
+          "symbol": "₭"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Lebanon",
+      "countryCode": "LB",
+      "callingCode": "+961",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "LBP",
+          "name": "Lebanese pound",
+          "symbol": "ل.ل"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Lucia",
+      "countryCode": "LC",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Liechtenstein",
+      "countryCode": "LI",
+      "callingCode": "+423",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "CHF",
+          "name": "Swiss franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sri Lanka",
+      "countryCode": "LK",
+      "callingCode": "+94",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+05:30"
+      ],
+      "currencies": [
+        {
+          "code": "LKR",
+          "name": "Sri Lankan rupee",
+          "symbol": "Rs"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "70",
+        "71",
+        "72",
+        "73",
+        "74",
+        "75",
+        "76",
+        "77",
+        "78"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Liberia",
+      "countryCode": "LR",
+      "callingCode": "+231",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "LRD",
+          "name": "Liberian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Lesotho",
+      "countryCode": "LS",
+      "callingCode": "+266",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "LSL",
+          "name": "Lesotho loti",
+          "symbol": "L"
+        },
+        {
+          "code": "ZAR",
+          "name": "South African rand",
+          "symbol": "R"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Lithuania",
+      "countryCode": "LT",
+      "callingCode": "+370",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Luxembourg",
+      "countryCode": "LU",
+      "callingCode": "+352",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Latvia",
+      "countryCode": "LV",
+      "callingCode": "+371",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Libya",
+      "countryCode": "LY",
+      "callingCode": "+218",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "LYD",
+          "name": "Libyan dinar",
+          "symbol": "ل.د"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Morocco",
+      "countryCode": "MA",
+      "callingCode": "+212",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "MAD",
+          "name": "Moroccan dirham",
+          "symbol": "د.م."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Monaco",
+      "countryCode": "MC",
+      "callingCode": "+377",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Moldova",
+      "countryCode": "MD",
+      "callingCode": "+373",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "MDL",
+          "name": "Moldovan leu",
+          "symbol": "L"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Montenegro",
+      "countryCode": "ME",
+      "callingCode": "+382",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Martin (French part)",
+      "countryCode": "MF",
+      "callingCode": "+590",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Madagascar",
+      "countryCode": "MG",
+      "callingCode": "+261",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "MGA",
+          "name": "Malagasy ariary",
+          "symbol": "Ar"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Marshall Islands",
+      "countryCode": "MH",
+      "callingCode": "+692",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "North Macedonia",
+      "countryCode": "MK",
+      "callingCode": "+389",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "MKD",
+          "name": "Macedonian denar",
+          "symbol": "ден"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mali",
+      "countryCode": "ML",
+      "callingCode": "+223",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Myanmar",
+      "countryCode": "MM",
+      "callingCode": "+95",
+      "timezones": [
+        "UTC+06:30"
+      ],
+      "currencies": [
+        {
+          "code": "MMK",
+          "name": "Burmese kyat",
+          "symbol": "Ks"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mongolia",
+      "countryCode": "MN",
+      "callingCode": "+976",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+07:00",
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "MNT",
+          "name": "Mongolian tögrög",
+          "symbol": "₮"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Macau",
+      "countryCode": "MO",
+      "callingCode": "+853",
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "MOP",
+          "name": "Macanese pataca",
+          "symbol": "P"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Northern Mariana Islands",
+      "countryCode": "MP",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+10:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Martinique",
+      "countryCode": "MQ",
+      "callingCode": "+596",
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mauritania",
+      "countryCode": "MR",
+      "callingCode": "+222",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "MRO",
+          "name": "Mauritanian ouguiya",
+          "symbol": "UM"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Montserrat",
+      "countryCode": "MS",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Malta",
+      "countryCode": "MT",
+      "callingCode": "+356",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mauritius",
+      "countryCode": "MU",
+      "callingCode": "+230",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "MUR",
+          "name": "Mauritian rupee",
+          "symbol": "₨"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Maldives",
+      "countryCode": "MV",
+      "callingCode": "+960",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+05:00"
+      ],
+      "currencies": [
+        {
+          "code": "MVR",
+          "name": "Maldivian rufiyaa",
+          "symbol": ".ރ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "7",
+        "9"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Malawi",
+      "countryCode": "MW",
+      "callingCode": "+265",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "MWK",
+          "name": "Malawian kwacha",
+          "symbol": "MK"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mexico",
+      "countryCode": "MX",
+      "callingCode": "+52",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-08:00",
+        "UTC-07:00",
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "MXN",
+          "name": "Mexican peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Malaysia",
+      "countryCode": "MY",
+      "callingCode": "+60",
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "MYR",
+          "name": "Malaysian ringgit",
+          "symbol": "RM"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mozambique",
+      "countryCode": "MZ",
+      "callingCode": "+258",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "MZN",
+          "name": "Mozambican metical",
+          "symbol": "MT"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Namibia",
+      "countryCode": "NA",
+      "callingCode": "+264",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "NAD",
+          "name": "Namibian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "ZAR",
+          "name": "South African rand",
+          "symbol": "R"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "New Caledonia",
+      "countryCode": "NC",
+      "callingCode": "+687",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC+11:00"
+      ],
+      "currencies": [
+        {
+          "code": "XPF",
+          "name": "CFP franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Niger",
+      "countryCode": "NE",
+      "callingCode": "+227",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Norfolk Island",
+      "countryCode": "NF",
+      "callingCode": "+672",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC+11:30"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Nigeria",
+      "countryCode": "NG",
+      "callingCode": "+234",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "NGN",
+          "name": "Nigerian naira",
+          "symbol": "₦"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Nicaragua",
+      "countryCode": "NI",
+      "callingCode": "+505",
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "NIO",
+          "name": "Nicaraguan córdoba",
+          "symbol": "C$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Netherlands",
+      "countryCode": "NL",
+      "callingCode": "+31",
+      "timezones": [
+        "UTC-04:00",
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Norway",
+      "countryCode": "NO",
+      "callingCode": "+47",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "NOK",
+          "name": "Norwegian krone",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Nepal",
+      "countryCode": "NP",
+      "callingCode": "+977",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+05:45"
+      ],
+      "currencies": [
+        {
+          "code": "NPR",
+          "name": "Nepalese rupee",
+          "symbol": "₨"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "98"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Nauru",
+      "countryCode": "NR",
+      "callingCode": "+674",
+      "timezones": [
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Niue",
+      "countryCode": "NU",
+      "callingCode": "+683",
+      "phoneNumberLength": 4,
+      "timezones": [
+        "UTC-11:00"
+      ],
+      "currencies": [
+        {
+          "code": "NZD",
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "(none)",
+          "name": "Niue dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "New Zealand",
+      "countryCode": "NZ",
+      "callingCode": "+64",
+      "timezones": [
+        "UTC-11:00",
+        "UTC-10:00",
+        "UTC+12:00",
+        "UTC+12:45",
+        "UTC+13:00"
+      ],
+      "currencies": [
+        {
+          "code": "NZD",
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Oman",
+      "countryCode": "OM",
+      "callingCode": "+968",
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "OMR",
+          "name": "Omani rial",
+          "symbol": "ر.ع."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Panama",
+      "countryCode": "PA",
+      "callingCode": "+507",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "PAB",
+          "name": "Panamanian balboa",
+          "symbol": "B/."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Peru",
+      "countryCode": "PE",
+      "callingCode": "+51",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-05:00"
+      ],
+      "currencies": [
+        {
+          "code": "PEN",
+          "name": "Peruvian sol",
+          "symbol": "S/."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "French Polynesia",
+      "countryCode": "PF",
+      "callingCode": "+689",
+      "phoneNumberLength": 6,
+      "timezones": [
+        "UTC-10:00",
+        "UTC-09:30",
+        "UTC-09:00"
+      ],
+      "currencies": [
+        {
+          "code": "XPF",
+          "name": "CFP franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Papua New Guinea",
+      "countryCode": "PG",
+      "callingCode": "+675",
+      "timezones": [
+        "UTC+10:00"
+      ],
+      "currencies": [
+        {
+          "code": "PGK",
+          "name": "Papua New Guinean kina",
+          "symbol": "K"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Philippines",
+      "countryCode": "PH",
+      "callingCode": "+63",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "PHP",
+          "name": "Philippine peso",
+          "symbol": "₱"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Pakistan",
+      "countryCode": "PK",
+      "callingCode": "+92",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+05:00"
+      ],
+      "currencies": [
+        {
+          "code": "PKR",
+          "name": "Pakistani rupee",
+          "symbol": "₨"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "mobileNumberPrefix": [
+        "30",
+        "31",
+        "32",
+        "33",
+        "34"
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Poland",
+      "countryCode": "PL",
+      "callingCode": "+48",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "PLN",
+          "name": "Polish złoty",
+          "symbol": "zł"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Pierre and Miquelon",
+      "countryCode": "PM",
+      "callingCode": "+508",
+      "timezones": [
+        "UTC-03:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Pitcairn",
+      "countryCode": "PN",
+      "callingCode": "+64",
+      "timezones": [
+        "UTC-08:00"
+      ],
+      "currencies": [
+        {
+          "code": "NZD",
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        },
+        {
+          "code": null,
+          "name": "Pitcairn Islands dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Puerto Rico",
+      "countryCode": "PR",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Palestine, State of",
+      "countryCode": "PS",
+      "callingCode": "+970",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "ILS",
+          "name": "Israeli new sheqel",
+          "symbol": "₪"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Portugal",
+      "countryCode": "PT",
+      "callingCode": "+351",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-01:00",
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Palau",
+      "countryCode": "PW",
+      "callingCode": "+680",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "(none)",
+          "name": "[E]",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Paraguay",
+      "countryCode": "PY",
+      "callingCode": "+595",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "PYG",
+          "name": "Paraguayan guaraní",
+          "symbol": "₲"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Qatar",
+      "countryCode": "QA",
+      "callingCode": "+974",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "QAR",
+          "name": "Qatari riyal",
+          "symbol": "ر.ق"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Réunion",
+      "countryCode": "RE",
+      "callingCode": "+262",
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Romania",
+      "countryCode": "RO",
+      "callingCode": "+40",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "RON",
+          "name": "Romanian leu",
+          "symbol": "lei"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Serbia",
+      "countryCode": "RS",
+      "callingCode": "+381",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "RSD",
+          "name": "Serbian dinar",
+          "symbol": "дин."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Russia",
+      "countryCode": "RU",
+      "callingCode": "+7",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+03:00",
+        "UTC+04:00",
+        "UTC+06:00",
+        "UTC+07:00",
+        "UTC+08:00",
+        "UTC+09:00",
+        "UTC+10:00",
+        "UTC+11:00",
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "RUB",
+          "name": "Russian ruble",
+          "symbol": "₽"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Rwanda",
+      "countryCode": "RW",
+      "callingCode": "+250",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "RWF",
+          "name": "Rwandan franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saudi Arabia",
+      "countryCode": "SA",
+      "callingCode": "+966",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "SAR",
+          "name": "Saudi riyal",
+          "symbol": "ر.س"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Solomon Islands",
+      "countryCode": "SB",
+      "callingCode": "+677",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+11:00"
+      ],
+      "currencies": [
+        {
+          "code": "SBD",
+          "name": "Solomon Islands dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Seychelles",
+      "countryCode": "SC",
+      "callingCode": "+248",
+      "timezones": [
+        "UTC+04:00"
+      ],
+      "currencies": [
+        {
+          "code": "SCR",
+          "name": "Seychellois rupee",
+          "symbol": "₨"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sudan",
+      "countryCode": "SD",
+      "callingCode": "+249",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "SDG",
+          "name": "Sudanese pound",
+          "symbol": "ج.س."
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sweden",
+      "countryCode": "SE",
+      "callingCode": "+46",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "SEK",
+          "name": "Swedish krona",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Singapore",
+      "countryCode": "SG",
+      "callingCode": "+65",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "BND",
+          "name": "Brunei dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "SGD",
+          "name": "Singapore dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Helena, Ascension and Tristan da Cunha",
+      "countryCode": "SH",
+      "callingCode": "+290",
+      "phoneNumberLength": 4,
+      "timezones": [
+        "UTC+00:00"
+      ],
+      "currencies": [
+        {
+          "code": "SHP",
+          "name": "Saint Helena pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Slovenia",
+      "countryCode": "SI",
+      "callingCode": "+386",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Svalbard and Jan Mayen",
+      "countryCode": "SJ",
+      "callingCode": "+47",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "NOK",
+          "name": "Norwegian krone",
+          "symbol": "kr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Slovakia",
+      "countryCode": "SK",
+      "callingCode": "+421",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sierra Leone",
+      "countryCode": "SL",
+      "callingCode": "+232",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "SLL",
+          "name": "Sierra Leonean leone",
+          "symbol": "Le"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "San Marino",
+      "countryCode": "SM",
+      "callingCode": "+378",
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Senegal",
+      "countryCode": "SN",
+      "callingCode": "+221",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Somalia",
+      "countryCode": "SO",
+      "callingCode": "+252",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "SOS",
+          "name": "Somali shilling",
+          "symbol": "Sh"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Suriname",
+      "countryCode": "SR",
+      "callingCode": "+597",
+      "timezones": [
+        "UTC-03:00"
+      ],
+      "currencies": [
+        {
+          "code": "SRD",
+          "name": "Surinamese dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "South Sudan",
+      "countryCode": "SS",
+      "callingCode": "+211",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "SSP",
+          "name": "South Sudanese pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sao Tome and Principe",
+      "countryCode": "ST",
+      "callingCode": "+239",
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "STD",
+          "name": "São Tomé and Príncipe dobra",
+          "symbol": "Db"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "El Salvador",
+      "countryCode": "SV",
+      "callingCode": "+503",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC-06:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Sint Maarten (Dutch part)",
+      "countryCode": "SX",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "ANG",
+          "name": "Netherlands Antillean guilder",
+          "symbol": "ƒ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Syrian Arab Republic",
+      "countryCode": "SY",
+      "callingCode": "+963",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "SYP",
+          "name": "Syrian pound",
+          "symbol": "£"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Eswatini",
+      "countryCode": "SZ",
+      "callingCode": "+268",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "SZL",
+          "name": "Swazi lilangeni",
+          "symbol": "L"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Turks and Caicos Islands",
+      "countryCode": "TC",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Chad",
+      "countryCode": "TD",
+      "callingCode": "+235",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "XAF",
+          "name": "Central African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Togo",
+      "countryCode": "TG",
+      "callingCode": "+228",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC"
+      ],
+      "currencies": [
+        {
+          "code": "XOF",
+          "name": "West African CFA franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Thailand",
+      "countryCode": "TH",
+      "callingCode": "+66",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+07:00"
+      ],
+      "currencies": [
+        {
+          "code": "THB",
+          "name": "Thai baht",
+          "symbol": "฿"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tajikistan",
+      "countryCode": "TJ",
+      "callingCode": "+992",
+      "timezones": [
+        "UTC+05:00"
+      ],
+      "currencies": [
+        {
+          "code": "TJS",
+          "name": "Tajikistani somoni",
+          "symbol": "ЅМ"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tokelau",
+      "countryCode": "TK",
+      "callingCode": "+690",
+      "timezones": [
+        "UTC+13:00"
+      ],
+      "currencies": [
+        {
+          "code": "NZD",
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "East Timor",
+      "countryCode": "TL",
+      "callingCode": "+670",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+09:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Turkmenistan",
+      "countryCode": "TM",
+      "callingCode": "+993",
+      "timezones": [
+        "UTC+05:00"
+      ],
+      "currencies": [
+        {
+          "code": "TMT",
+          "name": "Turkmenistan manat",
+          "symbol": "m"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tunisia",
+      "countryCode": "TN",
+      "callingCode": "+216",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "TND",
+          "name": "Tunisian dinar",
+          "symbol": "د.ت"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tonga",
+      "countryCode": "TO",
+      "callingCode": "+676",
+      "timezones": [
+        "UTC+13:00"
+      ],
+      "currencies": [
+        {
+          "code": "TOP",
+          "name": "Tongan paʻanga",
+          "symbol": "T$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Turkey",
+      "countryCode": "TR",
+      "callingCode": "+90",
+      "phoneNumberLength": 11,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "TRY",
+          "name": "Turkish lira",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Trinidad and Tobago",
+      "countryCode": "TT",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "TTD",
+          "name": "Trinidad and Tobago dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tuvalu",
+      "countryCode": "TV",
+      "callingCode": "+688",
+      "timezones": [
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "AUD",
+          "name": "Australian dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "TVD[G]",
+          "name": "Tuvaluan dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Taiwan",
+      "countryCode": "TW",
+      "callingCode": "+886",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+08:00"
+      ],
+      "currencies": [
+        {
+          "code": "TWD",
+          "name": "New Taiwan dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Tanzania, United Republic of",
+      "countryCode": "TZ",
+      "callingCode": "+255",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "TZS",
+          "name": "Tanzanian shilling",
+          "symbol": "Sh"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Ukraine",
+      "countryCode": "UA",
+      "callingCode": "+380",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "UAH",
+          "name": "Ukrainian hryvnia",
+          "symbol": "₴"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Uganda",
+      "countryCode": "UG",
+      "callingCode": "+256",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "UGX",
+          "name": "Ugandan shilling",
+          "symbol": "Sh"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "United States of America",
+      "countryCode": "US",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-12:00",
+        "UTC-11:00",
+        "UTC-10:00",
+        "UTC-09:00",
+        "UTC-08:00",
+        "UTC-07:00",
+        "UTC-06:00",
+        "UTC-05:00",
+        "UTC-04:00",
+        "UTC+10:00",
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ],
+      "enabled": true
+    },
+    {
+      "name": "Uruguay",
+      "countryCode": "UY",
+      "callingCode": "+598",
+      "timezones": [
+        "UTC-03:00"
+      ],
+      "currencies": [
+        {
+          "code": "UYU",
+          "name": "Uruguayan peso",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Uzbekistan",
+      "countryCode": "UZ",
+      "callingCode": "+998",
+      "timezones": [
+        "UTC+05:00"
+      ],
+      "currencies": [
+        {
+          "code": "UZS",
+          "name": "Uzbekistani so'm",
+          "symbol": null
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Vatican City",
+      "countryCode": "VA",
+      "callingCode": "+379",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Saint Vincent and the Grenadines",
+      "countryCode": "VC",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "XCD",
+          "name": "East Caribbean dollar",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Venezuela",
+      "countryCode": "VE",
+      "callingCode": "+58",
+      "phoneNumberLength": 7,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "VEF",
+          "name": "Venezuelan bolívar",
+          "symbol": "Bs F"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Virgin Islands (British)",
+      "countryCode": "VG",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": null,
+          "name": "[D]",
+          "symbol": "$"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Virgin Islands (U.S.)",
+      "countryCode": "VI",
+      "callingCode": "+1",
+      "phoneNumberLength": 10,
+      "timezones": [
+        "UTC-04:00"
+      ],
+      "currencies": [
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Vietnam",
+      "countryCode": "VN",
+      "callingCode": "+84",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+07:00"
+      ],
+      "currencies": [
+        {
+          "code": "VND",
+          "name": "Vietnamese đồng",
+          "symbol": "₫"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Vanuatu",
+      "countryCode": "VU",
+      "callingCode": "+678",
+      "timezones": [
+        "UTC+11:00"
+      ],
+      "currencies": [
+        {
+          "code": "VUV",
+          "name": "Vanuatu vatu",
+          "symbol": "Vt"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Wallis and Futuna",
+      "countryCode": "WF",
+      "callingCode": "+681",
+      "timezones": [
+        "UTC+12:00"
+      ],
+      "currencies": [
+        {
+          "code": "XPF",
+          "name": "CFP franc",
+          "symbol": "Fr"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Samoa",
+      "countryCode": "WS",
+      "callingCode": "+685",
+      "phoneNumberLength": 5,
+      "timezones": [
+        "UTC+13:00"
+      ],
+      "currencies": [
+        {
+          "code": "WST",
+          "name": "Samoan tālā",
+          "symbol": "T"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Kosovo",
+      "countryCode": "XK",
+      "callingCode": "+383",
+      "phoneNumberLength": 8,
+      "timezones": [
+        "UTC+01:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Yemen",
+      "countryCode": "YE",
+      "callingCode": "+967",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "YER",
+          "name": "Yemeni rial",
+          "symbol": "﷼"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Mayotte",
+      "countryCode": "YT",
+      "callingCode": "+262",
+      "timezones": [
+        "UTC+03:00"
+      ],
+      "currencies": [
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "South Africa",
+      "countryCode": "ZA",
+      "callingCode": "+27",
+      "phoneNumberLength": 9,
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "ZAR",
+          "name": "South African rand",
+          "symbol": "R"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Zambia",
+      "countryCode": "ZM",
+      "callingCode": "+260",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "ZMW",
+          "name": "Zambian kwacha",
+          "symbol": "ZK"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    },
+    {
+      "name": "Zimbabwe",
+      "countryCode": "ZW",
+      "callingCode": "+263",
+      "timezones": [
+        "UTC+02:00"
+      ],
+      "currencies": [
+        {
+          "code": "BWP",
+          "name": "Botswana pula",
+          "symbol": "P"
+        },
+        {
+          "code": "GBP",
+          "name": "British pound",
+          "symbol": "£"
+        },
+        {
+          "code": "CNY",
+          "name": "Chinese yuan",
+          "symbol": "¥"
+        },
+        {
+          "code": "EUR",
+          "name": "Euro",
+          "symbol": "€"
+        },
+        {
+          "code": "INR",
+          "name": "Indian rupee",
+          "symbol": "₹"
+        },
+        {
+          "code": "JPY",
+          "name": "Japanese yen",
+          "symbol": "¥"
+        },
+        {
+          "code": "ZAR",
+          "name": "South African rand",
+          "symbol": "Rs"
+        },
+        {
+          "code": "USD",
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      ]
+    }
+  ]
+}
