@@ -4,14 +4,13 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.firebase_auth.exceptions.SignUpException
-import com.dasbikash.firebase_auth.FirebaseAuthService
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
+import com.dasbikash.firebase_auth.FirebaseAuthService
+import com.dasbikash.firebase_auth.exceptions.SignUpException
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
-import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.GlobalScope

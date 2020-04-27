@@ -21,7 +21,7 @@ data class Country(
     var enabled:Boolean = false
 ) {
     fun displayText():String {
-        return "${callingCode}(${name})"
+        return "${callingCode} (${name})"
     }
 
     fun checkNumber(numberString: String):Boolean{
@@ -34,14 +34,16 @@ data class Country(
         return false
     }
 
+    fun fullNumber(numberString: String) = "${callingCode!!}${numberString.trim()}"
+
     companion object{
-        private fun getCallingCodeFromDisplayText(displayText:String):String{
+        fun getCallingCodeFromDisplayText(displayText:String):String{
             return displayText.split("(").get(0).trim()
         }
 
-        suspend fun getCountryFromDisplayText(context: Context,displayText:String):Country?{
+        suspend fun getCountryFromDisplayText(context: Context,displayText:String):Country{
             val callingCode = getCallingCodeFromDisplayText(displayText)
-            return CountryRepo.getCountryData(context).find { it.callingCode == callingCode}
+            return CountryRepo.getCountryData(context).find { it.callingCode == callingCode}!!
         }
     }
 }

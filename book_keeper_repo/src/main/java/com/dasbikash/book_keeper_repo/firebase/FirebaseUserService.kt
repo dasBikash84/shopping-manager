@@ -1,11 +1,9 @@
 package com.dasbikash.book_keeper_repo.firebase
 
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
-import com.dasbikash.firebase_auth.FirebaseAuthService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
 import java.util.*
@@ -23,7 +21,7 @@ internal object FirebaseUserService {
     fun saveUser(user: User): User?{
         if (user.validateData()) {
             user.updateModified()
-            user.phone = user.phone?.let { ValidationUtils.sanitizeNumber(it) }
+            user.phone = user.phone//?.let { ValidationUtils.sanitizeNumber(it) }
             FireStoreRefUtils
                 .getUserCollectionRef()
                 .document(user.id)
@@ -122,37 +120,36 @@ internal object FirebaseUserService {
         return processUserListQuery(query)
     }
 
-    suspend fun findUsersByPhone(phone: String):List<User>{
-        debugLog("findUsersByPhone: $phone")
-        val sanitizedNumber = ValidationUtils.sanitizeNumber(phone)
-        if (!ValidationUtils.validateMobileNumber(sanitizedNumber)){
+    suspend fun findUsersByPhone(phoneNumber: String):List<User>{
+        /*val sanitizedNumber = ValidationUtils.sanitizeNumber(phone)*/
+        if (!ValidationUtils.validateMobileNumber(phoneNumber)){
             return emptyList()
         }
-        debugLog("findUsersByPhone: $sanitizedNumber")
+        debugLog("findUsersByPhone: $phoneNumber")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,sanitizedNumber)
+                            .whereEqualTo(PHONE_FIELD,phoneNumber)
 
         return processUserListQuery(query)//.filter { it.id != AuthRepo.getUserId() }
     }
 
     //Used to check if the phone number is already used for login
-    suspend fun findUsersForPhoneLogin(phone: String):List<User>{
-        debugLog("findUsersForPhoneLogin: $phone")
+    suspend fun findUsersForPhoneLogin(phoneNumber: String):List<User>{
+        debugLog("findUsersForPhoneLogin: $phoneNumber")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,ValidationUtils.sanitizeNumber(phone))
+                            .whereEqualTo(PHONE_FIELD,phoneNumber/*ValidationUtils.sanitizeNumber(phone)*/)
                             .whereEqualTo(PHONE_LOGIN_FIELD,true)
 
         return processUserListQuery(query)
     }
 
     //Used to check if the phone number is already used as contact by any existing users
-    suspend fun findEmailLoginUsersByPhone(phone: String):List<User>{
-        debugLog("findUsersByPhone: $phone")
+    suspend fun findEmailLoginUsersByPhone(phoneNumber: String):List<User>{
+        debugLog("findUsersByPhone: $phoneNumber")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,ValidationUtils.sanitizeNumber(phone))
+                            .whereEqualTo(PHONE_FIELD,phoneNumber/*ValidationUtils.sanitizeNumber(phone)*/)
                             .whereEqualTo(PHONE_LOGIN_FIELD,false)
 
         return processUserListQuery(query)

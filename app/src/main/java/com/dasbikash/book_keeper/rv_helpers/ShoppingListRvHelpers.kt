@@ -10,15 +10,12 @@ import androidx.annotation.ColorRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.show
 import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils
-import com.dasbikash.book_keeper.utils.TranslatorUtils
-import com.dasbikash.book_keeper.utils.checkIfEnglishLanguageSelected
 import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList

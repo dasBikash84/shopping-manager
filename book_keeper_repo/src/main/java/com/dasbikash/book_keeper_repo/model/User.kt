@@ -5,7 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.firebase.Timestamp
 import java.io.Serializable
-import java.util.*
 
 @Keep
 @Entity

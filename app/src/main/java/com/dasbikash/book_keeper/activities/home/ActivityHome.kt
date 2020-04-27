@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.CheckBox
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
@@ -16,7 +15,9 @@ import com.dasbikash.book_keeper.activities.home.exp_summary.FragmentExpBrowser
 import com.dasbikash.book_keeper.activities.home.shopping_list.FragmentShoppingList
 import com.dasbikash.book_keeper.activities.templates.ActivityTemplate
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
-import com.dasbikash.book_keeper_repo.*
+import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.BookKeeperRepo
+import com.dasbikash.book_keeper_repo.ExpenseRepo
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.launch
 

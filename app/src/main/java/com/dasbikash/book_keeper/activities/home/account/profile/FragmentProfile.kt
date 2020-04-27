@@ -39,12 +39,7 @@ import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
-import kotlinx.android.synthetic.main.fragment_connections.*
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.fragment_profile.btn_close_profile_pic_full
-import kotlinx.android.synthetic.main.fragment_profile.iv_profile_pic_full
-import kotlinx.android.synthetic.main.fragment_profile.profile_pic_full_holder
-import kotlinx.android.synthetic.main.fragment_profile.sr_page_holder
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

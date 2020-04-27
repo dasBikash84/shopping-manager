@@ -19,7 +19,6 @@ import androidx.sqlite.db.SupportSQLiteQuery
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.google.firebase.Timestamp
-import java.util.*
 
 @Dao
 internal interface ExpenseEntryDao {

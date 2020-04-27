@@ -10,11 +10,9 @@ import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
-import com.dasbikash.android_extensions.startActivity
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo

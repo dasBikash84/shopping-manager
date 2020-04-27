@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import java.lang.reflect.Method
-import java.util.*
 
 
 object LocaleUtils {

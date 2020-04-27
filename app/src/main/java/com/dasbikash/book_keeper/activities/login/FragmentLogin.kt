@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
@@ -33,6 +34,7 @@ import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.view_mobile_number_input.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.launch
 
@@ -163,6 +165,19 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
             enableSmsLoginViewItems()
         }
 
+        phone_prefix_selector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                tv_calling_code.text = Country.getCallingCodeFromDisplayText(callingCodes.get(position))
+                tv_calling_code.bringToFront()
+            }
+        }
+
         runWithContext {
             lifecycleScope.launchWhenCreated {
                 val countries = CountryRepo.getCountryData(it)
@@ -174,12 +189,14 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    private fun setPhonePrefix(countries: List<Country>, currentCountry: Country?) {
+    private val callingCodes = mutableListOf<String>()
 
+    private fun setPhonePrefix(countries: List<Country>, currentCountry: Country?) {
+        callingCodes.addAll(countries.map { it.displayText() })
         val callingCodeListAdapter = ArrayAdapter<String>(
             context!!,
             R.layout.view_spinner_item,
-            countries.map { it.displayText() })
+            callingCodes.toList())
         callingCodeListAdapter.setDropDownViewResource(R.layout.view_spinner_item)
         phone_prefix_selector.adapter = callingCodeListAdapter
         currentCountry?.let {
@@ -212,9 +229,30 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     private fun sendCodeAction() {
         et_mobile.text.toString().let {
             if (it.isNotBlank() ) {
-                checkUserWithSameNumber(it.trim())
+                checkNumberFormatAndProceed(it.trim())
             } else {
                 et_mobile.error = getString(R.string.invalid_mobile_number_error)
+            }
+        }
+    }
+
+    private fun checkNumberFormatAndProceed(phoneNumber: String) {
+        runWithContext {
+            lifecycleScope.launchWhenResumed {
+                val country =
+                    Country.getCountryFromDisplayText(it,phone_prefix_selector.selectedItem as String)
+                if (!country.checkNumber(phoneNumber)){
+                    DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                        message = it.getString(R.string.number_format_error_prompt),
+                        positiveButtonText = it.getString(R.string.continue_anyway),
+                        negetiveButtonText = it.getString(R.string.correct_number),
+                        doOnPositivePress = {
+                            checkUserWithSameNumber(country.fullNumber(phoneNumber))
+                        }
+                    ))
+                }else{
+                    checkUserWithSameNumber(country.fullNumber(phoneNumber))
+                }
             }
         }
     }
@@ -276,13 +314,13 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         return context!!.getString(R.string.a_text)
     }
 
-    private fun sendCodeTask(phone:String) {
+    private fun sendCodeTask(phoneNumber:String) {
         runWithActivity {
             NetworkMonitor.runWithNetwork(it,{
                 lifecycleScope.launch {
                     showWaitScreen()
                     try {
-                        AuthRepo.sendLoginCodeToMobile(ValidationUtils.sanitizeNumber(phone).apply { debugLog(it) }, it)
+                        AuthRepo.sendLoginCodeToMobile(phoneNumber, it)
                         loadCodeVerificationScreen()
                     }catch (ex:Throwable){
                         ex.printStackTrace()

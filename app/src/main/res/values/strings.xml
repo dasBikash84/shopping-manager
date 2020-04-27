@@ -364,4 +364,7 @@
     <string name="new_sl_sh_req">New shopping list share request received</string>
     <string name="new_event">New Event</string>
     <string name="phone_prefix_selector_prompt">Select coutry code</string>
+    <string name="number_format_error_prompt">Number does not match with mobile number format of selected country.</string>
+    <string name="continue_anyway">Continue Anyway</string>
+    <string name="correct_number">Correct Number</string>
 </resources>
