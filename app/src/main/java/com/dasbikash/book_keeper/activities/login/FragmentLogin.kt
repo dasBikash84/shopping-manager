@@ -41,6 +41,8 @@ import kotlinx.coroutines.launch
 
 class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
 
+    private enum class LoginMethod{EMAIL,PHONE}
+
     override fun hidePageTitle(): Boolean = true
 
     private val stringListAdapter = StringListAdapter({view,text->
@@ -75,6 +77,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                 (it as ActivityLogin).startActivity(ActivityHome::class.java)
             }
         }
+
         btn_sign_up.setOnClickListener {
             launchSignUp()
         }
@@ -160,11 +163,38 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         })
 
         if (isEmailLoginInstance()){
-            enableEmailLoginViewItems()
+            setLoginMethod(LoginMethod.EMAIL)
         }else {
-            enableSmsLoginViewItems()
+            runWithContext {
+                lifecycleScope.launchWhenResumed {
+                    if (CountryRepo.getCurrentCountry(it)==null){
+                        setLoginMethod(LoginMethod.EMAIL)
+                    }else{
+                        setLoginMethod(LoginMethod.PHONE)
+                    }
+                }
+            }
         }
 
+        initCallingCodeSelector()
+    }
+
+    private fun setLoginMethod(loginMethod: LoginMethod) {
+        when(loginMethod){
+            LoginMethod.EMAIL -> {
+                log_in_option_selector.selectedIndex = 1
+                enableEmailLoginViewItems()
+            }
+            LoginMethod.PHONE -> {
+                log_in_option_selector.selectedIndex = 0
+                enableSmsLoginViewItems()
+            }
+        }
+    }
+
+    private val callingCodes = mutableListOf<String>()
+
+    private fun initCallingCodeSelector() {
         phone_prefix_selector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(
@@ -181,7 +211,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         runWithContext {
             lifecycleScope.launchWhenCreated {
                 val countries = CountryRepo.getCountryData(it)
-                setPhonePrefix(
+                setCallingCodes(
                     countries,
                     CountryRepo.getCurrentCountry(it,countries)
                 )
@@ -189,9 +219,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    private val callingCodes = mutableListOf<String>()
-
-    private fun setPhonePrefix(countries: List<Country>, currentCountry: Country?) {
+    private fun setCallingCodes(countries: List<Country>, currentCountry: Country?) {
         callingCodes.addAll(countries.map { it.displayText() })
         val callingCodeListAdapter = ArrayAdapter<String>(
             context!!,
@@ -283,7 +311,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                                         doOnPositivePress = {
                                             hideWaitScreen()
                                             log_in_option_selector.selectedIndex = 1
-                                            enableEmailLoginViewItems()
+                                            setLoginMethod(LoginMethod.EMAIL)//enableEmailLoginViewItems()
                                         },
                                         doOnNegetivePress = {
                                             sendCodeTask(phone)
@@ -350,10 +378,13 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     private fun enableEmailLoginViewItems() {
         debugLog("enableEmailLoginViewItems")
         et_email.setText("")
+        et_password.setText("")
         et_mobile.setText("")
+
         et_email_holder.show()
         et_password_holder.show()
         btn_login.show()
+
         et_mobile_holder.hide()
         btn_send_code.hide()
     }
@@ -361,12 +392,15 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
     private fun enableSmsLoginViewItems() {
         debugLog("enableSmsLoginViewItems")
         et_email.setText("")
+        et_password.setText("")
         et_mobile.setText("")
+
+        et_mobile_holder.show()
+        btn_send_code.show()
+
         et_email_holder.hide()
         et_password_holder.hide()
         btn_login.hide()
-        et_mobile_holder.show()
-        btn_send_code.show()
     }
 
     private fun loginTask(context: Context) {

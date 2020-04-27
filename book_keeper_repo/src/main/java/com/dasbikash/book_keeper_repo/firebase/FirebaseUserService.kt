@@ -121,7 +121,6 @@ internal object FirebaseUserService {
     }
 
     suspend fun findUsersByPhone(phoneNumber: String):List<User>{
-        /*val sanitizedNumber = ValidationUtils.sanitizeNumber(phone)*/
         if (!ValidationUtils.validateMobileNumber(phoneNumber)){
             return emptyList()
         }
@@ -130,7 +129,7 @@ internal object FirebaseUserService {
                             .getUserCollectionRef()
                             .whereEqualTo(PHONE_FIELD,phoneNumber)
 
-        return processUserListQuery(query)//.filter { it.id != AuthRepo.getUserId() }
+        return processUserListQuery(query)
     }
 
     //Used to check if the phone number is already used for login
@@ -138,7 +137,7 @@ internal object FirebaseUserService {
         debugLog("findUsersForPhoneLogin: $phoneNumber")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,phoneNumber/*ValidationUtils.sanitizeNumber(phone)*/)
+                            .whereEqualTo(PHONE_FIELD,phoneNumber)
                             .whereEqualTo(PHONE_LOGIN_FIELD,true)
 
         return processUserListQuery(query)
@@ -149,7 +148,7 @@ internal object FirebaseUserService {
         debugLog("findUsersByPhone: $phoneNumber")
         val query = FireStoreRefUtils
                             .getUserCollectionRef()
-                            .whereEqualTo(PHONE_FIELD,phoneNumber/*ValidationUtils.sanitizeNumber(phone)*/)
+                            .whereEqualTo(PHONE_FIELD,phoneNumber)
                             .whereEqualTo(PHONE_LOGIN_FIELD,false)
 
         return processUserListQuery(query)

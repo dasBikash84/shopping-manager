@@ -80,6 +80,7 @@
         layout="@layout/view_mobile_number_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/et_email_holder"/>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -129,7 +130,8 @@
         android:layout_width="match_parent"
         android:layout_margin="8dp"
         android:text="@string/send_login_code_button"
-        app:layout_constraintTop_toBottomOf="@id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@id/btn_login"
+        android:visibility="gone" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_sign_up"

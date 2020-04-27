@@ -4,60 +4,48 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
+import android.widget.Toast
 import java.lang.reflect.Method
 
 
-object LocaleUtils {
+internal object LocaleUtils {
 
-    fun getCountry(context: Context):String{
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.resources.configuration.locales.get(0).getCountry()
-        } else {
-            @Suppress("DEPRECATION")
-            context.resources.configuration.locale.getCountry()
-        }
-    }
-
-    fun getCountryCode(context: Context):String{
-
-        var countryCode: String?
+    fun getCountryCode(context: Context):String?{
 
         // try to get country code from TelephonyManager service
         (context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?)?.let {
             val telephonyManager = it
-            var countryCode: String? = telephonyManager.simCountryIso
 
-            if (countryCode != null && countryCode!!.length == 2) return countryCode!!.toLowerCase()
+            telephonyManager.simCountryIso?.let {
+                if (it.length == 2){
+                    return it.toLowerCase()
+                }
+            }
 
             if (telephonyManager.phoneType == TelephonyManager.PHONE_TYPE_CDMA) {
                 // special case for CDMA Devices
-                countryCode = getCDMACountryIso()
+                getCDMACountryIso()
             } else {
                 // for 3G devices (with SIM) query getNetworkCountryIso()
-                countryCode = telephonyManager.networkCountryIso
+                telephonyManager.networkCountryIso
+            }?.let {
+                if (it.length == 2){
+                    return it.toLowerCase()
+                }
             }
-
-            if (countryCode != null && countryCode!!.length == 2) return countryCode!!.toLowerCase()
         }
-
+        return null
         // if network country not available (tablets maybe), get country code from Locale class
-
-        // if network country not available (tablets maybe), get country code from Locale class
-        countryCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.resources.configuration.locales[0].country
-        } else {
-            context.resources.configuration.locale.country
-        }
-
-        if (countryCode != null && countryCode!!.length == 2) return countryCode!!.toLowerCase()
-
-        // general fallback to "us"
-        return "us";
-
-
-//        val tm =
-//            context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-//        return "networkCountryIso:${tm.networkCountryIso} simCountryIso:${tm.simCountryIso} simOperator:${tm.simOperator} simOperatorName:${tm.simOperatorName}"
+//        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            context.resources.configuration.locales[0].country
+//        } else {
+//            context.resources.configuration.locale.country
+//        }.let {
+//            if (it.length == 2){
+//                return@let it.toLowerCase()
+//            }
+//            return@let null
+//        }
     }
 
     @SuppressLint("PrivateApi")

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
@@ -17,10 +19,13 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.CountryRepo
+import com.dasbikash.book_keeper_repo.model.Country
 import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.view_mobile_number_input.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -62,7 +67,51 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             }
         }
 
+        initCallingCodeSelector()
+
         mExitPrompt = getString(R.string.quit_sign_up_prompt)
+    }
+
+    private val callingCodes = mutableListOf<String>()
+
+    private fun initCallingCodeSelector() {
+        phone_prefix_selector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                tv_calling_code.text = Country.getCallingCodeFromDisplayText(callingCodes.get(position))
+                tv_calling_code.bringToFront()
+            }
+        }
+
+        runWithContext {
+            lifecycleScope.launchWhenCreated {
+                val countries = CountryRepo.getCountryData(it)
+                setCallingCodes(
+                    countries,
+                    CountryRepo.getCurrentCountry(it,countries)
+                )
+            }
+        }
+    }
+
+    private fun setCallingCodes(countries: List<Country>, currentCountry: Country?) {
+        callingCodes.addAll(countries.map { it.displayText() })
+        val callingCodeListAdapter = ArrayAdapter<String>(
+            context!!,
+            R.layout.view_spinner_item,
+            callingCodes.toList())
+        callingCodeListAdapter.setDropDownViewResource(R.layout.view_spinner_item)
+        phone_prefix_selector.adapter = callingCodeListAdapter
+        currentCountry?.let {
+            phone_prefix_selector.setSelection(
+                countries.indexOf(it).let { if (it<0) {0} else {it} }
+            )
+        }
     }
 
     private fun signUpClickAction(context: Context) {
@@ -106,9 +155,18 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
             lifecycleScope.launch {
                 showWaitScreen()
                     try {
+                        var fullNumber = mobile
                         if (mobile.isNotBlank()) {
+                            val country =
+                                Country.getCountryFromDisplayText(it,phone_prefix_selector.selectedItem as String)
+                            fullNumber = country.fullNumber(mobile)
+                            if (!country.checkNumber(mobile)){
+                                et_mobile.setError(getString(R.string.number_format_error_prompt))
+                                hideWaitScreen()
+                                return@launch
+                            }
                             if (AuthRepo.loginAnonymous()) {
-                                AuthRepo.findUsersByPhone(mobile).let {
+                                AuthRepo.findUsersByPhone(fullNumber).let {
                                     if (it.isNotEmpty()) {
                                         et_mobile.setError(getString(R.string.mobile_number_taken_error))
                                         hideWaitScreen()
@@ -124,7 +182,7 @@ class FragmentSignUp : FragmentTemplate(),WaitScreenOwner {
                         AuthRepo
                             .createUserWithEmailAndPassword(
                                 it,email, password,firstName,
-                                lastName,mobile,BookKeeperApp.getLanguageSetting(it)
+                                lastName,fullNumber,BookKeeperApp.getLanguageSetting(it)
                             ).apply {
                                 showLongSnack(R.string.sign_up_success_mesage)
                                 delay(2000)

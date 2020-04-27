@@ -10,10 +10,12 @@ import java.io.InputStreamReader
 
 object CountryRepo {
 
+    private const val DEFAULT_COUNTRY_CODE = "us"
+
     private suspend fun getAllCountryData(context: Context):List<Country>{
         return runSuspended {
             Gson().fromJson(
-                InputStreamReader(context.resources.openRawResource(R.raw.country_code)),
+                InputStreamReader(context.resources.openRawResource(R.raw.country_data)),
                 CountryData::class.java
             ).let {
                 it.countryList?.let {
@@ -28,7 +30,7 @@ object CountryRepo {
         getAllCountryData(context).filter { it.enabled }
 
     suspend fun getCurrentCountry(context: Context):Country?{
-        LocaleUtils.getCountryCode(context).toLowerCase().let {
+        LocaleUtils.getCountryCode(context)?.toLowerCase()?.let {
             val countryCode = it
             getCountryData(context).find { it.countryCode.toLowerCase().trim() == countryCode.trim()}?.let {
                 return it
@@ -38,7 +40,7 @@ object CountryRepo {
     }
 
     fun getCurrentCountry(context: Context,countries: List<Country>):Country?{
-        LocaleUtils.getCountryCode(context).toLowerCase().let {
+        (LocaleUtils.getCountryCode(context) ?: DEFAULT_COUNTRY_CODE).toLowerCase().let {
             val countryCode = it
             countries.find { it.countryCode.toLowerCase().trim() == countryCode.trim()}?.let {
                 return it
