@@ -11,45 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_en_lang_inactive"
-            style="@style/secondary_button_inactive"
-            android:layout_width="match_parent"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:text="@string/en_lang"
-            android:visibility="gone"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_bn_lang"
-            style="@style/secondary_button"
-            android:layout_width="match_parent"
-            android:layout_margin="4dp"
-            android:text="@string/bn_lang"
-            app:layout_constraintTop_toBottomOf="@id/et_password_holder"
-            android:visibility="gone"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_bn_lang_inactive"
-            style="@style/secondary_button_inactive"
-            android:layout_width="match_parent"
-            android:layout_margin="4dp"
-            android:text="@string/bn_lang"
-            android:visibility="gone"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_en_lang"
-            style="@style/secondary_button"
-            android:layout_width="match_parent"
-            android:layout_margin="4dp"
-            android:text="@string/en_lang"
-            android:visibility="gone"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/app_logo"
         android:layout_width="120dp"
@@ -114,23 +75,42 @@
             android:minHeight="40dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/et_mobile_holder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:hint="@string/mobile_hint"
         app:layout_constraintTop_toBottomOf="@+id/et_email_holder">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_mobile"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/phone_prefix_selector"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:background="@color/off_white"
+            android:prompt="@string/phone_prefix_selector_prompt"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:layout_constraintStart_toEndOf="@+id/phone_prefix_selector"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="phone"
-            android:maxLines="1"
-            android:minHeight="40dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:hint="@string/mobile_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:maxLines="1"
+                android:minHeight="40dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_user_id_suggestions"

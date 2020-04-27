@@ -94,8 +94,6 @@ class ActivityLauncher : AppCompatActivity() {
                 try {
                     DataSyncService.syncAppData(this@ActivityLauncher)
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityLauncher)
-                    CountryRepo.getCountryData(this@ActivityLauncher).forEach { debugLog(it) }
-                    CountryRepo.getCurrentCountry(this@ActivityLauncher)?.let { debugLog("Current; ${it}") }
                 } catch (ex: Throwable) {
                     ex.printStackTrace()
                     debugLog("Data sync failure!!")

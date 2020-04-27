@@ -363,4 +363,5 @@
     <string name="new_sl_received">New shopping list received</string>
     <string name="new_sl_sh_req">New shopping list share request received</string>
     <string name="new_event">New Event</string>
+    <string name="phone_prefix_selector_prompt">Select coutry code</string>
 </resources>
