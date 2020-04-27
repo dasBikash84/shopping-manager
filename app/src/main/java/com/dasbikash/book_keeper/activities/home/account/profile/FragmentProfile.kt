@@ -9,8 +9,9 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
+import android.widget.*
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -31,8 +32,10 @@ import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
+import com.dasbikash.book_keeper_repo.CountryRepo
 import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ImageRepo
+import com.dasbikash.book_keeper_repo.model.Country
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
@@ -40,6 +43,7 @@ import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.view_mobile_number_input.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -89,12 +93,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
 
         iv_edit_phone_num.setOnClickListener {
-            launchUserParamEditDialog(
-                {phoneEditTask(it)},
-                viewModel.getUserLiveData().value?.phone,
-                R.string.phone_edit_prompt,
-                R.string.phone_hint
-            )
+            launchUserPhoneEditDialog()
         }
 
         iv_edit_first_name.setOnClickListener {
@@ -153,6 +152,69 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         sr_page_holder.setOnRefreshListener {syncUserData()}
         btn_close_profile_pic_full.setOnClickListener { profile_pic_full_holder.hide() }
         profile_pic_full_holder.setOnClickListener {  }
+    }
+
+    private fun launchUserPhoneEditDialog(){
+
+        val callingCodes = mutableListOf<String>()
+
+        runWithContext {
+
+            val phoneNumberEditView =
+                LayoutInflater.from(it).inflate(R.layout.view_mobile_number_input,null,false)
+            val tv_calling_code = phoneNumberEditView.findViewById<TextView>(R.id.tv_calling_code)
+            val phone_prefix_selector = phoneNumberEditView.findViewById<AppCompatSpinner>(R.id.phone_prefix_selector)
+            val et_mobile = phoneNumberEditView.findViewById<EditText>(R.id.et_mobile)
+
+            phone_prefix_selector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    tv_calling_code.text = Country.getCallingCodeFromDisplayText(callingCodes.get(position))
+                    tv_calling_code.bringToFront()
+                }
+            }
+
+            lifecycleScope.launch {
+                val countries = CountryRepo.getCountryData(it)
+                callingCodes.addAll(countries.map { it.displayText() })
+                val callingCodeListAdapter = ArrayAdapter<String>(
+                    context!!,
+                    R.layout.view_spinner_item,
+                    callingCodes.toList())
+                callingCodeListAdapter.setDropDownViewResource(R.layout.view_spinner_item)
+                phone_prefix_selector.adapter = callingCodeListAdapter
+                CountryRepo.getCurrentCountry(it,countries)?.let {
+                    phone_prefix_selector.setSelection(
+                        countries.indexOf(it).let { if (it<0) {0} else {it} }
+                    )
+                }
+
+                DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                    message = it.getString(R.string.phone_edit_prompt),
+                    view = phoneNumberEditView,
+                    doOnPositivePress = {
+                        NetworkMonitor.runWithNetwork(it){
+                            lifecycleScope.launch {
+                                    val country =
+                                        Country.getCountryFromDisplayText(it,phone_prefix_selector.selectedItem as String)
+                                    if (!country.checkNumber(et_mobile.text.toString())){
+                                        showShortSnack(R.string.number_format_error_prompt)
+                                    }else{
+                                        showWaitScreen()
+                                        phoneEditTask(country.fullNumber(et_mobile.text.toString()))
+                                        hideWaitScreen()
+                                    }
+                                }
+                            }
+                        }
+                ))
+            }
+        }
     }
 
     private fun userImageClickAction() {
