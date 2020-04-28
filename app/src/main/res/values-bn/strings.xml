@@ -315,4 +315,9 @@
     <string name="new_sl_received">নতুন বাজারের ফর্দ পাওয়া গেছে</string>
     <string name="new_con_req">নতুন সংযোগের অনুরোধ</string>
     <string name="events_text">ঘটনার বিজ্ঞপ্তি</string>
+    <string name="currency_prompt">মুদ্রা</string>
+    <string name="correct_number">নম্বরটি সংশোধন করুন</string>
+    <string name="continue_anyway">সামনে যান</string>
+    <string name="number_format_error_prompt">নির্বাচিত দেশের মোবাইল নম্বর ফরম্যাটের সাথে নম্বরটি মিলছে না।</string>
+    <string name="change_currency_prompt">মুদ্রা পরিবর্তন করে \"%1$s\" করবেন?</string>
 </resources>

@@ -229,6 +229,13 @@ object AuthRepo : BookKeeperRepo() {
         }
     }
 
+    suspend fun updateUserCurrency(context: Context, currency: Currency) {
+        getUser(context)?.let {
+            it.currency=currency
+            updateUser(it, context)
+        }
+    }
+
     suspend fun updatePhone(context: Context, inputPhone: String) {
         getUser(context)?.let {
             it.phone = inputPhone

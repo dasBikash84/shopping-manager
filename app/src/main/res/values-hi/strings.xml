@@ -270,7 +270,7 @@
     <string name="sl_copy_save_failure">खरीदारी की सूची की प्रतिलिपि बनाने में विफल !! कृपया पुन: प्रयास करें।</string>
     <string name="sl_copy">प्रतिलिपि बनाएँ</string>
     <string name="language_prompt">भाषा</string>
-    <string name="change_language_prompt">भाषा को \"%1$s\" में बदलें</string>
+    <string name="change_language_prompt">भाषा को \"%1$s\" में बदलें?</string>
     <string name="no_new_user_found">कोई नया उपयोगकर्ता नहीं मिला !!</string>
     <string name="show_full_profile_pic_prompt">पूर्ण छवि दिखाएं</string>
     <string name="change_image_prompt">चित्र को बदलें</string>
@@ -311,4 +311,9 @@
     <string name="new_sl_received">नई खरीदारी सूची प्राप्त हुई</string>
     <string name="new_sl_sh_req">नई खरीदारी सूची साझा अनुरोध प्राप्त हुआ</string>
     <string name="new_event">नयी घटना</string>
+    <string name="currency_prompt">मुद्रा</string>
+    <string name="correct_number">नंबर को ठीक करें</string>
+    <string name="continue_anyway">आगे बढ़ो</string>
+    <string name="number_format_error_prompt">दिए गए नंबर चयनित देश के मोबाइल नंबर प्रारूप से मेल नहीं खाते हैं।</string>
+    <string name="change_currency_prompt">मुद्रा को \"%1$s\" में बदलें?</string>
 </resources>

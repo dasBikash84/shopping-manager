@@ -10,7 +10,7 @@ data class Currency(
     var symbol:String?=null
 ):Serializable{
 
-    fun displayText():String = "$code(${symbol})"
+    fun displayText():String = "$code (${symbol})"
 
     companion object{
         val DEFAULT_CURRENCY = Currency("USD","United States dollar","$")

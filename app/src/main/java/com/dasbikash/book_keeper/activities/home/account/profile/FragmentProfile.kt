@@ -119,6 +119,13 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
 
         spinner_language_selector.setItems(SupportedLanguage.values().map { it.displayName }.toList())
+        runWithContext {
+            lifecycleScope.launchWhenCreated {
+                CountryRepo.getCurrencies(it).map { it.displayText() }.let {
+                    spinner_currency_selector.setItems(it)
+                }
+            }
+        }
 
         spinner_language_selector.setOnItemSelectedListener { _, position, _, item ->
             debugLog(position)
@@ -144,6 +151,44 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                             positiveButtonText = it.getString(R.string.yes),
                             negetiveButtonText = it.getString(R.string.no)
                         ))
+                    }
+                }
+            }
+        }
+
+        spinner_currency_selector.setOnItemSelectedListener { _, position, _, item ->
+            debugLog(position)
+            debugLog(item)
+            viewModel.getUserLiveData().value?.let {
+                val user = it
+                if (item != it.currency.displayText()){
+                    runWithContext {
+                        lifecycleScope.launch {
+                            val currency =
+                                CountryRepo.getCurrencies(it).find { it.displayText() == item }!!
+                            DialogUtils.showAlertDialog(
+                                it, DialogUtils.AlertDialogDetails(
+                                    message = it.getString(
+                                        R.string.change_currency_prompt,
+                                        item as String
+                                    ),
+                                    doOnPositivePress = {
+                                        runWithActivity {
+                                            lifecycleScope.launch {
+                                                AuthRepo.updateUserCurrency(it, currency)
+                                            }
+                                        }
+                                    },
+                                    doOnNegetivePress = {
+                                        spinner_currency_selector.selectedIndex =
+                                            spinner_currency_selector.getItems<String>()
+                                                .indexOf(user.currency.displayText())
+                                    },
+                                    positiveButtonText = it.getString(R.string.yes),
+                                    negetiveButtonText = it.getString(R.string.no)
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -427,6 +472,8 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                     })
             }
             spinner_language_selector.selectedIndex = SupportedLanguage.values().indexOf(language)
+            spinner_currency_selector.selectedIndex = spinner_currency_selector.getItems<String>().indexOf(currency.displayText())
+
         }
     }
 

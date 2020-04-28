@@ -52,13 +52,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/snow_white2"
-            android:paddingBottom="8dp">
+            android:background="@color/snow_white2">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="160dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -283,6 +283,35 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         app:layout_constraintStart_toEndOf="@+id/tv_language_prompt"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:background="@android:color/white"
+                    android:minHeight="40dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_currency_prompt"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/currency_prompt"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.jaredrummler.materialspinner.MaterialSpinner
+                        android:layout_marginStart="8dp"
+                        android:id="@+id/spinner_currency_selector"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_currency_prompt"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
