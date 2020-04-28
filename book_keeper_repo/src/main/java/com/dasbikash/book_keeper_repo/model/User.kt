@@ -19,7 +19,8 @@ data class User(
     var thumbPhotoUrl:String?=null,
     var language: SupportedLanguage = SupportedLanguage.ENGLISH,
     var modified:Timestamp = Timestamp.now(),
-    var mobileLogin:Boolean = true
+    var mobileLogin:Boolean = true,
+    var currency: Currency = Currency.DEFAULT_CURRENCY
 ):Serializable{
     fun validateData():Boolean{
         return !id.isBlank() && ((mobileLogin && !phone.isNullOrBlank()) || (!mobileLogin && !email.isNullOrBlank()))

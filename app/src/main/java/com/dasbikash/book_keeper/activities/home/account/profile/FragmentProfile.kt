@@ -404,6 +404,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
     }
 
     private suspend fun refreshView(context: Context,user: User) {
+        debugLog(user)
         when(AuthRepo.isPhoneLogin(context)){
             true -> {
                 iv_edit_email.show()

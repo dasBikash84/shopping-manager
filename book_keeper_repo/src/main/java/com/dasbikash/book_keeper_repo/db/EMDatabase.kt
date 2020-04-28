@@ -29,7 +29,8 @@ import com.dasbikash.book_keeper_repo.model.*
             version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
                 StringListConverter::class, RequestApprovalStatusConverter::class,
-                SupportedLanguageConverter::class,TimeStampConverter::class)
+                SupportedLanguageConverter::class,TimeStampConverter::class,
+                CurrencyConverter::class)
 internal abstract class EMDatabase internal constructor(): RoomDatabase() {
 
     abstract val userDao:UserDao

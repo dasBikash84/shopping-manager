@@ -1,6 +1,9 @@
 package com.dasbikash.book_keeper_repo.firebase
 
+import android.content.Context
 import com.dasbikash.android_basic_utils.utils.debugLog
+import com.dasbikash.book_keeper_repo.CountryRepo
+import com.dasbikash.book_keeper_repo.model.Currency
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
@@ -61,14 +64,17 @@ internal object FirebaseUserService {
         }
     }
 
-    fun createUserForPhoneLogin(phone: String,
-                                language: SupportedLanguage
+    suspend fun createUserForPhoneLogin(phone: String,
+                                language: SupportedLanguage,
+                                context: Context
     ): User {
+        val currency = CountryRepo.findCurrencyByPhoneNumber(context,phone) ?: Currency.DEFAULT_CURRENCY
         val user = User(
             id = com.dasbikash.firebase_auth.FirebaseAuthService.getUserId()!!,
             phone = phone,
             mobileLogin = true,
-            language = language
+            language = language,
+            currency = currency
         )
         return saveUser(user)!!
     }

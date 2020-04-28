@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper_repo.firebase.FirebaseUserService
+import com.dasbikash.book_keeper_repo.model.Currency
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
 import com.dasbikash.book_keeper_repo.model.User
 import com.dasbikash.book_keeper_repo.utils.ValidationUtils
@@ -58,7 +59,8 @@ object AuthRepo : BookKeeperRepo() {
             .createUserWithEmailAndPassword(
                 context,email.trim().toLowerCase(Locale.ENGLISH),password
             ).let {
-                createUser(getUserId(),email,firstName, lastName, mobile,language)
+                val currency = CountryRepo.getCurrentCountryCurrency(context) ?: Currency.DEFAULT_CURRENCY
+                createUser(getUserId(),email,firstName, lastName, mobile,language,currency)
                     .let {
                         savePass(password,context)
                         saveLogin(context,it)
@@ -74,7 +76,7 @@ object AuthRepo : BookKeeperRepo() {
     private fun createUser(
         userId: String,email: String,
         firstName: String, lastName: String, mobile: String,
-        language: SupportedLanguage
+        language: SupportedLanguage,currency: Currency
     ):User {
         return User().apply {
             id = userId
@@ -84,6 +86,7 @@ object AuthRepo : BookKeeperRepo() {
             phone = mobile.trim()
             mobileLogin = false
             this.language=language
+            this.currency=currency
             FirebaseUserService.saveUser(this)
         }
     }
@@ -134,7 +137,7 @@ object AuthRepo : BookKeeperRepo() {
         try {
             FirebaseUserService.getUser(getUserId()).let {
                 return if (it == null) {
-                    FirebaseUserService.createUserForPhoneLogin(getCurrentMobileNumber(context)!!,language).let {
+                    FirebaseUserService.createUserForPhoneLogin(getCurrentMobileNumber(context)!!,language,context).let {
                         saveLogin(context, it)
                         it
                     }

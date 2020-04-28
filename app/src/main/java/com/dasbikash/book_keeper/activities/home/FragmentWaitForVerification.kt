@@ -81,15 +81,19 @@ class FragmentWaitForVerification : FragmentTemplate(),WaitScreenOwner {
             lifecycleScope.launch {
                 var iter = 0
                 do {
-                    AuthRepo.getEmailVerificationLinkGenDelay(it).let {
-                        if (it > 0) {
-                            btn_resend_verification_email.text = getString(R.string.resend_email_with_delay,it/1000)
-                            btn_resend_verification_email.isEnabled = false
-                        } else {
-                            btn_resend_verification_email.text = getString(R.string.resend_email)
-                            btn_resend_verification_email.isEnabled = true
+                    try {
+                        AuthRepo.getEmailVerificationLinkGenDelay(it).let {
+                            if (it > 0) {
+                                btn_resend_verification_email.text =
+                                    getString(R.string.resend_email_with_delay, it / 1000)
+                                btn_resend_verification_email.isEnabled = false
+                            } else {
+                                btn_resend_verification_email.text =
+                                    getString(R.string.resend_email)
+                                btn_resend_verification_email.isEnabled = true
+                            }
                         }
-                    }
+                    }catch (ex:Throwable){}
                     delay(1000L)
                     iter++
                     if (iter % AUTO_REFRESH_INTERVAL_SEC == 0 ){
