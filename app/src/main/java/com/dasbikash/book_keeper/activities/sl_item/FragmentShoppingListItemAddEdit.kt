@@ -40,6 +40,7 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.snackbar_ext.showLongSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
@@ -242,6 +243,12 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
         if (shoppingListItem.qty == 0.0){
             et_sli_quantity.error = getString(R.string.quantity_error_message)
             return false
+        }
+        if (shoppingListItem.maxUnitPrice!=null) {
+            if (shoppingListItem.maxUnitPrice!! < shoppingListItem.minUnitPrice ?: 0.0) {
+                showLongSnack(R.string.max_lower_than_min)
+                return false
+            }
         }
         return true
     }
