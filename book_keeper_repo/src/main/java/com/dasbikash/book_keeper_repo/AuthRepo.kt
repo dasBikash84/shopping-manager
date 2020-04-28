@@ -397,6 +397,8 @@ object AuthRepo : BookKeeperRepo() {
     }
 
     fun getCurrencyString(context: Context):String{
-        return getCurrency(context)?.symbol?.trim() ?: ""
+        return getCurrency(context).let {
+            it?.symbol ?: it?.code ?: ""
+        }.trim()
     }
 }

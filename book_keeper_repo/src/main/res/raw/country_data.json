@@ -52,8 +52,7 @@
       "currencies": [
         {
           "code": "AFN",
-          "name": "Afghan afghani",
-          "symbol": "؋"
+          "name": "Afghan afghani"
         },
         {
           "code": "USD",
@@ -3265,8 +3264,7 @@
       "currencies": [
         {
           "code": "MVR",
-          "name": "Maldivian rufiyaa",
-          "symbol": ".ރ"
+          "name": "Maldivian rufiyaa"
         },
         {
           "code": "USD",

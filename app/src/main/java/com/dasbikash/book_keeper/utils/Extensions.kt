@@ -87,8 +87,5 @@ internal fun CharArray.byteArray():ByteArray{
 fun Double.get2DecPoints():Double = ((this*100).toInt()).toDouble()/100.00
 
 fun Double.getCurrencyStringWithSymbol(context: Context):String{
-    return "${AuthRepo.getCurrencyString(context)}${this.get2DecPoints()}".trim().apply {
-        debugLog(length)
-        forEach { debugLog(it) }
-    }
+    return "${AuthRepo.getCurrencyString(context)}${this.get2DecPoints()}".trim()
 }

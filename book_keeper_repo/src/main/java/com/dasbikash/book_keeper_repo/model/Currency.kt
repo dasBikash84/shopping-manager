@@ -10,15 +10,9 @@ data class Currency(
     var symbol:String?=null
 ):Serializable{
 
-    fun displayText():String = "$code (${symbol})"
+    fun displayText():String = "${code ?: ""}${symbol?.let { "($it)" } ?: ""}"
 
     companion object{
         val DEFAULT_CURRENCY = Currency("USD","United States dollar","$")
-
-        fun displayTextToSymbol(displayText:String):String{
-            displayText.split("(").get(1).let {
-                return it.substring(0,it.length-1)
-            }
-        }
     }
 }
