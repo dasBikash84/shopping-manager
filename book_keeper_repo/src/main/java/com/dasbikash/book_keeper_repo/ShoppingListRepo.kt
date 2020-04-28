@@ -1,7 +1,6 @@
 package com.dasbikash.book_keeper_repo
 
 import android.content.Context
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import com.dasbikash.android_basic_utils.utils.DateUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
@@ -9,8 +8,6 @@ import com.dasbikash.book_keeper_repo.firebase.FireStoreOnlineSlShareService
 import com.dasbikash.book_keeper_repo.firebase.FireStoreShoppingListService
 import com.dasbikash.book_keeper_repo.model.*
 import com.google.firebase.Timestamp
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 
 object ShoppingListRepo : BookKeeperRepo() {
@@ -305,39 +302,6 @@ object ShoppingListRepo : BookKeeperRepo() {
 
     fun getApprovalPendingEntries(context: Context) =
         getOnlineDocShareReqDao(context).getApprovalPendingEntries()
-
-    fun setListenerForPendingOnlineSlShareRequest(
-        context: Context,
-        lifecycleOwner: LifecycleOwner,
-        onlineSlShareReq: OnlineSlShareReq
-    ) {
-        debugLog("setListenerForPendingOnlineSlShareRequest: ${onlineSlShareReq}")
-        FireStoreOnlineSlShareService
-            .setListenerForPendingOnlineDocShareRequest(
-                lifecycleOwner,
-                onlineSlShareReq,
-                {
-                    processDownloadedOnlineDocShareRequest(context,it)
-                }
-            )
-    }
-
-    private fun processDownloadedOnlineDocShareRequest(
-        context: Context, onlineSlShareReq: OnlineSlShareReq) {
-        debugLog("processDownloadedOnlineDocShareRequest: ${onlineSlShareReq}")
-        GlobalScope.launch {
-            debugLog("processDownloadedOnlineDocShareRequest: ${onlineSlShareReq.checkIfFromMe()}")
-            if (onlineSlShareReq.checkIfFromMe()) {
-                debugLog("processDownloadedOnlineDocShareRequest: onlineDocShareReq.checkIfShoppingListShareRequest()")
-                if (onlineSlShareReq.approvalStatus != RequestApprovalStatus.PENDING) {
-                    if (onlineSlShareReq.approvalStatus == RequestApprovalStatus.APPROVED) {
-                        syncShoppingListById(onlineSlShareReq.sharedDocumentId()!!, context)
-                    }
-                    save(context, onlineSlShareReq)
-                }
-            }
-        }
-    }
 
     suspend fun syncShoppingListById(
         shoppingListId:String,

@@ -4,7 +4,7 @@ internal object FireStoreRefUtils {
     private const val USER_COLLECTION_NAME = "users"
     private const val EXPENSE_ENTRY_COLLECTION_NAME = "exp_entries"
     const val SHOPPING_LIST_COLLECTION_NAME = "shopping_lists"
-    private const val ONLINE_DOC_SHARE_REQ_COLLECTION_NAME = "online_sl_share_request"
+    private const val ONLINE_DOC_SHARE_REQ_COLLECTION_NAME = "sl_share_request"
     private const val CONNECTION_REQUEST_COLLECTION_NAME = "connection_request"
     private const val EVENT_NOTIFICATION_COLLECTION_NAME = "event_notification"
 

@@ -23,7 +23,7 @@ class ViewModelShoppingListShareRequests(private val mApplication: Application) 
                 viewModelScope.launch(Dispatchers.IO) {
                     val tbaSlShareReqList = mutableListOf<TbaSlShareReq>()
                     it.asSequence().forEach {
-                        tbaSlShareReqList.add(getTbaSlShareReq(it))
+                        getTbaSlShareReq(it)?.let { tbaSlShareReqList.add(it)}
                     }
                     runOnMainThread({tbaSlShareReqLiveData.postValue(tbaSlShareReqList)})
                 }
@@ -33,10 +33,14 @@ class ViewModelShoppingListShareRequests(private val mApplication: Application) 
 
     fun getTbaSlShareReqLiveData():LiveData<List<TbaSlShareReq>> = tbaSlShareReqLiveData
 
-    private suspend fun getTbaSlShareReq(onlineSlShareReq: OnlineSlShareReq):TbaSlShareReq{
-        val shoppingList = ShoppingListRepo.findInLocalById(mApplication,onlineSlShareReq.sharedDocumentId()!!)!!
-        val requester = AuthRepo.findUserById(mApplication,onlineSlShareReq.requesterId!!)!!
-        return TbaSlShareReq(shoppingList, onlineSlShareReq, requester)
+    private suspend fun getTbaSlShareReq(onlineSlShareReq: OnlineSlShareReq):TbaSlShareReq?{
+        ShoppingListRepo.findInLocalById(mApplication,onlineSlShareReq.sharedDocumentId()!!)?.let {
+            val requester = AuthRepo.findUserById(mApplication, onlineSlShareReq.requesterId!!)
+            if (requester!=null) {
+                return TbaSlShareReq(it, onlineSlShareReq, requester)
+            }
+        }
+        return null
     }
 
 }
