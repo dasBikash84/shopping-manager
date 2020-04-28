@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
@@ -116,13 +117,13 @@ class ShoppingListItemHolder(itemView: View,
         shoppingListItem.calculatePriceRange().apply {
             val priceBuilder = StringBuilder("")
             first?.let {
-                priceBuilder.append(it.toString())
+                priceBuilder.append(it.getCurrencyStringWithSymbol(itemView.context))
                 if (second!=null){
                     priceBuilder.append(" - ")
                 }
             }
             second?.let {
-                priceBuilder.append(it.toString())
+                priceBuilder.append(it.getCurrencyStringWithSymbol(itemView.context))
             }
             val priceText = priceBuilder.toString()
             tv_sli_price_range.text = priceText

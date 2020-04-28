@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.CalculatorHistory
-import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
+import com.dasbikash.book_keeper.utils.get2DecPoints
 
 object CalculatorHistoryDiffCallback: DiffUtil.ItemCallback<CalculatorHistory>(){
     override fun areItemsTheSame(oldItem: CalculatorHistory, newItem: CalculatorHistory) = oldItem.time == newItem.time

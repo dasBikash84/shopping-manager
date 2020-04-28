@@ -19,10 +19,7 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
-import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
-import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
-import com.dasbikash.book_keeper.utils.optimizedString
-import com.dasbikash.book_keeper.utils.toTranslatedString
+import com.dasbikash.book_keeper.utils.*
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -533,5 +530,3 @@ class FragmentExpAddEdit : FragmentTemplate(), WaitScreenOwner {
         }
     }
 }
-
-fun Double.get2DecPoints():Double = ((this*100).toInt()).toDouble()/100.00

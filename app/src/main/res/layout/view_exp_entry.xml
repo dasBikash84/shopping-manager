@@ -79,6 +79,8 @@
                     android:id="@+id/tv_exp_amount_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:gravity="start|center_vertical"
+                    android:textAlignment="gravity"
                     style="@style/exp_entry_view_details_text"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
+import com.dasbikash.book_keeper.utils.get2DecPoints
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
 import com.dasbikash.menu_view.MenuView
@@ -95,7 +96,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
-            tv_exp_amount_text.text = (totalExpense ?: 0.0).toDouble().get2DecPoints().toString()
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyStringWithSymbol(itemView.context)
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
@@ -143,7 +144,7 @@ class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
-            tv_exp_amount_text.text = (totalExpense ?: 0.0).get2DecPoints().toString()
+            tv_exp_amount_text.text = (totalExpense ?: 0.0).getCurrencyStringWithSymbol(itemView.context)
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }

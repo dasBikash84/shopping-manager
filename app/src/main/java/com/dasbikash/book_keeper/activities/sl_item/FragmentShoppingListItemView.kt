@@ -20,6 +20,7 @@ import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.StringListAdapter
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper.utils.rotateIfRequired
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -116,8 +117,8 @@ class FragmentShoppingListItemView:FragmentTemplate() {
 
             tv_sli_price_range.text = getString(
                                             R.string.sli_price_range,
-                                            if (shoppingListItem.minUnitPrice!=null) {"${shoppingListItem.minUnitPrice!!} - "} else {""},
-                                            if (shoppingListItem.maxUnitPrice!=null) {shoppingListItem.maxUnitPrice!!.toString()} else {""})
+                                            shoppingListItem.minUnitPrice?.getCurrencyStringWithSymbol(context!!)?.let { "$it - "} ?: "",
+                                            shoppingListItem.maxUnitPrice?.getCurrencyStringWithSymbol(context!!) ?: "")
             tv_sli_qty.text = getString(
                                         R.string.sli_qty_text,
                                         shoppingListItem.qty.toString(), resources.getStringArray(R.array.uoms).get(shoppingListItem.uom))

@@ -25,6 +25,9 @@ object AuthRepo : BookKeeperRepo() {
     private const val MOBILE_NUMBER_SP_KEY =
         "com.dasbikash.exp_man_repo.AuthRepo.MOBILE_NUMBER_SP_KEY"
 
+    private const val CURRENCY_SP_KEY =
+        "com.dasbikash.exp_man_repo.AuthRepo.CURRENCY_SP_KEY"
+
     fun checkLogIn(): Boolean {
         return getUserId().isNotBlank()
     }
@@ -47,6 +50,7 @@ object AuthRepo : BookKeeperRepo() {
 
     private suspend fun saveLogin(context: Context, user: User) {
         getUserDao(context).add(user)
+        saveCurrency(user.currency,context)
     }
 
     suspend fun createUserWithEmailAndPassword(
@@ -158,6 +162,7 @@ object AuthRepo : BookKeeperRepo() {
         GlobalScope.launch {
             getDatabase(context).clearData()
             enableGuestDataImport(context)
+            clearCurrency(context)
         }
         FirebaseAuthService.signOut()
     }
@@ -213,6 +218,7 @@ object AuthRepo : BookKeeperRepo() {
     ) {
         FirebaseUserService.saveUser(user)
         getUserDao(context).add(user)
+        saveCurrency(user.currency, context)
     }
 
     suspend fun updateUserEmail(context: Context, inputEmail: String) {
@@ -377,4 +383,20 @@ object AuthRepo : BookKeeperRepo() {
     private const val SP_PASS = "com.dasbikash.book_keeper_repo.AuthRepo.SP_PASS"
     private fun savePass(pass:String,context: Context) = SharedPreferenceUtils.getDefaultInstance().saveDataSync(context,pass,SP_PASS)
     private fun getPass(context: Context):String? = SharedPreferenceUtils.getDefaultInstance().getData(context,SP_PASS,String::class.java)
+
+    fun saveCurrency(currency: Currency,context: Context){
+        SharedPreferenceUtils.getDefaultInstance().saveDataSync(context,currency, CURRENCY_SP_KEY)
+    }
+
+    private fun getCurrency(context: Context):Currency?{
+        return SharedPreferenceUtils.getDefaultInstance().getData(context,CURRENCY_SP_KEY,Currency::class.java)
+    }
+
+    fun clearCurrency(context: Context){
+        SharedPreferenceUtils.getDefaultInstance().removeKey(context, CURRENCY_SP_KEY)
+    }
+
+    fun getCurrencyString(context: Context):String{
+        return getCurrency(context)?.symbol?.trim() ?: ""
+    }
 }

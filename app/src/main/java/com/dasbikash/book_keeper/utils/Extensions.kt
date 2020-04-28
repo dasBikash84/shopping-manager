@@ -8,9 +8,11 @@ import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_image_utils.ImageUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.calculator.ActivityCalculator
+import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.model.TimeBasedExpenseEntryGroup
 import com.dasbikash.book_keeper_repo.model.TimeDuration
 import com.dasbikash.menu_view.MenuViewItem
+import java.text.NumberFormat
 import java.util.*
 
 fun Date.getWeekString():String{
@@ -80,4 +82,13 @@ internal fun CharArray.byteArray():ByteArray{
         bytes.set(i,get(i).toByte())
     }
     return bytes
+}
+
+fun Double.get2DecPoints():Double = ((this*100).toInt()).toDouble()/100.00
+
+fun Double.getCurrencyStringWithSymbol(context: Context):String{
+    return "${AuthRepo.getCurrencyString(context)}${this.get2DecPoints()}".trim().apply {
+        debugLog(length)
+        forEach { debugLog(it) }
+    }
 }

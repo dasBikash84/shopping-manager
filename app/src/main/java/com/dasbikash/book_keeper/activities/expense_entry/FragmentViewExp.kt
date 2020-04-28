@@ -13,9 +13,10 @@ import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.show
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.expense_entry.add_exp.get2DecPoints
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.ExpenseItemAdapter
+import com.dasbikash.book_keeper.utils.get2DecPoints
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.ExpenseRepo
 import com.dasbikash.book_keeper_repo.model.ExpenseEntry
@@ -56,7 +57,7 @@ class FragmentViewExp : FragmentTemplate() {
             tv_entry_time.text = expenseEntry.time!!.toDate().toTranslatedString(it)
             tv_exp_details.text = expenseEntry.details
             tv_vat_ait.text = expenseEntry.taxVat.get2DecPoints().toString()
-            tv_total_expense.text = expenseEntry.totalExpense?.get2DecPoints().toString()
+            tv_total_expense.text = expenseEntry.totalExpense?.getCurrencyStringWithSymbol(it)
 
             (expenseEntry.expenseItems ?: emptyList()).let {
                 if (it.isEmpty()){

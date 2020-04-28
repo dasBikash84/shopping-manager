@@ -114,7 +114,7 @@
     <string name="sl_count_down_text" translatable="false">%1$d %2$s</string>
     <string name="sl_remind_interval_text" translatable="false">%1$s</string>
     <string name="sli_price_range" translatable="false">%1$s %2$s</string>
-    <string name="sl_price_range" translatable="false">%1$.2f - %2$.2f</string>
+    <string name="sl_price_range" translatable="false">%1$s - %2$s</string>
     <string name="sli_qty_text" translatable="false">%1$s %2$s</string>
     <string name="email_share_app_subject" translatable="false">Sharing BookKeeper android app</string>
     <string name="delete_calc_history_prompt">Clear calculator history?</string>

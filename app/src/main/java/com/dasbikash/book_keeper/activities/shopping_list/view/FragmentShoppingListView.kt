@@ -24,6 +24,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper.rv_helpers.ShoppingListItemAdapter
 import com.dasbikash.book_keeper.utils.GetCalculatorMenuItem
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
@@ -162,7 +163,7 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
                 (activity as ActivityShoppingList?)?.setTitle(title!!)
                 lifecycleScope.launch {
                     val (minExp,maxExp) = ShoppingList.calculateExpenseRange(it,shoppingList)
-                    tv_sl_price_range.text = getString(R.string.sl_price_range,minExp,maxExp)
+                    tv_sl_price_range.text = getString(R.string.sl_price_range,minExp.getCurrencyStringWithSymbol(it),maxExp.getCurrencyStringWithSymbol(it))
                 }
                 if (deadLine != null) {
                     tv_sl_deadline.text = shoppingList.deadLine!!.toDate().toTranslatedString(it)

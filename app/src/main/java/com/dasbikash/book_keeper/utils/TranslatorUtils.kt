@@ -112,10 +112,6 @@ fun Date.toTranslatedString(context: Context, @StringRes format:Int= R.string.ex
     return TranslatorUtils.getTranslatedDateString(context, dateString)
 }
 
-fun Double.getCurrencyStringWithSymbol():String{
-    return NumberFormat.getCurrencyInstance().format(this).substring(1)
-}
-
 //will insert req comma
 fun Double.getCurrencyString():String{
     return NumberFormat.getCurrencyInstance().format(this).let {

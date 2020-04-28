@@ -16,6 +16,7 @@ import com.dasbikash.android_extensions.show
 import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ShoppingListUtils
+import com.dasbikash.book_keeper.utils.getCurrencyStringWithSymbol
 import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -85,7 +86,13 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         AsyncTaskManager.addTask<Unit,Unit> {
             runBlocking {
                 val (minExp, maxExp) = ShoppingList.calculateExpenseRange(itemView.context, shoppingList)
-                runOnMainThread({tv_exp_range_text.text = itemView.context.resources.getString(R.string.sl_price_range, minExp, maxExp)})
+                runOnMainThread({
+                    tv_exp_range_text.text =
+                        itemView.context.resources.getString(
+                            R.string.sl_price_range,
+                            minExp.getCurrencyStringWithSymbol(itemView.context),
+                            maxExp.getCurrencyStringWithSymbol(itemView.context))
+                })
                 setBgColor(shoppingList)
             }
         }
