@@ -19,14 +19,13 @@ import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.rv_helpers.ConnectionUserAdapter
 import com.dasbikash.book_keeper.rv_helpers.SearchedUserAdapter
 import com.dasbikash.book_keeper.utils.OptionsIntentBuilderUtility
-import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.book_keeper_repo.ConnectionRequestRepo
-import com.dasbikash.book_keeper_repo.DataSyncService
-import com.dasbikash.book_keeper_repo.ImageRepo
+import com.dasbikash.book_keeper_repo.*
 import com.dasbikash.book_keeper_repo.model.ConnectionRequest
 import com.dasbikash.book_keeper_repo.model.User
+import com.dasbikash.book_keeper_repo.utils.ValidationUtils
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showLongSnack
 import kotlinx.android.synthetic.main.fragment_connections.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -346,13 +345,19 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch {
+                    val userSearchString = sanitizeUserSearchString(it,searchString)
+                    if (!(ValidationUtils.validateEmailAddress(userSearchString) ||
+                            ValidationUtils.validateMobileNumber(userSearchString))){
+                        showLongSnack("${it.getString(R.string.search_user_hint)}!!")
+                        return@launch
+                    }
                     showWaitScreen()
-                    AuthRepo.searchUser(searchString).let {
+                    AuthRepo.searchUser(userSearchString).let {
                         debugLog(it)
                         val users = mutableSetOf<User>()
                         users.addAll(it.filter { !ConnectionRequestRepo.checkIfOnList(context!!,it) })
-                        userSearchReasultAdapter.submitList(users.toList())
                         if (users.isNotEmpty()) {
+                            userSearchReasultAdapter.submitList(users.toList())
                             user_search_result_holder.show()
                             user_search_result_holder.bringToFront()
                         }else{
@@ -363,5 +368,22 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
                 }
             }
         }
+    }
+
+    private suspend fun sanitizeUserSearchString(context: Context,searchString: String): String {
+        if (allNumberPattern.matches(searchString) &&
+                !ValidationUtils.validateMobileNumber(searchString)) {
+            CountryRepo.getCurrentCountry(context)?.apply {
+                if (!searchString.startsWith(callingCode!!) &&
+                        searchString.length>=phoneNumberLength!!){
+                    return "${callingCode}${searchString.substring((searchString.length-phoneNumberLength!!),searchString.length)}"
+                }
+            }
+        }
+        return searchString
+    }
+
+    companion object{
+        private val allNumberPattern = Regex("\\d+")
     }
 }
