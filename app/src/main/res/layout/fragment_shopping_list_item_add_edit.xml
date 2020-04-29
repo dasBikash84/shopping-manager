@@ -158,7 +158,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 style="@style/secondary_button"
                 android:id="@+id/btn_add_product_image"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
@@ -170,7 +170,8 @@
                 android:id="@+id/sli_brand_sug_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="16dp">
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -194,7 +195,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 style="@style/secondary_button"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:id="@+id/btn_add_brand_sug"
                 android:layout_width="match_parent"
                 android:layout_marginStart="8dp"

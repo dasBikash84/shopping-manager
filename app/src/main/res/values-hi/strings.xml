@@ -157,7 +157,7 @@
     <string name="blank_brand_name_sug_error">ब्रांड नेम खाली नहीं हो सकता |</string>
     <string name="duplicate_brand_name_sug_error">डुप्लिकेट ब्रांड नाम !!</string>
     <string name="remove_brand_sug_prompt">ब्रांड नाम सुझावों में से \"%1$s\" निकालें?</string>
-    <string name="sli_price_prompt">इकाई मूल्य:</string>
+    <string name="sli_price_prompt">इकाई मूल्य की सीमा:</string>
     <string name="import_image_from_internal_storage_prompt">गैलरी से आयात करें</string>
     <string name="capture_iamge_with_camera_prompt">फोटो लो</string>
     <string name="import_from_link_prompt">लिंक से आयात करें</string>

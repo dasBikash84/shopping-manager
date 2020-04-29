@@ -117,7 +117,7 @@ class FragmentShoppingListItemView:FragmentTemplate() {
 
             tv_sli_price_range.text = getString(
                                             R.string.sli_price_range,
-                                            shoppingListItem.minUnitPrice?.getCurrencyStringWithSymbol(context!!)?.let { "$it - "} ?: "",
+                                            shoppingListItem.minUnitPrice?.getCurrencyStringWithSymbol(context!!) ?: "",
                                             shoppingListItem.maxUnitPrice?.getCurrencyStringWithSymbol(context!!) ?: "")
             tv_sli_qty.text = getString(
                                         R.string.sli_qty_text,

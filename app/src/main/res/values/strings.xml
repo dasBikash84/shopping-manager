@@ -113,7 +113,7 @@
     <string name="reminder_hint" translatable="false">0</string>
     <string name="sl_count_down_text" translatable="false">%1$d %2$s</string>
     <string name="sl_remind_interval_text" translatable="false">%1$s</string>
-    <string name="sli_price_range" translatable="false">%1$s %2$s</string>
+    <string name="sli_price_range" translatable="false">%1$s - %2$s</string>
     <string name="sl_price_range" translatable="false">%1$s - %2$s</string>
     <string name="sli_qty_text" translatable="false">%1$s %2$s</string>
     <string name="email_share_app_subject" translatable="false">Sharing BookKeeper android app</string>
@@ -206,7 +206,7 @@
     <string name="blank_brand_name_sug_error">Brand nam can\'t ne blank|</string>
     <string name="duplicate_brand_name_sug_error">Duplicate brand name!!</string>
     <string name="remove_brand_sug_prompt">Remove \"%1$s\" from brand name suggestions?</string>
-    <string name="sli_price_prompt">Unit price:</string>
+    <string name="sli_price_prompt">Unit Price Range:</string>
     <string name="import_image_from_internal_storage_prompt">Import from Gallery</string>
     <string name="capture_iamge_with_camera_prompt">Take photo</string>
     <string name="import_from_link_prompt">Import from link</string>

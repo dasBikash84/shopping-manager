@@ -128,7 +128,7 @@
     <string name="import_from_link_prompt">লিঙ্ক থেকে ছবি ডাউনলোড করুন</string>
     <string name="capture_iamge_with_camera_prompt">ক্যামেরা দিয়ে ছবি তুলুন</string>
     <string name="import_image_from_internal_storage_prompt">গ্যালারি থেকে ছবি যোগ করুন</string>
-    <string name="sli_price_prompt">একক  মূল্য:</string>
+    <string name="sli_price_prompt">একক মূল্যের পরিসরঃ</string>
     <string name="mark_as_close">কেনা হয়েছে</string>
     <string name="brand_name_sug_hint">সম্ভাব্য কোম্পানির নাম</string>
     <string name="price_prompt">দামঃ</string>
