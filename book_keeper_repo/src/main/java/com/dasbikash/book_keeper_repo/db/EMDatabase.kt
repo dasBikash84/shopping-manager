@@ -25,7 +25,7 @@ import com.dasbikash.book_keeper_repo.model.*
 @Database(entities = [ExpenseEntry::class,User::class,ShoppingList::class,
                         ShoppingListItem::class,RemoteImageInfo::class,
                         SlReminderGenLog::class,OnlineSlShareReq::class,ConnectionRequest::class,
-                        EventNotification::class],
+                        EventNotification::class,NoteEntry::class],
             version = 1, exportSchema = false)
 @TypeConverters(DateConverter::class,ExpenseItemListConverter::class,
                 StringListConverter::class, RequestApprovalStatusConverter::class,
@@ -42,9 +42,11 @@ internal abstract class EMDatabase internal constructor(): RoomDatabase() {
     abstract val onlineSlShareReqDao:OnlineSlShareReqDao
     abstract val connectionRequestDao:ConnectionRequestDao
     abstract val eventNotificationDao:EventNotificationDao
+    abstract val noteEntryDao:NoteEntryDao
 
     //Clear all data keeping guest entries if any
     suspend fun clearData(){
+        noteEntryDao.nukeTable()
         eventNotificationDao.nukeTable()
         connectionRequestDao.nukeTable()
         onlineSlShareReqDao.nukeTable()
