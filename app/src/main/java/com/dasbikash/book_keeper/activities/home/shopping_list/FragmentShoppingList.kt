@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.annotation.Keep
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
@@ -43,7 +44,9 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
     private var filterMode = FilterMode.ALL
     private var sortMode = SortMode.dscDeadline
 
+    @Keep
     private enum class FilterMode{ALL,SELF,IMPORTED,SHARED,EXPIRED,PENDING,DEADLINE_TODAY}
+    @Keep
     private enum class SortMode{dscDeadline,ascDeadline,dscTitle,ascTitle}
 
     private val shoppingLists = mutableListOf<ShoppingList>()

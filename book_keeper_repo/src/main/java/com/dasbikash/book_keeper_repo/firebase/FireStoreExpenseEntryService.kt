@@ -48,15 +48,21 @@ internal object FireStoreExpenseEntryService {
             query = query.whereEqualTo(EXPENSE_ENTRY_ACTIVE_FIELD,true)
         }
 
+        debugLog(query::class.java.canonicalName ?: query::class.java.simpleName)
+
         return suspendCoroutine {
             val continuation = it
             query.get()
                 .addOnSuccessListener {
+                    debugLog("addOnSuccessListener")
                     continuation.resume(it.toObjects(ExpenseEntry::class.java))
+                    debugLog("addOnSuccessListener after resume")
                 }
                 .addOnFailureListener {
+                    debugLog("addOnFailureListener")
                     it.printStackTrace()
                     continuation.resume(emptyList())
+                    debugLog("addOnFailureListener after resume")
                 }
         }
     }

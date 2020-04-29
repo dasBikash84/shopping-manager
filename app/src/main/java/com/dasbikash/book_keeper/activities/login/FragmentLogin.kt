@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -41,6 +42,7 @@ import kotlinx.coroutines.launch
 
 class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
 
+    @Keep
     private enum class LoginMethod{EMAIL,PHONE}
 
     override fun hidePageTitle(): Boolean = true
