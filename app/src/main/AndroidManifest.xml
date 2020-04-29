@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.expense_entry.ActivityExpenseEntry" />
+        <activity android:name=".activities.note_entry.ActivityNoteEntry" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

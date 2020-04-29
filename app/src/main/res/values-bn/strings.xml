@@ -322,4 +322,9 @@
     <string name="change_currency_prompt">মুদ্রা পরিবর্তন করে \"%1$s\" করবেন?</string>
     <string name="max_lower_than_min">সর্বনিম্ন একক মূল্য সর্বাধিক একক মূল্যের চেয়ে কম!!</string>
     <string name="bmi_notepad">নোটপ্যাড</string>
+    <string name="note_title">নোট শিরোনাম</string>
+    <string name="note_text">নোট</string>
+    <string name="note_title_blank_error">নোট শিরোনাম ফাঁকা হতে পারে না!</string>
+    <string name="note_content_blank_error">নোট ফাঁকা হতে পারে না!</string>
+    <string name="save_note_prompt">নোট সংরক্ষণ করতে চান?</string>
 </resources>

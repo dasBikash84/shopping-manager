@@ -61,4 +61,7 @@ object NoteEntryRepo:BookKeeperRepo() {
 
     fun findAllLd(context: Context): LiveData<List<NoteEntry>> =
         getDao(context).findAllLiveData()
+
+    suspend fun findNoteEntry(context: Context,id:String):NoteEntry? =
+        getDao(context).findById(id)
 }

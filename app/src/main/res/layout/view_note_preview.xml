@@ -52,6 +52,17 @@
                 tools:text="Time Period textTime Period text"
                 android:maxLines="3"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_note_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_note_text_preview"
+                android:gravity="start|center_vertical"
+                android:padding="4dp"
+                android:textSize="16sp"
+                tools:text="Note modify Time"
+                android:lines="1"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

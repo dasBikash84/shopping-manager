@@ -318,4 +318,9 @@
     <string name="change_currency_prompt">मुद्रा को \"%1$s\" में बदलें?</string>
     <string name="max_lower_than_min">न्यूनतम इकाई मूल्य अधिकतम इकाई मूल्य से कम है!!</string>
     <string name="bmi_notepad">नोटपैड</string>
+    <string name="save_note_prompt">क्या आप नोट सहेजना चाहते हैं?</string>
+    <string name="note_title">नोट शीर्षक</string>
+    <string name="note_text">नोट</string>
+    <string name="note_title_blank_error">नोट शीर्षक रिक्त नहीं हो सकता!</string>
+    <string name="note_content_blank_error">नोट खाली नहीं हो सकता!</string>
 </resources>

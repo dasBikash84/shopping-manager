@@ -11,6 +11,7 @@ import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.activities.note_entry.ActivityNoteEntry
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.NoteEntryPreviewAdapter
 import com.dasbikash.book_keeper_repo.NoteEntryRepo
@@ -50,11 +51,15 @@ class FragmentNotePad : FragmentTemplate() {
     override fun getPageTitle(context: Context):String? = context.getString(R.string.bmi_notepad)
 
     private fun addNoteAction(){
-        TODO()
+        runWithContext {
+            startActivity(ActivityNoteEntry.getCreateIntent(it))
+        }
     }
 
     private fun editAction(noteEntry: NoteEntry){
-        TODO()
+        runWithContext {
+            startActivity(ActivityNoteEntry.getEditIntent(it,noteEntry))
+        }
     }
 
     private fun deleteAction(noteEntry: NoteEntry){
@@ -73,6 +78,8 @@ class FragmentNotePad : FragmentTemplate() {
     }
 
     private fun detailViewAction(noteEntry: NoteEntry){
-        TODO()
+        runWithContext {
+            startActivity(ActivityNoteEntry.getViewIntent(it,noteEntry))
+        }
     }
 }

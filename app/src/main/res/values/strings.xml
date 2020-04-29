@@ -370,4 +370,9 @@
     <string name="change_currency_prompt">Change currency to \"%1$s\"?</string>
     <string name="max_lower_than_min">Minimum unit price is lower than maximum unit price!!</string>
     <string name="bmi_notepad">Notepad</string>
+    <string name="note_title">Note title</string>
+    <string name="note_text">Note text</string>
+    <string name="note_title_blank_error">Note title can\'t be blank!</string>
+    <string name="note_content_blank_error">Note content can\'t be blank!</string>
+    <string name="save_note_prompt">Save note?</string>
 </resources>

@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dasbikash.book_keeper.R
+import com.dasbikash.book_keeper.utils.TranslatorUtils
+import com.dasbikash.book_keeper.utils.toTranslatedString
 import com.dasbikash.book_keeper_repo.model.NoteEntry
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
@@ -53,6 +55,9 @@ class NoteEntryPreviewHolder(itemView: View,
     private val tv_note_text_preview: TextView = itemView.findViewById(
         R.id.tv_note_text_preview
     )
+    private val tv_note_time: TextView = itemView.findViewById(
+        R.id.tv_note_time
+    )
     private val btn_options: ImageView = itemView.findViewById(
         R.id.btn_options
     )
@@ -82,5 +87,6 @@ class NoteEntryPreviewHolder(itemView: View,
         this.noteEntry = noteEntry
         tv_title_text.text = noteEntry.title
         tv_note_text_preview.text = noteEntry.note
+        tv_note_time.text = noteEntry.modified.toDate().toTranslatedString(itemView.context)
     }
 }
