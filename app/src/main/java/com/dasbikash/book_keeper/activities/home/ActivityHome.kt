@@ -40,8 +40,12 @@ class ActivityHome : ActivityTemplate() {
                     loadFragmentIfNotLoadedAlready(FragmentExpBrowser::class.java)
                     true
                 }
-                R.id.bmi_budget -> {
+                /*R.id.bmi_budget -> {
                     loadFragmentIfLoggedIn(FragmentBudget::class.java)
+                    true
+                }*/
+                R.id.bmi_note_pad -> {
+                    loadFragmentIfLoggedIn(FragmentNotePad::class.java)
                     true
                 }
                 R.id.bmi_shopping_list -> {
@@ -151,8 +155,8 @@ class ActivityHome : ActivityTemplate() {
                 FragmentExpBrowser()
             }
             else -> {
-                bottom_Navigation_View.selectedItemId = R.id.bmi_add
-                FragmentExpAddEdit()
+                bottom_Navigation_View.selectedItemId = R.id.bmi_exp_browse
+                FragmentExpBrowser()
             }
         }
 

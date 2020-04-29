@@ -321,4 +321,5 @@
     <string name="number_format_error_prompt">নির্বাচিত দেশের মোবাইল নম্বর ফরম্যাটের সাথে নম্বরটি মিলছে না।</string>
     <string name="change_currency_prompt">মুদ্রা পরিবর্তন করে \"%1$s\" করবেন?</string>
     <string name="max_lower_than_min">সর্বনিম্ন একক মূল্য সর্বাধিক একক মূল্যের চেয়ে কম!!</string>
+    <string name="bmi_notepad">নোটপ্যাড</string>
 </resources>

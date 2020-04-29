@@ -79,7 +79,7 @@
             android:id="@+id/btn_add_exp_entry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="32dp"
             android:clickable="true"
             app:elevation="16dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -90,8 +90,8 @@
             app:fabSize="auto"
             android:src="@drawable/ic_add_exp"
             android:padding="2dp"
-            app:backgroundTint="@color/dark_green"
-            android:visibility="gone"/>
+            app:backgroundTint="@color/ghost_white"
+            android:visibility="visible"/>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_Navigation_View"

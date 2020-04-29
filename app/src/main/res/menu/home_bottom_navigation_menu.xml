@@ -18,7 +18,8 @@
         android:id="@+id/bmi_add"
         android:icon="@drawable/ic_add_exp"
         android:title="@string/bmi_add"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:visible="false"/>
     <item
         android:id="@+id/bmi_exp_browse"
         android:icon="@drawable/ic_browse"
@@ -29,12 +30,18 @@
         android:icon="@drawable/ic_shopping_list"
         android:title="@string/bmi_shopping_list"
         app:showAsAction="ifRoom" />
-    <item
+    <!--<item
         android:id="@+id/bmi_budget"
         android:icon="@drawable/ic_budget"
         android:title="@string/bmi_budget"
         app:showAsAction="ifRoom"
-        android:visible="false"/>
+        android:visible="false"/>-->
+    <item
+        android:id="@+id/bmi_note_pad"
+        android:icon="@drawable/ic_notepad"
+        android:title="@string/bmi_notepad"
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
     <item
         android:id="@+id/bmi_account"
         android:icon="@drawable/ic_account"
