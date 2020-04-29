@@ -57,13 +57,7 @@ class EventNotificationEntryHolder(itemView: View) : RecyclerView.ViewHolder(ite
         this.eventNotification = eventNotification
         tv_event_title_text.text = eventNotification.title
         tv_event_desc_text.text = eventNotification.description
-        tv_event_time_text.text = eventNotification.created!!.toDate().toTranslatedString(itemView.context)/* DateUtils.getTimeString(eventNotification.created!!.toDate(),itemView.context.getString(R.string.exp_entry_time_format)).let {
-            if (!checkIfEnglishLanguageSelected()){
-                TranslatorUtils.englishToBanglaDateString(it)
-            }else{
-                it
-            }
-        }*/
+        tv_event_time_text.text = eventNotification.created!!.toDate().toTranslatedString(itemView.context)
     }
 
     fun getEntry():EventNotification = eventNotification

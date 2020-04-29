@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="6dp"
+    android:paddingTop="4dp"
+    android:paddingEnd="6dp">
+
+    <com.dasbikash.android_view_utils.custom_views.ClickableCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_options"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="start|center_vertical"
+                android:padding="4dp"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="Note title" />
+
+            <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                android:id="@+id/btn_options"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/ic_options"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="4dp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_note_text_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_text"
+                android:gravity="start|center_vertical"
+                android:padding="4dp"
+                android:textSize="16sp"
+                tools:text="Time Period textTime Period text"
+                android:maxLines="3"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.dasbikash.android_view_utils.custom_views.ClickableCardView>
+</androidx.appcompat.widget.LinearLayoutCompat>

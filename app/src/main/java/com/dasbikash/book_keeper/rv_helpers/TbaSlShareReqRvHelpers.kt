@@ -86,15 +86,7 @@ class TbaSlShareReqListHolder(
         mTbaSlShareReq = tbaSlShareReq
         tv_sl_title_text.text = tbaSlShareReq.shoppingList.title
         tv_partner_details_text.text = getUserDetails(tbaSlShareReq.requester)
-        tv_req_time.text = tbaSlShareReq.onlineSlShareReq.modified.toDate().toTranslatedString(itemView.context)/*DateUtils
-                                .getTimeString(tbaSlShareReq.onlineSlShareReq.modified.toDate(),itemView.context.getString(R.string.exp_entry_time_format))
-                                .let {
-                                    if (checkIfEnglishLanguageSelected()){
-                                        it
-                                    }else{
-                                        TranslatorUtils.englishToBanglaDateString(it)
-                                    }
-                                }*/
+        tv_req_time.text = tbaSlShareReq.onlineSlShareReq.modified.toDate().toTranslatedString(itemView.context)
     }
 
     private fun getUserDetails(user: User): String {
