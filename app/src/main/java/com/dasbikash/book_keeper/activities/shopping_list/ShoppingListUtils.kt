@@ -51,8 +51,8 @@ class ShoppingListUtils {
         fun getShareOptionsMenu(context: Context, shoppingListId: String): List<MenuViewItem> {
             return listOf(
                 getSendOptionsMenuItem(context,shoppingListId),
-                getOnLineShareOptionsMenuItem(context,shoppingListId),
-                getOffLineShareOptionsMenuItem(context,shoppingListId)
+                getOnLineShareOptionsMenuItem(context,shoppingListId)
+//                getOffLineShareOptionsMenuItem(context,shoppingListId)
             )
         }
 
@@ -60,7 +60,7 @@ class ShoppingListUtils {
             return MenuView().apply {
                 add(getSendOptionsMenuItem(context,shoppingList.id))
                 add(getOnLineShareOptionsMenuItem(context,shoppingList.id))
-                add(getOffLineShareOptionsMenuItem(context,shoppingList.id))
+//                add(getOffLineShareOptionsMenuItem(context,shoppingList.id))
                 if (!shoppingList.partnerIds.isNullOrEmpty()){
                     add(getPartnerViewMenuItem(context,shoppingList))
                 }

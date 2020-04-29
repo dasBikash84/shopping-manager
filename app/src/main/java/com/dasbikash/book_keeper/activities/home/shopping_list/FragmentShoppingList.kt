@@ -269,6 +269,12 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         return MenuView().apply {
             add(
                 MenuViewItem(
+                    text = context.getString(R.string.pending_sl_share_requests),
+                    task = {checkPendingSlRequests()}
+                )
+            )
+            add(
+                MenuViewItem(
                     text = context.getString(R.string.shopping_list_import_title),
                     task = {
                         activity?.let {
@@ -289,12 +295,6 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
                 MenuViewItem(
                     text = context.getString(R.string.color_code),
                     task = {showBgColorCodeScreen()}
-                )
-            )
-            add(
-                MenuViewItem(
-                    text = context.getString(R.string.pending_sl_share_requests),
-                    task = {checkPendingSlRequests()}
                 )
             )
         }

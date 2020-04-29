@@ -23,6 +23,7 @@ import com.dasbikash.book_keeper.models.SlToQr
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
+import com.dasbikash.snackbar_ext.showIndefiniteSnack
 import com.dasbikash.snackbar_ext.showShortSnack
 import com.google.zxing.BarcodeFormat
 import kotlinx.android.synthetic.main.fragment_shopping_list_import.*
@@ -95,7 +96,7 @@ class FragmentShoppingListImport() : FragmentTemplate(),WaitScreenOwner {
                         delay(2000L)
                         exit()
                     }else{
-                        showShortSnack(getString(R.string.unknown_error_message))
+                        showIndefiniteSnack(getString(R.string.duplicate_shopping_list_or_share_req_message))
                         hideWaitScreen()
                         showScannerPreview()
                     }

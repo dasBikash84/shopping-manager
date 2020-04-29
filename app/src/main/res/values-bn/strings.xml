@@ -193,7 +193,7 @@
     <string name="shopping_list_share_req_approved">%1$s বাজারের ফর্দ শেয়ার করার অনুরোধটি মঞ্জুর করেছেন</string>
     <string name="shopping_list_share_req_denied">%1$s বাজারের ফর্দ শেয়ার করার অনুরোধটি প্রত্যাখ্যান করেছেন</string>
     <string name="shopping_list_share_request_posted">" বাজারের ফর্দ শেয়ার করার অনুরোধ পাঠানো হয়েছে। অনুমোদনের জন্য অপেক্ষাকরুন।"</string>
-    <string name="duplicate_shopping_list_or_share_req_message">বাজারের ফর্দ শেয়ার করার অনুরোধ পুনরাবৃত্তি করা হয়েছে!</string>
+    <string name="duplicate_shopping_list_or_share_req_message">আপনার কাছে ইতিমধ্যে এই বাজারের ফর্দটি রয়েছে!</string>
     <string name="scan_qr_code_to_import_list_prompt">QR কোড স্ক্যান করে বাজারের ফর্দ আমদানি করুনঃ</string>
     <string name="show_permission_dialog">" অনুমতি প্রদানের স্ক্রিনটি দেখান"</string>
     <string name="camera_permission_rational">" এই কাজটির জন্য ক্যামেরা ব্যাবহারের অনুমতি প্রয়োজন।"</string>
@@ -204,7 +204,7 @@
     <string name="shopping_reminder">বাজারের রিমাইন্ডার!!</string>
     <string name="shopping_reminder_content">%1$s বাজারের ফর্দের জন্য</string>
     <string name="offline_share_text">QR কোড দিয়ে অফ-লাইনে শেয়ার করুন</string>
-    <string name="online_share_text">QR কোড দিয়ে অনলাইনে শেয়ার করুন</string>
+    <string name="online_share_text">QR কোড দিয়ে শেয়ার করুন</string>
     <string name="offline_share_page_title">বাজারের ফর্দটি অফ-লাইনে শেয়ার করুন</string>
     <string name="online_share_page_title">বাজারের ফর্দটি অনলাইনে শেয়ার করুন</string>
     <string name="share_online_instead_offline">\"%1$s\" বাজারের ফর্দটি খুব বড় হওয়ায় অফ-লাইনে শেয়ার করা  সম্ভব নয়। তার পরিবর্তে অনলাইনে শেয়ার করবেন?</string>
@@ -212,7 +212,7 @@
     <string name="done_prompt">করা হয়েছে?</string>
     <string name="shopping_list_import_title">QR কোড স্ক্যান করে বাজারের ফর্দ আমদানি করুন</string>
     <string name="offline_shopping_list_save_prompt">অফ-লাইনে বাজারের ফর্দ শেয়ার করা হয়েছে। সেটা কি সেভ করবেন?</string>
-    <string name="online_shopping_list_import_prompt">অনলাইনে শেয়ার করা বাজারের ফর্দ আমদানির জন্য অনুরোধ পাঠাতে চান?</string>
+    <string name="online_shopping_list_import_prompt">বাজারের ফর্দ পাওয়া গেছে। আপনি কি আমদানির অনুরোধ পাঠাতে চান?</string>
     <string name="online_shopping_list_import_req_text">অনুরোধ পাঠানো হোক</string>
     <string name="qr_format_error_prompt">অচেনা ফরম্যাটের QR কোড পাওয়া গেছে!!</string>
     <string name="rescan_text">আবার স্ক্যান করুন</string>

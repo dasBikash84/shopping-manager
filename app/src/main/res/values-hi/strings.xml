@@ -179,15 +179,15 @@
     <string name="shopping_reminder">खरीदारी की याद !!</string>
     <string name="shopping_reminder_content">%1$s खरीदारी की सूची के लिए</string>
     <string name="offline_share_text">QR कोड के साथ ऑफ़लाइन साझा करें</string>
-    <string name="online_share_text">QR कोड के साथ ऑनलाइन साझा करें</string>
+    <string name="online_share_text">QR कोड द्वारा साझा करें</string>
     <string name="offline_share_page_title">खरीदारी की सूची ऑफ़लाइन साझा करें</string>
     <string name="online_share_page_title">ऑनलाइन खरीदारी की सूची साझा करें</string>
     <string name="share_online_instead_offline">ऑफ़लाइन शेयर के लिए \"%1$s\" बहुत बड़ा है। इसके बजाय ऑनलाइन साझा करें?</string>
     <string name="done">किया हुआ</string>
     <string name="done_prompt">यह हो गया?</string>
-    <string name="shopping_list_import_title">QR कोड के माध्यम से खरीदारी की सूची आयात करें</string>
+    <string name="shopping_list_import_title">QR कोड स्कैन करके खरीदारी सूची आयात करें</string>
     <string name="offline_shopping_list_save_prompt">ऑफलाइन खरीदारी की सूची मिली। क्या तुम बचाना चाहते हो?</string>
-    <string name="online_shopping_list_import_prompt">ऑनलाइन खरीदारी की सूची मिली। क्या आप आयात अनुरोध जारी करना चाहते हैं?</string>
+    <string name="online_shopping_list_import_prompt">खरीदारी की सूची पाया गया है। क्या आप आयात अनुरोध भेजना चाहते हैं??</string>
     <string name="online_shopping_list_import_req_text">अनुरोध भेजें</string>
     <string name="qr_format_error_prompt">अज्ञात QR कोड प्रारूप !!</string>
     <string name="rescan_text">फिर से स्कैन करें</string>
@@ -198,7 +198,7 @@
     <string name="camera_permission_rational">इस ऑपरेशन के लिए कैमरे की अनुमति आवश्यक है।</string>
     <string name="show_permission_dialog">अनुमति स्क्रीन दिखाएं</string>
     <string name="scan_qr_code_to_import_list_prompt">Qr कोड को स्कैन करके खरीदारी की सूची आयात करें</string>
-    <string name="duplicate_shopping_list_or_share_req_message">डुप्लीकेट खरीदारी की सूची !!</string>
+    <string name="duplicate_shopping_list_or_share_req_message">आपके पास पहले से ही यह खरीदारी सूची है!</string>
     <string name="shopping_list_share_request_posted">सूची साझा अनुरोध पोस्ट किया गया। कृपया अनुमोदन की प्रतीक्षा करें।</string>
     <string name="shopping_list_share_req_denied">%1$s ने खरीदारी सूची साझा अनुरोध से इनकार कर दिया है!</string>
     <string name="shopping_list_share_req_approved">%1$s ने खरीदारी सूची साझा अनुरोध को मंजूरी दे दी है!</string>
