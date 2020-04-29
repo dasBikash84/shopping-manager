@@ -98,7 +98,7 @@
     <string name="tax_vat_error">कर / वैट नकारात्मक नहीं हो सकता!</string>
     <string name="search_text_hint">विवरण पाठ के भाग से खोजें</string>
     <string name="confirm_delete_prompt">मिटाने की पुष्टि?</string>
-    <string name="delete_confirmaion_message">व्यय प्रविष्टि हटाई गई!</string>
+    <string name="delete_confirmaion_message">प्रविष्टि हटाई गई!</string>
     <string name="exp_browse_page_title">सभी खर्चों की जानकारी</string>
     <string name="exp_count_prompt_text">व्यय की गणना:</string>
     <string name="total_expense_title">कुल खर्च:</string>

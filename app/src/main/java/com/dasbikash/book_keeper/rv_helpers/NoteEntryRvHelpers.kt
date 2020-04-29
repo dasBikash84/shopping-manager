@@ -79,6 +79,7 @@ class NoteEntryPreviewHolder(itemView: View,
     private lateinit var noteEntry: NoteEntry
 
     fun bind(noteEntry: NoteEntry) {
+        this.noteEntry = noteEntry
         tv_title_text.text = noteEntry.title
         tv_note_text_preview.text = noteEntry.note
     }

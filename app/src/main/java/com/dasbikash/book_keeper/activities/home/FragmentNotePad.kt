@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.dasbikash.android_basic_utils.utils.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.book_keeper.R
@@ -13,7 +15,9 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.NoteEntryPreviewAdapter
 import com.dasbikash.book_keeper_repo.NoteEntryRepo
 import com.dasbikash.book_keeper_repo.model.NoteEntry
+import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_note_pad.*
+import kotlinx.coroutines.launch
 
 class FragmentNotePad : FragmentTemplate() {
 
@@ -36,7 +40,7 @@ class FragmentNotePad : FragmentTemplate() {
                 override fun onChanged(list: List<NoteEntry>?) {
                     (list ?: emptyList()).let {
                         it.forEach { debugLog("from fragment: ${it}") }
-                        noteEntryPreviewAdapter.submitList(it)
+                        noteEntryPreviewAdapter.submitList(it.sortedByDescending { it.modified })
                     }
                 }
             })
@@ -54,7 +58,18 @@ class FragmentNotePad : FragmentTemplate() {
     }
 
     private fun deleteAction(noteEntry: NoteEntry){
-        TODO()
+        runWithContext {
+            DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
+                message = getString(R.string.confirm_delete_prompt),
+                doOnPositivePress = {
+                    lifecycleScope.launch {
+                        NoteEntryRepo.delete(it,noteEntry)
+                        showShortSnack(R.string.delete_confirmaion_message)
+                    }
+                },
+                positiveButtonText = getString(R.string.delete)
+            ))
+        }
     }
 
     private fun detailViewAction(noteEntry: NoteEntry){

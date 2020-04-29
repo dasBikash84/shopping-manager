@@ -21,7 +21,7 @@ internal object FireStoreNoteEntryService {
         noteEntry.updateModified()
         debugLog(noteEntry)
         FireStoreRefUtils
-            .getExpenseEntryCollectionRef()
+            .getNoteEntryCollectionRef()
             .document(noteEntry.id)
             .set(noteEntry)
             .addOnSuccessListener { debugLog("noteEntry saved") }
