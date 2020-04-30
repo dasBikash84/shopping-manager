@@ -141,7 +141,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                                 runWithActivity {
                                     lifecycleScope.launch {
                                         AuthRepo.updateUserLanguage(it,language)
-                                        BookKeeperApp.changeLanguageSettings(it,ActivityHome.getProfileIntent(it),language)
+                                        BookKeeperApp.changeLanguageSettings(it,language,ActivityHome.getProfileIntent(it))
                                     }
                                 }
                             },

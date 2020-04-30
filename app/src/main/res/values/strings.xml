@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BookKeeper</string>
+    <string name="app_name">Book-Keeper</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login_button">Log In</string>
@@ -375,4 +375,9 @@
     <string name="note_title_blank_error">Note title can\'t be blank!</string>
     <string name="note_content_blank_error">Note content can\'t be blank!</string>
     <string name="save_note_prompt">Save note?</string>
+    <string name="select_lang">Select your language:</string>
+    <string name="next_text"><![CDATA[Next >]]></string>
+    <string name="app_features_title">Main app features:</string>
+    <string name="app_features_text">1) Log and manage personal expense information.\n\n2) Sharing shopping list with connected users.\n\n3) Export expense summary/data on phone for offline use.\n\n4) Notepad.\n\n5) Cloud back-up of all data.
+    </string>
 </resources>

@@ -14,6 +14,7 @@ import com.dasbikash.android_network_monitor.initNetworkMonitor
 import com.dasbikash.async_manager.AsyncTaskManager
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.ActivityHome
+import com.dasbikash.book_keeper.activities.intro.ActivityIntro
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.bg_tasks.ShoppingListReminderScheduler
 import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
@@ -117,7 +118,12 @@ class ActivityLauncher : AppCompatActivity() {
                         startActivity(ActivityHome::class.java)
                     }
                 } else {
-                    startActivity(ActivityLogin::class.java)
+                    if (ActivityIntro.checkLangSelectedFlag(this) &&
+                            ActivityIntro.checkAppFeaturesShownFlag(this)) {
+                        startActivity(ActivityLogin::class.java)
+                    }else{
+                        startActivity(ActivityIntro::class.java)
+                    }
                 }
                 finish()
             }

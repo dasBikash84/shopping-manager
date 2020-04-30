@@ -40,7 +40,7 @@ class ActivityLogin : ActivityTemplate() {
                 saveUserId(activity,user.email!!)
             }
             BookKeeperMessagingService.subscribeOnLogin(activity)
-            BookKeeperApp.changeLanguageSettings(activity,ActivityLauncher.getLoggedInIntent(activity),user.language)
+            BookKeeperApp.changeLanguageSettings(activity,user.language,ActivityLauncher.getLoggedInIntent(activity))
         }
 
         fun getEmailLoginIntent(context: Context):Intent{

@@ -8,7 +8,7 @@
     <string name="sign_up_button">নতুন অ্যাকাউন্ট খুলুন</string>
     <string name="mobile_hint">মোবাইল নম্বর</string>
     <string name="signup_textview">অ্যাকাউন্ট খুলুন</string>
-    <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন</string>
+    <string name="confirm_password_hint">পাসওয়ার্ড নিশ্চিত করুন*</string>
     <string name="first_name_hint">নামের প্রথমাংশ</string>
     <string name="last_name_hint">পদবী</string>
     <string name="phone_no_hint">মোবাইল নম্বর</string>
@@ -327,4 +327,8 @@
     <string name="note_title_blank_error">নোট শিরোনাম ফাঁকা হতে পারে না!</string>
     <string name="note_content_blank_error">নোট ফাঁকা হতে পারে না!</string>
     <string name="save_note_prompt">নোট সংরক্ষণ করতে চান?</string>
+    <string name="select_lang">ভাষা নির্বাচন করুন:</string>
+    <string name="app_features_title">অ্যাপ্লিকেশানের প্রধান ফিচারসমূহ:</string>
+    <string name="next_text"><![CDATA[পরবর্তী >]]></string>
+    <string name="app_features_text">1) ব্যক্তিগত খরচের তথ্য সংরক্ষণ এবং সম্পাদনা করা যাবে।\n\n2) সংযুক্ত ব্যবহারকারীদের সাথে বাজারের ফর্দ শেয়ার করা যাবে।\n\n3) অফলাইনে ব্যবহারের জন্য ফোনে খরচের সারসংক্ষেপ/তথ্য নেয়া যাবে।\n\n4) নোটপ্যাড।\n\n5) সকল ডেটার ক্লাউড ব্যাক আপ।</string>
 </resources>

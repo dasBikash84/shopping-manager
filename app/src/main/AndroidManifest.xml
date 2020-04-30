@@ -17,6 +17,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".activities.intro.ActivityIntro"></activity>
         <activity android:name=".activities.sl_share_requests.ActivityShoppingListShareRequests" />
         <activity android:name=".activities.sl_import.ActivityShoppingListImport" />
         <activity android:name=".activities.sl_share.ActivityShoppingListShare" />
@@ -44,7 +45,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/files" />
         </provider>
-        <service android:name="com.dasbikash.book_keeper.fcm.BookKeeperMessagingService"
+
+        <service
+            android:name=".fcm.BookKeeperMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

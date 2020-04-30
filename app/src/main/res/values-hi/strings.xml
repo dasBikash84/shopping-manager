@@ -8,7 +8,7 @@
     <string name="sign_up_button">साइन अप करें</string>
     <string name="mobile_hint">मोबाइल नंबर</string>
     <string name="signup_textview">साइन अप करें</string>
-    <string name="confirm_password_hint">पासवर्ड की पुष्टि कीजिये</string>
+    <string name="confirm_password_hint">पासवर्ड की पुष्टि कीजिये*</string>
     <string name="first_name_hint">पहला नाम</string>
     <string name="last_name_hint">उपनाम</string>
     <string name="phone_no_hint">मोबाइल नंबर</string>
@@ -323,4 +323,8 @@
     <string name="note_text">नोट</string>
     <string name="note_title_blank_error">नोट शीर्षक रिक्त नहीं हो सकता!</string>
     <string name="note_content_blank_error">नोट खाली नहीं हो सकता!</string>
+    <string name="select_lang">भाषा का चयन करें:</string>
+    <string name="app_features_title">एप्लिकेशन की मुख्य विशेषताएं:</string>
+    <string name="next_text"><![CDATA[आगे >]]></string>
+    <string name="app_features_text">1) व्यक्तिगत व्यय की जानकारी संग्रहीत और संपादित की जा सकती है।\n\n2) बाजार की सूची जुड़े उपयोगकर्ताओं के साथ साझा की जा सकती है।\n\n3) ऑफ़लाइन उपयोग के लिए फोन पर सारांश / लागत की जानकारी ली जा सकती है।\n\n4) नोटपैड।\n\n5) सभी डेटा का क्लाउड बैकअप।</string>
 </resources>

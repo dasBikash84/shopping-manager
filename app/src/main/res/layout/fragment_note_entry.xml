@@ -88,16 +88,6 @@
                 android:padding="8dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btn_cancel"
-                    style="@style/secondary_button"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="2dp"
-                    android:layout_weight="1"
-                    android:padding="2dp"
-                    android:text="@string/cancel" />
-
-                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_save"
                     style="@style/secondary_button"
                     android:layout_width="0dp"
@@ -106,6 +96,16 @@
                     android:layout_weight="1"
                     android:padding="2dp"
                     android:text="@string/save_text" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_cancel"
+                    style="@style/secondary_button"
+                    android:layout_width="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:padding="2dp"
+                    android:text="@string/cancel" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>

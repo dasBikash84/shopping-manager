@@ -2,13 +2,13 @@ package com.dasbikash.book_keeper_repo.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
+import android.content.res.Resources
 import android.telephony.TelephonyManager
-import android.widget.Toast
+import androidx.core.os.ConfigurationCompat
 import java.lang.reflect.Method
 
 
-internal object LocaleUtils {
+object LocaleUtils {
 
     fun getCountryCode(context: Context):String?{
 
@@ -88,5 +88,15 @@ internal object LocaleUtils {
             ex.printStackTrace()
         }
         return null
+    }
+
+    fun getSelectedDisplayLanguage():String?{
+        return ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).let {
+            if (!it.isEmpty){
+                it.get(0).language
+            }else{
+                null
+            }
+        }
     }
 }

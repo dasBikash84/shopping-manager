@@ -5,9 +5,8 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import com.dasbikash.android_basic_utils.utils.debugLog
-import com.dasbikash.android_extensions.startActivity
-import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
+import com.dasbikash.book_keeper_repo.utils.LocaleUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.yariksoffice.lingver.Lingver
 import com.yariksoffice.lingver.store.PreferenceLocaleStore
@@ -50,8 +49,8 @@ class BookKeeperApp:Application() {
         fun getLanguageSetting(context: Context) : SupportedLanguage {
             val preferenceUtils = SharedPreferenceUtils.getDefaultInstance()
             if (!preferenceUtils.checkIfExists(context, LANGUAGE_SP_KEY)){
-//                debugLog("No language Found")
-                saveLanguageSetting(context, defaultLanguage)
+                val selectedLanguage = SupportedLanguage.values().find { it.language== LocaleUtils.getSelectedDisplayLanguage()}
+                saveLanguageSetting(context, selectedLanguage ?: defaultLanguage)
             }
             val language = preferenceUtils.getData(context,LANGUAGE_SP_KEY, String::class.java)!!
             val country = preferenceUtils.getData(context,COUNTRY_SP_KEY, String::class.java)!!
@@ -61,16 +60,18 @@ class BookKeeperApp:Application() {
                             .find { it.language == language && it.country==country }!!
         }
 
-        fun changeLanguageSettings(activity: Activity,supportedLanguage: SupportedLanguage){
-            saveLanguage(activity, supportedLanguage)
-            activity.finish()
-            activity.startActivity(ActivityLauncher::class.java)
-        }
+//        fun changeLanguageSettings(activity: Activity,supportedLanguage: SupportedLanguage){
+//            saveLanguage(activity, supportedLanguage)
+//            activity.finish()
+//            activity.startActivity(ActivityLauncher::class.java)
+//        }
 
-        fun changeLanguageSettings(activity: Activity,intent: Intent,supportedLanguage: SupportedLanguage){
+        fun changeLanguageSettings(activity: Activity,supportedLanguage: SupportedLanguage,intent: Intent?=null){
             saveLanguage(activity, supportedLanguage)
-            activity.finish()
-            activity.startActivity(intent)
+            intent?.let {
+                activity.finish()
+                activity.startActivity(intent)
+            }
         }
 
         private fun saveLanguage(
