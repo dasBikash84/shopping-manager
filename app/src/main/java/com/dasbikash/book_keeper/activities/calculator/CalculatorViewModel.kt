@@ -196,13 +196,13 @@ class CalculatorViewModel(private val mApplication: Application) : AndroidViewMo
             if (leftOperand.value!=null &&
                 rightOperand.value!=null &&
                 this.operation.value !=null){
-                if(currentNumber >0.0) {
+                if(currentNumber !=0.0) {
                     leftOperand.postValue(currentNumber)
                     this.operation.postValue(operation)
                     rightOperand.postValue(null)
                     clearCurrentNumber()
                 }
-            }else if (leftOperand.value==null && currentNumber>0.0){
+            }else if (leftOperand.value==null && currentNumber!=0.0){
                 leftOperand.postValue(currentNumber)
                 this.operation.postValue(operation)
                 clearCurrentNumber()
