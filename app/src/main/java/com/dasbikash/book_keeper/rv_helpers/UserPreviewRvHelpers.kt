@@ -65,21 +65,23 @@ abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemV
     open fun bind(user: User) {
         user.apply {
 
-            if (firstName !=null){
-                tv_user_display_name.text = itemView.context.getString(R.string.display_name,firstName,lastName ?: "")
-                tv_user_display_name.show()
-            }else{
-                tv_user_display_name.hide()
-            }
+           itemView.context.getString(R.string.display_name,firstName  ?: "",lastName ?: "").let {
+               if (it.isNotBlank()){
+                   tv_user_display_name.text = it.trim()
+                   tv_user_display_name.show()
+               }else{
+                   tv_user_display_name.hide()
+               }
+           }
 
-            if (email !=null){
+            if (!email.isNullOrBlank()){
                 tv_user_email.text = email
                 tv_user_email.show()
             }else{
                 tv_user_email.hide()
             }
 
-            if (phone !=null){
+            if (!phone.isNullOrBlank()){
                 tv_user_phone.text = phone
                 tv_user_phone.show()
             }else{

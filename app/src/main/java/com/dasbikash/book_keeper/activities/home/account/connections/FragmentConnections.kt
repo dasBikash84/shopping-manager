@@ -60,10 +60,10 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         val menuView = MenuView()
 
         user.apply {
-            if (email!=null){
+            if (!email.isNullOrBlank()){
                 menuView.add(getEmailUserMenuItem(context, email!!))
             }
-            if (phone!=null){
+            if (!phone.isNullOrBlank()){
                 menuView.add(getPhoneUserMenuItem(context,phone!!))
             }
             menuView.add(
@@ -141,10 +141,10 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         val menuView = MenuView()
 
         user.apply {
-            if (email!=null){
+            if (!email.isNullOrBlank()){
                 menuView.add(getEmailUserMenuItem(context, email!!))
             }
-            if (phone!=null){
+            if (!phone.isNullOrBlank()){
                 menuView.add(getPhoneUserMenuItem(context,phone!!))
             }
             menuView.add(
