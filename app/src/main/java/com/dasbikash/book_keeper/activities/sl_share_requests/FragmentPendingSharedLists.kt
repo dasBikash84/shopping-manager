@@ -34,6 +34,7 @@ class FragmentPendingSharedLists : FragmentTemplate() {
                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                     message = "${it.getString(R.string.approve)}?",
                     positiveButtonText = it.getString(R.string.yes),
+                    negetiveButtonText = it.getString(R.string.no),
                     doOnPositivePress = {
                         lifecycleScope.launch {
                             try {
@@ -56,6 +57,7 @@ class FragmentPendingSharedLists : FragmentTemplate() {
                 DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                     message = "${it.getString(R.string.decline)}?",
                     positiveButtonText = it.getString(R.string.yes),
+                    negetiveButtonText = it.getString(R.string.no),
                     doOnPositivePress = {
                         lifecycleScope.launch {
                             try {

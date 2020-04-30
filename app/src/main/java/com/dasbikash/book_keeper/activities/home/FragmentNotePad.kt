@@ -72,7 +72,8 @@ class FragmentNotePad : FragmentTemplate() {
                         showShortSnack(R.string.delete_confirmaion_message)
                     }
                 },
-                positiveButtonText = getString(R.string.delete)
+                positiveButtonText = getString(R.string.delete),
+                negetiveButtonText = it.getString(R.string.cancel)
             ))
         }
     }

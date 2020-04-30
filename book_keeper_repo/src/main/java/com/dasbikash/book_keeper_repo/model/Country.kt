@@ -23,7 +23,8 @@ data class Country(
         if(numberString.length != phoneNumberLength!!){
             return false
         }
-        if ((mobileNumberPrefix?.count { numberString.startsWith(it) } ?: 0) > 0){
+        if (mobileNumberPrefix==null ||
+            (mobileNumberPrefix?.count { numberString.startsWith(it) } ?: 0) > 0){
             return true
         }
         return false

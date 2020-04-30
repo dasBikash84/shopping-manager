@@ -438,6 +438,7 @@ class FragmentLogin : FragmentTemplate(),WaitScreenOwner {
                         title = it.getString(R.string.reset_password_hint),
                         view = editText,
                         positiveButtonText = it.getString(R.string.yes),
+                        negetiveButtonText = it.getString(R.string.no),
                         doOnPositivePress = {
                             NetworkMonitor.runWithNetwork(it){resetPassword(editText.text.toString().trim())}
                         }

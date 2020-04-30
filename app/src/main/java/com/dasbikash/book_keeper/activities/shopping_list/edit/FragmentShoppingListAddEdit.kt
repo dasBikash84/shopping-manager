@@ -174,6 +174,7 @@ class FragmentShoppingListAddEdit : FragmentTemplate() {
                     DialogUtils.showAlertDialog(it, DialogUtils.AlertDialogDetails(
                         message = it.getString(R.string.disable_deadline_prompt),
                         positiveButtonText = it.getString(R.string.yes),
+                        negetiveButtonText = it.getString(R.string.no),
                         doOnPositivePress = {
                             disableDeadline()
                         },
