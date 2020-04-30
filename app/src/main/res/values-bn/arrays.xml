@@ -25,22 +25,20 @@
         <item>গ্যালন</item>
     </string-array>
     <string-array name="expense_categories">
-        <item>মুদিখানা</item>
-        <item>পোশাক</item>
-        <item>শাকসবজি</item>
-        <item>টিউশন ফি</item>
-        <item>চিকিৎসা</item>
-        <item>বইপত্র</item>
-        <item>ঔষধ</item>
-        <item>বেকারি</item>
-        <item>মোবাইল ফোন এবং আনুষাঙ্গিক</item>
-        <item>কম্পিউটার এবং আনুষাঙ্গিক</item>
+        <item>ব্যাংকিং সম্পর্কিত</item>
+        <item>পোশাক ও পাদুকা</item>
+        <item>শিক্ষা-সংক্রান্ত়</item>
+        <item>ইলেক্ট্রনিক্স</item>
+        <item>খাদ্যদ্রব্য</item>
         <item>আসবাবপত্র</item>
+        <item>আবাসন</item>
+        <item>বীমা</item>
         <item>গহনা</item>
-        <item>জুতা</item>
-        <item>প্রসাধনী</item>
+        <item>মেডিকেল ও স্বাস্থ্যসেবা</item>
+        <item>বিনোদন</item>
+        <item>পরিবহন</item>
+        <item>ইউটিলিটি</item>
         <item>বিবিধ</item>
-        <item>ব্যাংক জমা</item>
     </string-array>
     <string-array name="reminder_time_units">
         <item>মিনিট পূর্বে</item>

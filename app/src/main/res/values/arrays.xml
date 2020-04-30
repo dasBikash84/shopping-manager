@@ -25,22 +25,20 @@
         <item>gal</item>
     </string-array>
     <string-array name="expense_categories">
-        <item>Grocery</item>
-        <item>Clothing</item>
-        <item>Vegetables</item>
-        <item>Tuition fees</item>
-        <item>Clinic/Hospital</item>
-        <item>Books</item>
-        <item>Pharmacy</item>
-        <item>Bakery</item>
-        <item>Mobile phones &amp; Accessories</item>
-        <item>Computers &amp; Accessories</item>
+        <item>Banking Related</item>
+        <item>Clothing &amp; Footware</item>
+        <item>Educational Expenses</item>
+        <item>Electronics</item>
+        <item>Food</item>
         <item>Furniture</item>
+        <item>Housing</item>
+        <item>Insurance</item>
         <item>Jewellery</item>
-        <item>Shoes</item>
-        <item>Cosmetics</item>
+        <item>Medical &amp; Healthcare</item>
+        <item>Recreation</item>
+        <item>Transportation</item>
+        <item>Utilities</item>
         <item>Miscellaneous</item>
-        <item>Bank Deposit</item>
     </string-array>
     <string-array name="reminder_time_units">
         <item>Minutes</item>

@@ -25,22 +25,20 @@
         <item>गैलन</item>
     </string-array>
     <string-array name="expense_categories">
-        <item>किराना</item>
-        <item>कपड़े</item>
-        <item>सब्जियां</item>
-        <item>ट्यूशन शुल्क</item>
-        <item>क्लिनिक / अस्पताल</item>
-        <item>पुस्तकें</item>
-        <item>फार्मेसी</item>
-        <item>बेकरी</item>
-        <item>मोबाइल फोन &amp; संबंधित सामान</item>
-        <item>कंप्यूटर &amp; संबंधित सामान</item>
+        <item>बैंकिंग संबंधी</item>
+        <item>कपड़े और जूते</item>
+        <item>शैक्षिक व्यय</item>
+        <item>इलेक्ट्रानिक्स</item>
+        <item>खाद्य</item>
         <item>फर्नीचर</item>
+        <item>आवासन</item>
+        <item>बीमा</item>
         <item>आभूषण</item>
-        <item>जूते</item>
-        <item>प्रसाधन सामग्री</item>
+        <item>चिकित्सा</item>
+        <item>मनोरंजन</item>
+        <item>परिवहन</item>
+        <item>उपयोगिता</item>
         <item>विविध</item>
-        <item>बैंक जमा</item>
     </string-array>
     <string-array name="reminder_time_units">
         <item>मिनट</item>
