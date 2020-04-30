@@ -9,7 +9,10 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatSpinner
 import androidx.fragment.app.Fragment
@@ -33,7 +36,6 @@ import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.CountryRepo
-import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.ImageRepo
 import com.dasbikash.book_keeper_repo.model.Country
 import com.dasbikash.book_keeper_repo.model.SupportedLanguage
@@ -43,7 +45,6 @@ import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
 import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.view_mobile_number_input.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -194,7 +195,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             }
         }
 
-        sr_page_holder.setOnRefreshListener {syncUserData()}
+//        sr_page_holder.setOnRefreshListener {syncUserData()}
         btn_close_profile_pic_full.setOnClickListener { profile_pic_full_holder.hide() }
         profile_pic_full_holder.setOnClickListener {  }
     }
@@ -293,9 +294,9 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         viewModel.getUserLiveData().value?.photoUrl?.let {
             ImageRepo
                 .downloadImageFile(context,it,doOnDownload = {
-                    iv_profile_pic_full.displayImageFile(it)
-                    profile_pic_full_holder.bringToFront()
-                    profile_pic_full_holder.show()
+                    iv_profile_pic_full?.displayImageFile(it)
+                    profile_pic_full_holder?.bringToFront()
+                    profile_pic_full_holder?.show()
                 })
         }
     }
@@ -428,12 +429,12 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        syncUserData()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        syncUserData()
+//    }
 
-    private fun syncUserData(){
+    /*private fun syncUserData(){
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -446,7 +447,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                 }
             }
         }
-    }
+    }*/
 
     private suspend fun refreshView(context: Context,user: User) {
         debugLog(user)
@@ -468,7 +469,7 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
             photoUrl?.let {
                 ImageRepo
                     .downloadImageFile(context,it,doOnDownload = {
-                        iv_user_image.displayImageFile(it)
+                        iv_user_image?.displayImageFile(it)
                     })
             }
             spinner_language_selector.selectedIndex = SupportedLanguage.values().indexOf(language)

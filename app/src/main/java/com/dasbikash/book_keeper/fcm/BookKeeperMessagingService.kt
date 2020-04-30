@@ -43,6 +43,9 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         if (remoteMessage.from?.contains(AuthRepo.getUserId())==true){
             GlobalScope.launch {
                 DataSyncService.syncEventNotifications(applicationContext)
+                DataSyncService.syncConnectionRequestData(applicationContext)
+                DataSyncService.syncSlShareRequestData(applicationContext)
+                DataSyncService.syncShoppingListData(applicationContext)
                 val intent = getNotificationIntent(applicationContext,remoteMessage.data)
                 val fcmSubject = remoteMessage.data.get(KEY_FCM_SUBJECT)
                 val title = remoteMessage.notification?.title ?: getDefaultNotificationTitle(fcmSubject)

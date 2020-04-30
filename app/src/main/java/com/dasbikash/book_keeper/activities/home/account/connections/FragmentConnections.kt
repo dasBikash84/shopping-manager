@@ -317,11 +317,6 @@ class FragmentConnections : Fragment(),WaitScreenOwner {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        syncConnectionRequestData()
-    }
-
     private fun syncConnectionRequestData() {
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {

@@ -233,21 +233,6 @@ class FragmentExpBrowser : FragmentTemplate(),WaitScreenOwner {
         rv_time_wise_exp_holder.hide()
     }
 
-    override fun onResume() {
-        super.onResume()
-        syncExpData()
-    }
-
-    private fun syncExpData() {
-        runWithContext {
-            NetworkMonitor.runWithNetwork(it) {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    DataSyncService.syncExpenseData(it)
-                }
-            }
-        }
-    }
-
     private fun displayMonthWiseExpenses() {
         lifecycleScope.launch {
             showWaitScreen()

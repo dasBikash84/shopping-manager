@@ -8,7 +8,7 @@
     <include
         layout="@layout/view_wait_screen"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/profile_pic_full_holder"
@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:background="@color/bg_90_white"
         android:visibility="gone">
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_close_profile_pic_full"
             android:layout_width="30dp"
@@ -39,309 +40,301 @@
             tools:src="@drawable/ic_account" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/sr_page_holder"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/user_details_block"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/default_page_bg"
-        android:padding="4dp"
-        android:visibility="visible">
+        android:layout_gravity="start"
+        android:background="@color/snow_white2"
+        android:padding="4dp">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/user_details_block"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:background="@color/snow_white2">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="160dp">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="160dp">
+                android:layout_gravity="center"
+                android:background="@color/snow_white3">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/iv_user_image"
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:background="@drawable/profile_bg_oval"
+                    android:foregroundGravity="center"
+                    android:padding="24dp"
+                    android:src="@drawable/gen_profile"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/email_id_prompt"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/email_hint"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_email_id_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_edit_email"
+                    app:layout_constraintStart_toEndOf="@id/email_id_prompt"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/email_hint" />
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/iv_edit_email"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/phone_num_prompt"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/phone_hint"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_phone_num"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_edit_phone_num"
+                    app:layout_constraintStart_toEndOf="@id/phone_num_prompt"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/phone_hint" />
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/iv_edit_phone_num"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_edit"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/first_name_prompt"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/first_name_hint"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_first_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_edit_first_name"
+                    app:layout_constraintStart_toEndOf="@id/first_name_prompt"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/first_name_hint" />
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/iv_edit_first_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/last_name_prompt"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/last_name_prompt"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_last_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/iv_edit_last_name"
+                    app:layout_constraintStart_toEndOf="@id/last_name_prompt"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="@string/last_name_prompt" />
+
+                <com.dasbikash.android_view_utils.custom_views.ClickableImageView
+                    android:id="@+id/iv_edit_last_name"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_language_prompt"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/language_prompt"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_language_selector"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_language_prompt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:minHeight="40dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_currency_prompt"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/currency_prompt"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinner_currency_selector"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tv_currency_prompt" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout
+                android:id="@+id/logout_block"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:background="@android:color/white"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
                     android:layout_gravity="center"
-                    android:background="@color/snow_white3">
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="@string/log_out"
+                    android:src="@drawable/ic_logout" />
 
-                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                        android:id="@+id/iv_user_image"
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:foregroundGravity="center"
-                        android:src="@drawable/gen_profile"
-                        android:background="@drawable/profile_bg_oval"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:padding="24dp"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/email_id_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/email_hint"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_email_id_text"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/iv_edit_email"
-                        app:layout_constraintStart_toEndOf="@id/email_id_prompt"
-                        tools:text="@string/email_hint" />
-
-                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                        android:id="@+id/iv_edit_email"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_edit"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:visibility="gone"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/phone_num_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/phone_hint"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_phone_num"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/iv_edit_phone_num"
-                        app:layout_constraintStart_toEndOf="@id/phone_num_prompt"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/phone_hint" />
-
-                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                        android:id="@+id/iv_edit_phone_num"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_edit"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:visibility="gone"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/first_name_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/first_name_hint"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_first_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/iv_edit_first_name"
-                        app:layout_constraintStart_toEndOf="@id/first_name_prompt"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/first_name_hint" />
-
-                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                        android:id="@+id/iv_edit_first_name"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_edit"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/last_name_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/last_name_prompt"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_last_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp"
-                        android:layout_marginStart="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/iv_edit_last_name"
-                        app:layout_constraintStart_toEndOf="@id/last_name_prompt"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="@string/last_name_prompt" />
-
-                    <com.dasbikash.android_view_utils.custom_views.ClickableImageView
-                        android:id="@+id/iv_edit_last_name"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginEnd="8dp"
-                        android:src="@drawable/ic_edit"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_language_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/language_prompt"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:layout_marginStart="8dp"
-                        android:id="@+id/spinner_language_selector"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_language_prompt"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
-                    android:minHeight="40dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_currency_prompt"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/currency_prompt"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.jaredrummler.materialspinner.MaterialSpinner
-                        android:layout_marginStart="8dp"
-                        android:id="@+id/spinner_currency_selector"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        app:layout_constraintStart_toEndOf="@+id/tv_currency_prompt"
-                        app:layout_constraintEnd_toEndOf="parent"/>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout
-                    android:id="@+id/logout_block"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@android:color/white"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="8dp"
-                        android:contentDescription="@string/log_out"
-                        android:src="@drawable/ic_logout" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="@string/log_out"
-                        android:textColor="@android:color/black"
-                        android:textSize="16sp" />
-                </com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    android:text="@string/log_out"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+            </com.dasbikash.android_view_utils.custom_views.ClickableLinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

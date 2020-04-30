@@ -256,11 +256,6 @@ class FragmentShoppingList : FragmentTemplate(),WaitScreenOwner {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        syncShoppingListData()
-    }
-
     private fun showListAddDialog() {
         runWithContext {
             startActivity(ActivityShoppingList.getCreateIntent(it))

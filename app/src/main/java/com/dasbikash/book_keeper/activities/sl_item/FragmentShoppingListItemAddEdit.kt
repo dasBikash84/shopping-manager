@@ -66,7 +66,7 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
             lifecycleScope.launch {
                 ImageRepo.downloadImageFile(it, text,doOnDownload = {
                     ImageUtils.getBitmapFromFile(it)?.let {
-                        (view as ImageView).setImageBitmap(it.rotateIfRequired())
+                        (view as ImageView?)?.setImageBitmap(it.rotateIfRequired())
                     }
                 })
             }

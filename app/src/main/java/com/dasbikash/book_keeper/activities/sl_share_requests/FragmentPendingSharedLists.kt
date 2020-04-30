@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DialogUtils
-import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_network_monitor.NetworkMonitor
 import com.dasbikash.book_keeper.R
@@ -98,10 +97,6 @@ class FragmentPendingSharedLists : FragmentTemplate() {
                 }
             }
         })
-
-        sr_page_holder.setOnRefreshListener {
-            syncSlShareRequestData()
-        }
     }
 
     override fun onResume() {
@@ -118,13 +113,6 @@ class FragmentPendingSharedLists : FragmentTemplate() {
                     } catch (ex: Throwable) {
                         ex.printStackTrace()
                     }
-                    runOnMainThread({
-                        sr_page_holder?.isRefreshing = false
-                    })
-                }
-            }.let {
-                if (!it){
-                    sr_page_holder?.isRefreshing = false
                 }
             }
         }
