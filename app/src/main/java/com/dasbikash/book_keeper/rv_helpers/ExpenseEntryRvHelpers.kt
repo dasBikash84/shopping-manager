@@ -92,7 +92,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
     }
 
     fun bind(expenseEntry: ExpenseEntry) {
-        debugLog(expenseEntry)
+//        debugLog(expenseEntry)
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
@@ -100,7 +100,7 @@ class ExpenseEntryHolder(itemView: View,val editTask:(ExpenseEntry)->Unit,val de
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
-        itemView.setOnClickListener { debugLog(expenseEntry) }
+//        itemView.setOnClickListener { debugLog(expenseEntry) }
     }
 }
 
@@ -140,7 +140,7 @@ class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     fun getEntry():ExpenseEntry = this.expenseEntry
 
     fun bind(expenseEntry: ExpenseEntry) {
-        debugLog(expenseEntry)
+//        debugLog(expenseEntry)
         this.expenseEntry = expenseEntry
         expenseEntry.apply {
             tv_entry_time_text.text = time!!.toDate().toTranslatedString(itemView.context)
@@ -148,7 +148,7 @@ class GuestExpenseEntryHolder(itemView: View) : RecyclerView.ViewHolder(itemView
             tv_exp_desc_text.text = details
             tv_exp_cat_text.text = categoryId.let { itemView.context.resources.getStringArray(R.array.expense_categories).get(it)}
         }
-        itemView.setOnClickListener { debugLog(expenseEntry) }
+//        itemView.setOnClickListener { debugLog(expenseEntry) }
     }
 }
 

@@ -130,11 +130,6 @@ class FragmentShoppingListView : FragmentTemplate(),WaitScreenOwner {
         sr_page_holder.setOnRefreshListener {syncShoppingListData()}
     }
 
-    override fun onResume() {
-        super.onResume()
-        syncShoppingListData()
-    }
-
     private fun syncShoppingListData(){
         runWithContext {
             NetworkMonitor.runWithNetwork(it) {

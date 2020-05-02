@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.OnceSettableBoolean
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_extensions.startActivity
@@ -27,8 +26,6 @@ import kotlinx.coroutines.launch
 
 
 class ActivityLauncher : AppCompatActivity() {
-
-    private val dataSyncRunning = OnceSettableBoolean()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,10 +84,14 @@ class ActivityLauncher : AppCompatActivity() {
     }
 
     private fun dataSyncTask(intent: Intent?){
-        val waitForSync:Boolean = intent!=null
-        dataSyncRunning.set()
+        //Wait for sync if intent!=null
+        val waitForDataSync:Boolean = intent!=null
         GlobalScope.launch(Dispatchers.IO) {
-            if (AuthRepo.checkLogIn() && AuthRepo.isVerified()) {
+            //Don't run sync if internal notification
+            if (AuthRepo.checkLogIn() &&
+                AuthRepo.isVerified() &&
+                !BookKeeperMessagingService.checkIfInternalNotification(intent)
+            ) {
                 try {
                     DataSyncService.syncAppData(this@ActivityLauncher)
                     ShoppingListReminderScheduler.runReminderScheduler(this@ActivityLauncher)
@@ -99,12 +100,12 @@ class ActivityLauncher : AppCompatActivity() {
                     debugLog("Data sync failure!!")
                 }
             }
-            if (waitForSync) {
+            if (waitForDataSync) {
                 loadRequiredActivity(intent)
             }
         }
-        if (!waitForSync) {
-            loadRequiredActivity(null,500L)
+        if (!waitForDataSync) {
+            loadRequiredActivity(intent,500L)
         }
     }
 

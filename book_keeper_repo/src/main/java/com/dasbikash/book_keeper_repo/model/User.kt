@@ -28,7 +28,7 @@ data class User(
 
     fun displayText(): CharSequence {
         return when{
-            firstName!=null ->{ "$firstName ${lastName ?: ""}"}
+            !firstName.isNullOrBlank() ->{ "$firstName ${lastName ?: ""}"}
             !email.isNullOrBlank() -> email!!
             !phone.isNullOrBlank() -> phone!!
             else -> ""

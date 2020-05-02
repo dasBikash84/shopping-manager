@@ -5,6 +5,7 @@ import androidx.work.*
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.shopping_list.ActivityShoppingList
+import com.dasbikash.book_keeper.fcm.BookKeeperMessagingService
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
@@ -126,7 +127,8 @@ class SlReminderGenWork(appContext: Context, workerParams: WorkerParameters)
             applicationContext,
             applicationContext.getString(R.string.shopping_reminder),
             applicationContext.getString(R.string.shopping_reminder_content,shoppingList.title),
-            ActivityShoppingList.getViewIntentForNotification(applicationContext,shoppingList.id),
+            BookKeeperMessagingService.getShoppingListNotificationIntent(applicationContext,shoppingList.id),
+//            ActivityShoppingList.getViewIntentForNotification(applicationContext,shoppingList.id),
             R.mipmap.ic_launcher
         )
         ShoppingListRepo.logShoppingReminder(applicationContext,shoppingList)

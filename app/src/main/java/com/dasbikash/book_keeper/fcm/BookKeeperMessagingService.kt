@@ -23,6 +23,7 @@ import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.DataSyncService
 import com.dasbikash.book_keeper_repo.model.EventNotification
+import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.notification_utils.NotificationUtils
 import com.dasbikash.shared_preference_ext.SharedPreferenceUtils
 import com.google.android.gms.tasks.Task
@@ -69,6 +70,7 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         payload.keys.asSequence().forEach {
             intent.putExtra(it,payload.get(it))
         }
+        intent.putExtra(KEY_INTERNAL_NOTIFICATION, KEY_INTERNAL_NOTIFICATION)
         return intent
     }
 
@@ -83,6 +85,13 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
 
         private const val KEY_FCM_SUBJECT = "bk_subject"
         private const val KEY_FCM_KEY = "bk_key"
+        private const val KEY_INTERNAL_NOTIFICATION = "internal_notification"
+
+        fun checkIfInternalNotification(intent: Intent?):Boolean{
+            return (intent?.hasExtra(KEY_INTERNAL_NOTIFICATION) == true).apply {
+                debugLog("checkIfInternalNotification: ${this}")
+            }
+        }
 
         fun init(context: Context) {
             val appContext = context.applicationContext
@@ -188,6 +197,14 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
         private fun getFcmSubject(intent: Intent?):String? = intent?.getStringExtra(KEY_FCM_SUBJECT)
         private fun getFcmKey(intent: Intent?):String? = intent?.getStringExtra(KEY_FCM_KEY)
 
+        fun getShoppingListNotificationIntent(context: Context,shoppingListId:String):Intent{
+            val intent = Intent(context,ActivityLauncher::class.java)
+            intent.putExtra(KEY_FCM_SUBJECT, FcmSubjects.NEW_SHOPPING_LIST.subject)
+            intent.putExtra(KEY_FCM_KEY, shoppingListId)
+            intent.putExtra(KEY_INTERNAL_NOTIFICATION, KEY_INTERNAL_NOTIFICATION)
+            return intent
+        }
+
         fun checkForFcmIntent(context: Context,intent: Intent?):Intent?{
 
             val fcmSubject = getFcmSubject(intent)?.apply {
@@ -199,7 +216,11 @@ open class BookKeeperMessagingService : FirebaseMessagingService() {
             }
 
             return fcmSubject?.let {
-                resolveIntent(context,it,fcmKey)
+                resolveIntent(context,it,fcmKey)?.apply {
+                    if (checkIfInternalNotification(intent)) {
+                        putExtra(KEY_INTERNAL_NOTIFICATION, KEY_INTERNAL_NOTIFICATION)
+                    }
+                }
             }
         }
 

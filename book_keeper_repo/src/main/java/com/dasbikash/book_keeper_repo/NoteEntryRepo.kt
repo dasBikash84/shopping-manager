@@ -11,7 +11,7 @@ object NoteEntryRepo:BookKeeperRepo() {
 
     internal suspend fun syncData(context: Context){
         val latestUpdateTime = getDao(context).findAll().let {
-            it.forEach { debugLog(it) }
+//            it.forEach { debugLog(it) }
             if (it.isNotEmpty()){
                 it.sortedByDescending { it.modified }.map { it.modified }.first()
             }else{
