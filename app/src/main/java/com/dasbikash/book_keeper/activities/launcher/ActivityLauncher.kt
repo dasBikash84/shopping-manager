@@ -64,7 +64,7 @@ class ActivityLauncher : AppCompatActivity() {
             return it
         }
         if (isLoggedInIntent()){
-            return ActivityHome.getProfileIntent(this)
+            return ActivityHome.getExpenseBrowseIntent(this)
         }
         return null
     }
