@@ -49,11 +49,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.dasbikash.com"
-                    android:pathPrefix="/book_keeper"
-                    android:scheme="http" />
             </intent-filter>
         </activity>
         <activity android:name=".activities.expense_entry.ActivityExpenseEntry"
