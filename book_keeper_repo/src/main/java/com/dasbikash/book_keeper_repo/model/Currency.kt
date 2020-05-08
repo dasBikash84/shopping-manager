@@ -13,6 +13,7 @@ data class Currency(
     fun displayText():String = "${code ?: ""}${symbol?.let { "($it)" } ?: ""}"
 
     companion object{
+        @Keep
         val DEFAULT_CURRENCY = Currency("USD","United States dollar","$")
     }
 }

@@ -47,6 +47,7 @@ import com.dasbikash.snackbar_ext.showShortSnack
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -473,8 +474,18 @@ class FragmentProfile : Fragment(),WaitScreenOwner {
                     })
             }
             spinner_language_selector.selectedIndex = SupportedLanguage.values().indexOf(language)
-            spinner_currency_selector.selectedIndex = spinner_currency_selector.getItems<String>().indexOf(currency.displayText())
-
+            lifecycleScope.launch {
+                do {
+                    spinner_currency_selector.getItems<String>()?.let {
+                        if (it.isNotEmpty()){
+                            spinner_currency_selector.selectedIndex = it.indexOf(currency.displayText())
+                            return@launch
+                        }
+                    }
+                    debugLog("retry")
+                    delay(100L)
+                }while (true)
+            }
         }
     }
 
