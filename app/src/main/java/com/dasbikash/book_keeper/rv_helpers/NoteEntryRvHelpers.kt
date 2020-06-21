@@ -63,7 +63,7 @@ class NoteEntryPreviewHolder(itemView: View,
     )
 
     init {
-        val menuView = MenuView().apply {
+        MenuView().apply {
             add(
                 MenuViewItem(
                     text = itemView.context.getString(R.string.edit),

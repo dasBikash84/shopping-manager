@@ -36,11 +36,11 @@ object FileExportUtils {
             var rootDir:File?= externalFilesDir.parentFile
             do {
                 debugLog("rootDir: ${rootDir?.absolutePath}")
-                if (rootDir?.parentFile!=null && rootDir.parentFile.isDirectory){
+                if (rootDir?.parentFile!=null && rootDir.parentFile?.isDirectory ?: false){
                     rootDir = rootDir.parentFile
-                    if (rootDir.list().contains("Android") ||
-                        rootDir.list().contains("Download")||
-                        rootDir.list().contains("Documents")){
+                    if (rootDir.list()?.contains("Android") ?: false ||
+                        rootDir.list()?.contains("Download") ?: false ||
+                        rootDir.list()?.contains("Documents") ?: false ){
                         break
                     }
                 }else {

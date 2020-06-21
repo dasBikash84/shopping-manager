@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.BuildConfig
 import com.dasbikash.android_extensions.runOnMainThread
@@ -23,8 +23,8 @@ import com.dasbikash.book_keeper.models.SlToQr
 import com.dasbikash.book_keeper.utils.PermissionUtils
 import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.OnlineDocShareParams
-import com.dasbikash.snackbar_ext.showIndefiniteSnack
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showIndefiniteSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import com.google.zxing.BarcodeFormat
 import kotlinx.android.synthetic.main.fragment_shopping_list_import.*
 import kotlinx.android.synthetic.main.view_wait_screen.*

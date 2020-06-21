@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
 import com.dasbikash.book_keeper.R

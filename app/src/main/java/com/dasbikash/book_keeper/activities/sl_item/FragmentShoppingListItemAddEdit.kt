@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_basic_utils.utils.uriToFile
 import com.dasbikash.android_camera_utils.CameraUtils
@@ -40,8 +40,8 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.snackbar_ext.showLongSnack
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showLongSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_item_add_edit.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
@@ -484,11 +484,4 @@ class FragmentShoppingListItemAddEdit: FragmentTemplate(),
             return fragment
         }
     }
-}
-
- fun Activity.openAppSettings() {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-    val uri = Uri.fromParts("package", packageName, null)
-    intent.data = uri
-    startActivity(intent)
 }

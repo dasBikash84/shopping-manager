@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.hideKeyboard
@@ -18,7 +18,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.NoteEntryRepo
 import com.dasbikash.book_keeper_repo.model.NoteEntry
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import kotlinx.android.synthetic.main.fragment_note_entry.*
 import kotlinx.coroutines.launch
 

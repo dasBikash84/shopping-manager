@@ -44,7 +44,7 @@ class ActivityLauncher : AppCompatActivity() {
         initNetworkMonitor()
         AsyncTaskManager.init()
         BookKeeperMessagingService.init(this)
-        LoggerUtils.init(BuildConfig.DEBUG)
+//        LoggerUtils.init(BuildConfig.DEBUG)
     }
 
     suspend fun processIntent() {

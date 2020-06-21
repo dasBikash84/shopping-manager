@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.widget.CheckBox
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runOnMainThread
 import com.dasbikash.android_network_monitor.NetworkMonitor
-import com.dasbikash.android_toast_utils.ToastUtils
+import com.dasbikash.pop_up_message.ToastUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.sl_share.ActivityShoppingListShare
 import com.dasbikash.book_keeper.rv_helpers.ConnectionUserPreviewForDisplayAdapter

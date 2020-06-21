@@ -92,7 +92,7 @@ abstract class UserPreviewHolder(itemView: View) : RecyclerView.ViewHolder(itemV
                     ImageRepo
                         .downloadImageFile(
                             itemView.context, it,doOnDownload = {
-                                iv_user_image?.apply { ImageUtils.displayImageFile(this, it)}
+                                iv_user_image.apply { ImageUtils.displayImageFile(this, it)}
                             }
                         )
                 }else{

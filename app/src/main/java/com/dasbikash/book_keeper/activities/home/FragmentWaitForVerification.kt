@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.android_extensions.startActivity
@@ -17,9 +17,9 @@ import com.dasbikash.book_keeper.activities.launcher.ActivityLauncher
 import com.dasbikash.book_keeper.activities.login.ActivityLogin
 import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper_repo.AuthRepo
-import com.dasbikash.snackbar_ext.showIndefiniteSnack
-import com.dasbikash.snackbar_ext.showLongSnack
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showIndefiniteSnack
+import com.dasbikash.pop_up_message.showLongSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import kotlinx.android.synthetic.main.fragment_wait_for_vefification.*
 import kotlinx.android.synthetic.main.view_wait_screen.*
 import kotlinx.coroutines.delay

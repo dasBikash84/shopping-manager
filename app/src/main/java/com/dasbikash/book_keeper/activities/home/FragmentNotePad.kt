@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.runWithContext
 import com.dasbikash.book_keeper.R
@@ -16,7 +16,7 @@ import com.dasbikash.book_keeper.activities.templates.FragmentTemplate
 import com.dasbikash.book_keeper.rv_helpers.NoteEntryPreviewAdapter
 import com.dasbikash.book_keeper_repo.NoteEntryRepo
 import com.dasbikash.book_keeper_repo.model.NoteEntry
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import kotlinx.android.synthetic.main.fragment_note_pad.*
 import kotlinx.coroutines.launch
 

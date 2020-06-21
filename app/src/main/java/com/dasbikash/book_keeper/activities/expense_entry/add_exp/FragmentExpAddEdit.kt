@@ -11,7 +11,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.*
 import com.dasbikash.android_view_utils.utils.WaitScreenOwner
@@ -29,7 +29,7 @@ import com.dasbikash.book_keeper_repo.model.ShoppingListItem
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
 import com.dasbikash.menu_view.MenuViewItem
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import com.google.firebase.Timestamp
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_add_exp.*

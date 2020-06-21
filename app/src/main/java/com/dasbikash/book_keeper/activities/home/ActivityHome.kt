@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.CheckBox
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.expense_entry.ActivityExpenseEntry
 import com.dasbikash.book_keeper.activities.expense_entry.add_exp.FragmentExpAddEdit
@@ -79,7 +79,7 @@ class ActivityHome : ActivityTemplate() {
                         val btnCancel = dialogView.findViewById<Button>(R.id.btn_launch_import_cancel)
                         val btnLaunchImportWindow = dialogView.findViewById<Button>(R.id.btn_launch_import_window)
 
-                        checkBox.setOnCheckedChangeListener({ buttonView, isChecked ->
+                        checkBox.setOnCheckedChangeListener({ _, isChecked ->
                             if (isChecked) {
                                 BookKeeperRepo.disableGuestDataImport(this@ActivityHome)
                             } else {

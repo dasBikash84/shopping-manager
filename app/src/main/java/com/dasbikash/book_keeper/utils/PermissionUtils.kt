@@ -3,9 +3,9 @@ package com.dasbikash.book_keeper.utils
 import android.Manifest
 import android.app.Activity
 import androidx.annotation.StringRes
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.android_extensions.openAppSettings
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.book_keeper.R
-import com.dasbikash.book_keeper.activities.sl_item.openAppSettings
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse

@@ -39,14 +39,14 @@ class FragmentLanguageSelection:FragmentTemplate() {
     private fun nextButtonTask() {
         runWithContext {
             lifecycleScope.launchWhenResumed {
-                setLanguageTask(it)
+                setLanguageTask()
                 ActivityIntro.setLangSelectedFlag(context!!)
                 (activity as ActivityIntro?)?.addFragmentClearingBackStack(FragmentAppFeatures())
             }
         }
     }
 
-    private fun setLanguageTask(context: Context) {
+    private fun setLanguageTask() {
         val language = SupportedLanguage.values().get(spinner_language_selector.selectedIndex)
         runWithActivity { BookKeeperApp.changeLanguageSettings(it,language,null)}
     }

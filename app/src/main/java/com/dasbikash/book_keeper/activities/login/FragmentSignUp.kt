@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_extensions.hideKeyboard
 import com.dasbikash.android_extensions.runWithActivity
 import com.dasbikash.android_extensions.runWithContext
@@ -21,9 +21,9 @@ import com.dasbikash.book_keeper.application.BookKeeperApp
 import com.dasbikash.book_keeper_repo.AuthRepo
 import com.dasbikash.book_keeper_repo.CountryRepo
 import com.dasbikash.book_keeper_repo.model.Country
-import com.dasbikash.snackbar_ext.showIndefiniteSnack
-import com.dasbikash.snackbar_ext.showLongSnack
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showIndefiniteSnack
+import com.dasbikash.pop_up_message.showLongSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 import kotlinx.android.synthetic.main.view_mobile_number_input.*
 import kotlinx.android.synthetic.main.view_wait_screen.*

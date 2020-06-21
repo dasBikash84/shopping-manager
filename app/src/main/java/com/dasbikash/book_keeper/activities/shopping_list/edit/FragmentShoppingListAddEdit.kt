@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.lifecycle.lifecycleScope
 import com.dasbikash.android_basic_utils.utils.DateUtils
-import com.dasbikash.android_basic_utils.utils.DialogUtils
+import com.dasbikash.pop_up_message.DialogUtils
 import com.dasbikash.android_basic_utils.utils.debugLog
 import com.dasbikash.android_extensions.hide
 import com.dasbikash.android_extensions.hideKeyboard
@@ -29,7 +29,7 @@ import com.dasbikash.book_keeper_repo.ShoppingListRepo
 import com.dasbikash.book_keeper_repo.model.ShoppingList
 import com.dasbikash.date_time_picker.DateTimePicker
 import com.dasbikash.menu_view.MenuView
-import com.dasbikash.snackbar_ext.showShortSnack
+import com.dasbikash.pop_up_message.showShortSnack
 import com.google.firebase.Timestamp
 import com.jaredrummler.materialspinner.MaterialSpinner
 import kotlinx.android.synthetic.main.fragment_shopping_list_edit.*
