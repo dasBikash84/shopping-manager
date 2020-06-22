@@ -83,7 +83,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             tv_sl_deadline_text.hide()
         }
 
-        AsyncTaskManager.addTask<Unit,Unit> {
+        AsyncTaskManager.addTask(task = {
             runBlocking {
                 val (minExp, maxExp) = ShoppingList.calculateExpenseRange(itemView.context, shoppingList)
                 runOnMainThread({
@@ -95,7 +95,7 @@ class ShoppingListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 })
                 setBgColor(shoppingList)
             }
-        }
+        })
 
         iv_options.attachMenuViewForClick(ShoppingListUtils.getShareOptionsMenu(itemView.context,shoppingList))
     }

@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.1'
 
     implementation 'com.github.dasBikash84:android-extensions:1.9.0'
-    implementation 'com.github.dasBikash84:android-async-manager:1.7.0'
+    implementation 'com.github.dasBikash84:android-async-manager:2.2.0'
     implementation 'com.github.dasBikash84:android-super-activity:2.8.1'
     implementation 'com.github.dasBikash84:android-view-utils:2.0.0'
     implementation 'com.github.dasBikash84:android-basic-utils:2.5.0'

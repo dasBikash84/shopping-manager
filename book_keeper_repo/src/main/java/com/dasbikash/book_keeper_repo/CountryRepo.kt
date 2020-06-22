@@ -13,7 +13,7 @@ object CountryRepo {
 
     private const val DEFAULT_COUNTRY_CODE = "us"
 
-    private suspend fun getAllCountryData(context: Context):List<Country>{
+    private suspend fun getAllCountryData(context: Context):List<Country>?{
         return runSuspended {
             Gson().fromJson(
                 InputStreamReader(context.resources.openRawResource(R.raw.country_data)),
@@ -28,7 +28,7 @@ object CountryRepo {
     }
 
     suspend fun getCountryData(context: Context):List<Country> =
-        getAllCountryData(context).filter { it.enabled }
+        getAllCountryData(context)?.filter { it.enabled } ?: emptyList()
 
     suspend fun getCurrentCountry(context: Context):Country?{
         LocaleUtils.getCountryCode(context)?.toLowerCase()?.let {
