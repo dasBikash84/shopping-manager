@@ -1,12 +1,13 @@
 package com.dasbikash.book_keeper.activities.home.account
 
 import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import com.dasbikash.book_keeper.R
 import com.dasbikash.book_keeper.activities.home.account.connections.FragmentConnections
 import com.dasbikash.book_keeper.activities.home.account.events.FragmentEventNotification
@@ -26,79 +27,17 @@ class FragmentAccount : FragmentTemplate() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tv_profile.setOnClickListener { loadProfileFragment() }
-        tv_connections.setOnClickListener { loadConnectionsFragment() }
-        tv_events.setOnClickListener { loadEventNotificationFragment() }
+        viewPager.adapter = AccountPagerAdapter(activity!!.supportFragmentManager, mapOf(
+            Pair(getString(R.string.profile_text),FragmentProfile()),
+            Pair(getString(R.string.connections_text),FragmentConnections()),
+            Pair(getString(R.string.events_text),FragmentEventNotification())
+        ))
+
+        tabLayout.setupWithViewPager(viewPager)
 
         when(isConnectionModeInstance()) {
-            true -> loadConnectionsFragment()
-            else -> loadProfileFragmentAnyWay()
-        }
-    }
-
-    private fun loadProfileFragment(){
-        (activity as AppCompatActivity).apply {
-            supportFragmentManager
-                .findFragmentById(R.id.frame_account)?.let {
-                    if (it is FragmentProfile){
-                        return
-                    }
-                }
-            loadProfileFragmentAnyWay()
-        }
-    }
-
-    private fun loadProfileFragmentAnyWay(){
-        (activity as AppCompatActivity).apply {
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_account,
-                    FragmentProfile()
-                )
-                .commit()
-            tv_profile.setBackgroundColor(Color.WHITE)
-            tv_connections.setBackgroundColor(Color.LTGRAY)
-            tv_events.setBackgroundColor(Color.LTGRAY)
-        }
-    }
-
-    private fun loadConnectionsFragment(){
-        (activity as AppCompatActivity).apply {
-            supportFragmentManager
-                .findFragmentById(R.id.frame_account)?.let {
-                    if (it is FragmentConnections){
-                        return
-                    }
-                }
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_account,
-                    FragmentConnections()
-                )
-                .commit()
-            tv_connections.setBackgroundColor(Color.WHITE)
-            tv_profile.setBackgroundColor(Color.LTGRAY)
-            tv_events.setBackgroundColor(Color.LTGRAY)
-        }
-    }
-
-    private fun loadEventNotificationFragment(){
-        (activity as AppCompatActivity).apply {
-            supportFragmentManager
-                .findFragmentById(R.id.frame_account)?.let {
-                    if (it is FragmentEventNotification){
-                        return
-                    }
-                }
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_account,
-                    FragmentEventNotification()
-                )
-                .commit()
-            tv_events.setBackgroundColor(Color.WHITE)
-            tv_connections.setBackgroundColor(Color.LTGRAY)
-            tv_profile.setBackgroundColor(Color.LTGRAY)
+            true -> {viewPager.setCurrentItem(1)}
+            else -> {}
         }
     }
 
@@ -117,4 +56,30 @@ class FragmentAccount : FragmentTemplate() {
         }
     }
 
+}
+
+class AccountPagerAdapter(fm: FragmentManager, data: Map<String, Fragment>) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+
+    private val fragments:List<Fragment>
+    private val titles:List<String>
+
+    init {
+        val keys = mutableListOf<String>()
+        val frags = mutableListOf<Fragment>()
+        data.keys.forEach{
+            keys.add(it)
+            frags.add(data.get(it)!!)
+        }
+        fragments = frags.toList()
+        titles = keys.toList()
+    }
+
+    override fun getItem(position: Int): Fragment {
+        return fragments[position]
+    }
+
+    override fun getCount(): Int = fragments.count()
+
+    override fun getPageTitle(position: Int): CharSequence? = titles[position]
 }

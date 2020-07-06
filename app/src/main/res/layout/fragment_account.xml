@@ -4,74 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/nav_holder"
+    <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/snow_white"
-        android:scrollbarSize="2dp"
-        android:scrollbars="none">
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/tabLayout"
+        android:background="@color/white"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabTextColor="@android:color/black"
+        app:tabSelectedTextColor="@color/color_navy_blue"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:orientation="horizontal">
-
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:minWidth="140dp"
-                android:layout_marginEnd="2dp"
-                android:background="@android:color/white"
-                android:gravity="center"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/profile_text"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"/>
-
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_connections"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:layout_marginEnd="2dp"
-                android:background="@color/snow_white2"
-                android:gravity="center"
-                android:minWidth="140dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/connections_text"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"/>
-
-            <com.dasbikash.android_view_utils.custom_views.ClickableTextView
-                android:id="@+id/tv_events"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="32dp"
-                android:layout_marginEnd="2dp"
-                android:background="@color/snow_white2"
-                android:gravity="center"
-                android:minWidth="140dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:text="@string/events_text"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </HorizontalScrollView>
-
-
-    <FrameLayout
-        android:id="@+id/frame_account"
+    <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nav_holder" />
+        android:id="@+id/viewPager"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

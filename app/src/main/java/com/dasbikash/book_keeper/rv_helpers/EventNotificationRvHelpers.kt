@@ -64,7 +64,7 @@ class EventNotificationEntryHolder(itemView: View) : RecyclerView.ViewHolder(ite
 }
 
 class EventNotificationRemoveCallback(val dragSwipeAction: (EventNotification)->Unit) :
-    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+    ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
     override fun onMove(
         recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
         target: RecyclerView.ViewHolder
